@@ -137,7 +137,9 @@
     top: 0; left: 0;
     z-index: 30;
     pointer-events: none;
-    will-change: top, left, height;
+    will-change: top, left, height, transform;
+    transform: rotate(-3deg); /* resting tilt; JS re-drives this every frame */
+    transform-origin: 50% 65%;
   }
   .hero__can {
     height: 100%;
@@ -415,6 +417,10 @@
     .product-card--orange { grid-column: 1 / -1; }
     .product-card--orange .product-card__img { height: 230px; }
     .product-card__img { height: 190px; }
+    /* controlled scroll on phones: letting go mid-flight settles the viewport
+       on the hero or the lineup, so the can always finishes its dock */
+    html { scroll-snap-type: y proximity; }
+    .hero, .lineup { scroll-snap-align: start; }
   }
   @media (min-width: 701px) and (max-width: 1024px) {
     .lineup__grid { grid-template-columns: repeat(3, 1fr); max-width: 720px; }
@@ -646,7 +652,7 @@
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
       // no flight: park a copy in the slot, keep the original in the hero
       flyer.className = 'hero__can-home';
-      flyer.style.cssText = 'position:absolute;z-index:3;';
+      flyer.style.cssText = 'position:absolute;z-index:3;transform:rotate(-3deg);';
       home.appendChild(flyer);
       img.style.height = '100%';
       const still = img.cloneNode();
@@ -656,14 +662,26 @@
     }
 
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const REST_TILT = -3; // deg, matches the .can-flyer CSS resting tilt
+    const progress = () => Math.min(1, Math.max(0, scrollY / Math.max(240, lineup.offsetTop - innerHeight * 0.42)));
+    let cur = progress(); // start at the true position so a mid-page reload doesn't swoop
+    let lastY = scrollY, vel = 0;
     function frame() {
       const a = home.getBoundingClientRect();
       const b = slot.getBoundingClientRect();
-      const endY = Math.max(240, lineup.offsetTop - innerHeight * 0.42);
-      const p = ease(Math.min(1, Math.max(0, scrollY / endY)));
+      const target = progress();
+      // the can lags the scroll, then snaps flush once it's close
+      cur += (target - cur) * 0.14;
+      if (Math.abs(target - cur) < 0.0005) cur = target;
+      // smoothed scroll velocity leans the can, fading out as it docks
+      vel += ((scrollY - lastY) - vel) * 0.12;
+      lastY = scrollY;
+      const p = ease(cur);
+      const lean = Math.max(-9, Math.min(9, vel * 0.18));
       flyer.style.left = a.left + (b.left - a.left) * p + 'px';
       flyer.style.top = a.top + (b.top - a.top) * p + 'px';
       flyer.style.height = a.height + (b.height - a.height) * p + 'px';
+      flyer.style.transform = 'rotate(' + ((REST_TILT + lean) * (1 - p)).toFixed(3) + 'deg)';
       flyer.classList.toggle('is-resting', p < 0.02);
       requestAnimationFrame(frame);
     }
