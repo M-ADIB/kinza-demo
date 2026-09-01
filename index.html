@@ -136,17 +136,74 @@
     position: fixed;
     top: 0; left: 0;
     z-index: 30;
-    pointer-events: none;
     will-change: top, left, height, transform;
     transform: rotate(-3deg); /* resting tilt; JS re-drives this every frame */
     transform-origin: 50% 65%;
   }
   .hero__can {
     height: 100%;
-    width: auto;
-    object-fit: contain;
     filter: drop-shadow(0 40px 50px rgba(7, 27, 87, .35));
     animation: can-drop 1.1s var(--ease-spring) .25s both;
+  }
+
+  /* ============ SPINNING CANS ============
+     .spin holds a static <img> (fallback + first paint) and a WebGL canvas that
+     re-maps the two rendered faces (EN front, AR back) around a cylinder. */
+  .spin {
+    position: relative;
+    height: 100%;
+    aspect-ratio: var(--ratio, 2074 / 3522);
+    cursor: grab;
+    touch-action: pan-y; /* horizontal drag spins, vertical drag still scrolls */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .spin.is-dragging { cursor: grabbing; }
+  .spin img, .spin canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+  }
+  .spin canvas { opacity: 0; }
+  .spin.is-gl canvas { opacity: 1; }
+  .spin.is-gl img { opacity: 0; }
+  .spin img { -webkit-user-drag: none; }
+
+  .spin-hint {
+    position: absolute;
+    z-index: 5;
+    left: clamp(14px, 6vw, 120px);
+    bottom: 5vh;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px 9px 12px;
+    border-radius: 999px;
+    background: rgba(11, 39, 122, .88);
+    color: var(--paper);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 30px rgba(7, 27, 87, .25);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    opacity: 0;
+    animation: hint-in .8s var(--ease-out) 2s forwards;
+    transition: opacity .5s, transform .5s;
+  }
+  .spin-hint .ar { letter-spacing: 0; text-transform: none; font-size: 13px; opacity: .8; }
+  .spin-hint svg { width: 18px; height: 18px; animation: hint-wiggle 1.8s ease-in-out infinite; }
+  .spin-hint.is-done { opacity: 0 !important; transform: translateY(10px); }
+  @keyframes hint-in { to { opacity: 1; } }
+  @keyframes hint-wiggle {
+    0%, 100% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
   }
   /* the idle float is driven by the JS scroll loop so it fades out with flight
      progress instead of cutting off; .is-resting stays as a state hook */
@@ -228,13 +285,11 @@
     place-items: center;
     margin-bottom: 14px;
   }
-  .product-card__img img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+  .product-card__img .spin {
     transition: transform .4s var(--ease-spring);
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .28));
   }
-  .product-card:hover .product-card__img img { transform: translateY(-8px) rotate(2deg); }
+  .product-card:hover .product-card__img .spin { transform: translateY(-8px) rotate(2deg); }
   .dock-slot { height: 100%; aspect-ratio: 2074 / 3522; }
   .product-card strong {
     display: block;
@@ -403,6 +458,7 @@
     .header .chip { padding: 6px 12px; font-size: 10px; }
     .hero__can-home { height: 62svh; }
     .hero__title { font-size: 26vw; transform: translateY(-64%); }
+    .spin-hint { bottom: 2vh; font-size: 11px; padding: 8px 14px 8px 10px; }
     .hero__badge { top: 12vh; }
     .link-card__text strong { font-size: 15px; }
     .lineup__grid { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
@@ -460,11 +516,20 @@
 
   <div class="hero__can-home" id="canHome"></div>
 
+  <div class="spin-hint" id="spinHint" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>
+    <span>Drag to spin</span>
+    <span class="ar" lang="ar" dir="rtl">اسحب لتدوير العلبة</span>
+  </div>
+
   <div class="hero__scroll">Scroll</div>
 </section>
 
 <div class="can-flyer is-resting" id="canFlyer">
-  <img class="hero__can" src="assets/kinza-diet-can.png" alt="Kinza Diet Cola can" fetchpriority="high" />
+  <div class="spin hero__can" data-a="assets/kinza-diet-can.png" data-b="assets/kinza-diet-can-ar.png" data-geom="diet" data-hero>
+    <img src="assets/kinza-diet-can.png" alt="Kinza Diet Cola can" fetchpriority="high" />
+    <canvas aria-hidden="true"></canvas>
+  </div>
 </div>
 
 <section class="lineup" id="lineup">
@@ -479,27 +544,27 @@
       <span class="ar" lang="ar" dir="rtl">دايت كولا</span>
     </div>
     <div class="product-card product-card--lemon">
-      <div class="product-card__img"><img src="assets/kinza-lemon.png" alt="Kinza Zero Sugar Lemon can" loading="lazy" /></div>
+      <div class="product-card__img"><div class="spin" style="--ratio:471/800" data-a="assets/kinza-lemon.png" data-b="assets/kinza-lemon-ar.png" data-geom="lemonzero"><img src="assets/kinza-lemon.png" alt="Kinza Zero Sugar Lemon can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
       <strong>Lemon Zero</strong>
       <span class="ar" lang="ar" dir="rtl">ليمون بدون سكر</span>
     </div>
     <div class="product-card product-card--lemon-classic">
-      <div class="product-card__img"><img src="assets/kinza-lemon-green.png" alt="Kinza Lemon can" loading="lazy" /></div>
+      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-lemon-green.png" data-b="assets/kinza-lemon-green-ar.png" data-geom="straight"><img src="assets/kinza-lemon-green.png" alt="Kinza Lemon can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
       <strong>Lemon</strong>
       <span class="ar" lang="ar" dir="rtl">ليمون</span>
     </div>
     <div class="product-card product-card--cola">
-      <div class="product-card__img"><img src="assets/kinza-cola-blue.png" alt="Kinza Cola can" loading="lazy" /></div>
+      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-cola-blue.png" data-b="assets/kinza-cola-blue-ar.png" data-geom="straight"><img src="assets/kinza-cola-blue.png" alt="Kinza Cola can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
       <strong>Cola</strong>
       <span class="ar" lang="ar" dir="rtl">كولا</span>
     </div>
     <div class="product-card product-card--citrus">
-      <div class="product-card__img"><img src="assets/kinza-citrus.png" alt="Kinza Citrus can" loading="lazy" /></div>
+      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-citrus.png" data-b="assets/kinza-citrus-ar.png" data-geom="straight"><img src="assets/kinza-citrus.png" alt="Kinza Citrus can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
       <strong>Citrus</strong>
       <span class="ar" lang="ar" dir="rtl">حمضيات</span>
     </div>
     <div class="product-card product-card--orange">
-      <div class="product-card__img"><img src="assets/kinza-orange.png" alt="Kinza Orange can" loading="lazy" /></div>
+      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-orange.png" data-b="assets/kinza-orange-ar.png" data-geom="straight"><img src="assets/kinza-orange.png" alt="Kinza Orange can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
       <strong>Orange</strong>
       <span class="ar" lang="ar" dir="rtl">برتقال</span>
     </div>
@@ -635,25 +700,244 @@
     document.getElementById('mq2').innerHTML = seg2.repeat(4);
   })();
 
-  // scroll-dock: the hero can rides the scroll and parks in its lineup slot
+  // ===== spinning cans =====
+  // Each .spin holds two renders of the same can (English face, Arabic face).
+  // A tiny WebGL shader treats the can body as a cylinder: for every pixel it
+  // works out which angle of the can is facing the viewer and samples the
+  // right face at the right column, so the label wraps around a fixed
+  // silhouette instead of the whole picture flipping like a card.
+  const CanSpin = (function () {
+    // per render pose, in image units (0..1): g = [centre x, centre slope, radius, radius slope];
+    // lid / foot = [row at the sides, extra rows at the centre] describing the elliptical rim edges
+    const GEOM = {
+      diet:      { g: [0.5128, -0.0002, 0.4090, -0.0117], lid: [0.100, 0.026], foot: [0.885, 0.055] },
+      lemonzero: { g: [0.5128, -0.0001, 0.4085, -0.0118], lid: [0.100, 0.026], foot: [0.885, 0.055] },
+      straight:  { g: [0.4967,  0.0020, 0.4428,  0.0020], lid: [0.170, 0.016], foot: [0.785, 0.015] }
+    };
+    const VS = 'attribute vec2 p;varying vec2 v;void main(){v=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
+    const FS = [
+      'precision mediump float;varying vec2 v;uniform sampler2D A,B;uniform float th;uniform vec4 g;uniform vec2 lid,foot;',
+      'const float PI=3.14159265;',
+      'void main(){',
+      '  vec4 a0=texture2D(A,v);',
+      '  float cx=g.x+g.y*(v.y-.5);float R=g.z+g.w*(v.y-.5);',
+      '  float x=(v.x-cx)/R;',
+      '  vec3 rgb=a0.rgb;',
+      '  float e=sqrt(max(0.,1.-x*x));',
+      '  float top=lid.x+lid.y*e;float bot=foot.x+foot.y*e;',
+      '  float body=step(abs(x),.999)*smoothstep(top-.004,top+.004,v.y)*(1.-smoothstep(bot-.004,bot+.004,v.y));',
+      '  if(body>0.){',
+      '    float ps=asin(clamp(x,-1.,1.))-th;',
+      '    ps=mod(ps+PI,2.*PI)-PI;',
+      '    float wA=1.-smoothstep(PI*.5-.14,PI*.5+.14,abs(ps));',
+      '    float psA=clamp(ps,-PI*.5,PI*.5);',
+      '    float psB=ps>0.?ps-PI:ps+PI;',
+      '    float k=.955;',
+      '    vec4 ca=texture2D(A,vec2(cx+R*sin(psA)*k,v.y));',
+      '    vec4 cb=texture2D(B,vec2(cx+R*sin(psB)*k,v.y));',
+      '    vec4 c=mix(cb,ca,wA);',
+      '    float shade=1.-.32*pow(abs(x),2.4);',            // fixed light: edges fall off
+      '    float spec=.11*exp(-pow((x+.42)/.2,2.));',        // fixed highlight on the left
+      '    c.rgb=c.rgb*shade+spec;',
+      '    rgb=mix(rgb,c.rgb,body*smoothstep(.9,.995,c.a));', // off-can samples (neck, shoulder, shadow fringe) keep the static pixel
+      '  }',
+      '  gl_FragColor=vec4(rgb*a0.a,a0.a);',
+      '}'
+    ].join('\n');
+
+    const all = [];
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function shader(gl, type, src) {
+      const sh = gl.createShader(type);
+      gl.shaderSource(sh, src); gl.compileShader(sh);
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh));
+      return sh;
+    }
+    function loadImg(src) {
+      return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    }
+    function texture(gl, img, gl2) {
+      const t = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      if (gl2) { gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); }
+      else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      return t;
+    }
+
+    function create(el, opts) {
+      const canvas = el.querySelector('canvas');
+      const geom = GEOM[el.dataset.geom] || GEOM.straight;
+      const s = {
+        el, theta: 0, raw: 0, limit: opts.limit || 0.5, idleAmp: opts.idleAmp || 0, idleSpeed: opts.idleSpeed || 0.5,
+        phase: opts.phase || 0, steer: 0, hoverSteer: 0, dragging: false, ready: false, visible: true, draw: null, resize: null
+      };
+      // past the limit the drag turns to rubber: a quarter of the extra travel
+      const soft = t => Math.abs(t) <= s.limit ? t : Math.sign(t) * (s.limit + (Math.abs(t) - s.limit) * 0.25);
+
+      // drag to turn; letting go springs the can back toward its resting angle
+      let lastX = 0, moved = 0;
+      el.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        s.dragging = true; el.classList.add('is-dragging');
+        s.raw = s.theta; lastX = e.clientX; moved = 0;
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      });
+      el.addEventListener('pointermove', e => {
+        if (s.dragging) {
+          const dx = e.clientX - lastX;
+          s.raw += dx / Math.max(40, el.clientWidth) * Math.PI * 0.9;
+          s.theta = soft(s.raw);
+          moved += Math.abs(dx);
+          lastX = e.clientX;
+        } else if (opts.hoverSteer !== false && e.pointerType === 'mouse') {
+          // the can turns toward the cursor while it hovers over the card
+          const r = el.getBoundingClientRect();
+          s.hoverSteer = ((e.clientX - r.left) / Math.max(1, r.width) - 0.5) * 2 * s.limit * 0.8;
+        }
+      });
+      const end = () => {
+        if (!s.dragging) return;
+        s.dragging = false; el.classList.remove('is-dragging');
+        if (moved > 8 && opts.onDrag) opts.onDrag();
+      };
+      el.addEventListener('pointerup', end);
+      el.addEventListener('pointercancel', end);
+      el.addEventListener('lostpointercapture', end);
+      el.addEventListener('pointerleave', () => { s.hoverSteer = 0; });
+
+      let clock = 0;
+      s.tick = function (dt) {
+        clock += dt;
+        if (!s.dragging) {
+          const idle = Math.sin(clock * s.idleSpeed + s.phase) * s.idleAmp;
+          const target = Math.max(-s.limit, Math.min(s.limit, s.steer + s.hoverSteer + idle));
+          s.theta += (target - s.theta) * (1 - Math.pow(0.03, dt));
+        }
+        if (s.resize && !opts.manualSize && s.visible) {
+          const w = el.clientWidth, h = el.clientHeight;
+          if (w && h && (w !== s._w || h !== s._h)) { s._w = w; s._h = h; s.resize(w, h); }
+        }
+        if (s.ready && s.visible) s.draw();
+      };
+
+      if (reduced) return s;
+      const gl2 = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false });
+      const gl = gl2 || canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false });
+      if (!gl) return s;
+      s.resize = (w, h) => {
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        const W = Math.max(2, Math.round(w * dpr)), H = Math.max(2, Math.round(h * dpr));
+        if (canvas.width === W && canvas.height === H) return;
+        canvas.width = W; canvas.height = H;
+        gl.viewport(0, 0, W, H);
+        if (s.ready) s.draw();
+      };
+      canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); s.ready = false; el.classList.remove('is-gl'); });
+
+      Promise.all([loadImg(el.dataset.a), loadImg(el.dataset.b)]).then(([ia, ib]) => {
+        const prog = gl.createProgram();
+        gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
+        gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, FS));
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+        gl.useProgram(prog);
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(prog, 'p');
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        gl.activeTexture(gl.TEXTURE0); texture(gl, ia, !!gl2);
+        gl.activeTexture(gl.TEXTURE1); texture(gl, ib, !!gl2);
+        gl.uniform1i(gl.getUniformLocation(prog, 'A'), 0);
+        gl.uniform1i(gl.getUniformLocation(prog, 'B'), 1);
+        gl.uniform4fv(gl.getUniformLocation(prog, 'g'), geom.g);
+        gl.uniform2fv(gl.getUniformLocation(prog, 'lid'), geom.lid);
+        gl.uniform2fv(gl.getUniformLocation(prog, 'foot'), geom.foot);
+        const uTh = gl.getUniformLocation(prog, 'th');
+        gl.clearColor(0, 0, 0, 0);
+        s.draw = () => { gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform1f(uTh, s.theta); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        s.ready = true;
+        s.draw();
+        el.classList.add('is-gl');
+      }).catch(() => { /* keep the static image */ });
+
+      all.push(s);
+      return s;
+    }
+
+    // one clock for every can
+    let last = performance.now();
+    (function loop(now) {
+      const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
+      last = now;
+      for (let i = 0; i < all.length; i++) all[i].tick(dt);
+      requestAnimationFrame(loop);
+    })(last);
+
+    return { create, reduced, all };
+  })();
+  window.__spins = CanSpin.all;
+
+  // lineup cans: gentle sway, turn toward the cursor on hover, draggable within a limited arc
+  (function () {
+    const els = document.querySelectorAll('.spin:not([data-hero])');
+    const spinners = new Map();
+    els.forEach((el, i) => {
+      const s = CanSpin.create(el, { limit: 0.42, idleAmp: 0.16, idleSpeed: 0.7, phase: i * 1.1 });
+      spinners.set(el, s);
+    });
+    if (CanSpin.reduced) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { const s = spinners.get(en.target); if (s) s.visible = en.isIntersecting; });
+    }, { rootMargin: '80px' });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // hero can: steered by the cursor, draggable, rides the scroll and parks in its lineup slot
   (function () {
     const flyer = document.getElementById('canFlyer');
+    const spinEl = flyer.querySelector('.spin');
     const img = flyer.querySelector('img');
     const home = document.getElementById('canHome');
     const slot = document.getElementById('dockSlot');
     const lineup = document.getElementById('lineup');
+    const hint = document.getElementById('spinHint');
 
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // no flight: park a copy in the slot, keep the original in the hero
+    if (CanSpin.reduced) {
+      // no flight, no spin: park a copy in the slot, keep the original in the hero
       flyer.className = 'hero__can-home';
       flyer.style.cssText = 'position:absolute;z-index:3;transform:rotate(-3deg);';
       home.appendChild(flyer);
-      img.style.height = '100%';
       const still = img.cloneNode();
       still.style.height = '100%';
       slot.appendChild(still);
+      hint.remove();
       return;
     }
+
+    const spin = CanSpin.create(spinEl, {
+      limit: 0.55, idleAmp: 0.1, idleSpeed: 0.45, manualSize: true, hoverSteer: false,
+      onDrag: () => hint.classList.add('is-done')
+    });
+    setTimeout(() => hint.classList.add('is-done'), 14000);
+    let fitted = 0; // canvas resolution follows the resting (largest) size, CSS scales it down in flight
+
+    // cursor position over the page, smoothed each frame
+    let px = 0.5, py = 0.5, spx = 0.5, spy = 0.5, pointerIn = false;
+    addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      px = e.clientX / innerWidth; py = e.clientY / innerHeight; pointerIn = true;
+    });
+    document.addEventListener('pointerleave', () => { pointerIn = false; });
+    document.addEventListener('mouseleave', () => { pointerIn = false; });
 
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const REST_TILT = -3; // deg, matches the .can-flyer CSS resting tilt
@@ -666,6 +950,7 @@
       lastT = now;
       const a = home.getBoundingClientRect();
       const b = slot.getBoundingClientRect();
+      if (spin.resize && a.height > 1 && Math.abs(a.height - fitted) > 1) { fitted = a.height; spin.resize(a.width, a.height); }
       const target = progress();
       // the can lags the scroll, then snaps flush once it's close
       cur += (target - cur) * (1 - Math.pow(0.86, dt));
@@ -678,11 +963,25 @@
       const lean = Math.max(-9, Math.min(9, vel * 0.18));
       // idle float, 5s cycle; amplitude melts away as the flight starts
       const w = (1 - Math.cos(now / 795)) / 2 * rest * rest;
+
+      // cursor: the can leans toward it and turns to face it
+      const tgx = pointerIn ? px : 0.5, tgy = pointerIn ? py : 0.5;
+      spx += (tgx - spx) * (1 - Math.pow(0.9, dt));
+      spy += (tgy - spy) * (1 - Math.pow(0.9, dt));
+      const ox = (spx - 0.5) * 2, oy = (spy - 0.5) * 2; // -1..1
+      spin.steer = pointerIn ? ox * spin.limit * rest : 0;
+
       flyer.style.left = a.left + (b.left - a.left) * p + 'px';
       flyer.style.top = a.top + (b.top - a.top) * p + 'px';
       flyer.style.height = a.height + (b.height - a.height) * p + 'px';
-      flyer.style.transform = 'translateY(' + (w * -22).toFixed(2) + 'px) rotate(' + ((REST_TILT + lean) * rest + w * 1.2).toFixed(3) + 'deg)';
+      flyer.style.transform =
+        'perspective(1400px) translate(' + (ox * 14 * rest).toFixed(2) + 'px,' + (w * -22 + oy * 8 * rest).toFixed(2) + 'px)' +
+        ' rotateX(' + (-oy * 6 * rest).toFixed(2) + 'deg) rotateY(' + (ox * 8 * rest).toFixed(2) + 'deg)' +
+        ' rotate(' + ((REST_TILT + lean) * rest + w * 1.2).toFixed(3) + 'deg)';
       flyer.classList.toggle('is-resting', p < 0.02);
+      // only draw when the can is actually on screen
+      const top = parseFloat(flyer.style.top), h = parseFloat(flyer.style.height);
+      spin.visible = top < innerHeight + 40 && top + h > -40;
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
