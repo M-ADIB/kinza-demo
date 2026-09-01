@@ -467,10 +467,6 @@
     .product-card--orange { grid-column: 1 / -1; }
     .product-card--orange .product-card__img { height: 230px; }
     .product-card__img { height: 190px; }
-    /* controlled scroll on phones: letting go mid-flight settles the viewport
-       on the hero or the lineup, so the can always finishes its dock */
-    html { scroll-snap-type: y proximity; }
-    .hero, .lineup { scroll-snap-align: start; }
   }
   @media (min-width: 701px) and (max-width: 1024px) {
     .lineup__grid { grid-template-columns: repeat(3, 1fr); max-width: 720px; }
