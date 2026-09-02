@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinza — كينزا | Like no one else</title>
+<meta name="description" content="Kinza. Designed, born and made in Saudi Arabia. Ten flavors, 70+ countries, one attitude: like no one else." />
+<meta property="og:title" content="Kinza — Like no one else" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta name="theme-color" content="#314da0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="../assets/can-cola-hero.png" fetchpriority="high" />
+<style>
+  :root {
+    --blue: #314da0;
+    --navy: #0b277a;
+    --deep: #071b57;
+    --pink: #e8235a;
+    --paper: #e9e7dc;
+    --white: #fff;
+    --ease-out: cubic-bezier(.22, 1, .36, 1);
+    --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Outfit", sans-serif; background: var(--blue); color: var(--paper); overflow-x: clip; }
+  html[lang="ar"] body { font-family: "Cairo", "Outfit", sans-serif; }
+  .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
+  html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; }
+  html[lang="ar"] .caps { letter-spacing: 0 !important; text-transform: none !important; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: url("../assets/kinza-logo-en-paper.png") center / contain no-repeat; vertical-align: -.1em; }
+  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; background-image: url("../assets/kinza-logo-ar-paper.png"); height: 1.1em; vertical-align: -.22em; }
+  .wm--blue { background-image: url("../assets/kinza-logo-en.png"); }
+  html[lang="ar"] .wm--blue { background-image: url("../assets/kinza-logo-ar.png"); }
+
+  /* grain */
+  body::before { content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .3; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E"); }
+
+  /* ============ TICKER + HEADER ============ */
+  .ticker { background: var(--pink); color: var(--paper); overflow: hidden; direction: ltr; height: 34px; display: flex; align-items: center; }
+  .ticker__inner { display: flex; gap: 40px; min-width: max-content; padding-inline-end: 40px; animation: tick 28s linear infinite; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; }
+  .ticker__inner span::before { content: "✦"; margin-inline-end: 14px; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+  .header { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: rgba(49, 77, 160, .82); backdrop-filter: blur(10px); border-bottom: 1.5px solid rgba(233, 231, 220, .18); }
+  .header .wm { height: 28px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid var(--paper); border-radius: 999px; padding: 8px 16px; transition: background .3s; white-space: nowrap; }
+  .chip:hover { background: rgba(233, 231, 220, .15); }
+  .chip--pink { background: var(--pink); border-color: var(--pink); }
+
+  /* ============ HERO ============ */
+  .hero { position: relative; min-height: calc(100svh - 96px); display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 24px; padding: 40px clamp(20px, 6vw, 100px) 60px; overflow: clip; }
+  .hero__copy { position: relative; z-index: 3; }
+  .hero__eyebrow { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--paper); background: var(--pink); padding: 8px 14px; border-radius: 6px; rotate: -2deg; margin-bottom: 22px; }
+  .hero h1 { font-size: clamp(56px, 9.5vw, 150px); line-height: .88; }
+  .hero h1 .l2 { color: transparent; -webkit-text-stroke: 2px var(--paper); display: block; }
+  html[lang="ar"] .hero h1 { font-size: clamp(48px, 8vw, 120px); line-height: 1.1; }
+  html[lang="ar"] .hero h1 .l2 { -webkit-text-stroke: 0; color: var(--pink); }
+  .hero p { max-width: 460px; margin-top: 24px; font-size: clamp(16px, 1.6vw, 20px); font-weight: 500; line-height: 1.5; opacity: .9; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; font-weight: 800; font-size: 15px; letter-spacing: .04em; transition: transform .3s var(--ease-out), background .3s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--pink { background: var(--pink); color: var(--paper); box-shadow: 0 12px 30px rgba(232, 35, 90, .35); }
+  .btn--paper { background: var(--paper); color: var(--navy); }
+  .btn--ghost { border: 1.5px solid rgba(233, 231, 220, .6); }
+  .btn svg { width: 18px; height: 18px; }
+  html[dir="rtl"] .btn svg { transform: scaleX(-1); }
+
+  /* the pile of cans and stills on the right */
+  .hero__stage { position: relative; height: min(78svh, 760px); }
+  .hero__can { position: absolute; left: 50%; top: 50%; height: 92%; translate: -50% -50%; z-index: 3; filter: drop-shadow(0 40px 50px rgba(7, 27, 87, .45)); animation: can-in 1.1s var(--ease-spring) .2s both, can-float 6s ease-in-out 1.3s infinite; }
+  @keyframes can-in { from { transform: translateY(-110vh) rotate(-14deg); } to { transform: translateY(0) rotate(-4deg); } }
+  @keyframes can-float { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-16px) rotate(-1deg); } }
+  .hero__side { position: absolute; height: 46%; z-index: 2; filter: drop-shadow(0 24px 30px rgba(7, 27, 87, .4)); animation: side-in 1s var(--ease-spring) both, can-float 7s ease-in-out infinite; }
+  .hero__side--a { left: 4%; top: 6%; animation-delay: .5s, 1.5s; rotate: -18deg; }
+  .hero__side--b { right: 2%; top: 14%; animation-delay: .65s, 2s; rotate: 16deg; }
+  .hero__side--c { left: 10%; bottom: 0; animation-delay: .8s, 2.5s; rotate: 12deg; }
+  .hero__side--d { right: 8%; bottom: 4%; animation-delay: .95s, 3s; rotate: -10deg; }
+  @keyframes side-in { from { transform: scale(0) translateY(60px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+  .polaroid { position: absolute; width: 150px; padding: 8px 8px 26px; background: var(--paper); box-shadow: 0 20px 40px rgba(7, 27, 87, .35); z-index: 1; animation: side-in .9s var(--ease-spring) both; }
+  .polaroid img { aspect-ratio: 4 / 5; object-fit: cover; }
+  .polaroid::after { content: attr(data-cap); position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font-size: 11px; font-weight: 700; color: var(--navy); letter-spacing: .1em; text-transform: uppercase; }
+  .polaroid--a { left: -6%; top: 30%; rotate: -8deg; animation-delay: 1.1s; }
+  .polaroid--b { right: -4%; top: 52%; rotate: 9deg; animation-delay: 1.25s; }
+  .sticker { position: absolute; z-index: 4; background: var(--pink); color: var(--paper); font-family: "Anton", sans-serif; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; padding: 10px 16px; border-radius: 999px; box-shadow: 0 10px 24px rgba(7, 27, 87, .3); animation: side-in .8s var(--ease-spring) 1.4s both; }
+  html[lang="ar"] .sticker { font-family: "Cairo", sans-serif; font-weight: 900; font-size: 18px; }
+  .sticker--a { top: 2%; right: 30%; rotate: -6deg; }
+  .sticker--b { bottom: 8%; left: 34%; rotate: 5deg; background: var(--paper); color: var(--navy); animation-delay: 1.55s; }
+  .hero__burst { position: absolute; left: 50%; top: 50%; width: 120%; aspect-ratio: 1; translate: -50% -50%; opacity: .16; animation: spin 80s linear infinite; z-index: 0; }
+  @keyframes spin { to { rotate: 360deg; } }
+
+  /* ============ MARQUEE ============ */
+  .mq { overflow: clip; direction: ltr; background: var(--paper); color: var(--blue); padding: 14px 0; border-block: 3px solid var(--navy); }
+  .mq__inner { display: flex; align-items: center; gap: 4vw; padding-inline-end: 4vw; min-width: max-content; animation: tick 26s linear infinite; }
+  .mq span { font-family: "Anton", sans-serif; font-size: clamp(34px, 5vw, 72px); text-transform: uppercase; line-height: 1; white-space: nowrap; }
+  .mq span[lang="ar"] { font-family: "Cairo", sans-serif; font-weight: 900; color: var(--pink); }
+  .mq img { height: clamp(46px, 6vw, 90px); width: auto; }
+
+  /* ============ FLAVOR WORLDS ============ */
+  .flavors { position: relative; }
+  .flavors__head { text-align: center; padding: 70px 20px 24px; }
+  .eyebrow { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 8px 18px; margin-bottom: 18px; opacity: .9; }
+  .flavors__head h2, .life__head h2, .saudi h2, .links__head h2 { font-size: clamp(40px, 7vw, 110px); line-height: .92; }
+  html[lang="ar"] .flavors__head h2, html[lang="ar"] .life__head h2, html[lang="ar"] .saudi h2, html[lang="ar"] .links__head h2 { font-size: clamp(34px, 5.6vw, 84px); line-height: 1.15; }
+  .flavors__head h2 em, .life__head h2 em, .saudi h2 em, .links__head h2 em { font-style: normal; color: var(--pink); }
+  .flavors__head p { margin-top: 14px; font-size: clamp(15px, 1.6vw, 19px); font-weight: 600; opacity: .85; }
+  .rail { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .rail::-webkit-scrollbar { display: none; }
+  .world { flex: 0 0 min(100vw, 560px); scroll-snap-align: start; min-height: 78svh; position: relative; display: grid; grid-template-rows: 1fr auto; padding: 40px 28px 34px; color: var(--paper); background: var(--w, var(--navy)); overflow: clip; transition: flex-basis .5s var(--ease-out); }
+  .world__bg { position: absolute; inset: auto -20% -30% -20%; font-family: "Anton", sans-serif; font-size: 34vw; line-height: 1; text-transform: uppercase; color: rgba(255, 255, 255, .1); white-space: nowrap; pointer-events: none; user-select: none; }
+  html[lang="ar"] .world__bg { font-family: "Cairo", sans-serif; font-weight: 900; font-size: 26vw; }
+  .world__can { position: relative; z-index: 1; display: grid; place-items: center; align-self: center; }
+  .world__can img { height: min(48svh, 420px); width: auto; filter: drop-shadow(0 30px 34px rgba(0, 0, 0, .35)); animation: can-float 6s ease-in-out infinite; }
+  .world__txt { position: relative; z-index: 1; }
+  .world__txt strong { display: block; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; }
+  .world__txt small { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; opacity: .85; }
+  .world__txt .tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .world__txt .tags span { font-size: 11px; font-weight: 800; letter-spacing: .1em; border: 1.5px solid rgba(255, 255, 255, .5); border-radius: 999px; padding: 4px 10px; direction: ltr; }
+  .rail__nav { display: flex; justify-content: center; gap: 10px; padding: 18px 0 0; }
+  .rail__nav button { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--paper); display: grid; place-items: center; transition: background .3s; }
+  .rail__nav button:hover { background: var(--pink); border-color: var(--pink); }
+  .rail__nav svg { width: 20px; height: 20px; }
+  html[dir="rtl"] .rail__nav svg { transform: scaleX(-1); }
+
+  /* ============ REEL + LIFE ============ */
+  .life { background: var(--paper); color: var(--navy); padding: 80px 20px 90px; overflow: clip; }
+  .life__head { text-align: center; margin-bottom: 40px; }
+  .life__head .eyebrow { color: var(--blue); }
+  .life__head h2 { color: var(--blue); }
+  .life__grid { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 150px; gap: 14px; }
+  .life__grid > * { border-radius: 22px; overflow: hidden; position: relative; opacity: 0; transform: translateY(30px) scale(.97); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .life__grid > .is-in { opacity: 1; transform: none; }
+  .life__grid img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+  .life__grid a:hover img, .life__grid figure:hover img { transform: scale(1.06); }
+  .shot--tall { grid-row: span 3; }
+  .shot--mid { grid-row: span 2; }
+  .shot--wide { grid-column: span 2; grid-row: span 2; }
+  .reel { grid-row: span 4; background: var(--navy); }
+  .reel iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .reel__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .card--txt { background: var(--blue); color: var(--paper); display: grid; place-items: center; text-align: center; padding: 24px; }
+  .card--txt.pink { background: var(--pink); }
+  .card--txt b { font-family: "Anton", sans-serif; font-size: clamp(28px, 3vw, 44px); line-height: 1; text-transform: uppercase; }
+  html[lang="ar"] .card--txt b { font-family: "Cairo", sans-serif; font-weight: 900; }
+  .card--txt span { display: block; margin-top: 8px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  .shot__cap { position: absolute; left: 12px; bottom: 12px; background: var(--paper); color: var(--navy); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; }
+  html[dir="rtl"] .shot__cap { left: auto; right: 12px; }
+  .life__cta { text-align: center; margin-top: 34px; }
+
+  /* ============ SAUDI ============ */
+  .saudi { position: relative; background: var(--navy); padding: 90px 20px; text-align: center; overflow: clip; }
+  .saudi__inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+  .saudi__mark { width: clamp(160px, 20vw, 240px); margin: 0 auto 26px; background: var(--white); padding: 16px 20px; border-radius: 16px; rotate: -3deg; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); }
+  .saudi p { max-width: 620px; margin: 22px auto 0; font-size: clamp(16px, 1.7vw, 20px); font-weight: 500; line-height: 1.55; opacity: .9; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 900px; margin: 44px auto 0; }
+  .stat { border: 1.5px solid rgba(233, 231, 220, .3); border-radius: 22px; padding: 24px 16px 20px; }
+  .stat b { display: block; font-family: "Anton", sans-serif; font-size: clamp(44px, 6vw, 80px); line-height: 1; color: var(--pink); }
+  html[lang="ar"] .stat b { font-family: "Cairo", sans-serif; font-weight: 900; }
+  .stat span { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; }
+  .saudi__cans { position: absolute; inset: 0; pointer-events: none; }
+  .saudi__cans img { position: absolute; height: 22vh; filter: drop-shadow(0 20px 26px rgba(0, 0, 0, .4)); animation: can-float 7s ease-in-out infinite; opacity: .9; }
+
+  /* ============ LINKS ============ */
+  .links { background: var(--blue); padding: 80px 20px 90px; }
+  .links__head { text-align: center; margin-bottom: 44px; }
+  .links__grid { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+  .link-card { display: flex; align-items: center; gap: 16px; background: rgba(233, 231, 220, .08); border: 1.5px solid rgba(233, 231, 220, .2); border-radius: 999px; padding: 12px 20px 12px 12px; transition: background .3s, transform .3s var(--ease-out); }
+  html[dir="rtl"] .link-card { padding: 12px 12px 12px 20px; }
+  .link-card:hover { background: var(--paper); color: var(--navy); transform: translateY(-3px); }
+  .link-card__icon { flex: 0 0 48px; height: 48px; border-radius: 50%; background: var(--pink); color: var(--paper); display: grid; place-items: center; }
+  .link-card__icon svg { width: 22px; height: 22px; }
+  .link-card strong { display: block; font-size: 16px; }
+  .link-card strong .wm { height: .95em; }
+  .link-card small { display: block; font-size: 12px; opacity: .65; margin-top: 2px; }
+  .link-card__arrow { margin-inline-start: auto; }
+  html[dir="rtl"] .link-card__arrow { transform: scaleX(-1); }
+
+  .footer { background: var(--navy); text-align: center; padding: 40px 20px; font-size: 13px; }
+  .footer .wm { height: 22px; margin: 0 auto 12px; display: block; }
+  .footer small { display: block; margin-top: 14px; opacity: .55; letter-spacing: .1em; text-transform: uppercase; font-size: 11px; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 20px; }
+    .hero__stage { height: 62svh; order: -1; }
+    .hero h1 { font-size: clamp(56px, 16vw, 120px); }
+    .polaroid { width: 110px; }
+    .sticker { font-size: 16px; }
+    .life__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
+    .reel { grid-row: span 3; }
+    .shot--wide { grid-column: span 2; }
+    .stats { grid-template-columns: 1fr; max-width: 360px; }
+    .world { flex-basis: 86vw; min-height: 70svh; }
+    .saudi__cans { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01s !important; animation-delay: 0s !important; transition-duration: .01s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true"><div class="ticker__inner" id="ticker"></div></div>
+
+<header class="header">
+  <a class="chip caps" href="../" data-i18n="chip_v1">Classic site</a>
+  <a class="brand" href="#top" aria-label="Kinza"><span class="wm"></span></a>
+  <button class="chip caps" id="langBtn" type="button" data-i18n="lang">العربية</button>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero__copy">
+    <span class="hero__eyebrow caps" data-i18n="eyebrow">#ما_نشبه_أحد</span>
+    <h1 class="display"><span class="l1" data-i18n="h1a">Like no</span> <span class="l2" data-i18n="h1b">one else.</span></h1>
+    <p data-i18n="hero_p">Saudi born, Saudi made, poured in 70+ countries. Ten flavors with one attitude. Crack one open and you'll get it.</p>
+    <div class="hero__cta">
+      <a class="btn btn--pink" href="#flavors"><span data-i18n="cta_flavors">Pick your flavor</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 13l7 7 7-7"/></svg></a>
+      <a class="btn btn--ghost" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="cta_shop">Shop online</a>
+    </div>
+  </div>
+  <div class="hero__stage" aria-hidden="true">
+    <svg class="hero__burst" viewBox="0 0 200 200"><g transform="translate(100 100)" id="rays"></g></svg>
+    <img class="hero__side hero__side--a" src="../assets/can-orange.png" data-en="../assets/can-orange.png" data-ar="../assets/can-orange-ar.png" alt="" />
+    <img class="hero__side hero__side--b" src="../assets/can-lemon.png" data-en="../assets/can-lemon.png" data-ar="../assets/can-lemon-ar.png" alt="" />
+    <img class="hero__side hero__side--c" src="../assets/can-pomegranate.png" data-en="../assets/can-pomegranate.png" data-ar="../assets/can-pomegranate-ar.png" alt="" />
+    <img class="hero__side hero__side--d" src="../assets/can-citrus.png" data-en="../assets/can-citrus.png" data-ar="../assets/can-citrus-ar.png" alt="" />
+    <img class="hero__can" src="../assets/can-cola-hero.png" data-en="../assets/can-cola-hero.png" data-ar="../assets/can-cola-hero-ar.png" alt="Kinza Cola" fetchpriority="high" />
+    <figure class="polaroid polaroid--a" data-cap="Aseer"><img src="../assets/life/kiosk.jpg" alt="" loading="lazy" /></figure>
+    <figure class="polaroid polaroid--b" data-cap="Game night"><img src="../assets/life/majlis.jpg" alt="" loading="lazy" /></figure>
+    <span class="sticker sticker--a" data-i18n="st_a">Saudi made</span>
+    <span class="sticker sticker--b" data-i18n="st_b">70+ countries</span>
+  </div>
+</section>
+
+<div class="mq" aria-hidden="true"><div class="mq__inner" id="mq"></div></div>
+
+<section class="flavors" id="flavors">
+  <div class="flavors__head">
+    <span class="eyebrow caps" data-i18n="fl_tag">Ten worlds</span>
+    <h2 class="display"><span data-i18n="fl_h1">Pick your</span> <em data-i18n="fl_h2">flavor</em></h2>
+    <p data-i18n="fl_p">Swipe through. Every one is created, mixed and canned in the Kingdom.</p>
+  </div>
+  <div class="rail" id="rail"></div>
+  <div class="rail__nav">
+    <button type="button" id="railPrev" aria-label="Previous flavor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" id="railNext" aria-label="Next flavor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<section class="life" id="life">
+  <div class="life__head">
+    <span class="eyebrow caps" data-i18n="life_tag">@kinzabev</span>
+    <h2 class="display"><span data-i18n="life_h1">Every sip,</span> <em data-i18n="life_h2">every scene</em></h2>
+  </div>
+  <div class="life__grid" id="lifeGrid">
+    <div class="reel">
+      <img class="reel__poster" src="../assets/life/reel-poster.jpg" alt="" />
+      <iframe src="https://player.vimeo.com/video/1223314089?background=1&autoplay=1&muted=1&loop=1&autopause=0" title="Kinza film" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/mocktail.jpg" alt="Kinza mocktail being poured" loading="lazy" /><span class="shot__cap caps" data-i18n="c_mix">Mix it</span></a>
+    <div class="card--txt pink"><div><b data-i18n="k_cold">Ice cold</b><span data-i18n="k_cold_s">or nothing</span></div></div>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/park.jpg" alt="Kinza can on a picnic table" loading="lazy" /><span class="shot__cap caps" data-i18n="c_out">Out there</span></a>
+    <a class="shot--tall" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/soda.jpg" alt="Kinza Soda Water in hand" loading="lazy" /><span class="shot__cap caps" data-i18n="c_soda">Soda Water</span></a>
+    <a class="shot--wide" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/fridge.jpg" alt="Kinza fridge" loading="lazy" /><span class="shot__cap caps" data-i18n="c_fridge">Fridge goals</span></a>
+    <div class="card--txt"><div><b data-i18n="k_ten">10</b><span data-i18n="k_ten_s">flavors</span></div></div>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/race.jpg" alt="Kinza at the Taif horse races" loading="lazy" /><span class="shot__cap caps" data-i18n="c_race">Taif races</span></a>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/pour.jpg" alt="Saudi Cocktail poured over ice" loading="lazy" /><span class="shot__cap caps" data-i18n="c_pour">Saudi Cocktail</span></a>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/neon.jpg" alt="Kinza neon sign" loading="lazy" /><span class="shot__cap caps" data-i18n="c_neon">Jeddah Season</span></a>
+    <a class="shot--mid" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener"><img src="../assets/life/sofa.jpg" alt="Kinza on the sofa" loading="lazy" /><span class="shot__cap caps" data-i18n="c_sofa">Home</span></a>
+  </div>
+  <div class="life__cta"><a class="btn btn--pink" href="https://www.instagram.com/kinzabev/" target="_blank" rel="noopener" data-i18n="cta_ig">Follow @kinzabev</a></div>
+</section>
+
+<section class="saudi" id="saudi">
+  <div class="saudi__cans" aria-hidden="true">
+    <img src="../assets/can-blackcurrant.png" data-en="../assets/can-blackcurrant.png" data-ar="../assets/can-blackcurrant-ar.png" alt="" style="left:6%;top:12%;rotate:-14deg" />
+    <img src="../assets/can-soda.png" data-en="../assets/can-soda.png" data-ar="../assets/can-soda-ar.png" alt="" style="right:7%;top:18%;rotate:12deg;animation-delay:-2s" />
+    <img src="../assets/can-cocktail.png" data-en="../assets/can-cocktail.png" data-ar="../assets/can-cocktail-ar.png" alt="" style="left:10%;bottom:8%;rotate:10deg;animation-delay:-4s" />
+    <img src="../assets/can-diet.png" data-en="../assets/can-diet.png" data-ar="../assets/can-diet-ar.png" alt="" style="right:9%;bottom:10%;rotate:-8deg;animation-delay:-5s" />
+  </div>
+  <div class="saudi__inner">
+    <div class="saudi__mark"><img src="../assets/saudi-made.svg" data-en="../assets/saudi-made.svg" data-ar="../assets/saudi-made-ar.svg" alt="Saudi Made programme mark" /></div>
+    <h2 class="display"><span data-i18n="sa_h1">Designed, born</span> <em data-i18n="sa_h2">and made in Saudi.</em></h2>
+    <p><span class="wm"></span> <span data-i18n="sa_p">is a Saudi brand, Saudi owned, from the first sketch to the last can. The fastest growing Saudi beverage brand in the world, and still growing.</span></p>
+    <div class="stats">
+      <div class="stat"><b>100%</b><span data-i18n="s1">Saudi designed, owned and made</span></div>
+      <div class="stat"><b>70+</b><span data-i18n="s2">countries and growing</span></div>
+      <div class="stat"><b>#1</b><span data-i18n="s3">fastest growing Saudi beverage brand</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="links" id="links">
+  <div class="links__head">
+    <span class="eyebrow caps" data-i18n="ln_tag">All our links</span>
+    <h2 class="display"><span data-i18n="ln_h1">Find us</span> <em data-i18n="ln_h2">everywhere</em></h2>
+  </div>
+  <nav class="links__grid" id="linksGrid" aria-label="Kinza links"></nav>
+</section>
+
+<footer class="footer">
+  <span class="wm"></span>
+  <p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p>
+  <small>© 2026 Kinza — كينزا</small>
+</footer>
+
+<script>
+  const T = {
+    lang: { en: 'العربية', ar: 'English' },
+    chip_v1: { en: 'Classic site', ar: 'النسخة الأولى' },
+    eyebrow: { en: '#ما_نشبه_أحد', ar: '#ما_نشبه_أحد' },
+    h1a: { en: 'Like no', ar: 'ما نشبه' },
+    h1b: { en: 'one else.', ar: 'أحد.' },
+    hero_p: { en: "Saudi born, Saudi made, poured in 70+ countries. Ten flavors with one attitude. Crack one open and you'll get it.", ar: 'وُلدت في السعودية، صُنعت في السعودية، وتُشرب في أكثر من 70 دولة. عشر نكهات وشخصية واحدة. افتح علبة وبتفهم.' },
+    cta_flavors: { en: 'Pick your flavor', ar: 'اختر نكهتك' },
+    cta_shop: { en: 'Shop online', ar: 'تسوّق أونلاين' },
+    st_a: { en: 'Saudi made', ar: 'صنع في السعودية' },
+    st_b: { en: '70+ countries', ar: '+70 دولة' },
+    fl_tag: { en: 'Ten worlds', ar: 'عشرة عوالم' },
+    fl_h1: { en: 'Pick your', ar: 'اختر' },
+    fl_h2: { en: 'flavor', ar: 'نكهتك' },
+    fl_p: { en: 'Swipe through. Every one is created, mixed and canned in the Kingdom.', ar: 'اسحب وشوف. كل نكهة تُبتكر وتُمزج وتُعبّأ في المملكة.' },
+    life_tag: { en: '@kinzabev', ar: '@kinzabev' },
+    life_h1: { en: 'Every sip,', ar: 'كل رشفة،' },
+    life_h2: { en: 'every scene', ar: 'كل لحظة' },
+    c_mix: { en: 'Mix it', ar: 'امزجها' }, c_out: { en: 'Out there', ar: 'برّا' }, c_soda: { en: 'Soda Water', ar: 'مياه غازية' },
+    c_fridge: { en: 'Fridge goals', ar: 'ثلاجة الأحلام' }, c_race: { en: 'Taif races', ar: 'سباقات الطائف' }, c_pour: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    c_neon: { en: 'Jeddah Season', ar: 'موسم جدة' }, c_sofa: { en: 'Home', ar: 'البيت' },
+    k_cold: { en: 'Ice cold', ar: 'باردة جداً' }, k_cold_s: { en: 'or nothing', ar: 'أو لا' },
+    k_ten: { en: '10', ar: '10' }, k_ten_s: { en: 'flavors', ar: 'نكهات' },
+    cta_ig: { en: 'Follow @kinzabev', ar: 'تابع @kinzabev' },
+    sa_h1: { en: 'Designed, born', ar: 'صُمّمت ووُلدت' },
+    sa_h2: { en: 'and made in Saudi.', ar: 'وصُنعت في السعودية.' },
+    sa_p: { en: 'is a Saudi brand, Saudi owned, from the first sketch to the last can. The fastest growing Saudi beverage brand in the world, and still growing.', ar: 'علامة سعودية بملكية سعودية، من أول رسمة إلى آخر علبة. أسرع علامة مشروبات سعودية نمواً في العالم، وما زالت تنمو.' },
+    s1: { en: 'Saudi designed, owned and made', ar: 'سعودية تصميماً وملكيةً وصناعة' },
+    s2: { en: 'countries and growing', ar: 'دولة والعدد في ازدياد' },
+    s3: { en: 'fastest growing Saudi beverage brand', ar: 'أسرع علامة مشروبات سعودية نمواً' },
+    ln_tag: { en: 'All our links', ar: 'كل روابطنا' },
+    ln_h1: { en: 'Find us', ar: 'تجدنا' },
+    ln_h2: { en: 'everywhere', ar: 'في كل مكان' },
+    foot: { en: 'The fastest growing Saudi beverage brand in the world.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات.' },
+    f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
+    f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
+    f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    d_cola: { en: 'The original. Bold, dark, Saudi to the core.', ar: 'الأصل. جريئة وغامقة وسعودية للنخاع.' },
+    d_diet: { en: 'All the fizz, none of the sugar.', ar: 'كل الفوران بدون سكر.' },
+    d_lemon: { en: 'Sharp, sunny, made for the heat.', ar: 'حادة ومشمسة، مصنوعة للحر.' },
+    d_orange: { en: 'A trip to childhood, but better.', ar: 'رحلة للطفولة، بس أحلى.' },
+    d_citrus: { en: 'Lime and lemon in a fistfight.', ar: 'ليمون وليم في معركة.' },
+    d_lemonzero: { en: 'Lemon, zero sugar, zero apologies.', ar: 'ليمون، صفر سكر، صفر اعتذار.' },
+    d_blackcurrant: { en: 'Deep purple. Deeper flavor.', ar: 'بنفسجي غامق. نكهة أغمق.' },
+    d_pomegranate: { en: 'Tart, red and a little dramatic.', ar: 'حامضة وحمراء وشوية درامية.' },
+    d_soda: { en: 'Sparkling water, Kinza attitude.', ar: 'مياه فوارة، بشخصية كينزا.' },
+    d_cocktail: { en: 'Apple and mint. Our sweetest temptation.', ar: 'تفاح ونعناع. أحلى إغراء عندنا.' },
+    l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
+    l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
+    l3: { en: 'Join the team', ar: 'انضم للفريق' }, l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
+    l4: { en: 'Online store', ar: 'المتجر الإلكتروني' }, l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
+    l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' },
+    l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }, at: { en: '@kinzabev', ar: '@kinzabev' }
+  };
+  // flavor worlds: id, key, panel colour taken from the can itself, sizes
+  const FLAVORS = [
+    ['cola', 'f_cola', '#2b2a78', ['330']], ['diet', 'f_diet', '#8d93a3', ['330', '250']], ['lemon', 'f_lemon', '#1e7a3a', ['330']],
+    ['orange', 'f_orange', '#e08a0c', ['330']], ['citrus', 'f_citrus', '#8fa816', ['330']], ['lemonzero', 'f_lemonzero', '#2e9a4c', ['330', '250']],
+    ['blackcurrant', 'f_blackcurrant', '#5a3a8e', ['250']], ['pomegranate', 'f_pomegranate', '#c4243f', ['250']], ['soda', 'f_soda', '#2a8fc4', ['250']], ['cocktail', 'f_cocktail', '#d9a21b', ['250']]
+  ];
+  const LINKS = [
+    ['https://kinza.discoveraseer.com/?source=qr', 'l1', 'l1s', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.7 3.8 9S14.6 18.4 12 21M12 3c-2.6 2.6-3.8 5.7-3.8 9S9.4 18.4 12 21"/>'],
+    ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2', 'l2s', '<circle cx="8.5" cy="8" r="3.2"/><circle cx="16" cy="9.5" r="2.6"/><path d="M3 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M14.5 14.4c2.3.2 4.1 1.8 4.5 4.6"/>'],
+    ['https://kinza.jotform.com/form/join-kinza-team', 'l3', 'l3s', '<rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13h18"/>'],
+    ['https://www.kinzabev.com', 'l4', 'l4s', '<path d="M4 5h2l2.2 11h9.6L20 8H7"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="16.5" cy="19.5" r="1.4"/>'],
+    ['https://www.instagram.com/kinzabev', 'l5', 'at', '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/>'],
+    ['https://www.tiktok.com/@kinzabev', 'l6', 'at', '<path d="M19.6 8.6a5.8 5.8 0 0 1-3.6-1.3v6.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3a2.5 2.5 0 1 0 1.7 2.4V2.5h2.9a4.7 4.7 0 0 0 3.6 3.4v2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.snapchat.com/add/kinzabev', 'l7', 'at', '<path d="M12 3c3 0 5 2.2 5 5.2v2.3c.8.2 1.4-.2 1.8 0 .3.4-.4 1-1.4 1.4.5 1.8 1.9 3 3.6 3.4-.5 1-1.7 1.1-2.4 1.3-.2.6-.2 1.2-.7 1.2-.7 0-1.4-.4-2.4 0-.9.4-1.8 1.4-3.5 1.4s-2.6-1-3.5-1.4c-1-.4-1.7 0-2.4 0-.5 0-.5-.6-.7-1.2-.7-.2-1.9-.3-2.4-1.3 1.7-.4 3.1-1.6 3.6-3.4-1-.4-1.7-1-1.4-1.4.4-.2 1 .2 1.8 0V8.2C7 5.2 9 3 12 3z"/>'],
+    ['https://www.youtube.com/@kinzabev', 'l8', 'at', '<rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.3l5 2.7-5 2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.twitter.com/kinzabev', 'l9', 'at', '<path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.2l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2z" fill="currentColor" stroke="none"/>'],
+    ['https://www.facebook.com/KinzaBev/', 'l10', 'at', '<path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.6c-.3-.04-1.3-.13-2.4-.13-2.4 0-4 1.45-4 4.1v2.3H7.6V14h2.7v8z" fill="currentColor" stroke="none"/>']
+  ];
+  let lang = 'en';
+  function applyLang(next) {
+    lang = next;
+    const html = document.documentElement;
+    html.lang = lang; html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
+    document.querySelectorAll('img[data-en]').forEach(img => { const src = img.dataset[lang]; if (src && img.getAttribute('src') !== src) img.src = src; });
+    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+  }
+
+  // build the pieces
+  (function () {
+    const rays = []; for (let i = 0; i < 24; i++) rays.push(`<line x1="0" y1="-30" x2="0" y2="-96" stroke="${i % 3 === 1 ? '#e8235a' : '#e9e7dc'}" stroke-width="${i % 3 ? 2 : 3.5}" stroke-linecap="round" transform="rotate(${i * 15})"/>`);
+    document.getElementById('rays').innerHTML = rays.join('');
+    const tick = '<span>Saudi made</span><span>70+ countries</span><span>Ten flavors</span><span lang="ar">ما نشبه أحد</span><span>Fastest growing Saudi brand</span>';
+    document.getElementById('ticker').innerHTML = tick.repeat(4);
+    const can = '<img src="../assets/can-cola-small.png" data-en="../assets/can-cola-small.png" data-ar="../assets/can-cola-small-ar.png" alt="">';
+    const seg = '<span>Like no one else</span>' + can + '<span lang="ar">ما نشبه أحد</span>' + can + '<span>Made in Saudi</span>' + can;
+    document.getElementById('mq').innerHTML = seg.repeat(4);
+    document.getElementById('rail').innerHTML = FLAVORS.map(([id, key, col, sizes]) =>
+      `<article class="world" style="--w:${col}">
+        <div class="world__bg" data-i18n="${key}">${T[key].en}</div>
+        <div class="world__can"><img src="../assets/can-${id}.png" data-en="../assets/can-${id}.png" data-ar="../assets/can-${id}-ar.png" alt="Kinza ${T[key].en} can" loading="lazy" /></div>
+        <div class="world__txt"><strong class="display" data-i18n="${key}">${T[key].en}</strong><small data-i18n="d_${id}">${T['d_' + id].en}</small><div class="tags">${sizes.map(s => `<span>${s} ml</span>`).join('')}</div></div>
+      </article>`).join('');
+    document.getElementById('linksGrid').innerHTML = LINKS.map(([href, k, s, ico]) =>
+      `<a class="link-card" href="${href}" target="_blank" rel="noopener"><span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${ico}</svg></span><span><strong data-i18n="${k}">${T[k].en}</strong><small data-i18n="${s}">${T[s].en}</small></span><svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`).join('');
+  })();
+
+  (function () {
+    const q = new URLSearchParams(location.search).get('lang');
+    let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
+    const start = q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en');
+    if (start !== 'en') applyLang(start);
+    document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
+  })();
+
+  // flavor rail arrows (native scroll does the swiping)
+  (function () {
+    const rail = document.getElementById('rail');
+    const step = () => rail.querySelector('.world').getBoundingClientRect().width;
+    const dir = () => document.documentElement.dir === 'rtl' ? -1 : 1;
+    document.getElementById('railPrev').addEventListener('click', () => rail.scrollBy({ left: -step() * dir(), behavior: 'smooth' }));
+    document.getElementById('railNext').addEventListener('click', () => rail.scrollBy({ left: step() * dir(), behavior: 'smooth' }));
+  })();
+
+  // reveal for the lifestyle grid
+  (function () {
+    const items = [...document.querySelectorAll('#lifeGrid > *')];
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.style.transitionDelay = (items.indexOf(e.target) % 4) * 80 + 'ms';
+      e.target.classList.add('is-in'); io.unobserve(e.target);
+    }), { threshold: 0.12 });
+    items.forEach(i => io.observe(i));
+  })();
+</script>
+</body>
+</html>
