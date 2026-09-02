@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kinza — كينزا | Diet Cola</title>
-<meta name="description" content="Kinza Diet Cola — the fastest-growing beverage brand in the Middle East. Sugar free. Find us everywhere." />
+<title>Kinza — كينزا | Saudi Cola, 70+ countries</title>
+<meta name="description" content="Kinza: designed, born and made in Saudi Arabia. The fastest growing Saudi beverage brand in the world, now in 70+ countries. Ten flavors, one brand." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kinza — Designed, born and made in Saudi Arabia" />
+<meta property="og:description" content="The fastest growing Saudi beverage brand in the world. 70+ countries and growing. Find every flavor and every link here." />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta property="og:url" content="https://m-adib.github.io/kinza-demo/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#314da0" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="assets/can-cola-hero.png" fetchpriority="high" />
 <style>
   :root {
     --blue: #314da0;
@@ -18,6 +26,7 @@
     --white: #ffffff;
     --ease-out: cubic-bezier(.22, 1, .36, 1);
     --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
+    --can-ratio: 0.5629; /* trimmed hero cola render, width / height */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -27,9 +36,25 @@
     color: var(--navy);
     overflow-x: clip;
   }
-  .ar { font-family: "Cairo", "Outfit", sans-serif; }
+  html[lang="ar"] body { font-family: "Cairo", "Outfit", sans-serif; }
+  .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; }
+  html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; }
+  html[lang="ar"] .caps { letter-spacing: 0 !important; text-transform: none !important; }
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  /* the brand name is always the logo, never typed */
+  .wm {
+    display: inline-block;
+    height: .92em;
+    aspect-ratio: 1519 / 547;
+    background: url("assets/kinza-logo-en.png") center / contain no-repeat;
+    vertical-align: -.1em;
+  }
+  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; background-image: url("assets/kinza-logo-ar.png"); vertical-align: -.22em; height: 1.1em; }
+  .wm--paper { background-image: url("assets/kinza-logo-en-paper.png"); }
+  html[lang="ar"] .wm--paper { background-image: url("assets/kinza-logo-ar-paper.png"); }
 
   /* paper grain over the whole page */
   body::before {
@@ -55,7 +80,10 @@
     animation: header-in .8s var(--ease-out) .9s forwards;
   }
   @keyframes header-in { to { transform: translateY(0); } }
-  .header .chip {
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .14em;
@@ -66,16 +94,12 @@
     background: rgba(233, 231, 220, .6);
     backdrop-filter: blur(6px);
     transition: background .3s, color .3s;
+    white-space: nowrap;
   }
-  a.chip:hover { background: rgba(49, 77, 160, .12); }
-  .wordmark {
-    font-weight: 800;
-    font-size: 30px;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    line-height: 1;
-  }
-  .wordmark span { color: var(--pink); }
+  .chip:hover { background: rgba(49, 77, 160, .12); }
+  .chip .flag { width: 16px; height: 16px; border-radius: 50%; background: #0b6b3a; display: inline-grid; place-items: center; }
+  .chip .flag svg { width: 10px; height: 10px; }
+  .brand .wm { height: 30px; }
 
   /* ============ HERO ============ */
   .hero {
@@ -91,16 +115,15 @@
     top: 50%;
     left: 0;
     width: 100%;
-    transform: translateY(-54%);
-    font-family: "Anton", "Outfit", sans-serif;
-    font-size: 20.5vw;
-    line-height: .84;
-    letter-spacing: -0.012em;
-    text-transform: uppercase;
+    transform: translateY(-56%);
     text-align: center;
     color: var(--blue);
     user-select: none;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vw;
   }
   .hero__title .line { display: block; overflow: hidden; }
   .hero__title .word {
@@ -108,7 +131,17 @@
     transform: translateY(110%);
     animation: word-in 1s var(--ease-out) forwards;
   }
-  .hero__title .line:nth-child(2) .word { animation-delay: .15s; color: transparent; -webkit-text-stroke: 2px var(--blue); }
+  .hero__logo { width: min(64vw, 940px); display: block; }
+  .hero__title .line--sub .word { animation-delay: .15s; }
+  .hero__sub {
+    font-size: 20.5vw;
+    line-height: .84;
+    letter-spacing: .34em;
+    padding-inline-start: .34em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--blue);
+  }
+  html[lang="ar"] .hero__sub { font-size: 22vw; line-height: 1.05; letter-spacing: 0; padding: 0; word-spacing: .6em; -webkit-text-stroke: 2.5px var(--blue); }
   @keyframes word-in { to { transform: translateY(0); } }
 
   .hero__burst {
@@ -129,196 +162,72 @@
     position: relative;
     z-index: 3;
     height: 78svh;
-    aspect-ratio: 2074 / 3522;
+    aspect-ratio: var(--can-ratio);
   }
   /* the actual can: fixed, steered by JS between hero anchor and lineup slot */
   .can-flyer {
     position: fixed;
     top: 0; left: 0;
     z-index: 30;
+    pointer-events: none;
+    aspect-ratio: var(--can-ratio);
     will-change: top, left, height, transform;
-    transform: rotate(-3deg); /* resting tilt; JS re-drives this every frame */
+    transform: rotate(-3deg);
     transform-origin: 50% 65%;
   }
   .hero__can {
+    display: block;
     height: 100%;
+    width: 100%;
+    object-fit: contain;
     filter: drop-shadow(0 40px 50px rgba(7, 27, 87, .35));
     animation: can-drop 1.1s var(--ease-spring) .25s both;
   }
-
-  /* ============ SPINNING CANS ============
-     .spin holds a static <img> (fallback + first paint) and a WebGL canvas that
-     re-maps the two rendered faces (EN front, AR back) around a cylinder. */
-  .spin {
-    position: relative;
-    height: 100%;
-    aspect-ratio: var(--ratio, 2074 / 3522);
-    cursor: grab;
-    touch-action: pan-y; /* horizontal drag spins, vertical drag still scrolls */
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .spin.is-dragging { cursor: grabbing; }
-  .spin img, .spin canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    pointer-events: none;
-  }
-  .spin canvas { opacity: 0; }
-  .spin.is-gl canvas { opacity: 1; }
-  .spin.is-gl img { opacity: 0; }
-  .spin img { -webkit-user-drag: none; }
-
-  .spin-hint {
-    position: absolute;
-    z-index: 5;
-    left: clamp(14px, 6vw, 120px);
-    bottom: 5vh;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 16px 9px 12px;
-    border-radius: 999px;
-    background: rgba(11, 39, 122, .88);
-    color: var(--paper);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    box-shadow: 0 10px 30px rgba(7, 27, 87, .25);
-    backdrop-filter: blur(6px);
-    pointer-events: none;
-    opacity: 0;
-    animation: hint-in .8s var(--ease-out) 2s forwards;
-    transition: opacity .5s, transform .5s;
-  }
-  .spin-hint .ar { letter-spacing: 0; text-transform: none; font-size: 13px; opacity: .8; }
-  .spin-hint svg { width: 18px; height: 18px; animation: hint-wiggle 1.8s ease-in-out infinite; }
-  .spin-hint.is-done { opacity: 0 !important; transform: translateY(10px); }
-  @keyframes hint-in { to { opacity: 1; } }
-  @keyframes hint-wiggle {
-    0%, 100% { transform: translateX(-3px); }
-    50% { transform: translateX(3px); }
-  }
-  /* the idle float is driven by the JS scroll loop so it fades out with flight
-     progress instead of cutting off; .is-resting stays as a state hook */
   @keyframes can-drop {
     from { transform: translateY(-120vh) rotate(-6deg); }
     to { transform: translateY(0) rotate(0); }
   }
 
-  /* ============ LINEUP ============ */
-  .lineup { padding: 30px 20px 90px; position: relative; }
-  .lineup__head { text-align: center; margin-bottom: 44px; }
-  .lineup__head .tag { border-color: rgba(11, 39, 122, .45); }
-  .lineup__head h2 {
-    font-family: "Anton", sans-serif;
-    font-size: clamp(40px, 7vw, 96px);
-    line-height: .95;
-    text-transform: uppercase;
-    color: var(--blue);
-  }
-  .lineup__head h2 em { font-style: normal; color: var(--pink); }
-  .lineup__grid {
-    max-width: 1240px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 14px;
-  }
-
-  /* cue pointing people down to the link tree */
-  .links-cue {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 56px;
-    text-align: center;
-  }
-  .links-cue p {
-    font-weight: 700;
-    font-size: clamp(16px, 2vw, 20px);
-    letter-spacing: .02em;
-    color: var(--navy);
-  }
-  .links-cue p .ar { display: block; font-size: .8em; opacity: .7; margin-top: 2px; }
-  .links-cue__btn {
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: var(--pink);
-    color: #fff;
-    box-shadow: 0 12px 30px rgba(232, 35, 90, .35);
-    animation: cue-bounce 1.6s ease-in-out infinite;
-    transition: background .3s, transform .3s;
-  }
-  .links-cue__btn:hover { background: var(--blue); }
-  .links-cue__btn svg { width: 26px; height: 26px; }
-  @keyframes cue-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(12px); }
-  }
-  .product-card {
-    border-radius: 26px;
-    padding: 18px 14px 22px;
-    text-align: center;
-    color: #fff;
-    opacity: 0;
-    transform: translateY(36px);
-    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), box-shadow .3s;
-  }
-  .product-card.is-in { opacity: 1; transform: translateY(0); }
-  .product-card:hover { box-shadow: 0 18px 40px rgba(11, 39, 122, .18); }
-  .product-card__img {
-    height: 230px;
-    display: grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 100%;
-    place-items: center;
-    margin-bottom: 14px;
-  }
-  .product-card__img .spin {
-    transition: transform .4s var(--ease-spring);
-    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .28));
-  }
-  .product-card:hover .product-card__img .spin { transform: translateY(-8px) rotate(2deg); }
-  .dock-slot { height: 100%; aspect-ratio: 2074 / 3522; }
-  .product-card strong {
-    display: block;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: .02em;
-    text-transform: uppercase;
-  }
-  .product-card .ar { display: block; font-size: 13px; font-weight: 600; opacity: .8; margin-top: 2px; }
-  .product-card--diet { background: var(--blue); }
-  .product-card--lemon { background: #2e8f47; }
-  .product-card--lemon-classic { background: #1e6e38; }
-  .product-card--cola { background: #322f7c; }
-  .product-card--citrus { background: #93ac16; }
-  .product-card--orange { background: #e0940e; }
   .hero__badge {
     position: absolute;
     z-index: 4;
-    left: clamp(10px, 6vw, 120px);
+    inset-inline-start: clamp(10px, 6vw, 120px);
     top: 16vh;
-    width: clamp(96px, 11vw, 150px);
+    width: clamp(104px, 12vw, 160px);
     animation: badge-in 1s var(--ease-spring) 1.1s both;
   }
   @keyframes badge-in { from { transform: scale(0) rotate(-90deg); } to { transform: scale(1) rotate(0); } }
-  .hero__badge svg { width: 100%; animation: spin 24s linear infinite; }
+  .hero__badge svg { width: 100%; display: block; }
+  .hero__badge .ring { animation: spin 26s linear infinite; transform-origin: 60px 60px; }
+  .hero__badge text { fill: #e9e7dc; }
+  .hero__badge .ring text { font-family: "Outfit", sans-serif; font-size: 10.6px; font-weight: 700; letter-spacing: .06em; }
+  html[lang="ar"] .hero__badge .ring { display: none; }
+  .hero__badge .top { display: none; font-family: "Cairo", sans-serif; font-size: 9.5px; font-weight: 700; }
+  html[lang="ar"] .hero__badge .top { display: block; }
+  .hero__badge .num { font-family: "Anton", sans-serif; font-size: 26px; }
+  html[lang="en"] .hero__badge .num { transform: translateY(-12px); }
+  html[lang="en"] .hero__badge .sub { transform: translateY(-11px); }
+  html[lang="ar"] .hero__badge .num { font-family: "Cairo", sans-serif; font-weight: 900; font-size: 22px; }
+  .hero__badge .sub { font-family: "Outfit", sans-serif; font-size: 8.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  html[lang="ar"] .hero__badge .sub { font-family: "Cairo", sans-serif; font-size: 10px; letter-spacing: 0; }
+
+  .hero__tag {
+    position: absolute;
+    z-index: 4;
+    inset-inline-start: clamp(14px, 6vw, 120px);
+    bottom: 6vh;
+    max-width: 300px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.45;
+    opacity: 0;
+    animation: fade-in 1s ease 1.6s forwards;
+  }
+  .hero__tag strong { display: block; font-weight: 800; color: var(--pink); margin-bottom: 4px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
   .hero__scroll {
     position: absolute;
     z-index: 4;
-    right: clamp(14px, 6vw, 120px);
+    inset-inline-end: clamp(14px, 6vw, 120px);
     bottom: 5vh;
     font-size: 12px;
     font-weight: 700;
@@ -342,18 +251,222 @@
   @keyframes drip { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
   @keyframes fade-in { to { opacity: 1; } }
 
+  /* ============ LINEUP ============ */
+  .lineup { padding: 30px 20px 90px; position: relative; }
+  .lineup__head { text-align: center; margin-bottom: 44px; }
+  .lineup__head .tag { border-color: rgba(11, 39, 122, .45); }
+  .lineup__head h2 {
+    font-size: clamp(36px, 6vw, 84px);
+    line-height: .95;
+    color: var(--blue);
+  }
+  .lineup__head h2 em { font-style: normal; color: var(--pink); }
+  .lineup__head p { margin-top: 14px; font-size: clamp(15px, 1.6vw, 19px); font-weight: 600; opacity: .8; }
+  .lineup__grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  .product-card {
+    position: relative;
+    border-radius: 26px;
+    padding: 18px 14px 22px;
+    text-align: center;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), box-shadow .3s, background .5s;
+    overflow: hidden;
+  }
+  .product-card.is-in { opacity: 1; transform: translateY(0); }
+  .product-card:hover { box-shadow: 0 18px 40px rgba(11, 39, 122, .18); }
+  .product-card__img {
+    height: 230px;
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    place-items: center;
+    margin-bottom: 14px;
+  }
+  /* every can is shown at the same height, whatever its real width */
+  .product-card__img img, .more__slide img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .28));
+    animation: can-float 6s ease-in-out infinite;
+  }
+  .product-card:nth-child(2) img { animation-delay: -1s; }
+  .product-card:nth-child(3) img { animation-delay: -2s; }
+  .product-card:nth-child(4) img { animation-delay: -3s; }
+  .product-card:nth-child(5) img { animation-delay: -4s; }
+  .product-card:nth-child(6) img { animation-delay: -5s; }
+  @keyframes can-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+  .dock-slot { height: 100%; aspect-ratio: var(--can-ratio); }
+  .product-card strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .product-card--cola { background: #322f7c; }
+  .product-card--diet { background: var(--blue); }
+  .product-card--lemon { background: #1e6e38; }
+  .product-card--orange { background: #e0940e; }
+  .product-card--citrus { background: #93ac16; }
+  .product-card--more { background: #2e8f47; }
+
+  /* the sixth card swipes through the rest of the range */
+  .more__track {
+    display: flex;
+    height: 230px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 14px;
+    border-radius: 14px;
+  }
+  .more__track::-webkit-scrollbar { display: none; }
+  .more__slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    place-items: center;
+    scroll-snap-align: center;
+  }
+  .more__nav {
+    position: absolute;
+    top: 118px;
+    inset-inline: 6px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .more__nav button {
+    pointer-events: auto;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .22);
+    display: grid; place-items: center;
+    transition: background .3s;
+  }
+  .more__nav button:hover { background: rgba(255, 255, 255, .45); }
+  .more__nav svg { width: 14px; height: 14px; }
+  html[dir="rtl"] .more__nav svg { transform: scaleX(-1); }
+  .more__dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+  .more__dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, .4); transition: background .3s, transform .3s; }
+  .more__dots span.is-on { background: #fff; transform: scale(1.3); }
+  .more__hint { display: block; margin-top: 6px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+
+  /* cue pointing people down to the link tree */
+  .links-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 56px;
+    text-align: center;
+  }
+  .links-cue p { font-weight: 700; font-size: clamp(16px, 2vw, 20px); letter-spacing: .02em; color: var(--navy); }
+  .links-cue__btn {
+    width: 62px; height: 62px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--pink);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(232, 35, 90, .35);
+    animation: cue-bounce 1.6s ease-in-out infinite;
+    transition: background .3s, transform .3s;
+  }
+  .links-cue__btn:hover { background: var(--blue); }
+  .links-cue__btn svg { width: 26px; height: 26px; }
+  @keyframes cue-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(12px); } }
+
   /* ============ WAVES ============ */
   .wave { display: block; width: 100%; height: auto; margin-bottom: -1px; }
   .wave--flip { transform: scaleY(-1); margin-bottom: 0; margin-top: -1px; }
+
+  /* ============ STORY ============ */
+  .story {
+    background: var(--blue);
+    color: var(--paper);
+    padding: 40px 20px 80px;
+    position: relative;
+    overflow: clip;
+  }
+  .story__inner { max-width: 1040px; margin: 0 auto; text-align: center; }
+  .story .tag { border-color: rgba(233, 231, 220, .5); }
+  .story h2 {
+    font-size: clamp(34px, 5.6vw, 78px);
+    line-height: 1;
+    max-width: 18ch;
+    margin: 0 auto;
+  }
+  html[lang="ar"] .story h2 { font-size: clamp(30px, 4.4vw, 60px); line-height: 1.25; max-width: 22ch; }
+  .story h2 em { font-style: normal; color: var(--pink); }
+  .story p {
+    max-width: 640px;
+    margin: 26px auto 0;
+    font-size: clamp(16px, 1.8vw, 20px);
+    font-weight: 500;
+    line-height: 1.55;
+  }
+  .story p .wm { height: 1em; vertical-align: -.14em; }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 900px;
+    margin: 44px auto 0;
+  }
+  .fact {
+    border: 1.5px solid rgba(233, 231, 220, .35);
+    border-radius: 22px;
+    padding: 22px 16px 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  }
+  .fact.is-in { opacity: 1; transform: translateY(0); }
+  .fact b { display: block; font-size: clamp(40px, 5vw, 64px); line-height: 1; color: var(--pink); }
+  .fact span { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .story__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: .04em;
+    transition: transform .3s var(--ease-out), background .3s, color .3s, box-shadow .3s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--pink { background: var(--pink); color: #fff; box-shadow: 0 12px 30px rgba(232, 35, 90, .3); }
+  .btn--pink:hover { background: #ff2f68; }
+  .btn--ghost { border: 1.5px solid rgba(233, 231, 220, .6); color: var(--paper); }
+  .btn--ghost:hover { background: rgba(233, 231, 220, .12); }
+  .btn svg { width: 18px; height: 18px; }
+  html[dir="rtl"] .btn svg { transform: scaleX(-1); }
 
   /* ============ LINKS ============ */
   .links {
     background: var(--navy);
     color: var(--paper);
-    padding: 40px 20px 90px;
+    padding: 70px 20px 90px;
     position: relative;
   }
   .links__head { text-align: center; margin-bottom: 54px; }
+  .links__head .wm { height: 34px; display: block; margin: 0 auto 18px; }
   .tag {
     display: inline-block;
     font-size: 12px;
@@ -366,20 +479,13 @@
     margin-bottom: 18px;
   }
   .links__head h1 {
-    font-family: "Anton", sans-serif;
     font-size: clamp(40px, 7vw, 96px);
     line-height: .95;
-    text-transform: uppercase;
     letter-spacing: .01em;
   }
   .links__head h1 em { font-style: normal; color: var(--pink); }
-  .links__head .ar { display: block; margin-top: 14px; font-size: clamp(15px, 2vw, 20px); font-weight: 600; opacity: .75; }
-  .links__grid {
-    max-width: 760px;
-    margin: 0 auto;
-    display: grid;
-    gap: 14px;
-  }
+  .links__head p { margin-top: 14px; font-size: clamp(15px, 2vw, 20px); font-weight: 600; opacity: .75; }
+  .links__grid { max-width: 760px; margin: 0 auto; display: grid; gap: 14px; }
   .link-card {
     display: flex;
     align-items: center;
@@ -390,9 +496,9 @@
     padding: 14px 22px 14px 14px;
     opacity: 0;
     transform: translateY(36px);
-    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out),
-                background .3s, border-color .3s, box-shadow .3s;
+    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), background .3s, border-color .3s, box-shadow .3s;
   }
+  html[dir="rtl"] .link-card { padding: 14px 14px 14px 22px; }
   .link-card.is-in { opacity: 1; transform: translateY(0); }
   .link-card:hover {
     background: rgba(233, 231, 220, .13);
@@ -401,11 +507,9 @@
     transform: translateY(-3px) scale(1.015);
   }
   .link-card__icon {
-    flex: 0 0 52px;
-    height: 52px;
+    flex: 0 0 52px; height: 52px;
     border-radius: 50%;
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     background: var(--pink);
     color: #fff;
     transition: rotate .4s var(--ease-spring);
@@ -415,13 +519,16 @@
   .link-card__icon svg { width: 24px; height: 24px; }
   .link-card__text { flex: 1; min-width: 0; }
   .link-card__text strong { display: block; font-size: 17px; font-weight: 700; letter-spacing: .01em; }
-  .link-card__text .ar { display: block; font-size: 13px; font-weight: 600; opacity: .65; margin-top: 2px; }
+  .link-card__text strong .wm { height: .95em; margin: 0 .1em; }
+  .link-card__text small { display: block; font-size: 13px; font-weight: 500; opacity: .6; margin-top: 2px; }
   .link-card__arrow { flex: 0 0 auto; transition: transform .3s var(--ease-out); }
   .link-card:hover .link-card__arrow { transform: translateX(6px) rotate(-45deg); }
+  html[dir="rtl"] .link-card__arrow { transform: scaleX(-1); }
+  html[dir="rtl"] .link-card:hover .link-card__arrow { transform: scaleX(-1) translateX(6px) rotate(-45deg); }
 
   /* ============ MARQUEE ============ */
   .marquee-zone { padding: 30px 0 10px; overflow: clip; }
-  .marquee { display: flex; overflow: hidden; white-space: nowrap; }
+  .marquee { display: flex; overflow: hidden; white-space: nowrap; direction: ltr; }
   .marquee__inner {
     display: flex;
     align-items: center;
@@ -439,34 +546,35 @@
     color: var(--blue);
     line-height: 1.1;
   }
-  .marquee--reverse span { color: transparent; -webkit-text-stroke: 1.5px var(--pink); font-family: "Cairo", sans-serif; font-weight: 700; }
+  .marquee .wm { height: clamp(40px, 6.5vw, 96px); }
+  .marquee--reverse span { color: transparent; -webkit-text-stroke: 1.5px var(--pink); font-family: "Cairo", sans-serif; font-weight: 800; }
   .marquee img { height: clamp(90px, 12vw, 190px); width: auto; }
 
   /* ============ FOOTER ============ */
-  .footer {
-    background: var(--paper);
-    text-align: center;
-    padding: 40px 20px 34px;
-  }
+  .footer { background: var(--paper); text-align: center; padding: 40px 20px 34px; }
   .footer p { font-weight: 600; font-size: 15px; }
-  .footer .ar { display: block; margin-top: 6px; opacity: .7; }
+  .footer .wm { height: 22px; display: block; margin: 0 auto 14px; }
   .footer small { display: block; margin-top: 22px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .55; }
 
   @media (max-width: 700px) {
-    .wordmark { font-size: 24px; }
     .header { padding: 14px 16px; }
-    .header .chip { padding: 6px 12px; font-size: 10px; }
-    .hero__can-home { height: 62svh; }
-    .hero__title { font-size: 26vw; transform: translateY(-64%); }
-    .spin-hint { bottom: 2vh; font-size: 11px; padding: 8px 14px 8px 10px; }
-    .hero__badge { top: 12vh; }
+    .chip { padding: 6px 12px; font-size: 10px; }
+    .brand .wm { height: 24px; }
+    .hero__can-home { height: 60svh; }
+    .hero__title { transform: translateY(-66%); }
+    .hero__logo { width: 78vw; }
+    .hero__sub { font-size: 26vw; }
+    html[lang="ar"] .hero__sub { font-size: 22vw; }
+    .hero__badge { top: 11vh; width: 96px; }
+    .hero__tag { display: none; }
     .link-card__text strong { font-size: 15px; }
     .lineup__grid { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
-    .product-card--diet { grid-column: 1 / -1; }
-    .product-card--diet .product-card__img { height: 300px; }
-    .product-card--orange { grid-column: 1 / -1; }
-    .product-card--orange .product-card__img { height: 230px; }
-    .product-card__img { height: 190px; }
+    .product-card--cola { grid-column: 1 / -1; }
+    .product-card--cola .product-card__img { height: 300px; }
+    .product-card__img, .more__track { height: 190px; }
+    .more__nav { top: 98px; }
+    .facts { grid-template-columns: 1fr; max-width: 360px; }
+    .story h2 { max-width: none; }
   }
   @media (min-width: 701px) and (max-width: 1024px) {
     .lineup__grid { grid-template-columns: repeat(3, 1fr); max-width: 720px; }
@@ -479,22 +587,23 @@
 <body>
 
 <header class="header">
-  <span class="chip">Sugar Free</span>
-  <div class="wordmark">kinza<span>.</span></div>
-  <a class="chip" href="https://www.kinzabev.com/ar" target="_blank" rel="noopener">العربية</a>
+  <span class="chip caps">
+    <span class="flag" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#e9e7dc" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+    <span data-i18n="chip_made">Saudi made</span>
+  </span>
+  <a class="brand" href="#top" aria-label="Kinza"><span class="wm"></span></a>
+  <button class="chip caps" id="langBtn" type="button" data-i18n="lang">العربية</button>
 </header>
 
-<section class="hero">
-  <h1 class="hero__title" aria-label="Kinza Diet Cola">
-    <span class="line"><span class="word">Kinza</span></span>
-    <span class="line"><span class="word">Diet&nbsp;Cola</span></span>
+<section class="hero" id="top">
+  <h1 class="hero__title" aria-label="Kinza Cola">
+    <span class="line"><span class="word"><img class="hero__logo" src="assets/kinza-logo-en.png" data-en="assets/kinza-logo-en.png" data-ar="assets/kinza-logo-ar.png" alt="Kinza" fetchpriority="high" /></span></span>
+    <span class="line line--sub"><span class="word hero__sub display" data-i18n="hero_sub">Cola</span></span>
   </h1>
 
   <div class="hero__burst" aria-hidden="true">
     <svg viewBox="0 0 200 200">
-      <g transform="translate(100 100)">
-        <g id="rays"></g>
-      </g>
+      <g transform="translate(100 100)"><g id="rays"></g></g>
     </svg>
   </div>
 
@@ -502,74 +611,75 @@
     <svg viewBox="0 0 120 120">
       <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
       <circle cx="60" cy="60" r="58" fill="#e8235a" />
-      <circle cx="60" cy="60" r="30" fill="none" stroke="#e9e7dc" stroke-width="1.5" />
-      <text fill="#e9e7dc" font-family="Outfit, sans-serif" font-size="12" font-weight="700">
-        <textPath href="#circ" textLength="272" lengthAdjust="spacingAndGlyphs">SUGAR FREE • DIET COLA • SUGAR FREE •&nbsp;</textPath>
-      </text>
-      <text x="60" y="65" text-anchor="middle" fill="#e9e7dc" font-family="Anton, sans-serif" font-size="15" style="direction:ltr">0&#37;</text>
+      <circle cx="60" cy="60" r="31" fill="none" stroke="#e9e7dc" stroke-width="1.5" />
+      <g class="ring"><text><textPath href="#circ" id="badgeRing" data-i18n="badge_ring">Fastest growing Saudi brand • 70+ countries •&nbsp;</textPath></text></g>
+      <text class="top" x="60" y="42" text-anchor="middle">أسرع علامة</text>
+      <text class="top" x="60" y="53" text-anchor="middle">سعودية نمواً</text>
+      <text class="num" x="60" y="74" text-anchor="middle" data-i18n="badge_num" style="direction:ltr">70+</text>
+      <text class="sub" x="60" y="86" text-anchor="middle" data-i18n="badge_sub">countries</text>
     </svg>
   </div>
 
   <div class="hero__can-home" id="canHome"></div>
 
-  <div class="spin-hint" id="spinHint" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>
-    <span>Drag to spin</span>
-    <span class="ar" lang="ar" dir="rtl">اسحب لتدوير العلبة</span>
-  </div>
-
-  <div class="hero__scroll">Scroll</div>
+  <p class="hero__tag">
+    <strong data-i18n="tag_k">100% Saudi</strong>
+    <span data-i18n="hero_tag">Designed, born and made in Saudi Arabia. Poured in more than 70 countries.</span>
+  </p>
+  <div class="hero__scroll" data-i18n="scroll">Scroll</div>
 </section>
 
 <div class="can-flyer is-resting" id="canFlyer">
-  <div class="spin hero__can" data-a="assets/kinza-diet-can.png" data-b="assets/kinza-diet-can-ar.png" data-geom="diet" data-hero>
-    <img src="assets/kinza-diet-can.png" alt="Kinza Diet Cola can" fetchpriority="high" />
-    <canvas aria-hidden="true"></canvas>
-  </div>
+  <img class="hero__can" src="assets/can-cola-hero.png" data-en="assets/can-cola-hero.png" data-ar="assets/can-cola-hero-ar.png" alt="Kinza Cola can" fetchpriority="high" />
 </div>
 
 <section class="lineup" id="lineup">
   <div class="lineup__head">
-    <span class="tag">Find your flavor</span>
-    <h2>The <em>lineup</em></h2>
+    <span class="tag caps" data-i18n="lineup_tag">Find your flavor</span>
+    <h2 class="display"><span data-i18n="lineup_h1">A taste profile for</span> <em data-i18n="lineup_h2">everyone</em></h2>
+    <p data-i18n="lineup_sub">Ten flavors. One Saudi brand.</p>
   </div>
   <div class="lineup__grid">
-    <div class="product-card product-card--diet">
+    <div class="product-card product-card--cola">
       <div class="product-card__img"><div class="dock-slot" id="dockSlot"></div></div>
-      <strong>Diet Cola</strong>
-      <span class="ar" lang="ar" dir="rtl">دايت كولا</span>
+      <strong class="caps" data-i18n="f_cola">Cola</strong>
+    </div>
+    <div class="product-card product-card--diet">
+      <div class="product-card__img"><img src="assets/can-diet.png" data-en="assets/can-diet.png" data-ar="assets/can-diet-ar.png" alt="Kinza Diet Cola can" loading="lazy" /></div>
+      <strong class="caps" data-i18n="f_diet">Diet Cola</strong>
     </div>
     <div class="product-card product-card--lemon">
-      <div class="product-card__img"><div class="spin" style="--ratio:471/800" data-a="assets/kinza-lemon.png" data-b="assets/kinza-lemon-ar.png" data-geom="lemonzero"><img src="assets/kinza-lemon.png" alt="Kinza Zero Sugar Lemon can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
-      <strong>Lemon Zero</strong>
-      <span class="ar" lang="ar" dir="rtl">ليمون بدون سكر</span>
-    </div>
-    <div class="product-card product-card--lemon-classic">
-      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-lemon-green.png" data-b="assets/kinza-lemon-green-ar.png" data-geom="straight"><img src="assets/kinza-lemon-green.png" alt="Kinza Lemon can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
-      <strong>Lemon</strong>
-      <span class="ar" lang="ar" dir="rtl">ليمون</span>
-    </div>
-    <div class="product-card product-card--cola">
-      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-cola-blue.png" data-b="assets/kinza-cola-blue-ar.png" data-geom="straight"><img src="assets/kinza-cola-blue.png" alt="Kinza Cola can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
-      <strong>Cola</strong>
-      <span class="ar" lang="ar" dir="rtl">كولا</span>
-    </div>
-    <div class="product-card product-card--citrus">
-      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-citrus.png" data-b="assets/kinza-citrus-ar.png" data-geom="straight"><img src="assets/kinza-citrus.png" alt="Kinza Citrus can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
-      <strong>Citrus</strong>
-      <span class="ar" lang="ar" dir="rtl">حمضيات</span>
+      <div class="product-card__img"><img src="assets/can-lemon.png" data-en="assets/can-lemon.png" data-ar="assets/can-lemon-ar.png" alt="Kinza Lemon can" loading="lazy" /></div>
+      <strong class="caps" data-i18n="f_lemon">Lemon</strong>
     </div>
     <div class="product-card product-card--orange">
-      <div class="product-card__img"><div class="spin" style="--ratio:334/800" data-a="assets/kinza-orange.png" data-b="assets/kinza-orange-ar.png" data-geom="straight"><img src="assets/kinza-orange.png" alt="Kinza Orange can" loading="lazy" /><canvas aria-hidden="true"></canvas></div></div>
-      <strong>Orange</strong>
-      <span class="ar" lang="ar" dir="rtl">برتقال</span>
+      <div class="product-card__img"><img src="assets/can-orange.png" data-en="assets/can-orange.png" data-ar="assets/can-orange-ar.png" alt="Kinza Orange can" loading="lazy" /></div>
+      <strong class="caps" data-i18n="f_orange">Orange</strong>
+    </div>
+    <div class="product-card product-card--citrus">
+      <div class="product-card__img"><img src="assets/can-citrus.png" data-en="assets/can-citrus.png" data-ar="assets/can-citrus-ar.png" alt="Kinza Citrus can" loading="lazy" /></div>
+      <strong class="caps" data-i18n="f_citrus">Citrus</strong>
+    </div>
+    <div class="product-card product-card--more" id="moreCard">
+      <div class="more__track" id="moreTrack" aria-label="More flavors">
+        <div class="more__slide" data-key="f_lemonzero" data-color="#2e8f47"><img src="assets/can-lemonzero.png" data-en="assets/can-lemonzero.png" data-ar="assets/can-lemonzero-ar.png" alt="Kinza Lemon Zero can" loading="lazy" /></div>
+        <div class="more__slide" data-key="f_blackcurrant" data-color="#5b3a8c"><img src="assets/can-blackcurrant.png" data-en="assets/can-blackcurrant.png" data-ar="assets/can-blackcurrant-ar.png" alt="Kinza Blackcurrant can" loading="lazy" /></div>
+        <div class="more__slide" data-key="f_pomegranate" data-color="#c8264f"><img src="assets/can-pomegranate.png" data-en="assets/can-pomegranate.png" data-ar="assets/can-pomegranate-ar.png" alt="Kinza Pomegranate can" loading="lazy" /></div>
+        <div class="more__slide" data-key="f_soda" data-color="#2a8fc4"><img src="assets/can-soda.png" data-en="assets/can-soda.png" data-ar="assets/can-soda-ar.png" alt="Kinza Soda Water can" loading="lazy" /></div>
+        <div class="more__slide" data-key="f_cocktail" data-color="#d9a21b"><img src="assets/can-cocktail.png" data-en="assets/can-cocktail.png" data-ar="assets/can-cocktail-ar.png" alt="Kinza Saudi Cocktail can" loading="lazy" /></div>
+      </div>
+      <div class="more__nav">
+        <button type="button" id="morePrev" aria-label="Previous flavor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" id="moreNext" aria-label="Next flavor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <strong class="caps" id="moreName" data-i18n="f_lemonzero">Lemon Zero</strong>
+      <div class="more__dots" id="moreDots"></div>
+      <span class="more__hint caps" data-i18n="more_hint">Swipe for more</span>
     </div>
   </div>
 
   <div class="links-cue">
-    <p>All our links, right below
-      <span class="ar" lang="ar" dir="rtl">كل روابطنا بالأسفل</span>
-    </p>
+    <p data-i18n="cue">All our links, right below</p>
     <a class="links-cue__btn" href="#links" aria-label="Jump to our links">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 13l7 7 7-7"/></svg>
     </a>
@@ -577,75 +687,92 @@
 </section>
 
 <svg class="wave" viewBox="0 0 1920 110" fill="none" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M0 70 C 180 110, 340 20, 560 45 C 780 70, 900 105, 1150 78 C 1400 51, 1520 15, 1720 40 C 1840 55, 1900 68, 1920 72 L1920 110 L0 110 Z" fill="#0b277a"/>
+  <path d="M0 70 C 180 110, 340 20, 560 45 C 780 70, 900 105, 1150 78 C 1400 51, 1520 15, 1720 40 C 1840 55, 1900 68, 1920 72 L1920 110 L0 110 Z" fill="#314da0"/>
 </svg>
+
+<section class="story" id="story">
+  <div class="story__inner">
+    <span class="tag caps" data-i18n="story_tag">Not a foreign label bottled locally</span>
+    <h2 class="display"><span data-i18n="story_h1">Designed in Saudi.</span> <span data-i18n="story_h2">Born in Saudi.</span> <em data-i18n="story_h3">Made in Saudi.</em></h2>
+    <p><span class="wm wm--paper"></span> <span data-i18n="story_p">started as a Saudi idea, not a licence. Every flavor is created, mixed and canned in the Kingdom, then shipped to more than 70 countries. The fastest growing Saudi beverage brand in the world, and still growing.</span></p>
+    <div class="facts">
+      <div class="fact"><b class="display" data-i18n="fact1_n">100%</b><span data-i18n="fact1_t">Saudi designed, Saudi owned, Saudi made</span></div>
+      <div class="fact"><b class="display" data-i18n="fact2_n">70+</b><span data-i18n="fact2_t">countries pouring it, and growing</span></div>
+      <div class="fact"><b class="display" data-i18n="fact3_n">10</b><span data-i18n="fact3_t">flavors, one for every taste</span></div>
+    </div>
+    <div class="story__cta">
+      <a class="btn btn--pink" href="https://www.kinzabev.com" target="_blank" rel="noopener"><span data-i18n="cta_shop">Shop online</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--ghost" href="https://kinza.jotform.com/team/kinza-partner/kinza" target="_blank" rel="noopener"><span data-i18n="cta_partner">Become a partner</span></a>
+    </div>
+  </div>
+</section>
 
 <section class="links" id="links">
   <div class="links__head">
-    <span class="tag">Kinza — كينزا</span>
-    <h1>Find us <em>everywhere</em></h1>
-    <span class="ar" lang="ar" dir="rtl">العلامة التجارية الأسرع نمواً في الشرق الأوسط</span>
+    <span class="wm wm--paper"></span>
+    <h1 class="display"><span data-i18n="links_h1">Find us</span> <em data-i18n="links_h2">everywhere</em></h1>
+    <p data-i18n="links_sub">The fastest growing Saudi beverage brand in the world</p>
   </div>
 
   <nav class="links__grid" aria-label="Kinza links">
 
     <a class="link-card" href="https://kinza.discoveraseer.com/?source=qr" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.7 3.8 9S14.6 18.4 12 21M12 3c-2.6 2.6-3.8 5.7-3.8 9S9.4 18.4 12 21"/></svg></span>
-      <span class="link-card__text"><strong>Discover Aseer</strong><span class="ar" lang="ar" dir="rtl">اكتشف عسير</span></span>
+      <span class="link-card__text"><strong data-i18n="l1">Discover Aseer</strong><small data-i18n="l1s">Where the brand comes from</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://kinza.jotform.com/team/kinza-partner/kinza" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8" r="3.2"/><circle cx="16" cy="9.5" r="2.6"/><path d="M3 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M14.5 14.4c2.3.2 4.1 1.8 4.5 4.6"/></svg></span>
-      <span class="link-card__text"><strong>Become a Kinza Partner</strong><span class="ar" lang="ar" dir="rtl">كن شريك كينزا</span></span>
+      <span class="link-card__text"><strong><span data-i18n="l2a">Become a</span> <span class="wm wm--paper"></span> <span data-i18n="l2b">partner</span></strong><small data-i18n="l2s">Distributors and retailers</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://kinza.jotform.com/form/join-kinza-team" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13h18"/></svg></span>
-      <span class="link-card__text"><strong>Join the Kinza Team</strong><span class="ar" lang="ar" dir="rtl">انضم لفريق كينزا</span></span>
+      <span class="link-card__text"><strong><span data-i18n="l3a">Join the</span> <span class="wm wm--paper"></span> <span data-i18n="l3b">team</span></strong><small data-i18n="l3s">Careers in Saudi Arabia</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.kinzabev.com" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h2l2.2 11h9.6L20 8H7"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="16.5" cy="19.5" r="1.4"/></svg></span>
-      <span class="link-card__text"><strong>Online Store</strong><span class="ar" lang="ar" dir="rtl">المتجر الإلكتروني</span></span>
+      <span class="link-card__text"><strong data-i18n="l4">Online store</strong><small data-i18n="l4s">Every flavor, delivered</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.instagram.com/kinzabev" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></span>
-      <span class="link-card__text"><strong>Kinza Moments — Instagram</strong><span class="ar" lang="ar" dir="rtl">شاركنا أجمل اللحظات</span></span>
+      <span class="link-card__text"><strong><span data-i18n="l5a"></span> <span class="wm wm--paper"></span> <span data-i18n="l5b">moments on Instagram</span></strong><small data-i18n="l5s">Share yours with us</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.tiktok.com/@kinzabev" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 8.6a5.8 5.8 0 0 1-3.6-1.3v6.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3a2.5 2.5 0 1 0 1.7 2.4V2.5h2.9a4.7 4.7 0 0 0 3.6 3.4v2.7z"/></svg></span>
-      <span class="link-card__text"><strong>Sip the Vibe — TikTok</strong><span class="ar" lang="ar" dir="rtl">استمتع مع كينزا</span></span>
+      <span class="link-card__text"><strong data-i18n="l6">Sip the vibe on TikTok</strong><small data-i18n="l6s">@kinzabev</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.snapchat.com/add/kinzabev" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 40 40" fill="currentColor"><path d="M29.8 25.6c-2.9-.5-4.2-3.5-4.2-3.6-.2-.4-.2-.7-.1-.9.2-.5.8-.7 1.3-.8.1 0 .2-.1.3-.1.7-.3.9-.6.9-.8 0-.2-.2-.4-.5-.5-.1 0-.2-.1-.3-.1-.1 0-.2 0-.3.1-.4.2-.7.3-1 .3-.4 0-.5-.2-.6-.2 0-.2 0-.4 0-.6v-.1c.1-1.4.2-3.1-.2-4.1-1.3-2.9-4-3.2-4.9-3.2h-.4c-.8 0-3.6.2-4.9 3.2-.4 1-.3 2.7-.2 4.1 0 .2 0 .4 0 .6 0 0-.2.2-.6.2-.3 0-.6-.1-1-.3-.1 0-.1 0-.2 0-.3 0-.7.2-.8.5 0 .2 0 .5.9.9.1 0 .2.1.3.1.4.1 1.1.3 1.3.8.1.3.1.6-.1.9 0 0-1.3 3.1-4.2 3.6-.1 0-.2.1-.2.2v.1c.1.3.7.7 2.5 1 .2 0 .2.3.3.7 0 .2.1.3.1.5.1.2.2.2.3.2.1 0 .3 0 .4-.1.3-.1.7-.1 1.1-.1.3 0 .5 0 .8.1.6.1 1 .4 1.6.8.7.5 1.5 1.1 2.7 1.1h.3c1.2 0 1.9-.5 2.7-1.1.5-.4 1-.7 1.5-.8.3 0 .6-.1.8-.1.5 0 .8.1 1.1.1.2 0 .3.1.4.1.1 0 .2-.1.3-.2 0-.2.1-.3.1-.5.1-.4.2-.6.3-.7 1.9-.3 2.4-.7 2.5-1v-.1c0-.1-.1-.2-.2-.2z"/></svg></span>
-      <span class="link-card__text"><strong>Snap the Sip — Snapchat</strong><span class="ar" lang="ar" dir="rtl">التقط اللحظة</span></span>
+      <span class="link-card__text"><strong data-i18n="l7">Snap the sip on Snapchat</strong><small data-i18n="l7s">@kinzabev</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.youtube.com/@kinzabev" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.3l5 2.7-5 2.7z" fill="currentColor" stroke="none"/></svg></span>
-      <span class="link-card__text"><strong>Watch. Sip. Enjoy — YouTube</strong><span class="ar" lang="ar" dir="rtl">عش التجربة</span></span>
+      <span class="link-card__text"><strong data-i18n="l8">Watch. Sip. Enjoy on YouTube</strong><small data-i18n="l8s">@kinzabev</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.twitter.com/kinzabev" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.2l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20z"/></svg></span>
-      <span class="link-card__text"><strong>Tweet the Taste — X</strong><span class="ar" lang="ar" dir="rtl">غرد مع كينزا</span></span>
+      <span class="link-card__text"><strong data-i18n="l9">Tweet the taste on X</strong><small data-i18n="l9s">@kinzabev</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
     <a class="link-card" href="https://www.facebook.com/KinzaBev/" target="_blank" rel="noopener">
       <span class="link-card__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.6c-.3-.04-1.3-.13-2.4-.13-2.4 0-4 1.45-4 4.1v2.3H7.6V14h2.7v8z"/></svg></span>
-      <span class="link-card__text"><strong>Join Kinza World — Facebook</strong><span class="ar" lang="ar" dir="rtl">انضم لعالم كينزا</span></span>
+      <span class="link-card__text"><strong><span data-i18n="l10a">Join</span> <span class="wm wm--paper"></span> <span data-i18n="l10b">world on Facebook</span></strong><small data-i18n="l10s">KinzaBev</small></span>
       <svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
 
@@ -657,22 +784,102 @@
 </svg>
 
 <section class="marquee-zone" aria-hidden="true">
-  <div class="marquee">
-    <div class="marquee__inner" id="mq1"></div>
-  </div>
-  <div class="marquee marquee--reverse">
-    <div class="marquee__inner" id="mq2"></div>
-  </div>
+  <div class="marquee"><div class="marquee__inner" id="mq1"></div></div>
+  <div class="marquee marquee--reverse"><div class="marquee__inner" id="mq2"></div></div>
 </section>
 
 <footer class="footer">
-  <p>The fastest-growing beverage brand in the Middle East
-    <span class="ar" lang="ar" dir="rtl">شاركنا تجربتك مع العلامة التجارية الأسرع نمواً في الشرق الأوسط</span>
-  </p>
+  <span class="wm"></span>
+  <p data-i18n="foot">The fastest growing Saudi beverage brand in the world. Designed, born and made in Saudi Arabia.</p>
   <small>© 2026 Kinza — كينزا</small>
 </footer>
 
 <script>
+  // ===== copy in both languages; the site switches in place, no redirect =====
+  const T = {
+    lang:        { en: 'العربية', ar: 'English' },
+    chip_made:   { en: 'Saudi made', ar: 'صنع في السعودية' },
+    hero_sub:    { en: 'Cola', ar: 'كولا' },
+    tag_k:       { en: '100% Saudi', ar: 'سعودية 100%' },
+    hero_tag:    { en: 'Designed, born and made in Saudi Arabia. Poured in more than 70 countries.', ar: 'صُمّمت ووُلدت وصُنعت في السعودية. تُشرب في أكثر من 70 دولة.' },
+    badge_ring:  { en: 'Fastest growing Saudi brand • 70+ countries • ', ar: 'أسرع علامة سعودية نمواً • أكثر من 70 دولة • ' },
+    badge_num:   { en: '70+', ar: '+70' },
+    badge_sub:   { en: 'countries', ar: 'دولة' },
+    scroll:      { en: 'Scroll', ar: 'مرّر' },
+    lineup_tag:  { en: 'Find your flavor', ar: 'اختر نكهتك' },
+    lineup_h1:   { en: 'A taste profile for', ar: 'نكهة تناسب' },
+    lineup_h2:   { en: 'everyone', ar: 'الكل' },
+    lineup_sub:  { en: 'Ten flavors. One Saudi brand.', ar: 'عشر نكهات. علامة سعودية واحدة.' },
+    f_cola:      { en: 'Cola', ar: 'كولا' },
+    f_diet:      { en: 'Diet Cola', ar: 'دايت كولا' },
+    f_lemon:     { en: 'Lemon', ar: 'ليمون' },
+    f_orange:    { en: 'Orange', ar: 'برتقال' },
+    f_citrus:    { en: 'Citrus', ar: 'حمضيات' },
+    f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
+    f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' },
+    f_pomegranate:  { en: 'Pomegranate', ar: 'رمان' },
+    f_soda:      { en: 'Soda Water', ar: 'مياه غازية' },
+    f_cocktail:  { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    more_hint:   { en: 'Swipe for more', ar: 'اسحب للمزيد' },
+    cue:         { en: 'All our links, right below', ar: 'كل روابطنا بالأسفل' },
+    story_tag:   { en: 'Not a foreign label bottled locally', ar: 'ليست علامة أجنبية تُعبّأ محلياً' },
+    story_h1:    { en: 'Designed in Saudi.', ar: 'صُمّمت في السعودية.' },
+    story_h2:    { en: 'Born in Saudi.', ar: 'وُلدت في السعودية.' },
+    story_h3:    { en: 'Made in Saudi.', ar: 'صُنعت في السعودية.' },
+    story_p:     { en: 'started as a Saudi idea, not a licence. Every flavor is created, mixed and canned in the Kingdom, then shipped to more than 70 countries. The fastest growing Saudi beverage brand in the world, and still growing.', ar: 'بدأت كفكرة سعودية، لا كرخصة. كل نكهة تُبتكر وتُمزج وتُعبّأ في المملكة، ثم تُصدَّر إلى أكثر من 70 دولة. أسرع علامة مشروبات سعودية نمواً في العالم، وما زالت تنمو.' },
+    fact1_n:     { en: '100%', ar: '100%' },
+    fact1_t:     { en: 'Saudi designed, Saudi owned, Saudi made', ar: 'سعودية تصميماً وملكيةً وصناعة' },
+    fact2_n:     { en: '70+', ar: '+70' },
+    fact2_t:     { en: 'countries pouring it, and growing', ar: 'دولة تشربها، والعدد في ازدياد' },
+    fact3_n:     { en: '10', ar: '10' },
+    fact3_t:     { en: 'flavors, one for every taste', ar: 'نكهات، لكل ذوق نكهة' },
+    cta_shop:    { en: 'Shop online', ar: 'تسوّق أونلاين' },
+    cta_partner: { en: 'Become a partner', ar: 'كن شريكاً' },
+    links_h1:    { en: 'Find us', ar: 'تجدنا' },
+    links_h2:    { en: 'everywhere', ar: 'في كل مكان' },
+    links_sub:   { en: 'The fastest growing Saudi beverage brand in the world', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات' },
+    l1:  { en: 'Discover Aseer', ar: 'اكتشف عسير' },            l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
+    l2a: { en: 'Become a', ar: 'كن شريك' },                    l2b: { en: 'partner', ar: '' },
+    l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
+    l3a: { en: 'Join the', ar: 'انضم لفريق' },                 l3b: { en: 'team', ar: '' },
+    l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
+    l4:  { en: 'Online store', ar: 'المتجر الإلكتروني' },       l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
+    l5a: { en: '', ar: 'لحظات' },                              l5b: { en: 'moments on Instagram', ar: 'على إنستغرام' },
+    l5s: { en: 'Share yours with us', ar: 'شاركنا لحظاتك' },
+    l6:  { en: 'Sip the vibe on TikTok', ar: 'عيش الأجواء على تيك توك' },   l6s: { en: '@kinzabev', ar: '@kinzabev' },
+    l7:  { en: 'Snap the sip on Snapchat', ar: 'التقط اللحظة على سناب شات' }, l7s: { en: '@kinzabev', ar: '@kinzabev' },
+    l8:  { en: 'Watch. Sip. Enjoy on YouTube', ar: 'شاهد واستمتع على يوتيوب' }, l8s: { en: '@kinzabev', ar: '@kinzabev' },
+    l9:  { en: 'Tweet the taste on X', ar: 'غرّد بالطعم على X' },          l9s: { en: '@kinzabev', ar: '@kinzabev' },
+    l10a: { en: 'Join', ar: 'انضم لعالم' },                    l10b: { en: 'world on Facebook', ar: 'على فيسبوك' },
+    l10s: { en: 'KinzaBev', ar: 'KinzaBev' },
+    foot: { en: 'The fastest growing Saudi beverage brand in the world. Designed, born and made in Saudi Arabia.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات. صُمّمت ووُلدت وصُنعت في السعودية.' }
+  };
+  let lang = 'en';
+  function applyLang(next) {
+    lang = next;
+    const html = document.documentElement;
+    html.lang = lang;
+    html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const t = T[el.dataset.i18n];
+      if (t) el.textContent = t[lang];
+    });
+    document.querySelectorAll('img[data-en]').forEach(img => {
+      const src = img.dataset[lang];
+      if (src && img.getAttribute('src') !== src) img.src = src;
+    });
+    document.title = lang === 'ar' ? 'كينزا — Kinza | كولا سعودية في أكثر من 70 دولة' : 'Kinza — كينزا | Saudi Cola, 70+ countries';
+    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+  }
+  (function () {
+    const q = new URLSearchParams(location.search).get('lang');
+    let saved = null;
+    try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
+    const start = q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en');
+    if (start !== 'en') applyLang(start);
+    document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
+  })();
+
   // starburst rays echoing the can artwork
   (function () {
     const g = document.getElementById('rays');
@@ -690,250 +897,32 @@
 
   // marquee content (duplicated once so translateX(-50%) loops seamlessly)
   (function () {
-    const seg1 = '<span>Sugar&nbsp;Free</span><img src="assets/kinza-can-small.png" alt=""><span>Diet&nbsp;Cola</span><img src="assets/kinza-can-small-ar.png" alt="">';
-    const seg2 = '<span lang="ar">كينزا</span><img src="assets/kinza-can-small-ar.png" alt=""><span lang="ar">بدون&nbsp;سكر</span><img src="assets/kinza-can-small.png" alt="">';
+    const can = '<img src="assets/can-cola-small.png" data-en="assets/can-cola-small.png" data-ar="assets/can-cola-small-ar.png" alt="">';
+    const seg1 = '<span>Made&nbsp;in&nbsp;Saudi</span>' + can + '<span class="wm"></span>' + can + '<span>70+&nbsp;countries</span>' + can;
+    const seg2 = '<span lang="ar">صنع في السعودية</span>' + can + '<span lang="ar">كينزا</span>' + can + '<span lang="ar">أكثر من 70 دولة</span>' + can;
     document.getElementById('mq1').innerHTML = seg1.repeat(4);
     document.getElementById('mq2').innerHTML = seg2.repeat(4);
+    if (lang === 'ar') applyLang('ar'); // swap the freshly added can images too
   })();
 
-  // ===== spinning cans =====
-  // Each .spin holds two renders of the same can (English face, Arabic face).
-  // A tiny WebGL shader treats the can body as a cylinder: for every pixel it
-  // works out which angle of the can is facing the viewer and samples the
-  // right face at the right column, so the label wraps around a fixed
-  // silhouette instead of the whole picture flipping like a card.
-  const CanSpin = (function () {
-    // per render pose, in image units (0..1): g = [centre x, centre slope, radius, radius slope];
-    // lid / foot = [row at the sides, extra rows at the centre] describing the elliptical rim edges
-    const GEOM = {
-      diet:      { g: [0.5128, -0.0002, 0.4090, -0.0117], lid: [0.100, 0.026], foot: [0.885, 0.055] },
-      lemonzero: { g: [0.5128, -0.0001, 0.4085, -0.0118], lid: [0.100, 0.026], foot: [0.885, 0.055] },
-      straight:  { g: [0.4967,  0.0020, 0.4428,  0.0020], lid: [0.170, 0.016], foot: [0.785, 0.015] }
-    };
-    const VS = 'attribute vec2 p;varying vec2 v;void main(){v=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
-    const FS = [
-      'precision mediump float;varying vec2 v;uniform sampler2D A,B;uniform float th;uniform vec4 g;uniform vec2 lid,foot;',
-      'const float PI=3.14159265;',
-      'void main(){',
-      '  vec4 a0=texture2D(A,v);',
-      '  float cx=g.x+g.y*(v.y-.5);float R=g.z+g.w*(v.y-.5);',
-      '  float x=(v.x-cx)/R;',
-      '  vec3 rgb=a0.rgb;',
-      '  float e=sqrt(max(0.,1.-x*x));',
-      '  float top=lid.x+lid.y*e;float bot=foot.x+foot.y*e;',
-      '  float body=step(abs(x),.999)*smoothstep(top-.004,top+.004,v.y)*(1.-smoothstep(bot-.004,bot+.004,v.y));',
-      '  if(body>0.){',
-      '    float ps=asin(clamp(x,-1.,1.))-th;',
-      '    ps=mod(ps+PI,2.*PI)-PI;',
-      '    float wA=1.-smoothstep(PI*.5-.14,PI*.5+.14,abs(ps));',
-      '    float psA=clamp(ps,-PI*.5,PI*.5);',
-      '    float psB=ps>0.?ps-PI:ps+PI;',
-      '    float k=.955;',
-      '    vec4 ca=texture2D(A,vec2(cx+R*sin(psA)*k,v.y));',
-      '    vec4 cb=texture2D(B,vec2(cx+R*sin(psB)*k,v.y));',
-      '    vec4 c=mix(cb,ca,wA);',
-      '    float shade=1.-.32*pow(abs(x),2.4);',            // fixed light: edges fall off
-      '    float spec=.11*exp(-pow((x+.42)/.2,2.));',        // fixed highlight on the left
-      '    c.rgb=c.rgb*shade+spec;',
-      '    rgb=mix(rgb,c.rgb,body*smoothstep(.9,.995,c.a));', // off-can samples (neck, shoulder, shadow fringe) keep the static pixel
-      '  }',
-      '  gl_FragColor=vec4(rgb*a0.a,a0.a);',
-      '}'
-    ].join('\n');
-
-    const all = [];
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function shader(gl, type, src) {
-      const sh = gl.createShader(type);
-      gl.shaderSource(sh, src); gl.compileShader(sh);
-      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh));
-      return sh;
-    }
-    function loadImg(src) {
-      return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
-    }
-    function texture(gl, img, gl2) {
-      const t = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, t);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      if (gl2) { gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); }
-      else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      return t;
-    }
-
-    function create(el, opts) {
-      const canvas = el.querySelector('canvas');
-      const geom = GEOM[el.dataset.geom] || GEOM.straight;
-      const s = {
-        el, theta: 0, raw: 0, limit: opts.limit || 0.5, idleAmp: opts.idleAmp || 0, idleSpeed: opts.idleSpeed || 0.5,
-        phase: opts.phase || 0, steer: 0, hoverSteer: 0, dragging: false, ready: false, visible: true, draw: null, resize: null
-      };
-      // past the limit the drag turns to rubber: a quarter of the extra travel
-      const soft = t => Math.abs(t) <= s.limit ? t : Math.sign(t) * (s.limit + (Math.abs(t) - s.limit) * 0.25);
-
-      // drag to turn; letting go springs the can back toward its resting angle
-      let lastX = 0, moved = 0;
-      el.addEventListener('pointerdown', e => {
-        if (e.pointerType === 'mouse' && e.button !== 0) return;
-        s.dragging = true; el.classList.add('is-dragging');
-        s.raw = s.theta; lastX = e.clientX; moved = 0;
-        try { el.setPointerCapture(e.pointerId); } catch (_) {}
-        e.preventDefault();
-      });
-      el.addEventListener('pointermove', e => {
-        if (s.dragging) {
-          const dx = e.clientX - lastX;
-          s.raw += dx / Math.max(40, el.clientWidth) * Math.PI * 0.9;
-          s.theta = soft(s.raw);
-          moved += Math.abs(dx);
-          lastX = e.clientX;
-        } else if (opts.hoverSteer !== false && e.pointerType === 'mouse') {
-          // the can turns toward the cursor while it hovers over the card
-          const r = el.getBoundingClientRect();
-          s.hoverSteer = ((e.clientX - r.left) / Math.max(1, r.width) - 0.5) * 2 * s.limit * 0.8;
-        }
-      });
-      const end = () => {
-        if (!s.dragging) return;
-        s.dragging = false; el.classList.remove('is-dragging');
-        if (moved > 8 && opts.onDrag) opts.onDrag();
-      };
-      el.addEventListener('pointerup', end);
-      el.addEventListener('pointercancel', end);
-      el.addEventListener('lostpointercapture', end);
-      el.addEventListener('pointerleave', () => { s.hoverSteer = 0; });
-
-      let clock = 0;
-      s.tick = function (dt) {
-        clock += dt;
-        if (!s.dragging) {
-          const idle = Math.sin(clock * s.idleSpeed + s.phase) * s.idleAmp;
-          const target = Math.max(-s.limit, Math.min(s.limit, s.steer + s.hoverSteer + idle));
-          s.theta += (target - s.theta) * (1 - Math.pow(0.03, dt));
-        }
-        if (s.resize && !opts.manualSize && s.visible) {
-          const w = el.clientWidth, h = el.clientHeight;
-          if (w && h && (w !== s._w || h !== s._h)) { s._w = w; s._h = h; s.resize(w, h); }
-        }
-        if (s.ready && s.visible) s.draw();
-      };
-
-      if (reduced) return s;
-      const gl2 = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false });
-      const gl = gl2 || canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false });
-      if (!gl) return s;
-      s.resize = (w, h) => {
-        const dpr = Math.min(2, window.devicePixelRatio || 1);
-        const W = Math.max(2, Math.round(w * dpr)), H = Math.max(2, Math.round(h * dpr));
-        if (canvas.width === W && canvas.height === H) return;
-        canvas.width = W; canvas.height = H;
-        gl.viewport(0, 0, W, H);
-        if (s.ready) s.draw();
-      };
-      canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); s.ready = false; el.classList.remove('is-gl'); });
-
-      Promise.all([loadImg(el.dataset.a), loadImg(el.dataset.b)]).then(([ia, ib]) => {
-        const prog = gl.createProgram();
-        gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
-        gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, FS));
-        gl.linkProgram(prog);
-        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-        gl.useProgram(prog);
-        const buf = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(prog, 'p');
-        gl.enableVertexAttribArray(loc);
-        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        gl.activeTexture(gl.TEXTURE0); texture(gl, ia, !!gl2);
-        gl.activeTexture(gl.TEXTURE1); texture(gl, ib, !!gl2);
-        gl.uniform1i(gl.getUniformLocation(prog, 'A'), 0);
-        gl.uniform1i(gl.getUniformLocation(prog, 'B'), 1);
-        gl.uniform4fv(gl.getUniformLocation(prog, 'g'), geom.g);
-        gl.uniform2fv(gl.getUniformLocation(prog, 'lid'), geom.lid);
-        gl.uniform2fv(gl.getUniformLocation(prog, 'foot'), geom.foot);
-        const uTh = gl.getUniformLocation(prog, 'th');
-        gl.clearColor(0, 0, 0, 0);
-        s.draw = () => { gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform1f(uTh, s.theta); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        s.ready = true;
-        s.draw();
-        el.classList.add('is-gl');
-      }).catch(() => { /* keep the static image */ });
-
-      all.push(s);
-      return s;
-    }
-
-    // one clock for every can
-    let last = performance.now();
-    (function loop(now) {
-      const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
-      last = now;
-      for (let i = 0; i < all.length; i++) all[i].tick(dt);
-      requestAnimationFrame(loop);
-    })(last);
-
-    return { create, reduced, all };
-  })();
-  window.__spins = CanSpin.all;
-
-  // lineup cans: gentle sway, turn toward the cursor on hover, draggable within a limited arc
-  (function () {
-    const els = document.querySelectorAll('.spin:not([data-hero])');
-    const spinners = new Map();
-    els.forEach((el, i) => {
-      const s = CanSpin.create(el, { limit: 0.42, idleAmp: 0.16, idleSpeed: 0.7, phase: i * 1.1 });
-      spinners.set(el, s);
-    });
-    if (CanSpin.reduced) return;
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(en => { const s = spinners.get(en.target); if (s) s.visible = en.isIntersecting; });
-    }, { rootMargin: '80px' });
-    els.forEach(el => io.observe(el));
-  })();
-
-  // hero can: steered by the cursor, draggable, rides the scroll and parks in its lineup slot
+  // scroll-dock: the hero can rides the scroll and parks in its lineup slot
   (function () {
     const flyer = document.getElementById('canFlyer');
-    const spinEl = flyer.querySelector('.spin');
     const img = flyer.querySelector('img');
     const home = document.getElementById('canHome');
     const slot = document.getElementById('dockSlot');
     const lineup = document.getElementById('lineup');
-    const hint = document.getElementById('spinHint');
 
-    if (CanSpin.reduced) {
-      // no flight, no spin: park a copy in the slot, keep the original in the hero
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // no flight: park a copy in the slot, keep the original in the hero
       flyer.className = 'hero__can-home';
       flyer.style.cssText = 'position:absolute;z-index:3;transform:rotate(-3deg);';
       home.appendChild(flyer);
       const still = img.cloneNode();
       still.style.height = '100%';
       slot.appendChild(still);
-      hint.remove();
       return;
     }
-
-    const spin = CanSpin.create(spinEl, {
-      limit: 0.55, idleAmp: 0.1, idleSpeed: 0.45, manualSize: true, hoverSteer: false,
-      onDrag: () => hint.classList.add('is-done')
-    });
-    setTimeout(() => hint.classList.add('is-done'), 14000);
-    let fitted = 0; // canvas resolution follows the resting (largest) size, CSS scales it down in flight
-
-    // cursor position over the page, smoothed each frame
-    let px = 0.5, py = 0.5, spx = 0.5, spy = 0.5, pointerIn = false;
-    addEventListener('pointermove', e => {
-      if (e.pointerType !== 'mouse') return;
-      px = e.clientX / innerWidth; py = e.clientY / innerHeight; pointerIn = true;
-    });
-    document.addEventListener('pointerleave', () => { pointerIn = false; });
-    document.addEventListener('mouseleave', () => { pointerIn = false; });
 
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const REST_TILT = -3; // deg, matches the .can-flyer CSS resting tilt
@@ -946,7 +935,6 @@
       lastT = now;
       const a = home.getBoundingClientRect();
       const b = slot.getBoundingClientRect();
-      if (spin.resize && a.height > 1 && Math.abs(a.height - fitted) > 1) { fitted = a.height; spin.resize(a.width, a.height); }
       const target = progress();
       // the can lags the scroll, then snaps flush once it's close
       cur += (target - cur) * (1 - Math.pow(0.86, dt));
@@ -959,33 +947,65 @@
       const lean = Math.max(-9, Math.min(9, vel * 0.18));
       // idle float, 5s cycle; amplitude melts away as the flight starts
       const w = (1 - Math.cos(now / 795)) / 2 * rest * rest;
-
-      // cursor: the can leans toward it and turns to face it
-      const tgx = pointerIn ? px : 0.5, tgy = pointerIn ? py : 0.5;
-      spx += (tgx - spx) * (1 - Math.pow(0.9, dt));
-      spy += (tgy - spy) * (1 - Math.pow(0.9, dt));
-      const ox = (spx - 0.5) * 2, oy = (spy - 0.5) * 2; // -1..1
-      spin.steer = pointerIn ? ox * spin.limit * rest : 0;
-
       flyer.style.left = a.left + (b.left - a.left) * p + 'px';
       flyer.style.top = a.top + (b.top - a.top) * p + 'px';
       flyer.style.height = a.height + (b.height - a.height) * p + 'px';
-      flyer.style.transform =
-        'perspective(1400px) translate(' + (ox * 14 * rest).toFixed(2) + 'px,' + (w * -22 + oy * 8 * rest).toFixed(2) + 'px)' +
-        ' rotateX(' + (-oy * 6 * rest).toFixed(2) + 'deg) rotateY(' + (ox * 8 * rest).toFixed(2) + 'deg)' +
-        ' rotate(' + ((REST_TILT + lean) * rest + w * 1.2).toFixed(3) + 'deg)';
+      flyer.style.transform = 'translateY(' + (w * -22).toFixed(2) + 'px) rotate(' + ((REST_TILT + lean) * rest + w * 1.2).toFixed(3) + 'deg)';
       flyer.classList.toggle('is-resting', p < 0.02);
-      // only draw when the can is actually on screen
-      const top = parseFloat(flyer.style.top), h = parseFloat(flyer.style.height);
-      spin.visible = top < innerHeight + 40 && top + h > -40;
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   })();
 
-  // staggered reveal for link and product cards
+  // the sixth card: swipe, arrows, dots, auto-advance until someone touches it
   (function () {
-    const cards = document.querySelectorAll('.link-card, .product-card');
+    const card = document.getElementById('moreCard');
+    const track = document.getElementById('moreTrack');
+    const slides = [...track.children];
+    const name = document.getElementById('moreName');
+    const dots = document.getElementById('moreDots');
+    dots.innerHTML = slides.map(() => '<span></span>').join('');
+    const dotEls = [...dots.children];
+    let active = 0, timer = null, userTouched = false;
+    function setActive(i) {
+      active = i;
+      const s = slides[i];
+      card.style.background = s.dataset.color;
+      name.dataset.i18n = s.dataset.key;
+      name.textContent = T[s.dataset.key][lang];
+      dotEls.forEach((d, j) => d.classList.toggle('is-on', j === i));
+    }
+    function go(i, smooth) {
+      i = (i + slides.length) % slides.length;
+      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: smooth === false ? 'auto' : 'smooth' });
+      setActive(i);
+    }
+    let raf;
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const i = Math.round(Math.abs(track.scrollLeft) / track.clientWidth);
+        if (i !== active && slides[i]) setActive(i);
+      });
+    }, { passive: true });
+    const stop = () => { userTouched = true; clearInterval(timer); };
+    track.addEventListener('pointerdown', stop, { passive: true });
+    track.addEventListener('touchstart', stop, { passive: true });
+    document.getElementById('morePrev').addEventListener('click', () => { stop(); go(active - 1); });
+    document.getElementById('moreNext').addEventListener('click', () => { stop(); go(active + 1); });
+    setActive(0);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const io = new IntersectionObserver(en => {
+        if (en[0].isIntersecting && !userTouched && !timer) timer = setInterval(() => go(active + 1), 3200);
+        else if (!en[0].isIntersecting) { clearInterval(timer); timer = null; }
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+  })();
+
+  // staggered reveal for cards and facts
+  (function () {
+    const cards = document.querySelectorAll('.link-card, .product-card, .fact');
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
