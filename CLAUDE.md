@@ -14,9 +14,9 @@ Three versions of the same content sit side by side so the client can pick one.
 
 - `index.html` is version 1. The whole page lives in that one file, styles and script included.
 - `v2/index.html` is version 2, built the same way, reading its images from `../assets/`.
-- `v3/index.html` is version 3, built from the client's Keynote brief (`~/Downloads/KINZA landing-page.key`): a can that
-  spins through all ten flavors with the background changing colour, fifteen kinetic statement tiles, two image rails
-  sliding opposite ways where a tap flips a picture into its flavor pattern, and the vertical reel.
+- `v3/index.html` is version 3, built from the client's Keynote brief (`~/Downloads/KINZA landing-page.key`) and then
+  reworked to Adib's feedback: split hero (copy left, spinning can right), full-bleed statement bands in the Poppi
+  style, two image rails where a tap flips a picture into its flavor pattern, the vertical reel, Saudi Made, links.
 - `assets/` holds the ten can renders as `can-<flavor>.png` with an `-ar.png` Arabic face for each, the two slim
   250 ml renders, the logo files, the Saudi Made mark, `assets/life/` for the Instagram stills, three client
   Instagram posters (`Instagram Kinzabev*.jpg`) and the vertical reel `Kinzabev Video.mp4` (used by version 3).
@@ -25,11 +25,14 @@ Three versions of the same content sit side by side so the client can pick one.
 ## Brand rules
 
 - The only colours are blue `#314da0`, navy `#0b277a`, pink `#e8235a` and paper `#e9e7dc`. Two exceptions: the flavor
-  rail in version 2, where each panel takes its own can's colour, and all of version 3, which the client's own deck
-  built on the full can palette (their Pantone sheet: cola, diet, lemon, orange, citrus, blackcurrant, pomegranate,
-  soda, cocktail plus a yellow). The palette lives in the `FL` and `TILES` arrays at the top of the v3 script.
+  rail in version 2, where each panel takes its own can's colour, and the version 3 hero, which cycles the can palette
+  from the client's Pantone sheet (the `FL` array at the top of the v3 script) plus the flavor patterns on the flipped
+  rail cards. Everything else in v3 is blue, navy and paper, and every heading is paper. Adib's rule after the first
+  v3 round: one heading colour, no accent words, no colour blocks.
 - The brand name is never typed as text. The `.wm` class paints the logo image instead. In version 3 `.wm` is a CSS
   mask filled with `currentColor`, so the wordmark takes any colour.
+- Headings: Anton, uppercase, `letter-spacing: .02em`, `line-height: 1.02` (Arabic: Cairo 900, line-height 1.28). Adib
+  flagged tighter settings as broken, keep these.
 - Cans animate on their own. No cursor interaction on them until a real 3D model exists, and no parallax on text.
 - Fonts are Anton for display, Outfit for interface, Cairo for Arabic.
 - One heading system per page. Version 1 uses `.sec-head`, versions 2 and 3 use `.eyebrow` above an `h2`.
@@ -58,3 +61,5 @@ The dev server config is `.claude/launch.json`, entry `kinza-static`, python htt
   and claim nothing beyond it.
 - The Instagram stills in `assets/life/` are 640 pixels wide, the largest the public profile serves. Ask the client for
   the originals before this goes anywhere real.
+- The v3 full-bleed bands use the three Instagram posters and the reel poster as placeholders. Asked the client for
+  four to six landscape lifestyle photos, 2400 px wide or more, with a can in frame, one per statement.
