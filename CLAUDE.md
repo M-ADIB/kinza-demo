@@ -7,7 +7,8 @@ Three versions of the same content sit side by side so the client can pick one.
 
 - Version 1, classic: https://m-adib.github.io/kinza-demo/
 - Version 2, lifestyle: https://m-adib.github.io/kinza-demo/v2/
-- Version 3, motion: https://m-adib.github.io/kinza-demo/v3/
+- Version 3, copy-led: https://m-adib.github.io/kinza-demo/v3/
+- Version 4, visual-led: https://m-adib.github.io/kinza-demo/v4/
 - GitHub Pages. Pushing to `main` deploys it. Commit straight to main, no pull requests.
 
 ## Files
@@ -17,9 +18,13 @@ Three versions of the same content sit side by side so the client can pick one.
 - `v3/index.html` is version 3, built from the client's Keynote brief (`~/Downloads/KINZA landing-page.key`) and then
   reworked to Adib's feedback: split hero (copy left, spinning can right), full-bleed statement bands in the Poppi
   style, two image rails where a tap flips a picture into its flavor pattern, the vertical reel, Saudi Made, links.
+- `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction: can-flip hero with no
+  copy, one product photo strip, pop-style statement section, tap-a-can flavor row, thin moving copy strips, one
+  lifestyle strip. Every visual is a placeholder for an asset the client's team will supply (listed under Open).
 - `assets/` holds the ten can renders as `can-<flavor>.png` with an `-ar.png` Arabic face for each, the two slim
   250 ml renders, the logo files, the Saudi Made mark, `assets/life/` for the Instagram stills, three client
-  Instagram posters (`Instagram Kinzabev*.jpg`) and the vertical reel `Kinzabev Video.mp4` (used by version 3).
+  Instagram posters (`Instagram Kinzabev*.jpg`), the vertical reel `Kinzabev Video.mp4` (version 3) and
+  `assets/group/` with four group product shots pulled from the client's Keynote (version 4 placeholders).
 - `.claude/handoff.md` is the running session log. It is gitignored, so it stays on this machine only.
 
 ## Brand rules
@@ -28,7 +33,8 @@ Three versions of the same content sit side by side so the client can pick one.
   rail in version 2, where each panel takes its own can's colour, and the version 3 hero, which cycles the can palette
   from the client's Pantone sheet (the `FL` array at the top of the v3 script) plus the flavor patterns on the flipped
   rail cards. Everything else in v3 is blue, navy and paper, and every heading is paper. Adib's rule after the first
-  v3 round: one heading colour, no accent words, no colour blocks.
+  v3 round: one heading colour, no accent words, no colour blocks. Version 4 is the client's own "colourful,
+  visual-led" brief, so its hero, pop section and flavor row use the Pantone palette on purpose.
 - The brand name is never typed as text. The `.wm` class paints the logo image instead. In version 3 `.wm` is a CSS
   mask filled with `currentColor`, so the wordmark takes any colour.
 - Headings: Anton, uppercase, `letter-spacing: .02em`, `line-height: 1.02` (Arabic: Cairo 900, line-height 1.28). Adib
@@ -55,6 +61,10 @@ and images that failed to load. The built-in browser pane pauses animation while
 The dev server config is `.claude/launch.json`, entry `kinza-static`, python http.server on port 8791.
 
 ## Open
+
+- Client assets still to come for v4: hero can-flip video, animated pop typography video, group product
+  photography, flavor patterns and graphics, tailor-made lifestyle photography. The client asked for white headings
+  on v3; it uses paper `#e9e7dc`, a one-line change if they insist on pure white.
 
 - Build a real 3D can from the label artwork the client sent. The flat version is rasterised at `.claude/label300-1.png`.
 - Confirm with the client whether Kinza is a registered Saudi Made programme member. The pages show the official mark

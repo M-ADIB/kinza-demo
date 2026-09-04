@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinza — كينزا</title>
+<meta name="description" content="Kinza. Designed, born and made in Saudi Arabia. Ten flavors, 70+ countries, one attitude: like no one else." />
+<meta property="og:title" content="Kinza — Like no one else" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta name="theme-color" content="#0b277a" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
+<style>
+  :root {
+    --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc;
+    --bg: var(--navy); --ink: var(--paper);
+    --pad: clamp(20px, 8vw, 140px);
+    --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Outfit", sans-serif; background: var(--navy); color: var(--paper); overflow-x: clip; }
+  html[lang="ar"] body { font-family: "Cairo", "Outfit", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .02em; line-height: 1.02; }
+  html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; letter-spacing: 0; line-height: 1.28; }
+  .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
+        -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
+  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
+        -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
+
+  /* ============ HEADER ============ */
+  .header { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(20px, 4vw, 60px); color: var(--ink); transition: color .5s, background .35s; }
+  .header.is-solid { background: var(--navy); color: var(--paper); box-shadow: 0 1px 0 rgba(233, 231, 220, .16); padding-block: 12px; }
+  .header .wm { height: 30px; }
+  .header__group { display: flex; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 9px 16px; white-space: nowrap; }
+  .chip--fill { background: var(--navy); color: var(--paper); border-color: var(--paper); }
+  .header.is-solid .chip--fill { background: var(--paper); color: var(--navy); }
+  html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ 1. HERO: the can alone, flipping through the flavors ============ */
+  .hero { position: relative; height: 100svh; min-height: 560px; background: var(--bg); color: var(--ink); overflow: clip; display: grid; place-items: center; padding: 0 var(--pad); transition: background .55s var(--ease-out), color .55s; }
+  .stage { position: relative; width: 100%; height: 100%; display: grid; place-items: center; animation: can-start 1.3s var(--ease-spring) both; }
+  @keyframes can-start { from { scale: .15; opacity: 0; } to { scale: 1; opacity: 1; } }
+  .stage__name { position: absolute; left: 50%; top: 50%; translate: -50% -50%; font-size: clamp(110px, 22vw, 360px); line-height: 1; white-space: nowrap; opacity: .12; pointer-events: none; user-select: none; }
+  .hero.is-out .stage__name { opacity: 0; }
+  .burst { position: absolute; width: min(120vw, 700px); aspect-ratio: 1; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; }
+  .burst svg { width: 100%; height: 100%; animation: slow-spin 60s linear infinite; }
+  .burst.is-pop { animation: burst-pop .7s var(--ease-spring); }
+  @keyframes burst-pop { 0% { transform: scale(.55); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); } }
+  @keyframes slow-spin { to { transform: rotate(360deg); } }
+  .tilt { position: relative; z-index: 2; animation: wobble 4.8s ease-in-out infinite; }
+  @keyframes wobble { 0% { transform: rotate(-14deg) translateY(0); } 25% { transform: rotate(6deg) translateY(-18px); } 50% { transform: rotate(16deg) translateY(0); } 75% { transform: rotate(-4deg) translateY(-14px); } 100% { transform: rotate(-14deg) translateY(0); } }
+  .can { height: min(62svh, 600px); width: auto; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .35)); transform: perspective(900px) rotateY(0); transition: transform .32s ease-in, opacity .32s; }
+  .hero.is-out .can { transform: perspective(900px) rotateY(90deg) scale(.9); opacity: .6; }
+  .hero.is-in .can { animation: can-in .38s var(--ease-out) both; }
+  @keyframes can-in { from { transform: perspective(900px) rotateY(-90deg) scale(.9); opacity: .6; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
+  .hero__dots { position: absolute; bottom: 26px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
+  .hero__dots button { width: 14px; height: 14px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .5; transition: opacity .3s, transform .3s var(--ease-spring); }
+  .hero__dots button:hover, .hero__dots button[aria-current="true"] { opacity: 1; transform: scale(1.35); }
+  .hero__label { position: absolute; bottom: 52px; left: 50%; translate: -50% 0; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; opacity: .8; z-index: 3; }
+  html[lang="ar"] .hero__label { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ thin copy strips ============ */
+  .strip { direction: ltr; overflow: clip; border-block: 1px solid rgba(233, 231, 220, .18); padding: 9px 0; background: var(--navy); color: var(--paper); }
+  .strip--blue { background: var(--blue); }
+  .strip__in { display: flex; gap: 34px; width: max-content; animation: strip 60s linear infinite; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; opacity: .85; }
+  .strip--rev .strip__in { animation-direction: reverse; }
+  .strip__in span::before { content: "•"; margin-inline-end: 34px; opacity: .5; }
+  .strip__in span[lang="ar"] { font-family: "Cairo", sans-serif; letter-spacing: 0; font-size: 13px; }
+  @keyframes strip { to { transform: translateX(-50%); } }
+
+  /* ============ 2 + 6. photo strips ============ */
+  .photos { direction: ltr; overflow: clip; background: var(--navy); padding: 14px 0; }
+  .photos__in { display: flex; gap: 14px; width: max-content; animation: strip 70s linear infinite; }
+  .photos--rev .photos__in { animation-direction: reverse; animation-duration: 80s; }
+  .photos__in:hover { animation-play-state: paused; }
+  .photos figure { flex: none; height: clamp(220px, 40vw, 460px); aspect-ratio: 3 / 2; border-radius: 16px; overflow: clip; background: var(--blue); }
+  .photos--tall figure { aspect-ratio: 4 / 5; height: clamp(240px, 42vw, 440px); }
+  .photos img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ============ 3. pop typography ============ */
+  .pop { position: relative; height: 92svh; min-height: 520px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 20px; }
+  .pop__word { font-size: clamp(64px, 13vw, 220px); line-height: .95; max-width: 9ch; }
+  html[lang="ar"] .pop__word { font-size: clamp(56px, 11vw, 190px); line-height: 1.2; }
+  .pop__word.in { animation: pop-in .9s var(--ease-spring) both; }
+  .pop__word.out { animation: pop-out .35s ease-in both; }
+  @keyframes pop-in { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 55% { transform: scale(1.08) rotate(2deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
+  @keyframes pop-out { to { transform: scale(1.4) skewX(-12deg); opacity: 0; filter: blur(8px); } }
+  .pop__ring { position: absolute; inset: 0; margin: auto; width: min(80vw, 640px); aspect-ratio: 1; border: 3px dashed currentColor; border-radius: 50%; opacity: .25; animation: slow-spin 40s linear infinite; }
+  .pop__count { position: absolute; bottom: 26px; left: 50%; translate: -50% 0; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; opacity: .8; }
+  html[lang="ar"] .pop__count { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ 4. flavor row ============ */
+  .flavors { position: relative; background: var(--fb, #0b277a); color: var(--fi, var(--paper)); padding: 70px 0 60px; overflow: clip; transition: background .5s var(--ease-out), color .5s; isolation: isolate; }
+  .flavors__pattern { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; opacity: .55; }
+  .flavors__pattern svg { width: min(140vw, 1100px); height: auto; animation: slow-spin 80s linear infinite; }
+  .flavors__name { text-align: center; font-size: clamp(40px, 8vw, 120px); line-height: 1; }
+  .flavors__row { display: flex; gap: clamp(10px, 2vw, 28px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 40px var(--pad) 20px; scroll-padding-inline: var(--pad); }
+  .flavors__row::-webkit-scrollbar { display: none; }
+  .fl { flex: none; width: clamp(96px, 11vw, 150px); scroll-snap-align: center; display: grid; gap: 12px; justify-items: center; opacity: .8; transition: opacity .3s, transform .4s var(--ease-spring); }
+  .fl img { height: clamp(150px, 20vw, 260px); width: auto; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .35)); }
+  .fl small { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  html[lang="ar"] .fl small { letter-spacing: 0; font-size: 13px; }
+  .fl:hover { opacity: .85; }
+  .fl[aria-pressed="true"] { opacity: 1; transform: translateY(-14px) scale(1.06); }
+  .flavors__hint { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; opacity: .7; }
+  html[lang="ar"] .flavors__hint { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ footer ============ */
+  .footer { background: var(--navy); text-align: center; padding: 60px 20px 40px; border-top: 1px solid rgba(233, 231, 220, .16); }
+  .footer .wm { height: 34px; }
+  .footer__links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .footer__links a { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid rgba(233, 231, 220, .4); border-radius: 999px; padding: 8px 14px; transition: border-color .3s; }
+  .footer__links a:hover { border-color: var(--paper); }
+  html[lang="ar"] .footer__links a { letter-spacing: 0; font-size: 13px; }
+  .footer small { display: block; margin-top: 30px; font-size: 12px; opacity: .55; letter-spacing: .1em; }
+
+  @media (max-width: 760px) {
+    .can { height: min(52svh, 440px); }
+    .burst { width: 130vw; }
+    .pop { height: 70svh; }
+    .photos figure { height: 200px; }
+    .photos--tall figure { height: 240px; }
+    .photos__in, .strip__in { animation-duration: 90s; }
+    .flavors__pattern svg { width: 160vw; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
+    .photos__in, .strip__in { animation: none !important; }
+    .photos, .strip { overflow-x: auto; }
+    .pop__word { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <a class="brand" href="#top" aria-label="Kinza"><span class="wm"></span></a>
+  <div class="header__group">
+    <button class="chip" id="langBtn" type="button" data-i18n="lang">العربية</button>
+    <a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a>
+  </div>
+</header>
+
+<!-- 1. hero: no copy, the can flips through the ten flavors and the background follows. placeholder for the client's video -->
+<section class="hero" id="top">
+  <div class="stage" aria-hidden="true">
+    <div class="stage__name display" id="spinName">Cola</div>
+    <div class="burst" id="burst"><svg viewBox="-100 -100 200 200"><g id="burstG"></g></svg></div>
+    <div class="tilt"><img class="can" id="spinCan" src="../assets/can-cola.png" alt="" fetchpriority="high" /></div>
+  </div>
+  <span class="hero__label" id="spinLabel">Cola</span>
+  <nav class="hero__dots" id="dots" aria-label="Flavors"></nav>
+</section>
+
+<div class="strip" aria-hidden="true"><div class="strip__in" id="strip1"></div></div>
+
+<!-- 2. product photography strip, one row. placeholders until the client's group shots arrive -->
+<div class="photos" id="products"><div class="photos__in" id="productsIn"></div></div>
+
+<div class="strip strip--blue strip--rev" aria-hidden="true"><div class="strip__in" id="strip2"></div></div>
+
+<!-- 3. pop-style brand statements. placeholder until the client's typography video arrives -->
+<section class="pop" id="pop">
+  <div class="pop__ring" aria-hidden="true"></div>
+  <h2 class="pop__word display" id="popWord">Bold by nature</h2>
+  <span class="pop__count" id="popCount">01/05</span>
+</section>
+
+<!-- 4. all ten cans in a row. tap one and the section takes its colour, pattern and name -->
+<section class="flavors" id="flavors">
+  <div class="flavors__pattern" id="flPattern" aria-hidden="true"></div>
+  <h2 class="flavors__name display" id="flName">Cola</h2>
+  <div class="flavors__row" id="flRow"></div>
+  <p class="flavors__hint" data-i18n="fl_hint">Tap a can</p>
+</section>
+
+<div class="strip" aria-hidden="true"><div class="strip__in" id="strip3"></div></div>
+
+<!-- 6. lifestyle strip, one row. placeholders until the tailor-made photography arrives -->
+<div class="photos photos--tall photos--rev" id="life"><div class="photos__in" id="lifeIn"></div></div>
+
+<footer class="footer">
+  <span class="wm"></span>
+  <nav class="footer__links" id="footLinks" aria-label="Kinza links"></nav>
+  <small>© 2026 Kinza — كينزا</small>
+</footer>
+
+<script>
+  const T = {
+    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' },
+    fl_hint: { en: 'Tap a can', ar: 'اضغط على علبة' },
+    f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
+    f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
+    f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l2: { en: 'Partners', ar: 'الشركاء' }, l3: { en: 'Careers', ar: 'الوظائف' }, l4: { en: 'Store', ar: 'المتجر' },
+    l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' }, l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }
+  };
+  // id, background, ink on it, splash colours, pattern motif (from the client's Pantone sheet)
+  const FL = [
+    ['cola', '#0b277a', '#e9e7dc', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
+    ['diet', '#cfd2d8', '#0b277a', ['#0b277a', '#e8235a', '#ffffff'], 'star'],
+    ['lemon', '#009639', '#e9e7dc', ['#ffd100', '#e9e7dc', '#ffd100'], 'slice'],
+    ['orange', '#f28c00', '#e9e7dc', ['#d62e1f', '#ffd100', '#e9e7dc'], 'slice'],
+    ['citrus', '#b9cc00', '#0b277a', ['#ffd100', '#1e8a45', '#ffffff'], 'slice'],
+    ['lemonzero', '#1e8a45', '#e9e7dc', ['#e9e7dc', '#ffd100', '#b9cc00'], 'slice'],
+    ['blackcurrant', '#5f259f', '#e9e7dc', ['#1b2a80', '#b9cc00', '#e9e7dc'], 'berries'],
+    ['pomegranate', '#b6203c', '#e9e7dc', ['#ff5a3c', '#1e8a45', '#e9e7dc'], 'pome'],
+    ['soda', '#1fa8dd', '#0b277a', ['#ffffff', '#0b277a', '#ffffff'], 'bubbles'],
+    ['cocktail', '#d9a21b', '#0b277a', ['#d62e1f', '#1e8a45', '#ffffff'], 'star']
+  ];
+  const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
+  // pop statements: background, ink, en, ar
+  const POP = [
+    ['#e8235a', '#e9e7dc', 'Bold by nature', 'جريئة بطبعها'],
+    ['#0b277a', '#e9e7dc', 'Made in Saudi', 'صنع في السعودية'],
+    ['#b9cc00', '#0b277a', 'Refresh different', 'انتعش بطريقتك'],
+    ['#5f259f', '#ffd100', '70+ countries', '+70 دولة'],
+    ['#1fa8dd', '#0b277a', 'Like no one else', 'ما نشبه أحد']
+  ];
+  const PRODUCTS = ['group/group-1.jpg', 'group/group-2.jpg', 'group/group-3.jpg', 'group/group-4.jpg'];
+  const LIFE = ['life/kiosk.jpg', 'Instagram Kinzabev (1).jpg', 'life/race.jpg', 'life/pour.jpg', 'Instagram Kinzabev (2).jpg', 'life/majlis.jpg', 'life/neon.jpg', 'Instagram Kinzabev.jpg', 'life/park.jpg', 'life/sofa.jpg', 'life/mocktail.jpg', 'life/fridge.jpg'];
+  const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
+  const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
+  const LINKS = [['https://kinza.discoveraseer.com/?source=qr', 'l1'], ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'], ['https://kinza.jotform.com/form/join-kinza-team', 'l3'], ['https://www.kinzabev.com', 'l4'], ['https://www.instagram.com/kinzabev', 'l5'], ['https://www.tiktok.com/@kinzabev', 'l6'], ['https://www.snapchat.com/add/kinzabev', 'l7'], ['https://www.youtube.com/@kinzabev', 'l8'], ['https://www.twitter.com/kinzabev', 'l9'], ['https://www.facebook.com/KinzaBev/', 'l10']];
+
+  let lang = 'en';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  /* ---------- burst + pattern drawing ---------- */
+  function petals(cols, n, r0, r1, seed) {
+    let out = '';
+    for (let i = 0; i < n; i++) {
+      const a = i * 360 / n + (seed || 0), len = r0 + ((i * 7 + 3) % 5) * (r1 - r0) / 4, w = 2 + (i % 3), dist = 34 + ((i * 5) % 4) * 6;
+      out += `<ellipse cx="0" cy="${-(dist + len / 2)}" rx="${w}" ry="${len / 2}" fill="${cols[i % cols.length]}" transform="rotate(${a})"/>`;
+      if (i % 4 === 1) out += `<circle cx="0" cy="${-(dist + len + 8)}" r="${1.4 + (i % 2)}" fill="${cols[(i + 1) % cols.length]}" transform="rotate(${a + 4})"/>`;
+    }
+    return out;
+  }
+  function motif(kind, cols) {
+    const a = cols[0], b = cols[1] || cols[0], p = '#fff';
+    if (kind === 'slice') return `<circle r="24" fill="${p}"/><circle r="20" fill="${a}"/>` + [0, 45, 90, 135].map(d => `<line x1="-20" y1="0" x2="20" y2="0" stroke="${p}" stroke-width="2.4" transform="rotate(${d})"/>`).join('') + `<circle r="3" fill="${p}"/>`;
+    if (kind === 'berries') return `<line x1="0" y1="26" x2="0" y2="-22" stroke="${p}" stroke-width="2.5"/>` + [[0, -22, 8], [-12, -8, 8], [12, -6, 8], [-8, 8, 7], [9, 10, 7], [0, 0, 6]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${b}" stroke="${p}" stroke-width="1.5"/>`).join('');
+    if (kind === 'pome') { let d = ''; for (let y = -16; y <= 16; y += 8) for (let x = -16; x <= 16; x += 8) if (x * x + y * y < 330) d += `<circle cx="${x}" cy="${y + 4}" r="2.8" fill="${a}"/>`; return `<path d="M0 -30 L10 -18 A22 22 0 1 1 -10 -18 Z" fill="${p}"/>${d}`; }
+    if (kind === 'bubbles') return [[0, 0, 12], [-18, -14, 6], [16, -18, 8], [18, 12, 5], [-16, 14, 7], [4, 24, 4]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${p}" stroke-width="2.2"/>`).join('');
+    let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
+    return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
+  }
+  const bigPattern = id => { const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
+
+  /* ---------- 1. hero ---------- */
+  let cur = 0, timer = null, busy = false;
+  const hero = document.getElementById('top'), can = document.getElementById('spinCan'), burstG = document.getElementById('burstG'), burst = document.getElementById('burst'), dots = document.getElementById('dots');
+  dots.innerHTML = FL.map(([id, bg], i) => `<button type="button" style="--d:${bg}" data-i="${i}" aria-label="${T['f_' + id].en}"></button>`).join('');
+  dots.addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(+b.dataset.i, true); });
+  function paint(i) {
+    const [id, bg, ink, cols] = FL[i];
+    document.documentElement.style.setProperty('--bg', bg);
+    document.documentElement.style.setProperty('--ink', ink);
+    can.src = `../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
+    burstG.innerHTML = petals(cols, 28, 30, 70, 0);
+    document.getElementById('spinName').textContent = T['f_' + id][lang];
+    document.getElementById('spinLabel').textContent = T['f_' + id][lang];
+    dots.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
+    burst.classList.remove('is-pop'); void burst.offsetWidth; burst.classList.add('is-pop');
+  }
+  function go(i, manual) {
+    if (busy) return; busy = true;
+    if (manual) schedule(7000);
+    if (reduced) { cur = i; paint(i); busy = false; return; }
+    hero.classList.add('is-out');
+    setTimeout(() => { hero.classList.remove('is-out'); cur = i; paint(i); hero.classList.add('is-in'); setTimeout(() => hero.classList.remove('is-in'), 400); busy = false; }, 330);
+  }
+  function schedule(delay) { clearInterval(timer); if (reduced) return; timer = setInterval(() => go((cur + 1) % FL.length), 2600); if (delay) { clearInterval(timer); setTimeout(() => schedule(), delay); } }
+  FL.forEach(([id]) => { const a = new Image(); a.src = `../assets/can-${id}.png`; });
+  paint(0); schedule();
+  document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
+
+  /* ---------- header ---------- */
+  (function () { const h = document.getElementById('header'); const f = () => h.classList.toggle('is-solid', scrollY > 40); addEventListener('scroll', f, { passive: true }); f(); })();
+
+  /* ---------- strips ---------- */
+  function buildStrips() {
+    const msgs = MESSAGES.map(m => `<span${lang === 'ar' ? ' lang="ar"' : ''}>${esc(lang === 'ar' ? m[1] : m[0])}</span>`).join('');
+    const countries = COUNTRIES.map(c => `<span>${esc(c)}</span>`).join('');
+    document.getElementById('strip1').innerHTML = countries.repeat(2);
+    document.getElementById('strip2').innerHTML = msgs.repeat(4);
+    document.getElementById('strip3').innerHTML = countries.repeat(2);
+  }
+  const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
+  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(3);
+  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(2);
+
+  /* ---------- 3. pop statements, cycling while on screen ---------- */
+  (function () {
+    const sec = document.getElementById('pop'), word = document.getElementById('popWord'), count = document.getElementById('popCount');
+    let i = 0, t = null;
+    function show(k) {
+      const [bg, ink, en, ar] = POP[k];
+      sec.style.setProperty('--pb', bg); sec.style.setProperty('--pc', ink);
+      word.textContent = lang === 'ar' ? ar : en;
+      count.textContent = String(k + 1).padStart(2, '0') + '/' + String(POP.length).padStart(2, '0');
+      word.classList.remove('out'); word.classList.remove('in'); void word.offsetWidth; word.classList.add('in');
+    }
+    function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 340); }
+    show(0);
+    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 2400); }), { threshold: .4 }).observe(sec);
+    sec.addEventListener('click', next);
+    window.popRefresh = () => show(i);
+  })();
+
+  /* ---------- 4. flavor row ---------- */
+  const flSec = document.getElementById('flavors'), flRow = document.getElementById('flRow');
+  function pick(id) {
+    const [, bg, ink] = FLI[id];
+    flSec.style.setProperty('--fb', bg); flSec.style.setProperty('--fi', ink);
+    document.getElementById('flPattern').innerHTML = bigPattern(id);
+    document.getElementById('flName').textContent = T['f_' + id][lang];
+    flRow.querySelectorAll('.fl').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === id ? 'true' : 'false'));
+  }
+  function buildRow() {
+    flRow.innerHTML = FL.map(([id]) => `<button type="button" class="fl" data-id="${id}" aria-pressed="false"><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small>${esc(T['f_' + id][lang])}</small></button>`).join('');
+  }
+  flRow.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) pick(b.dataset.id); });
+  let picked = 'cola';
+  flRow.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) picked = b.dataset.id; });
+
+  /* ---------- footer, language ---------- */
+  document.getElementById('footLinks').innerHTML = LINKS.map(([href, k]) => `<a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a>`).join('');
+  function applyLang(next) {
+    lang = next;
+    document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
+    buildStrips(); buildRow(); pick(picked); paint(cur); window.popRefresh();
+    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+  }
+  (function () {
+    const q = new URLSearchParams(location.search).get('lang');
+    let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
+    applyLang(q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en'));
+    document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
+  })();
+</script>
+</body>
+</html>
