@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinza — كينزا | Always in motion</title>
+<meta name="description" content="Kinza. Designed, born and made in Saudi Arabia. Ten flavors, 70+ countries, one attitude: like no one else." />
+<meta property="og:title" content="Kinza — Like no one else" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta name="theme-color" content="#0b277a" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
+<style>
+  :root {
+    --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc; --white: #fff;
+    /* the full can palette, taken from the Kinza Pantone sheet in the client deck */
+    --c-cola: #0b277a; --c-diet: #cfd2d8; --c-lemon: #009639; --c-orange: #f28c00; --c-citrus: #b9cc00;
+    --c-lemonzero: #1e8a45; --c-blackcurrant: #5f259f; --c-pomegranate: #b6203c; --c-soda: #1fa8dd; --c-cocktail: #d9a21b;
+    --c-sky: #1fa8dd; --c-yellow: #ffd100; --c-red: #d62e1f;
+    --bg: var(--c-cola); --ink: var(--paper);
+    --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Outfit", sans-serif; background: var(--navy); color: var(--paper); overflow-x: clip; }
+  html[lang="ar"] body { font-family: "Cairo", "Outfit", sans-serif; }
+  .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .01em; }
+  html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; letter-spacing: 0; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  /* wordmark: the logo painted in the current text colour, never typed */
+  .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
+        -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
+  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
+        -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
+
+  /* ============ HEADER ============ */
+  .header { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; color: var(--hink, var(--ink)); transition: color .5s; pointer-events: none; }
+  .header > * { pointer-events: auto; }
+  .header .wm { height: 30px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 8px 14px; white-space: nowrap; backdrop-filter: blur(8px); transition: background .3s, color .3s; }
+  .chip:hover { background: var(--hink, var(--ink)); color: var(--hbg, var(--bg)); }
+  .header__group { display: flex; gap: 8px; }
+  html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ 1. SPIN HERO ============ */
+  .spin { position: relative; min-height: 100svh; background: var(--bg); color: var(--ink); overflow: clip; display: grid; grid-template-rows: minmax(0, 1fr) auto; transition: background .55s var(--ease-out), color .55s; }
+  .spin__name { position: absolute; left: 50%; top: 40%; translate: -50% -50%; font-size: clamp(120px, 26vw, 420px); line-height: 1; white-space: nowrap; opacity: .14; pointer-events: none; user-select: none; transition: opacity .3s; }
+  .spin.is-out .spin__name { opacity: 0; }
+  .spin__stage { position: relative; min-height: 340px; display: grid; place-items: center; margin-top: 30px; animation: can-start 1.3s var(--ease-spring) both; }
+  @keyframes can-start { from { scale: .15; opacity: 0; } to { scale: 1; opacity: 1; } }
+  .burst { position: absolute; width: min(120vw, 760px); aspect-ratio: 1; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; }
+  .burst svg { width: 100%; height: 100%; animation: slow-spin 60s linear infinite; }
+  .burst.pop { animation: pop .7s var(--ease-spring); }
+  @keyframes pop { 0% { transform: scale(.55); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); } }
+    @keyframes slow-spin { to { transform: rotate(360deg); } }
+  .arc { position: absolute; width: min(90vw, 560px); left: 50%; top: 58%; translate: -50% -50%; opacity: .9; pointer-events: none; animation: arc-turn 4.8s linear infinite; }
+  @keyframes arc-turn { to { transform: rotateY(360deg); } }
+  .spin__tilt { position: relative; z-index: 2; animation: wobble 4.8s ease-in-out infinite; }
+  @keyframes wobble { 0% { transform: rotate(-14deg) translateY(0); } 25% { transform: rotate(6deg) translateY(-18px); } 50% { transform: rotate(16deg) translateY(0); } 75% { transform: rotate(-4deg) translateY(-14px); } 100% { transform: rotate(-14deg) translateY(0); } }
+  .spin__can { height: min(46svh, 520px); width: auto; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .35)); transform: perspective(900px) rotateY(0); transition: transform .32s ease-in, opacity .32s; }
+  .spin.is-out .spin__can { transform: perspective(900px) rotateY(90deg) scale(.9); opacity: .6; }
+  .spin.is-in .spin__can { animation: can-in .38s var(--ease-out) both; }
+  @keyframes can-in { from { transform: perspective(900px) rotateY(-90deg) scale(.9); opacity: .6; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
+
+  .spin__copy { position: relative; z-index: 3; padding: 0 clamp(20px, 5vw, 80px) 30px; display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .spin__copy h1 { font-size: clamp(48px, 7vw, 112px); line-height: .9; }
+  html[lang="ar"] .spin__copy h1 { font-size: clamp(42px, 6vw, 96px); line-height: 1.1; }
+  .spin__copy p { max-width: 420px; margin-top: 14px; font-size: clamp(15px, 1.4vw, 19px); font-weight: 500; line-height: 1.5; opacity: .9; }
+  .spin__cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; font-weight: 800; font-size: 14px; letter-spacing: .04em; border: 2px solid var(--ink); transition: transform .3s var(--ease-out), background .3s, color .3s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--fill { background: var(--ink); color: var(--bg); }
+  .btn svg { width: 18px; height: 18px; }
+  html[dir="rtl"] .btn svg { transform: scaleX(-1); }
+  .spin__meta { text-align: end; }
+  .spin__meta .display { font-size: clamp(28px, 4vw, 56px); line-height: 1; }
+  .spin__meta small { display: block; font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; opacity: .8; margin-top: 6px; }
+  .spin__dots { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap; }
+  .spin__dots button { width: 22px; height: 22px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .55; transition: opacity .3s, transform .3s var(--ease-spring); }
+  .spin__dots button:hover, .spin__dots button[aria-current="true"] { opacity: 1; transform: scale(1.25); }
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 7px 16px; margin-bottom: 18px; }
+  html[lang="ar"] .eyebrow { letter-spacing: 0; font-size: 13px; }
+
+  /* ============ 2. KINETIC TYPE ============ */
+  .type { background: var(--paper); color: var(--navy); padding: 80px 0 0; }
+  .sec-head { text-align: center; padding: 0 20px 34px; }
+  .sec-head h2 { font-size: clamp(40px, 7vw, 110px); line-height: .92; }
+  html[lang="ar"] .sec-head h2 { font-size: clamp(34px, 5.6vw, 84px); line-height: 1.15; }
+  .sec-head h2 em { font-style: normal; color: var(--pink); }
+  .sec-head p { margin-top: 12px; font-size: clamp(15px, 1.5vw, 19px); font-weight: 600; opacity: .8; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 0 6px 6px; }
+  .tile { position: relative; aspect-ratio: 1; background: var(--tb); color: var(--t1); overflow: clip; display: flex; flex-direction: column; justify-content: center; padding: 8%; font-size: clamp(22px, 2.6vw, 44px); line-height: .95; opacity: 0; translate: 0 30px; transition: opacity .7s var(--ease-out), translate .7s var(--ease-out); }
+  .tile.is-in { opacity: 1; translate: 0 0; }
+  html[lang="ar"] .tile { font-size: clamp(20px, 2.2vw, 36px); line-height: 1.2; }
+  .tile .ln { display: block; position: relative; }
+  .tile .ln.alt { color: var(--t2); }
+  .tile .wm { height: .8em; vertical-align: -.05em; }
+  .tile__logo { position: absolute; left: 8%; bottom: 7%; font-size: 14px; font-weight: 800; letter-spacing: .1em; opacity: .9; }
+  html[dir="rtl"] .tile__logo { left: auto; right: 8%; }
+  .tile__logo .wm { height: 16px; }
+  .tile * { animation-play-state: paused; }
+  .tile.is-in * { animation-play-state: running; }
+  /* slide: lines punch in from the side, hold, then go again */
+  .fx-slide .ln { animation: fx-slide 5s var(--ease-out) infinite; }
+  .fx-slide .ln:nth-child(2) { animation-delay: .12s; } .fx-slide .ln:nth-child(3) { animation-delay: .24s; }
+  @keyframes fx-slide { 0% { transform: translateX(-120%); opacity: 0; } 10% { transform: translateX(4%); opacity: 1; } 13%, 90% { transform: translateX(0); opacity: 1; } 97%, 100% { transform: translateX(120%); opacity: 0; } }
+  html[dir="rtl"] .fx-slide .ln { animation-name: fx-slide-rtl; }
+  @keyframes fx-slide-rtl { 0% { transform: translateX(120%); opacity: 0; } 10% { transform: translateX(-4%); opacity: 1; } 13%, 90% { transform: translateX(0); opacity: 1; } 97%, 100% { transform: translateX(-120%); opacity: 0; } }
+  /* stretch: the block grows tall and snaps back */
+  .fx-stretch .ln { transform-origin: bottom; animation: fx-stretch 3s ease-in-out infinite; }
+  .fx-stretch .ln:nth-child(2) { animation-delay: .15s; } .fx-stretch .ln:nth-child(3) { animation-delay: .3s; }
+  @keyframes fx-stretch { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.45); } }
+  /* blur: motion trail behind each line, like the SPARK YOUR WORLD frame */
+  .fx-blur .ln::before, .fx-blur .ln::after { content: attr(data-t); position: absolute; inset: 0; color: inherit; pointer-events: none; opacity: .45; filter: blur(4px); animation: fx-trail 2.6s ease-in-out infinite; }
+  .fx-blur .ln::after { opacity: .22; filter: blur(9px); animation-name: fx-trail2; }
+  @keyframes fx-trail { 0%, 100% { transform: translateX(0) scaleX(1); } 50% { transform: translateX(14%) scaleX(1.25); } }
+  @keyframes fx-trail2 { 0%, 100% { transform: translateX(0) scaleX(1); } 50% { transform: translateX(30%) scaleX(1.5); } }
+  html[dir="rtl"] .fx-blur .ln::before, html[dir="rtl"] .fx-blur .ln::after { animation-direction: alternate-reverse; }
+  /* skew: italic rush from the right */
+  .fx-skew .ln { font-style: italic; animation: fx-skew 4.2s var(--ease-out) infinite; }
+  .fx-skew .ln:nth-child(2) { animation-delay: .1s; } .fx-skew .ln:nth-child(3) { animation-delay: .2s; }
+  @keyframes fx-skew { 0% { transform: translateX(80%) skewX(-30deg); opacity: 0; } 12% { transform: translateX(-3%) skewX(-8deg); opacity: 1; } 16%, 90% { transform: translateX(0) skewX(-8deg); opacity: 1; } 100% { transform: translateX(-80%) skewX(-30deg); opacity: 0; } }
+  /* roll: each line rises through a slot, one after the other */
+  .fx-roll .ln { overflow: clip; }
+  .fx-roll .ln > span { display: block; animation: fx-roll 4s var(--ease-out) infinite; }
+  .fx-roll .ln:nth-child(2) > span { animation-delay: .18s; } .fx-roll .ln:nth-child(3) > span { animation-delay: .36s; }
+  @keyframes fx-roll { 0% { transform: translateY(110%); } 14% { transform: translateY(0); } 80% { transform: translateY(0); } 92%, 100% { transform: translateY(-110%); } }
+  /* stack: echo copies fading out below the line */
+  .fx-stack .ln { line-height: 1.02; }
+  .fx-stack .ln .echo { position: absolute; left: 0; top: 0; opacity: .35; animation: fx-echo 2.4s ease-in-out infinite; }
+  .fx-stack .ln .echo + .echo { opacity: .14; animation-name: fx-echo2; }
+  @keyframes fx-echo { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7%); } }
+  @keyframes fx-echo2 { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(15%); } }
+  html[dir="rtl"] .fx-stack .ln .echo { animation-direction: alternate-reverse; }
+  /* arc: text runs around a circle */
+  .fx-arc { padding: 0; }
+  .fx-arc svg { width: 100%; height: 100%; animation: slow-spin 14s linear infinite; }
+  .fx-arc text { font-family: "Anton", sans-serif; font-size: 20px; letter-spacing: 2px; fill: var(--t1); text-transform: uppercase; }
+  html[lang="ar"] .fx-arc text { font-family: "Cairo", sans-serif; font-weight: 900; letter-spacing: 0; }
+  .fx-arc .spark { fill: var(--t2); }
+
+  /* ============ 3. RAILS ============ */
+  .rails { background: var(--navy); color: var(--paper); padding: 90px 0 70px; overflow: clip; }
+  .rails .sec-head { color: var(--paper); }
+  .rails .sec-head h2 em { color: var(--c-yellow); }
+  .rail { direction: ltr; overflow: clip; padding: 8px 0; }
+  .rail__track { display: flex; gap: 14px; width: max-content; animation: rail-l 46s linear infinite; }
+  .rail--r .rail__track { animation-name: rail-r; animation-duration: 52s; }
+  @keyframes rail-l { to { transform: translateX(-50%); } }
+  @keyframes rail-r { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .rail__track:hover, .rail__track:has(.is-flipped), .rail__track:focus-within { animation-play-state: paused; }
+  .card { position: relative; width: clamp(190px, 22vw, 280px); aspect-ratio: 4 / 5; flex: none; perspective: 1200px; border-radius: 18px; }
+  .card__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s var(--ease-spring); border-radius: 18px; }
+  .card.is-flipped .card__inner { transform: rotateY(180deg); }
+  .card__face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; overflow: clip; background: var(--fb, #1d3382); }
+  .card__face img { width: 100%; height: 100%; object-fit: cover; }
+  .card--can .card__face--front img { object-fit: contain; padding: 12%; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .35)); }
+  .card__face--back { transform: rotateY(180deg); }
+  .card__face--back svg { width: 100%; height: 100%; }
+  .card__tap { position: absolute; inset: auto 12px 12px auto; z-index: 2; width: 34px; height: 34px; border-radius: 50%; background: var(--paper); color: var(--navy); display: grid; place-items: center; font-size: 18px; font-weight: 900; box-shadow: 0 8px 20px rgba(0, 0, 0, .3); transition: transform .3s var(--ease-spring); pointer-events: none; }
+  .card:hover .card__tap { transform: scale(1.15) rotate(90deg); }
+  .rails__hint { text-align: center; margin-top: 26px; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
+  html[lang="ar"] .rails__hint { letter-spacing: 0; font-size: 14px; }
+
+  /* ============ 4. FILM ============ */
+  .film { background: var(--c-yellow); color: var(--navy); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; padding: 90px clamp(20px, 6vw, 100px); overflow: clip; }
+  .film h2 { font-size: clamp(44px, 6.4vw, 104px); line-height: .9; }
+  html[lang="ar"] .film h2 { font-size: clamp(38px, 5.4vw, 84px); line-height: 1.12; }
+  .film h2 em { font-style: normal; color: var(--pink); }
+  .film p { margin-top: 20px; max-width: 480px; font-size: clamp(16px, 1.5vw, 20px); font-weight: 500; line-height: 1.5; }
+  .film__stats { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
+  .film__stats b { display: block; font-family: "Anton", sans-serif; font-size: clamp(36px, 4vw, 60px); line-height: 1; }
+  html[lang="ar"] .film__stats b { font-family: "Cairo", sans-serif; font-weight: 900; }
+  .film__stats span { display: block; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-top: 4px; opacity: .8; }
+  html[lang="ar"] .film__stats span { letter-spacing: 0; font-size: 14px; }
+  .phone { justify-self: center; width: min(340px, 78vw); aspect-ratio: 9 / 16; border-radius: 36px; background: var(--navy); padding: 10px; box-shadow: 0 40px 80px rgba(11, 39, 122, .35); rotate: -4deg; animation: wobble-soft 7s ease-in-out infinite; }
+  @keyframes wobble-soft { 0%, 100% { rotate: -4deg; translate: 0 0; } 50% { rotate: 2deg; translate: 0 -12px; } }
+  .phone video { width: 100%; height: 100%; object-fit: cover; border-radius: 28px; background: #000; }
+
+  /* ============ 5. SAUDI + LINKS ============ */
+  .saudi { background: var(--pink); color: var(--paper); padding: 90px clamp(20px, 6vw, 100px); display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center; }
+  .saudi img { width: clamp(120px, 14vw, 200px); }
+  .saudi h2 { font-size: clamp(40px, 6vw, 96px); line-height: .92; }
+  html[lang="ar"] .saudi h2 { font-size: clamp(34px, 5vw, 78px); line-height: 1.12; }
+  .saudi p { margin-top: 16px; max-width: 620px; font-size: clamp(16px, 1.5vw, 20px); font-weight: 500; line-height: 1.5; }
+  .links { background: var(--paper); color: var(--navy); padding: 80px clamp(16px, 4vw, 60px) 90px; }
+  .links .sec-head { padding-bottom: 30px; }
+  .links__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; max-width: 1200px; margin: 0 auto; }
+  .link-card { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: 16px; background: var(--white); border: 2px solid transparent; transition: transform .3s var(--ease-out), border-color .3s; }
+  .link-card:hover { transform: translateY(-3px); border-color: var(--navy); }
+  .link-card__icon { width: 42px; height: 42px; border-radius: 12px; background: var(--navy); color: var(--paper); display: grid; place-items: center; flex: none; }
+  .link-card__icon svg { width: 22px; height: 22px; }
+  .link-card strong { display: block; font-size: 16px; font-weight: 800; }
+  .link-card small { display: block; font-size: 12px; opacity: .7; margin-top: 2px; }
+  .link-card > span:nth-child(2) { flex: 1; }
+  .link-card__arrow { flex: none; opacity: .5; }
+  html[dir="rtl"] .link-card__arrow { transform: scaleX(-1); }
+  .footer { background: var(--navy); color: var(--paper); text-align: center; padding: 60px 20px 40px; }
+  .footer .wm { height: 36px; }
+  .footer p { margin-top: 16px; font-weight: 600; opacity: .8; }
+  .footer small { display: block; margin-top: 30px; font-size: 12px; opacity: .55; letter-spacing: .1em; }
+
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 760px) {
+    .header { padding: 12px 14px; }
+    .header .chip span { display: none; }
+    .spin__stage { min-height: 52svh; margin-top: 70px; }
+    .spin__can { height: min(40svh, 380px); }
+    .spin__copy { padding-bottom: 28px; }
+    .spin__meta { text-align: start; width: 100%; }
+    .spin__dots { justify-content: flex-start; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .tile { font-size: clamp(22px, 6.4vw, 34px); }
+    .film, .saudi { grid-template-columns: 1fr; padding-inline: 20px; }
+    .saudi img { width: 120px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
+    .tile { opacity: 1; translate: 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__group">
+    <a class="chip" href="../" data-i18n-html="chip_v1"><span>Classic</span></a>
+    <a class="chip" href="../v2/" data-i18n-html="chip_v2"><span>Lifestyle</span></a>
+  </div>
+  <a class="brand" href="#top" aria-label="Kinza"><span class="wm"></span></a>
+  <button class="chip" id="langBtn" type="button" data-i18n="lang">العربية</button>
+</header>
+
+<!-- 1. the can spins in the centre and every turn reveals the next flavor -->
+<section class="spin" id="top">
+  <div class="spin__name display" id="spinName" aria-hidden="true">Cola</div>
+  <div class="spin__stage" aria-hidden="true">
+    <div class="burst" id="burst"><svg viewBox="-100 -100 200 200"><g id="burstG"></g></svg></div>
+    <svg class="arc" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 62 C 26 96, 174 96, 178 62" stroke-dasharray="0 6 400" />
+      <path d="M22 62 C 26 28, 174 28, 178 62" opacity=".35" stroke-dasharray="4 5" />
+      <path d="M172 54 l6 8 -9 3" />
+    </svg>
+    <div class="spin__tilt"><img class="spin__can" id="spinCan" src="../assets/can-cola.png" alt="" fetchpriority="high" /></div>
+  </div>
+  <div class="spin__copy">
+    <div>
+      <span class="eyebrow" data-i18n="eyebrow">#ما_نشبه_أحد</span>
+      <h1 class="display"><span data-i18n="h1a">Like no</span><br><span data-i18n="h1b">one else.</span></h1>
+      <p data-i18n="hero_p">Saudi born, Saudi made, poured in 70+ countries. Ten flavors, one attitude, always in motion.</p>
+      <div class="spin__cta">
+        <a class="btn btn--fill" href="#rails"><span data-i18n="cta_rails">Tap the pictures</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 13l7 7 7-7"/></svg></a>
+        <a class="btn" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="cta_shop">Shop online</a>
+      </div>
+    </div>
+    <div class="spin__meta">
+      <div class="display"><span id="spinIdx">01</span>/10</div>
+      <small id="spinLabel">Cola</small>
+      <nav class="spin__dots" id="dots" aria-label="Flavors"></nav>
+    </div>
+  </div>
+</section>
+
+<!-- 2. bold statements that move, stretch and shift across the palette -->
+<section class="type" id="type" data-ink="#0b277a" data-bg="#e9e7dc">
+  <div class="sec-head">
+    <span class="eyebrow" data-i18n="ty_tag">Kinetic type</span>
+    <h2 class="display"><span data-i18n="ty_h1">Bold</span> <em data-i18n="ty_h2">by nature.</em></h2>
+    <p data-i18n="ty_p">Saudi roots, global reach, bold taste and youthful energy. Never standing still.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- 3. two rails sliding opposite ways; tap any picture and it becomes the flavor pattern -->
+<section class="rails" id="rails" data-ink="#e9e7dc" data-bg="#0b277a">
+  <div class="sec-head">
+    <span class="eyebrow" data-i18n="ra_tag">Every sip, every scene</span>
+    <h2 class="display"><span data-i18n="ra_h1">Tap a picture.</span> <em data-i18n="ra_h2">Find the flavor.</em></h2>
+  </div>
+  <div class="rail"><div class="rail__track" id="railA"></div></div>
+  <div class="rail rail--r"><div class="rail__track" id="railB"></div></div>
+  <p class="rails__hint" data-i18n="ra_hint">Tap again to flip it back</p>
+</section>
+
+<!-- 4. the reel -->
+<section class="film" id="film" data-ink="#0b277a" data-bg="#ffd100">
+  <div>
+    <span class="eyebrow" data-i18n="fi_tag">Always in motion</span>
+    <h2 class="display"><span data-i18n="fi_h1">Made to</span> <em data-i18n="fi_h2">move.</em></h2>
+    <p data-i18n="fi_p">Fast, playful, never the same twice. That is the brand, and that is the can in your hand.</p>
+    <div class="film__stats">
+      <div><b>10</b><span data-i18n="s_ten">flavors</span></div>
+      <div><b>70+</b><span data-i18n="s_countries">countries</span></div>
+      <div><b>#1</b><span data-i18n="s_fast">fastest growing Saudi brand</span></div>
+    </div>
+  </div>
+  <div class="phone"><video id="reel" muted loop playsinline preload="metadata" src="../assets/Kinzabev%20Video.mp4"></video></div>
+</section>
+
+<!-- 5. saudi made -->
+<section class="saudi" id="saudi" data-ink="#e9e7dc" data-bg="#e8235a">
+  <img src="../assets/saudi-made.svg" data-en="../assets/saudi-made.svg" data-ar="../assets/saudi-made-ar.svg" alt="Saudi Made" />
+  <div>
+    <h2 class="display"><span data-i18n="sa_h1">Designed, born</span><br><span data-i18n="sa_h2">and made in Saudi.</span></h2>
+    <p><span class="wm"></span> <span data-i18n="sa_p">is a Saudi brand, Saudi owned, from the first sketch to the last can. The fastest growing Saudi beverage brand in the world, and still growing.</span></p>
+  </div>
+</section>
+
+<section class="links" id="links" data-ink="#0b277a" data-bg="#e9e7dc">
+  <div class="sec-head">
+    <span class="eyebrow" data-i18n="ln_tag">All our links</span>
+    <h2 class="display"><span data-i18n="ln_h1">Find us</span> <em data-i18n="ln_h2">everywhere</em></h2>
+  </div>
+  <nav class="links__grid" id="linksGrid" aria-label="Kinza links"></nav>
+</section>
+
+<footer class="footer" data-ink="#e9e7dc" data-bg="#0b277a">
+  <span class="wm"></span>
+  <p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p>
+  <small>© 2026 Kinza — كينزا</small>
+</footer>
+
+<script>
+  const T = {
+    lang: { en: 'العربية', ar: 'English' },
+    chip_v1: { en: 'V1 <span>Classic</span>', ar: 'V1 <span>الكلاسيكية</span>' },
+    chip_v2: { en: 'V2 <span>Lifestyle</span>', ar: 'V2 <span>لايف ستايل</span>' },
+    eyebrow: { en: '#ما_نشبه_أحد', ar: '#ما_نشبه_أحد' },
+    h1a: { en: 'Like no', ar: 'ما نشبه' }, h1b: { en: 'one else.', ar: 'أحد.' },
+    hero_p: { en: 'Saudi born, Saudi made, poured in 70+ countries. Ten flavors, one attitude, always in motion.', ar: 'وُلدت في السعودية، صُنعت في السعودية، وتُشرب في أكثر من 70 دولة. عشر نكهات، شخصية واحدة، ودايماً في حركة.' },
+    cta_rails: { en: 'Tap the pictures', ar: 'اضغط على الصور' }, cta_shop: { en: 'Shop online', ar: 'تسوّق أونلاين' },
+    ty_tag: { en: 'Kinetic type', ar: 'كلمات تتحرك' }, ty_h1: { en: 'Bold', ar: 'جريئة' }, ty_h2: { en: 'by nature.', ar: 'بطبعها.' },
+    ty_p: { en: 'Saudi roots, global reach, bold taste and youthful energy. Never standing still.', ar: 'جذور سعودية، وصول عالمي، طعم جريء وطاقة شبابية. ما نوقف أبداً.' },
+    ra_tag: { en: 'Every sip, every scene', ar: 'كل رشفة، كل لحظة' }, ra_h1: { en: 'Tap a picture.', ar: 'اضغط على صورة.' }, ra_h2: { en: 'Find the flavor.', ar: 'اكتشف النكهة.' },
+    ra_hint: { en: 'Tap again to flip it back', ar: 'اضغط مرة ثانية لترجع الصورة' },
+    fi_tag: { en: 'Always in motion', ar: 'دايماً في حركة' }, fi_h1: { en: 'Made to', ar: 'مصنوعة' }, fi_h2: { en: 'move.', ar: 'للحركة.' },
+    fi_p: { en: 'Fast, playful, never the same twice. That is the brand, and that is the can in your hand.', ar: 'سريعة، مرحة، وما تتكرر مرتين. هذي العلامة، وهذي العلبة اللي بيدك.' },
+    s_ten: { en: 'flavors', ar: 'نكهات' }, s_countries: { en: 'countries', ar: 'دولة' }, s_fast: { en: 'fastest growing Saudi brand', ar: 'أسرع علامة سعودية نمواً' },
+    sa_h1: { en: 'Designed, born', ar: 'صُمّمت ووُلدت' }, sa_h2: { en: 'and made in Saudi.', ar: 'وصُنعت في السعودية.' },
+    sa_p: { en: 'is a Saudi brand, Saudi owned, from the first sketch to the last can. The fastest growing Saudi beverage brand in the world, and still growing.', ar: 'علامة سعودية بملكية سعودية، من أول رسمة إلى آخر علبة. أسرع علامة مشروبات سعودية نمواً في العالم، وما زالت تنمو.' },
+    ln_tag: { en: 'All our links', ar: 'كل روابطنا' }, ln_h1: { en: 'Find us', ar: 'تجدنا' }, ln_h2: { en: 'everywhere', ar: 'في كل مكان' },
+    foot: { en: 'The fastest growing Saudi beverage brand in the world.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات.' },
+    f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
+    f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
+    f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
+    l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
+    l3: { en: 'Join the team', ar: 'انضم للفريق' }, l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
+    l4: { en: 'Online store', ar: 'المتجر الإلكتروني' }, l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
+    l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' },
+    l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }, at: { en: '@kinzabev', ar: '@kinzabev' }
+  };
+  // id, background, ink on that background, splash colours for the burst, motif for the pattern
+  const FL = [
+    ['cola', '#0b277a', '#e9e7dc', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
+    ['diet', '#cfd2d8', '#0b277a', ['#0b277a', '#e8235a', '#ffffff'], 'star'],
+    ['lemon', '#009639', '#e9e7dc', ['#ffd100', '#e9e7dc', '#ffd100'], 'slice'],
+    ['orange', '#f28c00', '#e9e7dc', ['#d62e1f', '#ffd100', '#e9e7dc'], 'slice'],
+    ['citrus', '#b9cc00', '#0b277a', ['#ffd100', '#1e8a45', '#ffffff'], 'slice'],
+    ['lemonzero', '#1e8a45', '#e9e7dc', ['#e9e7dc', '#ffd100', '#b9cc00'], 'slice'],
+    ['blackcurrant', '#5f259f', '#e9e7dc', ['#1b2a80', '#b9cc00', '#e9e7dc'], 'berries'],
+    ['pomegranate', '#b6203c', '#e9e7dc', ['#ff5a3c', '#1e8a45', '#e9e7dc'], 'pome'],
+    ['soda', '#1fa8dd', '#0b277a', ['#ffffff', '#0b277a', '#ffffff'], 'bubbles'],
+    ['cocktail', '#d9a21b', '#0b277a', ['#d62e1f', '#1e8a45', '#ffffff'], 'star']
+  ];
+  const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
+  const LINKS = [
+    ['https://kinza.discoveraseer.com/?source=qr', 'l1', 'l1s', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.7 3.8 9S14.6 18.4 12 21M12 3c-2.6 2.6-3.8 5.7-3.8 9S9.4 18.4 12 21"/>'],
+    ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2', 'l2s', '<circle cx="8.5" cy="8" r="3.2"/><circle cx="16" cy="9.5" r="2.6"/><path d="M3 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M14.5 14.4c2.3.2 4.1 1.8 4.5 4.6"/>'],
+    ['https://kinza.jotform.com/form/join-kinza-team', 'l3', 'l3s', '<rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13h18"/>'],
+    ['https://www.kinzabev.com', 'l4', 'l4s', '<path d="M4 5h2l2.2 11h9.6L20 8H7"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="16.5" cy="19.5" r="1.4"/>'],
+    ['https://www.instagram.com/kinzabev', 'l5', 'at', '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/>'],
+    ['https://www.tiktok.com/@kinzabev', 'l6', 'at', '<path d="M19.6 8.6a5.8 5.8 0 0 1-3.6-1.3v6.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3a2.5 2.5 0 1 0 1.7 2.4V2.5h2.9a4.7 4.7 0 0 0 3.6 3.4v2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.snapchat.com/add/kinzabev', 'l7', 'at', '<path d="M12 3c3 0 5 2.2 5 5.2v2.3c.8.2 1.4-.2 1.8 0 .3.4-.4 1-1.4 1.4.5 1.8 1.9 3 3.6 3.4-.5 1-1.7 1.1-2.4 1.3-.2.6-.2 1.2-.7 1.2-.7 0-1.4-.4-2.4 0-.9.4-1.8 1.4-3.5 1.4s-2.6-1-3.5-1.4c-1-.4-1.7 0-2.4 0-.5 0-.5-.6-.7-1.2-.7-.2-1.9-.3-2.4-1.3 1.7-.4 3.1-1.6 3.6-3.4-1-.4-1.7-1-1.4-1.4.4-.2 1 .2 1.8 0V8.2C7 5.2 9 3 12 3z"/>'],
+    ['https://www.youtube.com/@kinzabev', 'l8', 'at', '<rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.3l5 2.7-5 2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.twitter.com/kinzabev', 'l9', 'at', '<path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.2l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2z" fill="currentColor" stroke="none"/>'],
+    ['https://www.facebook.com/KinzaBev/', 'l10', 'at', '<path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.6c-.3-.04-1.3-.13-2.4-.13-2.4 0-4 1.45-4 4.1v2.3H7.6V14h2.7v8z" fill="currentColor" stroke="none"/>']
+  ];
+  // kinetic tiles: background, first colour, second colour, effect, lines (en / ar). "*" in a line is the wordmark.
+  const TILES = [
+    ['#0b277a', '#e9e7dc', '#e8235a', 'slide', ['Made', 'in Saudi.', '^Made to', '^stand out.'], ['صُنعت', 'في السعودية.', '^صُنعت', '^لتتميّز.']],
+    ['#b9cc00', '#e8235a', '#0b277a', 'stretch', ['Born', 'in Saudi.', '^Made for', '^the world.'], ['وُلدت', 'في السعودية.', '^صُنعت', '^للعالم.']],
+    ['#f28c00', '#1fa8dd', '#e9e7dc', 'blur', ['From', 'Saudi', '^to the', '^world.'], ['من', 'السعودية', '^إلى', '^العالم.']],
+    ['#009639', '#b9cc00', '#ffd100', 'skew', ['70+', 'countries.', '^One bold', '^taste.'], ['+70', 'دولة.', '^طعم واحد', '^جريء.']],
+    ['#e8235a', '#ffd100', '#e9e7dc', 'arc', ['Same spirit • Different places • '], ['نفس الروح.', '^أماكن', '^مختلفة.']],
+    ['#1fa8dd', '#0b277a', '#e9e7dc', 'blur', ['Spark', 'your', 'world.'], ['أشعل', 'عالمك.']],
+    ['#5f259f', '#b9cc00', '#ffd100', 'stack', ['Refresh', 'different.', '^Live', '^bold.'], ['انتعش', 'بطريقتك.', '^عِش', '^بجرأة.']],
+    ['#0b277a', '#e9e7dc', '#e8235a', 'stretch', ['Real taste.', '^Real', '^energy.'], ['طعم حقيقي.', '^طاقة', '^حقيقية.']],
+    ['#ffd100', '#e8235a', '#0b277a', 'roll', ['Taste it.', 'Love it.', '^Live it.'], ['ذقها.', 'عشقها.', '^عشها.']],
+    ['#314da0', '#1fa8dd', '#e9e7dc', 'slide', ['Bold', 'by nature.', '^Made to', '^connect.'], ['جريئة', 'بطبعها.', '^صُنعت', '^للتواصل.']],
+    ['#e8235a', '#e9e7dc', '#ffd100', 'skew', ['Inspired', 'by Saudi.', '^Loved', '^everywhere.'], ['من وحي', 'السعودية.', '^محبوبة', '^في كل مكان.']],
+    ['#b9cc00', '#0b277a', '#e8235a', 'stretch', ['Saudi', 'roots.', '^Global', '^mindset.'], ['جذور', 'سعودية.', '^عقلية', '^عالمية.']],
+    ['#f28c00', '#e9e7dc', '#0b277a', 'blur', ['New look.', '^Same', '^passion.'], ['شكل جديد.', '^نفس', '^الشغف.']],
+    ['#5f259f', '#e9e7dc', '#b9cc00', 'stack', ['*.', 'Sparking', '^brilliant', '^moments.'], ['*.', 'تشعل', '^أجمل', '^اللحظات.']],
+    ['#1fa8dd', '#0b277a', '#e9e7dc', 'roll', ['70+', 'countries.', '^One *.'], ['+70', 'دولة.', '^* وحدة.']]
+  ];
+  // the two rails: kind (photo or can), source, flavor for the pattern side
+  const RAIL_A = [['p', 'life/kiosk.jpg', 'cola'], ['c', 'can-orange.png', 'orange'], ['p', 'life/neon.jpg', 'blackcurrant'], ['p', 'Instagram Kinzabev (1).jpg', 'cola'], ['p', 'life/pour.jpg', 'cocktail'], ['c', 'can-lemon.png', 'lemon'], ['p', 'life/race.jpg', 'pomegranate'], ['p', 'life/fridge.jpg', 'soda'], ['c', 'can-citrus.png', 'citrus'], ['p', 'Instagram Kinzabev (2).jpg', 'orange']];
+  const RAIL_B = [['p', 'life/majlis.jpg', 'orange'], ['c', 'can-pomegranate.png', 'pomegranate'], ['p', 'life/park.jpg', 'lemon'], ['p', 'Instagram Kinzabev.jpg', 'cola'], ['p', 'life/soda.jpg', 'soda'], ['c', 'can-blackcurrant.png', 'blackcurrant'], ['p', 'life/desk.jpg', 'diet'], ['c', 'can-cocktail.png', 'cocktail'], ['p', 'life/mocktail.jpg', 'citrus'], ['p', 'life/sofa.jpg', 'lemonzero'], ['c', 'can-diet.png', 'diet']];
+
+  let lang = 'en';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const wm = s => esc(s).replace(/\*/g, '<span class="wm"></span>');
+
+  function applyLang(next) {
+    lang = next;
+    const html = document.documentElement;
+    html.lang = lang; html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => { const t = T[el.dataset.i18nHtml]; if (t) el.innerHTML = t[lang]; });
+    document.querySelectorAll('img[data-en]').forEach(img => { const src = img.dataset[lang]; if (src && img.getAttribute('src') !== src) img.src = src; });
+    document.querySelectorAll('[data-fname]').forEach(el => { el.textContent = T['f_' + el.dataset.fname][lang]; });
+    buildGrid();
+    setFlavor(cur, true);
+    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+  }
+
+  /* ---------- burst + pattern drawing ---------- */
+  function petals(cols, n, r0, r1, seed) {
+    let out = '';
+    for (let i = 0; i < n; i++) {
+      const a = i * 360 / n + (seed || 0);
+      const len = r0 + ((i * 7 + 3) % 5) * (r1 - r0) / 4;
+      const w = 2 + (i % 3);
+      const dist = 34 + ((i * 5) % 4) * 6;
+      out += `<ellipse cx="0" cy="${-(dist + len / 2)}" rx="${w}" ry="${len / 2}" fill="${cols[i % cols.length]}" transform="rotate(${a})"/>`;
+      if (i % 4 === 1) out += `<circle cx="0" cy="${-(dist + len + 8)}" r="${1.4 + (i % 2)}" fill="${cols[(i + 1) % cols.length]}" transform="rotate(${a + 4})"/>`;
+    }
+    return out;
+  }
+  function motif(kind, cols, bg) {
+    const a = cols[0], b = cols[1] || cols[0], p = '#fff';
+    if (kind === 'slice') return `<circle r="24" fill="${p}"/><circle r="20" fill="${a}"/>` + [0, 45, 90, 135].map(d => `<line x1="-20" y1="0" x2="20" y2="0" stroke="${p}" stroke-width="2.4" transform="rotate(${d})"/>`).join('') + `<circle r="3" fill="${p}"/>`;
+    if (kind === 'berries') return `<line x1="0" y1="26" x2="0" y2="-22" stroke="${p}" stroke-width="2.5"/>` + [[0, -22, 8], [-12, -8, 8], [12, -6, 8], [-8, 8, 7], [9, 10, 7], [0, 0, 6]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${b}" stroke="${p}" stroke-width="1.5"/>`).join('');
+    if (kind === 'pome') { let d = ''; for (let y = -16; y <= 16; y += 8) for (let x = -16; x <= 16; x += 8) if (x * x + y * y < 330) d += `<circle cx="${x}" cy="${y + 4}" r="2.8" fill="${a}"/>`; return `<path d="M0 -30 L10 -18 A22 22 0 1 1 -10 -18 Z" fill="${p}"/>${d}`; }
+    if (kind === 'bubbles') return [[0, 0, 12], [-18, -14, 6], [16, -18, 8], [18, 12, 5], [-16, 14, 7], [4, 24, 4]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${p}" stroke-width="2.2"/>`).join('');
+    let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
+    return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
+  }
+  function pattern(id) {
+    const [, bg, ink, cols, kind] = FLI[id];
+    const name = T['f_' + id][lang];
+    return `<svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="250" fill="${bg}"/>
+      <g transform="translate(100 108)">${petals(cols, 22, 26, 62, 7)}${motif(kind, cols, bg)}</g>
+      <text x="100" y="228" text-anchor="middle" fill="${ink}" font-family="${lang === 'ar' ? 'Cairo' : 'Outfit'}, sans-serif" font-weight="800" font-size="15" letter-spacing="${lang === 'ar' ? 0 : 3}">${esc(lang === 'ar' ? name : name.toUpperCase())}</text></svg>`;
+  }
+
+  /* ---------- 1. spin hero ---------- */
+  let cur = 0, timer = null, busy = false;
+  const spin = document.getElementById('top'), can = document.getElementById('spinCan'), burstG = document.getElementById('burstG'), burst = document.getElementById('burst');
+  const dots = document.getElementById('dots');
+  dots.innerHTML = FL.map(([id, bg], i) => `<button type="button" style="--d:${bg}" data-i="${i}" aria-label="${T['f_' + id].en}"></button>`).join('');
+  dots.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; go(+b.dataset.i, true); });
+  function paint(i) {
+    const [id, bg, ink, cols] = FL[i];
+    document.documentElement.style.setProperty('--bg', bg);
+    document.documentElement.style.setProperty('--ink', ink);
+    can.src = `../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
+    burstG.innerHTML = petals(cols, 28, 30, 70, 0);
+    document.getElementById('spinName').textContent = T['f_' + id][lang];
+    document.getElementById('spinLabel').textContent = T['f_' + id][lang];
+    document.getElementById('spinIdx').textContent = String(i + 1).padStart(2, '0');
+    dots.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
+    burst.classList.remove('pop'); void burst.offsetWidth; burst.classList.add('pop');
+  }
+  function setFlavor(i, quiet) { cur = i; paint(i); if (!quiet) { spin.classList.add('is-in'); setTimeout(() => spin.classList.remove('is-in'), 400); } }
+  function go(i, manual) {
+    if (busy) return; busy = true;
+    if (manual) schedule(7000);
+    if (reduced) { setFlavor(i, true); busy = false; return; }
+    spin.classList.add('is-out');
+    setTimeout(() => { spin.classList.remove('is-out'); setFlavor(i); busy = false; }, 330);
+  }
+  function schedule(delay) { clearInterval(timer); if (reduced) return; timer = setInterval(() => go((cur + 1) % FL.length), 2600); if (delay) { clearInterval(timer); setTimeout(() => schedule(), delay); } }
+  FL.forEach(([id]) => { const a = new Image(); a.src = `../assets/can-${id}.png`; });
+  paint(0);
+  document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
+  schedule();
+
+  /* ---------- 2. kinetic tiles ---------- */
+  function buildGrid() {
+    document.getElementById('grid').innerHTML = TILES.map(([bg, c1, c2, fx, en, ar], n) => {
+      const lines = lang === 'ar' ? ar : en;
+      if (lang === 'ar' && fx === 'arc') fx = 'stretch';
+      let body;
+      if (fx === 'arc') body = `<svg viewBox="0 0 200 200"><defs><path id="arc${n}" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"/></defs><text><textPath href="#arc${n}">${esc(lines[0].repeat(2))}</textPath></text><path class="spark" d="M100 84 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4z"/></svg>`;
+      else body = lines.map(l => { const alt = l.startsWith('^'); const t = l.replace(/^\^/, ''); const inner = fx === 'roll' ? `<span>${wm(t)}</span>` : fx === 'stack' ? `${wm(t)}<span class="echo" aria-hidden="true">${wm(t)}</span><span class="echo" aria-hidden="true">${wm(t)}</span>` : wm(t); return `<span class="ln display${alt ? ' alt' : ''}" data-t="${esc(t.replace(/\*/g, ''))}">${inner}</span>`; }).join('');
+      return `<div class="tile fx-${fx}" style="--tb:${bg};--t1:${c1};--t2:${c2}">${body}<span class="tile__logo"><span class="wm"></span></span></div>`;
+    }).join('');
+    const tiles = [...document.querySelectorAll('.tile')];
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.transitionDelay = (tiles.indexOf(e.target) % 5) * 70 + 'ms'; e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .2 });
+    tiles.forEach(t => io.observe(t));
+  }
+
+  /* ---------- 3. rails ---------- */
+  function card([kind, src, f]) {
+    const [, bg] = FLI[f];
+    const front = kind === 'c' ? `<img src="../assets/${src}" data-en="../assets/${src}" data-ar="../assets/${src.replace('.png', '-ar.png')}" alt="" loading="lazy" />` : `<img src="../assets/${encodeURI(src)}" alt="" loading="lazy" />`;
+    return `<button type="button" class="card${kind === 'c' ? ' card--can' : ''}" data-f="${f}" style="--fb:${bg}" aria-label="Flip"><div class="card__inner"><div class="card__face card__face--front">${front}</div><div class="card__face card__face--back"></div></div><span class="card__tap">+</span></button>`;
+  }
+  ['railA', 'railB'].forEach((id, k) => {
+    const list = k ? RAIL_B : RAIL_A; const el = document.getElementById(id);
+    el.innerHTML = list.map(card).join('') + list.map(card).join('');
+    el.addEventListener('click', e => {
+      const c = e.target.closest('.card'); if (!c) return;
+      const back = c.querySelector('.card__face--back'); if (!back.innerHTML) back.innerHTML = pattern(c.dataset.f);
+      c.classList.toggle('is-flipped');
+    });
+  });
+
+  /* ---------- 4. reel plays only while on screen ---------- */
+  (function () {
+    const v = document.getElementById('reel');
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: .3 }).observe(v);
+  })();
+
+  /* ---------- header takes the colour of whatever section sits under it ---------- */
+  (function () {
+    const root = document.documentElement.style;
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const ink = e.target.dataset.ink;
+      if (ink) { root.setProperty('--hink', ink); root.setProperty('--hbg', e.target.dataset.bg); } else { root.removeProperty('--hink'); root.removeProperty('--hbg'); }
+    }), { rootMargin: '-30px 0px -92% 0px' });
+    document.querySelectorAll('section, footer').forEach(s => io.observe(s));
+  })();
+
+  /* ---------- links, language ---------- */
+  document.getElementById('linksGrid').innerHTML = LINKS.map(([href, k, s, ico]) =>
+    `<a class="link-card" href="${href}" target="_blank" rel="noopener"><span class="link-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${ico}</svg></span><span><strong data-i18n="${k}">${T[k].en}</strong><small data-i18n="${s}">${T[s].en}</small></span><svg class="link-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`).join('');
+  (function () {
+    const q = new URLSearchParams(location.search).get('lang');
+    let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
+    const start = q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en');
+    applyLang(start);
+    document.getElementById('langBtn').addEventListener('click', () => {
+      applyLang(lang === 'ar' ? 'en' : 'ar');
+      document.querySelectorAll('.card__face--back').forEach(b => { b.innerHTML = ''; });
+      document.querySelectorAll('.card.is-flipped').forEach(c => { c.querySelector('.card__face--back').innerHTML = pattern(c.dataset.f); });
+    });
+  })();
+</script>
+</body>
+</html>
