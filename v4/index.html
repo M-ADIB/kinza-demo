@@ -28,20 +28,43 @@
   button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
   .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .02em; line-height: 1.02; }
   html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; letter-spacing: 0; line-height: 1.28; }
+  html[lang="ar"] *:not([lang="en"]) { letter-spacing: 0 !important; }
   .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
         -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
   html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
         -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
 
   /* ============ HEADER ============ */
-  .header { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(20px, 4vw, 60px); color: var(--ink); transition: color .5s, background .35s; }
+  .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(20px, 4vw, 60px); color: var(--ink); transition: color .5s, background .35s; }
   .header.is-solid { background: var(--navy); color: var(--paper); box-shadow: 0 1px 0 rgba(233, 231, 220, .16); padding-block: 12px; }
+  .header.is-open { background: transparent; box-shadow: none; color: var(--paper); }
   .header .wm { height: 30px; }
-  .header__group { display: flex; gap: 8px; }
+  .burger { position: relative; width: 44px; height: 44px; margin-inline-end: -10px; display: grid; place-items: center; }
+  .burger span { position: absolute; width: 26px; height: 2px; border-radius: 2px; background: currentColor; transition: translate .3s var(--ease-out), rotate .3s var(--ease-out); }
+  .burger span:first-child { translate: 0 -5px; }
+  .burger span:last-child { translate: 0 5px; }
+  .burger[aria-expanded="true"] span:first-child { translate: 0 0; rotate: 45deg; }
+  .burger[aria-expanded="true"] span:last-child { translate: 0 0; rotate: -45deg; }
   .chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 9px 16px; white-space: nowrap; }
-  .chip--fill { background: var(--navy); color: var(--paper); border-color: var(--paper); }
-  .header.is-solid .chip--fill { background: var(--paper); color: var(--navy); }
+  .chip--fill { background: var(--paper); color: var(--navy); border-color: var(--paper); }
   html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
+
+  /* full-screen menu panel */
+  .menu { position: fixed; inset: 0; z-index: 60; background: var(--navy); color: var(--paper); display: grid; grid-template-rows: 1fr auto; padding: 100px clamp(20px, 6vw, 96px) 36px; overflow-y: auto; visibility: hidden; opacity: 0; translate: 0 -2%; transition: opacity .4s var(--ease-out), translate .4s var(--ease-out), visibility 0s .4s; }
+  .menu.is-open { visibility: visible; opacity: 1; translate: 0 0; transition-delay: 0s; }
+  html.menu-open { overflow: hidden; }
+  .menu__links { display: grid; gap: clamp(4px, 1.4vh, 14px); align-content: center; }
+  .menu__links a { font-size: clamp(40px, 9vw, 96px); color: var(--paper); opacity: 0; translate: 0 18px; transition: opacity .5s var(--ease-out), translate .5s var(--ease-out); }
+  .menu__links a:hover { opacity: .7; }
+  .menu.is-open .menu__links a { opacity: 1; translate: 0 0; }
+  .menu.is-open .menu__links a:nth-child(2) { transition-delay: .06s; }
+  .menu.is-open .menu__links a:nth-child(3) { transition-delay: .12s; }
+  .menu.is-open .menu__links a:nth-child(4) { transition-delay: .18s; }
+  .menu__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid rgba(233, 231, 220, .16); }
+  .menu__group { display: flex; gap: 8px; }
+  .menu .social { margin: 0; justify-content: flex-start; }
+  .menu .social a span { display: none; }
+  .menu .social a { padding: 12px; }
 
   /* ============ 1. HERO: the can alone, flipping through the flavors ============ */
   .hero { position: relative; height: 100svh; min-height: 560px; background: var(--bg); color: var(--ink); overflow: clip; display: grid; place-items: center; padding: 0 var(--pad); transition: background .55s var(--ease-out), color .55s; }
@@ -54,9 +77,10 @@
   .burst.is-pop { animation: burst-pop .7s var(--ease-spring); }
   @keyframes burst-pop { 0% { transform: scale(.55); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); } }
   @keyframes slow-spin { to { transform: rotate(360deg); } }
-  .tilt { position: relative; z-index: 2; animation: wobble 4.8s ease-in-out infinite; }
+  .tilt { position: relative; z-index: 2; animation: wobble 4.8s ease-in-out infinite; will-change: transform; }
+  .hero.is-out .tilt, .hero.is-in .tilt { animation-play-state: paused; }
   @keyframes wobble { 0% { transform: rotate(-14deg) translateY(0); } 25% { transform: rotate(6deg) translateY(-18px); } 50% { transform: rotate(16deg) translateY(0); } 75% { transform: rotate(-4deg) translateY(-14px); } 100% { transform: rotate(-14deg) translateY(0); } }
-  .can { height: min(62svh, 600px); width: auto; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .35)); transform: perspective(900px) rotateY(0); transition: transform .32s ease-in, opacity .32s; }
+  .can { height: min(62svh, 600px); width: auto; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .35)); transform: perspective(900px) rotateY(0); transition: transform .32s ease-in, opacity .32s; will-change: transform; }
   .hero.is-out .can { transform: perspective(900px) rotateY(90deg) scale(.9); opacity: .6; }
   .hero.is-in .can { animation: can-in .38s var(--ease-out) both; }
   @keyframes can-in { from { transform: perspective(900px) rotateY(-90deg) scale(.9); opacity: .6; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
@@ -85,9 +109,14 @@
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography ============ */
-  .pop { position: relative; height: 92svh; min-height: 520px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 20px; }
-  .pop__word { font-size: clamp(64px, 13vw, 220px); line-height: .95; max-width: 9ch; }
-  html[lang="ar"] .pop__word { font-size: clamp(56px, 11vw, 190px); line-height: 1.2; }
+  .pop { position: relative; height: 100svh; min-height: 560px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 20px; }
+  .pop__body { position: relative; z-index: 1; display: grid; gap: clamp(24px, 4vh, 44px); justify-items: center; }
+  .pop__word { font-size: clamp(64px, 13vw, 220px); max-width: 9ch; }
+  html[lang="ar"] .pop__word { font-size: clamp(56px, 11vw, 190px); }
+  .pop__tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .pop__tabs button { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 8px 14px; opacity: .7; white-space: nowrap; transition: background .3s, color .3s, opacity .3s; }
+  .pop__tabs button[aria-selected="true"] { background: var(--pc, var(--paper)); color: var(--pb, var(--pink)); opacity: 1; }
+  html[lang="ar"] .pop__tabs button { font-size: 13px; }
   .pop__word.in { animation: pop-in .9s var(--ease-spring) both; }
   .pop__word.out { animation: pop-out .35s ease-in both; }
   @keyframes pop-in { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 55% { transform: scale(1.08) rotate(2deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
@@ -140,9 +169,8 @@
   .footer small { display: block; margin-top: 24px; font-size: 12px; opacity: .55; letter-spacing: .1em; }
 
   @media (max-width: 760px) {
-    .can { height: min(52svh, 440px); }
+    .can { height: min(52svh, 440px); filter: none; }
     .burst { width: 130vw; }
-    .pop { height: 70svh; }
     .photos figure { height: 200px; }
     .photos--tall figure { height: 240px; }
     .photos__in, .strip__in { animation-duration: 90s; }
@@ -165,11 +193,20 @@
 
 <header class="header" id="header">
   <a class="brand" href="#top" aria-label="Kinza"><span class="wm"></span></a>
-  <div class="header__group">
-    <button class="chip" id="langBtn" type="button" data-i18n="lang">العربية</button>
-    <a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a>
-  </div>
+  <button class="burger" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button>
 </header>
+
+<!-- full-screen menu: four brand links, language + shop, social -->
+<nav class="menu" id="menu" aria-label="Menu">
+  <div class="menu__links" id="menuLinks"></div>
+  <div class="menu__foot">
+    <div class="menu__group">
+      <button class="chip" id="langBtn" type="button" data-i18n="lang">العربية</button>
+      <a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a>
+    </div>
+    <div class="social" id="menuSocial"></div>
+  </div>
+</nav>
 
 <!-- 1. hero: no copy, the can flips through the ten flavors and the background follows. placeholder for the client's video -->
 <section class="hero" id="top">
@@ -182,7 +219,7 @@
   <nav class="hero__dots" id="dots" aria-label="Flavors"></nav>
 </section>
 
-<div class="strip" aria-hidden="true"><div class="strip__in" id="strip1"></div></div>
+<div class="strip" aria-hidden="true"><div class="strip__in" id="strip1" lang="en"></div></div>
 
 <!-- 2. product photography strip, one row. placeholders until the client's group shots arrive -->
 <div class="photos" id="products"><div class="photos__in" id="productsIn"></div></div>
@@ -192,7 +229,10 @@
 <!-- 3. pop-style brand statements. placeholder until the client's typography video arrives -->
 <section class="pop" id="pop">
   <div class="pop__ring" aria-hidden="true"></div>
-  <h2 class="pop__word display" id="popWord">Bold by nature</h2>
+  <div class="pop__body">
+    <h2 class="pop__word display" id="popWord">Bold by nature</h2>
+    <div class="pop__tabs" id="popTabs" role="tablist"></div>
+  </div>
   <span class="pop__count" id="popCount">01/05</span>
 </section>
 
@@ -204,7 +244,7 @@
   <p class="flavors__hint" data-i18n="fl_hint">Tap a can</p>
 </section>
 
-<div class="strip" aria-hidden="true"><div class="strip__in" id="strip3"></div></div>
+<div class="strip" aria-hidden="true"><div class="strip__in" id="strip3" lang="en"></div></div>
 
 <!-- 6. lifestyle strip, one row. placeholders until the tailor-made photography arrives -->
 <div class="photos photos--tall photos--rev" id="life"><div class="photos__in" id="lifeIn"></div></div>
@@ -222,7 +262,7 @@
 
 <script>
   const T = {
-    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' },
+    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, menu: { en: 'Menu', ar: 'القائمة' },
     fl_hint: { en: 'Tap a can', ar: 'اضغط على علبة' },
     f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
@@ -278,6 +318,8 @@
   let lang = 'en';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const PETALS = matchMedia('(max-width: 760px)').matches ? 16 : 28;
 
   /* ---------- burst + pattern drawing ---------- */
   function petals(cols, n, r0, r1, seed) {
@@ -310,7 +352,7 @@
     document.documentElement.style.setProperty('--bg', bg);
     document.documentElement.style.setProperty('--ink', ink);
     can.src = `../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
-    burstG.innerHTML = petals(cols, 28, 30, 70, 0);
+    burstG.innerHTML = petals(cols, PETALS, 30, 70, 0);
     document.getElementById('spinName').textContent = T['f_' + id][lang];
     document.getElementById('spinLabel').textContent = T['f_' + id][lang];
     dots.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
@@ -328,13 +370,26 @@
   paint(0); schedule();
   document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
 
-  /* ---------- header ---------- */
-  (function () { const h = document.getElementById('header'); const f = () => h.classList.toggle('is-solid', scrollY > 40); addEventListener('scroll', f, { passive: true }); f(); })();
+  /* ---------- header + menu panel ---------- */
+  (function () {
+    const h = document.getElementById('header'), menu = document.getElementById('menu'), btn = document.getElementById('menuBtn');
+    const f = () => h.classList.toggle('is-solid', scrollY > 40); addEventListener('scroll', f, { passive: true }); f();
+    document.getElementById('menuLinks').innerHTML = CARDS.map(([href, k]) => `<a class="display" href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a>`).join('');
+    document.getElementById('menuSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
+    function setMenu(open) {
+      menu.classList.toggle('is-open', open); h.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open)); document.documentElement.classList.toggle('menu-open', open);
+      (open ? menu.querySelector('a') : btn).focus({ preventScroll: true });
+    }
+    btn.addEventListener('click', () => setMenu(!menu.classList.contains('is-open')));
+    menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) setMenu(false); });
+  })();
 
   /* ---------- strips ---------- */
   function buildStrips() {
     const msgs = MESSAGES.map(m => `<span${lang === 'ar' ? ' lang="ar"' : ''}>${esc(lang === 'ar' ? m[1] : m[0])}</span>`).join('');
-    const countries = COUNTRIES.map(c => `<span>${esc(c)}</span>`).join('');
+    const countries = COUNTRIES.map(c => `<span lang="en">${esc(c)}</span>`).join('');
     document.getElementById('strip1').innerHTML = countries.repeat(2);
     document.getElementById('strip2').innerHTML = msgs.repeat(4);
     document.getElementById('strip3').innerHTML = countries.repeat(2);
@@ -345,18 +400,23 @@
 
   /* ---------- 3. pop statements, cycling while on screen ---------- */
   (function () {
-    const sec = document.getElementById('pop'), word = document.getElementById('popWord'), count = document.getElementById('popCount');
-    let i = 0, t = null;
+    const sec = document.getElementById('pop'), word = document.getElementById('popWord'), count = document.getElementById('popCount'), tabs = document.getElementById('popTabs');
+    let i = 0, t = null, stopped = false; // stopped: the visitor tapped a tab, the cycle never restarts
+    tabs.innerHTML = POP.map((_, k) => `<button type="button" role="tab" aria-selected="false" data-k="${k}"></button>`).join('');
+    const tabBtns = [...tabs.children];
     function show(k) {
       const [bg, ink, en, ar] = POP[k];
       sec.style.setProperty('--pb', bg); sec.style.setProperty('--pc', ink);
       word.textContent = lang === 'ar' ? ar : en;
       count.textContent = String(k + 1).padStart(2, '0') + '/' + String(POP.length).padStart(2, '0');
+      tabBtns.forEach((b, j) => { b.setAttribute('aria-selected', String(j === k)); b.textContent = lang === 'ar' ? POP[j][3] : POP[j][2]; });
       word.classList.remove('out'); word.classList.remove('in'); void word.offsetWidth; word.classList.add('in');
     }
     function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 340); }
+    function start() { clearInterval(t); if (!stopped) t = setInterval(next, 1600); }
     show(0);
-    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 2400); }), { threshold: .4 }).observe(sec);
+    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) start(); }), { threshold: .4 }).observe(sec);
+    tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; e.stopPropagation(); stopped = true; clearInterval(t); i = +b.dataset.k; show(i); });
     sec.addEventListener('click', next);
     window.popRefresh = () => show(i);
   })();
@@ -378,7 +438,6 @@
   flRow.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) picked = b.dataset.id; });
 
   /* ---------- footer, language ---------- */
-  const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   document.getElementById('linkCards').innerHTML = CARDS.map(([href, k, s, d]) =>
     `<a class="link-card" href="${href}" target="_blank" rel="noopener"><span class="link-card__icon">${ico(d)}</span><svg class="link-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg><span><strong data-i18n="${k}">${T[k].en}</strong><small data-i18n="${s}">${T[s].en}</small></span></a>`).join('');
   document.getElementById('social').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}<span data-i18n="${k}">${T[k].en}</span></a>`).join('');
@@ -386,6 +445,7 @@
     lang = next;
     document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
+    document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
     buildStrips(); buildRow(); pick(picked); paint(cur); window.popRefresh();
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
