@@ -141,9 +141,11 @@
   .sec__head .label:last-child { opacity: .55; }
 
   /* 4. can strip: ten cans on paper rectangles sliding right to left, tap shows the flavor pattern (Marina, 2026-09-07 13:52) */
-  .cans { direction: ltr; overflow: clip; margin: 0 calc(-1 * var(--pad)); }
-  .cans__in { display: flex; gap: var(--gap); width: max-content; animation: strip 90s linear infinite; }
-  .cans__in:hover, .cans__in.is-held { animation-play-state: paused; }
+  .cans { direction: ltr; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); cursor: grab; user-select: none; -webkit-user-select: none; }
+  .cans::-webkit-scrollbar { display: none; }
+  .cans.is-drag { cursor: grabbing; }
+  .cans__in { display: flex; gap: var(--gap); width: max-content; }
+  .tile img { -webkit-user-drag: none; }
   .tile { position: relative; flex: none; width: clamp(200px, 17vw, 250px); aspect-ratio: 3 / 4; background: var(--paper); overflow: clip; isolation: isolate; text-align: start; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
@@ -180,7 +182,6 @@
     .burst { width: 130vw; }
     .photos__in, .strip__in { animation-duration: 90s; }
     .tile { width: 44vw; }
-    .cans__in { animation-duration: 120s; }
     .tile small { inset-inline-start: 12px; bottom: 10px; }
     .people__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
     .people__grid::-webkit-scrollbar { display: none; }
@@ -189,8 +190,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .strip__in, .cans__in { animation: none !important; }
-    .photos, .strip, .cans { overflow-x: auto; }
+    .photos__in, .strip__in { animation: none !important; }
+    .photos, .strip { overflow-x: auto; }
     .rv { opacity: 1; translate: 0 0; }
     .pop__word { opacity: 1; }
   }
@@ -450,18 +451,43 @@
   })();
 
   /* ---------- 4. can strip ---------- */
-  const tiles = document.getElementById('tiles');
+  const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set(); // flavors showing their pattern, kept across a language switch
-  let hold = null;
+  let hold = null, dragged = false;
+  // three copies: the strip sits on the middle one and wraps silently, so it slides forever and swipes both ways
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('').repeat(2);
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" draggable="false" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('').repeat(3);
+    cans.scrollLeft = tiles.scrollWidth / 3;
   }
+  // a tap toggles every copy of that flavor and holds the strip for 5 s; a drag never counts as a tap
   tiles.addEventListener('click', e => {
-    const b = e.target.closest('.tile'); if (!b) return; const id = b.dataset.id;
+    const b = e.target.closest('.tile'); if (!b || dragged) return; const id = b.dataset.id;
     on.has(id) ? on.delete(id) : on.add(id);
     tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(on.has(id))));
-    tiles.classList.add('is-held'); clearTimeout(hold); hold = setTimeout(() => tiles.classList.remove('is-held'), 5000);
+    pause(5000);
   });
+  function pause(ms) { tiles.classList.add('is-held'); clearTimeout(hold); if (ms) hold = setTimeout(() => tiles.classList.remove('is-held'), ms); }
+  cans.addEventListener('mouseenter', () => pause(0));
+  cans.addEventListener('mouseleave', () => pause(1500));
+  ['touchstart', 'wheel'].forEach(ev => cans.addEventListener(ev, () => pause(4000), { passive: true }));
+  // mouse drag scrolls the strip; touch uses the native swipe
+  cans.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'mouse') return;
+    const x0 = e.clientX, s0 = cans.scrollLeft; dragged = false; cans.classList.add('is-drag');
+    const move = ev => { const dx = ev.clientX - x0; if (Math.abs(dx) > 4) dragged = true; cans.scrollLeft = s0 - dx; };
+    const up = () => { cans.classList.remove('is-drag'); removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => dragged = false, 0); };
+    addEventListener('pointermove', move); addEventListener('pointerup', up);
+  });
+  // auto slide at 36 px/s, wrapping on the middle copy
+  let lastT = 0;
+  (function step(t) {
+    const W = tiles.scrollWidth / 3;
+    if (W > 0) {
+      if (!reduced && !document.hidden && !tiles.classList.contains('is-held') && lastT) cans.scrollLeft += 36 * Math.min(50, t - lastT) / 1000;
+      if (cans.scrollLeft < W * .5) cans.scrollLeft += W; else if (cans.scrollLeft > W * 1.5) cans.scrollLeft -= W;
+    }
+    lastT = t; requestAnimationFrame(step);
+  })(0);
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
