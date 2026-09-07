@@ -14,7 +14,7 @@
 <link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
 <style>
   :root {
-    --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc;
+    --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc; --white: #ffffff;
     --bg: var(--navy); --ink: var(--paper);
     --pad: clamp(20px, 8vw, 140px);
     --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
@@ -40,12 +40,12 @@
   .header.is-open { background: transparent; box-shadow: none; color: var(--paper); }
   .header .wm { height: 30px; }
   .burger { position: relative; width: 44px; height: 44px; margin-inline-end: -10px; display: grid; place-items: center; }
-  .burger span { position: absolute; width: 26px; height: 2px; border-radius: 2px; background: currentColor; transition: translate .3s var(--ease-out), rotate .3s var(--ease-out); }
+  .burger span { position: absolute; width: 26px; height: 2px; background: currentColor; transition: translate .3s var(--ease-out), rotate .3s var(--ease-out); }
   .burger span:first-child { translate: 0 -5px; }
   .burger span:last-child { translate: 0 5px; }
   .burger[aria-expanded="true"] span:first-child { translate: 0 0; rotate: 45deg; }
   .burger[aria-expanded="true"] span:last-child { translate: 0 0; rotate: -45deg; }
-  .chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 9px 16px; white-space: nowrap; }
+  .chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; padding: 9px 16px; white-space: nowrap; }
   .chip--fill { background: var(--paper); color: var(--navy); border-color: var(--paper); }
   html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
 
@@ -62,9 +62,10 @@
   .menu.is-open .menu__links a:nth-child(4) { transition-delay: .18s; }
   .menu__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid rgba(233, 231, 220, .16); }
   .menu__group { display: flex; gap: 8px; }
-  .menu .social { margin: 0; justify-content: flex-start; }
-  .menu .social a span { display: none; }
-  .menu .social a { padding: 12px; }
+  .menu__social { display: flex; gap: 6px; }
+  .menu__social a { display: grid; place-items: center; width: 40px; height: 40px; opacity: .85; transition: opacity .3s; }
+  .menu__social a:hover { opacity: 1; }
+  .menu__social svg { width: 20px; height: 20px; }
 
   /* ============ 1. HERO: the can alone, flipping through the flavors ============ */
   .hero { position: relative; height: 100svh; min-height: 560px; background: var(--bg); color: var(--ink); overflow: clip; display: grid; place-items: center; padding: 0 var(--pad); transition: background .55s var(--ease-out), color .55s; }
@@ -90,101 +91,80 @@
   .hero__label { position: absolute; bottom: 52px; left: 50%; translate: -50% 0; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; opacity: .8; z-index: 3; }
   html[lang="ar"] .hero__label { letter-spacing: 0; font-size: 13px; }
 
-  /* ============ thin copy strips ============ */
-  .strip { direction: ltr; overflow: clip; border-block: 1px solid rgba(233, 231, 220, .18); padding: 9px 0; background: var(--navy); color: var(--paper); }
-  .strip--blue { background: var(--blue); }
-  .strip__in { display: flex; gap: 34px; width: max-content; animation: strip 60s linear infinite; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; opacity: .85; }
+  /* ============ thin copy strips: white with blue copy ============ */
+  .strip { direction: ltr; overflow: clip; border-block: 1px solid rgba(49, 77, 160, .22); padding: 12px 0; background: var(--white); color: var(--blue); }
+  .strip__in { display: flex; gap: 34px; width: max-content; animation: strip 60s linear infinite; font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
   .strip--rev .strip__in { animation-direction: reverse; }
-  .strip__in span::before { content: "•"; margin-inline-end: 34px; opacity: .5; }
+  .strip__in span::before { content: "•"; margin-inline-end: 34px; opacity: .45; }
   .strip__in span[lang="ar"] { font-family: "Cairo", sans-serif; letter-spacing: 0; font-size: 13px; }
   @keyframes strip { to { transform: translateX(-50%); } }
 
-  /* ============ 2 + 6. photo strips ============ */
-  .photos { direction: ltr; overflow: clip; background: var(--navy); padding: 14px 0; }
-  .photos__in { display: flex; gap: 14px; width: max-content; animation: strip 70s linear infinite; }
-  .photos--rev .photos__in { animation-direction: reverse; animation-duration: 80s; }
+  /* ============ 2. product strip, short, on white ============ */
+  .photos { direction: ltr; overflow: clip; background: var(--white); padding: clamp(40px, 6vw, 90px) 0; }
+  .photos__in { display: flex; gap: 12px; width: max-content; animation: strip 70s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: clamp(220px, 40vw, 460px); aspect-ratio: 3 / 2; border-radius: 16px; overflow: clip; background: var(--blue); }
-  .photos--tall figure { aspect-ratio: 4 / 5; height: clamp(240px, 42vw, 440px); }
+  .photos figure { flex: none; height: clamp(140px, 17vw, 220px); aspect-ratio: 3 / 2; overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* ============ 3. pop typography ============ */
+  /* ============ 6. people strip, tall, the hero of the lower page. sliding right to left ============ */
+  .people { direction: ltr; overflow: clip; background: var(--white); padding: clamp(50px, 7vw, 110px) 0; }
+  .people__in { display: flex; gap: 14px; width: max-content; animation: strip 80s linear infinite; }
+  .people__in:hover { animation-play-state: paused; }
+  .people figure { flex: none; height: clamp(440px, 80svh, 800px); aspect-ratio: 2 / 3; overflow: clip; background: var(--paper); }
+  .people img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
   .pop { position: relative; height: 100svh; min-height: 560px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 20px; }
-  .pop__body { position: relative; z-index: 1; display: grid; gap: clamp(24px, 4vh, 44px); justify-items: center; }
   .pop__word { font-size: clamp(64px, 13vw, 220px); max-width: 9ch; }
   html[lang="ar"] .pop__word { font-size: clamp(56px, 11vw, 190px); }
-  .pop__tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-  .pop__tabs button { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 999px; padding: 8px 14px; opacity: .7; white-space: nowrap; transition: background .3s, color .3s, opacity .3s; }
-  .pop__tabs button[aria-selected="true"] { background: var(--pc, var(--paper)); color: var(--pb, var(--pink)); opacity: 1; }
-  html[lang="ar"] .pop__tabs button { font-size: 13px; }
   .pop__word.in { animation: pop-in .9s var(--ease-spring) both; }
   .pop__word.out { animation: pop-out .35s ease-in both; }
   @keyframes pop-in { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 55% { transform: scale(1.08) rotate(2deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
   @keyframes pop-out { to { transform: scale(1.4) skewX(-12deg); opacity: 0; filter: blur(8px); } }
-  .pop__ring { position: absolute; inset: 0; margin: auto; width: min(80vw, 640px); aspect-ratio: 1; border: 3px dashed currentColor; border-radius: 50%; opacity: .25; animation: slow-spin 40s linear infinite; }
-  .pop__count { position: absolute; bottom: 26px; left: 50%; translate: -50% 0; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; opacity: .8; }
-  html[lang="ar"] .pop__count { letter-spacing: 0; font-size: 13px; }
 
-  /* ============ 4. flavor row ============ */
-  .flavors { position: relative; background: var(--fb, #0b277a); color: var(--fi, var(--paper)); padding: 70px 0 60px; overflow: clip; transition: background .5s var(--ease-out), color .5s; isolation: isolate; }
-  .flavors__pattern { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; opacity: .55; }
-  .flavors__pattern svg { width: min(140vw, 1100px); height: auto; animation: slow-spin 80s linear infinite; }
-  .flavors__name { text-align: center; font-size: clamp(40px, 8vw, 120px); line-height: 1; }
-  .flavors__row { display: flex; gap: clamp(10px, 2vw, 28px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 40px var(--pad) 20px; scroll-padding-inline: var(--pad); }
-  .flavors__row::-webkit-scrollbar { display: none; }
-  .fl { flex: none; width: clamp(96px, 11vw, 150px); scroll-snap-align: center; display: grid; gap: 12px; justify-items: center; opacity: .8; transition: opacity .3s, transform .4s var(--ease-spring); }
-  .fl img { height: clamp(150px, 20vw, 260px); width: auto; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .35)); }
-  .fl small { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-  html[lang="ar"] .fl small { letter-spacing: 0; font-size: 13px; }
-  .fl:hover { opacity: .85; }
-  .fl[aria-pressed="true"] { opacity: 1; transform: translateY(-14px) scale(1.06); }
-  .flavors__hint { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; opacity: .7; }
-  html[lang="ar"] .flavors__hint { letter-spacing: 0; font-size: 13px; }
+  /* ============ 4. flavor tiles: each can on a paper rectangle, tap shows its graphic pattern ============ */
+  .flavors { background: var(--white); color: var(--blue); padding: clamp(50px, 7vw, 110px) 0 clamp(40px, 5vw, 70px); }
+  .tiles { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
+  .tiles::-webkit-scrollbar { display: none; }
+  .tile { flex: none; width: clamp(200px, 22vw, 320px); scroll-snap-align: start; display: grid; gap: 14px; justify-items: center; }
+  .tile__box { position: relative; width: 100%; aspect-ratio: 3 / 4; background: var(--paper); display: grid; place-items: center; overflow: clip; isolation: isolate; }
+  .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .5; transition: opacity .4s var(--ease-out), scale .55s var(--ease-spring); }
+  .tile__pat svg { width: 150%; height: auto; }
+  .tile__box[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
+  .tile__box[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
+  .tile__box img { height: 70%; width: auto; transition: transform .45s var(--ease-spring); }
+  .tile__box:hover img { transform: translateY(-4px); }
+  .tile__box[aria-pressed="true"] img { transform: scale(1.06); }
+  .tile small { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  html[lang="ar"] .tile small { font-size: 13px; }
+  .flavors__hint { text-align: center; margin-top: clamp(24px, 3vw, 40px); font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; opacity: .6; }
+  html[lang="ar"] .flavors__hint { font-size: 13px; }
 
-  /* ============ links + footer ============ */
-  .links { background: var(--navy); padding: clamp(70px, 9vw, 120px) clamp(20px, 6vw, 96px) 0; }
-  .links__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 1200px; margin: 0 auto; }
-  .link-card { position: relative; display: grid; gap: 14px; padding: 24px; min-height: 180px; border-radius: 20px; background: var(--blue); color: var(--paper); overflow: clip; transition: transform .35s var(--ease-out), background .35s; }
-  .link-card::after { content: ""; position: absolute; inset: auto -30% -40% auto; width: 60%; aspect-ratio: 1; border-radius: 50%; background: rgba(233, 231, 220, .08); transition: transform .5s var(--ease-out); }
-  .link-card:hover { transform: translateY(-4px); background: var(--paper); color: var(--navy); }
-  .link-card:hover::after { transform: scale(1.5); }
-  .link-card__icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(233, 231, 220, .14); display: grid; place-items: center; transition: background .35s; }
-  .link-card:hover .link-card__icon { background: rgba(11, 39, 122, .1); }
-  .link-card__icon svg { width: 22px; height: 22px; }
-  .link-card strong { display: block; font-family: "Anton", sans-serif; font-size: 22px; letter-spacing: .02em; line-height: 1.02; text-transform: uppercase; align-self: end; }
-  html[lang="ar"] .link-card strong { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; letter-spacing: 0; font-size: 20px; }
-  .link-card small { display: block; font-size: 12px; font-weight: 600; opacity: .7; margin-top: 4px; }
-  .link-card__arrow { position: absolute; top: 24px; inset-inline-end: 24px; width: 20px; height: 20px; opacity: .6; transition: transform .35s var(--ease-out), opacity .35s; }
-  html[dir="rtl"] .link-card__arrow { transform: scaleX(-1); }
-  .link-card:hover .link-card__arrow { opacity: 1; transform: translate(3px, -3px); }
-  html[dir="rtl"] .link-card:hover .link-card__arrow { transform: scaleX(-1) translate(3px, -3px); }
-  .social { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: 1200px; margin: 40px auto 0; }
-  .social a { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px 12px 14px; border-radius: 999px; border: 1.5px solid rgba(233, 231, 220, .28); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; transition: background .3s, color .3s, border-color .3s; }
-  .social a svg { width: 18px; height: 18px; }
-  .social a:hover { background: var(--paper); color: var(--navy); border-color: var(--paper); }
-  html[lang="ar"] .social a { letter-spacing: 0; font-size: 13px; }
-  .footer { background: var(--navy); text-align: center; padding: 60px 20px 40px; margin-top: 60px; border-top: 1px solid rgba(233, 231, 220, .16); }
-  .footer .wm { height: 34px; }
-  .footer p { margin-top: 14px; font-size: 14px; font-weight: 600; opacity: .8; }
-  .footer small { display: block; margin-top: 24px; font-size: 12px; opacity: .55; letter-spacing: .1em; }
+  /* ============ footer: white, simple columns ============ */
+  .footer { background: var(--white); color: var(--navy); padding: clamp(60px, 8vw, 110px) var(--pad) 36px; border-top: 1px solid rgba(49, 77, 160, .22); }
+  .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+  .footer .wm { height: 36px; color: var(--navy); }
+  .footer__brand p { margin-top: 18px; max-width: 32ch; font-size: 15px; font-weight: 600; line-height: 1.5; opacity: .8; }
+  .footer h3 { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .55; margin-bottom: 18px; }
+  .footer ul { list-style: none; display: grid; gap: 10px; }
+  .footer li a { font-size: 15px; font-weight: 700; transition: opacity .25s; }
+  .footer li a:hover { opacity: .6; }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1200px; margin: clamp(40px, 6vw, 80px) auto 0; padding-top: 22px; border-top: 1px solid rgba(49, 77, 160, .16); font-size: 12px; font-weight: 600; opacity: .6; }
 
   @media (max-width: 760px) {
     .can { height: min(52svh, 440px); filter: none; }
     .burst { width: 130vw; }
-    .photos figure { height: 200px; }
-    .photos--tall figure { height: 240px; }
-    .photos__in, .strip__in { animation-duration: 90s; }
-    .flavors__pattern svg { width: 160vw; }
-    .links__grid { grid-template-columns: repeat(2, 1fr); }
-    .link-card { min-height: 150px; padding: 18px; }
-    .link-card strong { font-size: 18px; }
-    .social a span { display: none; }
-    .social a { padding: 12px; }
+    .photos figure { height: 140px; }
+    .people figure { height: 70svh; }
+    .photos__in, .people__in, .strip__in { animation-duration: 90s; }
+    .tile { width: 62vw; }
+    .footer__grid { grid-template-columns: 1fr 1fr; }
+    .footer__brand { grid-column: 1 / -1; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .strip__in { animation: none !important; }
-    .photos, .strip { overflow-x: auto; }
+    .photos__in, .people__in, .strip__in { animation: none !important; }
+    .photos, .people, .strip { overflow-x: auto; }
     .pop__word { opacity: 1; }
   }
 </style>
@@ -204,7 +184,7 @@
       <button class="chip" id="langBtn" type="button" data-i18n="lang">العربية</button>
       <a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a>
     </div>
-    <div class="social" id="menuSocial"></div>
+    <div class="menu__social" id="menuSocial"></div>
   </div>
 </nav>
 
@@ -221,43 +201,46 @@
 
 <div class="strip" aria-hidden="true"><div class="strip__in" id="strip1" lang="en"></div></div>
 
-<!-- 2. product photography strip, one row. placeholders until the client's group shots arrive -->
+<!-- 2. product photography strip, short. placeholders until the client's group shots arrive -->
 <div class="photos" id="products"><div class="photos__in" id="productsIn"></div></div>
 
-<div class="strip strip--blue strip--rev" aria-hidden="true"><div class="strip__in" id="strip2"></div></div>
+<div class="strip strip--rev" aria-hidden="true"><div class="strip__in" id="strip2"></div></div>
 
-<!-- 3. pop-style brand statements. placeholder until the client's typography video arrives -->
+<!-- 3. pop-style brand statements. stand-in for the client's typography video, word only -->
 <section class="pop" id="pop">
-  <div class="pop__ring" aria-hidden="true"></div>
-  <div class="pop__body">
-    <h2 class="pop__word display" id="popWord">Bold by nature</h2>
-    <div class="pop__tabs" id="popTabs" role="tablist"></div>
-  </div>
-  <span class="pop__count" id="popCount">01/05</span>
+  <h2 class="pop__word display" id="popWord">Bold by nature</h2>
 </section>
 
-<!-- 4. all ten cans in a row. tap one and the section takes its colour, pattern and name -->
+<!-- 4. ten cans, each on a paper rectangle. tap a can and its graphic pattern fills the tile -->
 <section class="flavors" id="flavors">
-  <div class="flavors__pattern" id="flPattern" aria-hidden="true"></div>
-  <h2 class="flavors__name display" id="flName">Cola</h2>
-  <div class="flavors__row" id="flRow"></div>
+  <div class="tiles" id="tiles"></div>
   <p class="flavors__hint" data-i18n="fl_hint">Tap a can</p>
 </section>
 
 <div class="strip" aria-hidden="true"><div class="strip__in" id="strip3" lang="en"></div></div>
 
-<!-- 6. lifestyle strip, one row. placeholders until the tailor-made photography arrives -->
-<div class="photos photos--tall photos--rev" id="life"><div class="photos__in" id="lifeIn"></div></div>
+<!-- 6. people strip, tall. the six mood references Marina sent on 2026-09-05, until the tailor-made shoot -->
+<div class="people" id="life"><div class="people__in" id="lifeIn"></div></div>
 
-<section class="links" id="links">
-  <nav class="links__grid" id="linkCards" aria-label="Kinza links"></nav>
-  <nav class="social" id="social" aria-label="Kinza on social media"></nav>
-</section>
-
-<footer class="footer">
-  <span class="wm"></span>
-  <p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p>
-  <small>© 2026 Kinza — كينزا</small>
+<footer class="footer" id="links">
+  <div class="footer__grid">
+    <div class="footer__brand">
+      <span class="wm"></span>
+      <p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p>
+    </div>
+    <div>
+      <h3 data-i18n="f_explore">Explore</h3>
+      <ul id="footLinks"></ul>
+    </div>
+    <div>
+      <h3 data-i18n="f_follow">Follow</h3>
+      <ul id="footSocial"></ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 <span class="wm" style="height: 1em"></span></span>
+    <span data-i18n="f_made">Designed, born and made in Saudi Arabia</span>
+  </div>
 </footer>
 
 <script>
@@ -268,6 +251,7 @@
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
     f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
     foot: { en: 'The fastest growing Saudi beverage brand in the world.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات.' },
+    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_follow: { en: 'Follow', ar: 'تابعنا' }, f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
     l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
     l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
     l3: { en: 'Join the team', ar: 'انضم للفريق' }, l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
@@ -297,14 +281,14 @@
     ['#1fa8dd', '#0b277a', 'Like no one else', 'ما نشبه أحد']
   ];
   const PRODUCTS = ['group/group-1.jpg', 'group/group-2.jpg', 'group/group-3.jpg', 'group/group-4.jpg'];
-  const LIFE = ['life/kiosk.jpg', 'Instagram Kinzabev (1).jpg', 'life/race.jpg', 'life/pour.jpg', 'Instagram Kinzabev (2).jpg', 'life/majlis.jpg', 'life/neon.jpg', 'Instagram Kinzabev.jpg', 'life/park.jpg', 'life/sofa.jpg', 'life/mocktail.jpg', 'life/fridge.jpg'];
+  const LIFE = ['people/people-1.jpg', 'people/people-2.jpg', 'people/people-3.jpg', 'people/people-4.jpg', 'people/people-5.jpg', 'people/people-6.jpg'];
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
   const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
   const CARDS = [
-    ['https://kinza.discoveraseer.com/?source=qr', 'l1', 'l1s', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.7 3.8 9S14.6 18.4 12 21M12 3c-2.6 2.6-3.8 5.7-3.8 9S9.4 18.4 12 21"/>'],
-    ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2', 'l2s', '<circle cx="8.5" cy="8" r="3.2"/><circle cx="16" cy="9.5" r="2.6"/><path d="M3 19c.5-3.2 2.8-5 5.5-5s5 1.8 5.5 5M14.5 14.4c2.3.2 4.1 1.8 4.5 4.6"/>'],
-    ['https://kinza.jotform.com/form/join-kinza-team', 'l3', 'l3s', '<rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13h18"/>'],
-    ['https://www.kinzabev.com', 'l4', 'l4s', '<path d="M4 5h2l2.2 11h9.6L20 8H7"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="16.5" cy="19.5" r="1.4"/>']
+    ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
+    ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
+    ['https://kinza.jotform.com/form/join-kinza-team', 'l3'],
+    ['https://www.kinzabev.com', 'l4']
   ];
   const SOCIAL = [
     ['https://www.instagram.com/kinzabev', 'l5', '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/>'],
@@ -396,57 +380,42 @@
   }
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(3);
-  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(2);
+  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(3);
 
-  /* ---------- 3. pop statements, cycling while on screen ---------- */
+  /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
-    const sec = document.getElementById('pop'), word = document.getElementById('popWord'), count = document.getElementById('popCount'), tabs = document.getElementById('popTabs');
-    let i = 0, t = null, stopped = false; // stopped: the visitor tapped a tab, the cycle never restarts
-    tabs.innerHTML = POP.map((_, k) => `<button type="button" role="tab" aria-selected="false" data-k="${k}"></button>`).join('');
-    const tabBtns = [...tabs.children];
+    const sec = document.getElementById('pop'), word = document.getElementById('popWord');
+    let i = 0, t = null;
     function show(k) {
       const [bg, ink, en, ar] = POP[k];
       sec.style.setProperty('--pb', bg); sec.style.setProperty('--pc', ink);
       word.textContent = lang === 'ar' ? ar : en;
-      count.textContent = String(k + 1).padStart(2, '0') + '/' + String(POP.length).padStart(2, '0');
-      tabBtns.forEach((b, j) => { b.setAttribute('aria-selected', String(j === k)); b.textContent = lang === 'ar' ? POP[j][3] : POP[j][2]; });
       word.classList.remove('out'); word.classList.remove('in'); void word.offsetWidth; word.classList.add('in');
     }
     function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 340); }
-    function start() { clearInterval(t); if (!stopped) t = setInterval(next, 1600); }
     show(0);
-    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) start(); }), { threshold: .4 }).observe(sec);
-    tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; e.stopPropagation(); stopped = true; clearInterval(t); i = +b.dataset.k; show(i); });
+    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 1600); }), { threshold: .4 }).observe(sec);
     sec.addEventListener('click', next);
     window.popRefresh = () => show(i);
   })();
 
-  /* ---------- 4. flavor row ---------- */
-  const flSec = document.getElementById('flavors'), flRow = document.getElementById('flRow');
-  function pick(id) {
-    const [, bg, ink] = FLI[id];
-    flSec.style.setProperty('--fb', bg); flSec.style.setProperty('--fi', ink);
-    document.getElementById('flPattern').innerHTML = bigPattern(id);
-    document.getElementById('flName').textContent = T['f_' + id][lang];
-    flRow.querySelectorAll('.fl').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === id ? 'true' : 'false'));
+  /* ---------- 4. flavor tiles ---------- */
+  const tiles = document.getElementById('tiles');
+  const on = new Set(); // tiles showing their pattern, kept across a language switch
+  function buildTiles() {
+    tiles.innerHTML = FL.map(([id, bg]) => `<div class="tile"><button type="button" class="tile__box" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /></button><small>${esc(T['f_' + id][lang])}</small></div>`).join('');
   }
-  function buildRow() {
-    flRow.innerHTML = FL.map(([id]) => `<button type="button" class="fl" data-id="${id}" aria-pressed="false"><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small>${esc(T['f_' + id][lang])}</small></button>`).join('');
-  }
-  flRow.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) pick(b.dataset.id); });
-  let picked = 'cola';
-  flRow.addEventListener('click', e => { const b = e.target.closest('.fl'); if (b) picked = b.dataset.id; });
+  tiles.addEventListener('click', e => { const b = e.target.closest('.tile__box'); if (!b) return; const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id); b.setAttribute('aria-pressed', String(on.has(id))); });
 
   /* ---------- footer, language ---------- */
-  document.getElementById('linkCards').innerHTML = CARDS.map(([href, k, s, d]) =>
-    `<a class="link-card" href="${href}" target="_blank" rel="noopener"><span class="link-card__icon">${ico(d)}</span><svg class="link-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg><span><strong data-i18n="${k}">${T[k].en}</strong><small data-i18n="${s}">${T[s].en}</small></span></a>`).join('');
-  document.getElementById('social').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}<span data-i18n="${k}">${T[k].en}</span></a>`).join('');
+  document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
+  document.getElementById('footSocial').innerHTML = SOCIAL.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
   function applyLang(next) {
     lang = next;
     document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
     document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
-    buildStrips(); buildRow(); pick(picked); paint(cur); window.popRefresh();
+    buildStrips(); buildTiles(); paint(cur); window.popRefresh();
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
   (function () {

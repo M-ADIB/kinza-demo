@@ -18,13 +18,16 @@ Three versions of the same content sit side by side so the client can pick one.
 - `v3/index.html` is version 3, built from the client's Keynote brief (`~/Downloads/KINZA landing-page.key`) and then
   reworked to Adib's feedback: split hero (copy left, spinning can right), full-bleed statement bands in the Poppi
   style, two image rails where a tap flips a picture into its flavor pattern, the vertical reel, Saudi Made, links.
-- `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction: can-flip hero with no
-  copy, one product photo strip, pop-style statement section, tap-a-can flavor row, thin moving copy strips, one
-  lifestyle strip. Every visual is a placeholder for an asset the client's team will supply (listed under Open).
+- `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction, reworked to Marina's
+  2026-09-07 notes: can-flip hero with no copy, white strips with blue copy, a short product strip, a full-height
+  pop word (stand-in for the client's typography video), ten cans on paper rectangles where a tap shows the
+  flavor pattern, a tall people strip, and a plain white footer in columns. Sharp corners everywhere, white space
+  between sections. Header is logo plus hamburger opening a full-screen navy menu.
 - `assets/` holds the ten can renders as `can-<flavor>.png` with an `-ar.png` Arabic face for each, the two slim
   250 ml renders, the logo files, the Saudi Made mark, `assets/life/` for the Instagram stills, three client
-  Instagram posters (`Instagram Kinzabev*.jpg`), the vertical reel `Kinzabev Video.mp4` (version 3) and
-  `assets/group/` with four group product shots pulled from the client's Keynote (version 4 placeholders).
+  Instagram posters (`Instagram Kinzabev*.jpg`), the vertical reel `Kinzabev Video.mp4` (version 3),
+  `assets/group/` with the group product shots and `assets/people/` with the six mood references, both pulled from
+  the client's Keynote (version 4 placeholders).
 - `.claude/handoff.md` is the running session log. It is gitignored, so it stays on this machine only.
 
 ## Brand rules
@@ -34,7 +37,8 @@ Three versions of the same content sit side by side so the client can pick one.
   from the client's Pantone sheet (the `FL` array at the top of the v3 script) plus the flavor patterns on the flipped
   rail cards. Everything else in v3 is blue, navy and paper, and every heading is paper. Adib's rule after the first
   v3 round: one heading colour, no accent words, no colour blocks. Version 4 is the client's own "colourful,
-  visual-led" brief, so its hero, pop section and flavor row use the Pantone palette on purpose.
+  visual-led" brief, so its hero, pop section and flavor tiles use the Pantone palette on purpose, and Marina asked
+  for pure white `#ffffff` section backgrounds with blue copy on 2026-09-07, so v4 has a `--white` token.
 - The brand name is never typed as text. The `.wm` class paints the logo image instead. In version 3 `.wm` is a CSS
   mask filled with `currentColor`, so the wordmark takes any colour.
 - Headings: Anton, uppercase, `letter-spacing: .02em`, `line-height: 1.02` (Arabic: Cairo 900, line-height 1.28). Adib
@@ -71,5 +75,7 @@ The dev server config is `.claude/launch.json`, entry `kinza-static`, python htt
   and claim nothing beyond it.
 - The Instagram stills in `assets/life/` are 640 pixels wide, the largest the public profile serves. Ask the client for
   the originals before this goes anywhere real.
+- The v4 people strip uses the six other-brand mood shots Marina put in the Keynote (460 px screenshots). They are
+  placeholders for the tailor-made shoot and must never go live.
 - The v3 full-bleed bands use the three Instagram posters and the reel poster as placeholders. Asked the client for
   four to six landscape lifestyle photos, 2400 px wide or more, with a can in frame, one per statement.
