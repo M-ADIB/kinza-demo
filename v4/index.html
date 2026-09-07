@@ -11,11 +11,11 @@
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon-64.png" />
 <link rel="apple-touch-icon" href="../assets/favicon-180.png" />
-<meta name="theme-color" content="#0b277a" />
+<meta name="theme-color" content="#001489" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
+<link rel="preload" as="image" href="../assets/can360/cola-en.webp" fetchpriority="high" />
 <style>
   /* ---------- the system ----------
      colour: white ground, navy ink, blue for the strips, paper for product tiles. Pantone only in hero, pop, tile patterns.
@@ -24,9 +24,9 @@
      entry: every white chapter opens with a label row on a hairline. Colour blocks (hero, pop) are framed by a thin strip.
      motion: marquees run, cans flip, everything else fades up once when it enters the viewport. */
   :root {
-    --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc; --white: #ffffff;
-    --bg: var(--navy); --ink: var(--paper);
-    --rule: rgba(11, 39, 122, .14);
+    --blue: #314da0; --navy: #001489; --pink: #e8235a; --paper: #e9e7dc; --white: #ffffff;
+    --bg: var(--navy); --ink: var(--white);
+    --rule: rgba(0, 20, 137, .14);
     --gap: 12px;
     --pad: clamp(20px, 5vw, 72px);
     --s5: 24px; --s6: clamp(48px, 6vw, 96px); --s7: clamp(80px, 9vw, 128px);
@@ -51,9 +51,9 @@
         -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
   .in { max-width: var(--max); margin: 0 auto; }
 
-  /* one reveal for the whole page: fade up once, staggered by --i */
-  .rv { opacity: 0; translate: 0 24px; transition: opacity .7s var(--ease-out), translate .7s var(--ease-out); transition-delay: calc(var(--i, 0) * 50ms); }
-  .rv.is-in { opacity: 1; translate: 0 0; }
+  /* one reveal for the whole page: static content only, fades up and settles once */
+  .rv { opacity: 0; translate: 0 24px; scale: .96; transition: opacity .9s var(--ease-out), translate .9s var(--ease-out), scale .9s var(--ease-out); transition-delay: calc(var(--i, 0) * 60ms); }
+  .rv.is-in { opacity: 1; translate: 0 0; scale: 1; }
 
   /* ============ HEADER ============ */
   .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--pad); color: var(--ink); transition: color .5s, background .35s; }
@@ -88,28 +88,26 @@
   .menu__social a:hover { opacity: 1; }
   .menu__social svg { width: 20px; height: 20px; }
 
-  /* ============ 1. HERO: the can alone, flipping through the flavors ============ */
+  /* ============ 1. HERO: one can turning, the flavor morphs under it, no copy ============
+     the clips are Ahmad's 360 renders laid on the flavor's own colour, so the frame edge is the
+     hero ground. the outer 40px of every clip is that flat colour, and the mask feathers it away. */
   .hero { position: relative; height: 100svh; min-height: 560px; background: var(--bg); color: var(--ink); overflow: clip; display: grid; place-items: center; padding: 0 var(--pad); transition: background .55s var(--ease-out), color .55s; }
-  .stage { position: relative; width: 100%; height: 100%; display: grid; place-items: center; animation: can-start 1.3s var(--ease-spring) both; }
-  @keyframes can-start { from { scale: .15; opacity: 0; } to { scale: 1; opacity: 1; } }
-  .stage__name { position: absolute; left: 50%; top: 50%; translate: -50% -50%; font-size: clamp(110px, 22vw, 360px); line-height: 1; white-space: nowrap; opacity: .12; pointer-events: none; user-select: none; }
-  .hero.is-out .stage__name { opacity: 0; }
-  .burst { position: absolute; width: min(120vw, 700px); aspect-ratio: 1; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; }
-  .burst svg { width: 100%; height: 100%; animation: slow-spin 60s linear infinite; }
-  .burst.is-pop { animation: burst-pop .7s var(--ease-spring); }
-  @keyframes burst-pop { 0% { transform: scale(.55); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); } }
+  .stage { position: relative; width: 100%; height: 100%; display: grid; place-items: center; animation: can-start 1.1s var(--ease-out) both; }
+  @keyframes can-start { from { scale: .94; opacity: 0; } to { scale: 1; opacity: 1; } }
   @keyframes slow-spin { to { transform: rotate(360deg); } }
-  .tilt { position: relative; z-index: 2; animation: wobble 4.8s ease-in-out infinite; will-change: transform; }
-  .hero.is-out .tilt, .hero.is-in .tilt { animation-play-state: paused; }
-  @keyframes wobble { 0% { transform: rotate(-14deg) translateY(0); } 25% { transform: rotate(6deg) translateY(-18px); } 50% { transform: rotate(16deg) translateY(0); } 75% { transform: rotate(-4deg) translateY(-14px); } 100% { transform: rotate(-14deg) translateY(0); } }
-  .can { height: min(62svh, 600px); width: auto; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .35)); transform: perspective(900px) rotateY(0); transition: transform .32s ease-in, opacity .32s; will-change: transform; }
-  .hero.is-out .can { transform: perspective(900px) rotateY(90deg) scale(.9); opacity: .6; }
-  .hero.is-in .can { animation: can-in .38s var(--ease-out) both; }
-  @keyframes can-in { from { transform: perspective(900px) rotateY(-90deg) scale(.9); opacity: .6; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
-  .hero__dots { position: absolute; bottom: 28px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
+  .spin { position: relative; height: min(82svh, 760px); aspect-ratio: 824 / 1094; }
+  .spin > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .45s linear;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent 100%), linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+        -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 15%, #000 85%, transparent 100%), linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%); mask-composite: intersect; }
+  .spin > .is-on { opacity: 1; }
+  /* the reduced-motion still is the bare can, so it takes no mask and matches the clip's can height */
+  .spin > img { -webkit-mask-image: none; mask-image: none; height: 80%; width: auto; inset: 0; margin: auto; }
+  /* the client's own can-flip film drops in here: give it class="spin__film" and it covers the stack */
+  .spin__film { opacity: 1; z-index: 2; }
+  .curtain { position: absolute; inset: 0; background: var(--navy); opacity: 0; pointer-events: none; z-index: 4; }
+  .hero__dots { position: absolute; bottom: 28px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 5; }
   .hero__dots button { width: 12px; height: 12px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .5; transition: opacity .3s, transform .3s var(--ease-spring); }
   .hero__dots button:hover, .hero__dots button[aria-current="true"] { opacity: 1; transform: scale(1.35); }
-  .hero__label { position: absolute; bottom: 54px; left: 50%; translate: -50% 0; opacity: .8; z-index: 3; }
 
   /* ============ thin copy strips: 36px, white with blue copy, framing every colour block ============ */
   .strip { direction: ltr; overflow: clip; height: 36px; display: flex; align-items: center; border-block: 1px solid var(--rule); background: var(--white); color: var(--blue); }
@@ -119,80 +117,91 @@
   .strip__in span[lang="ar"] { font-family: "Cairo", sans-serif; letter-spacing: 0; font-size: 13px; }
   @keyframes strip { to { transform: translateX(-50%); } }
 
-  /* ============ 2. product strip: one short row of 3:2 photographs, edge to edge ============ */
-  .photos { direction: ltr; overflow: clip; background: var(--white); padding: var(--s6) 0; }
-  .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 70s linear infinite; }
+  /* ============ 2. still life: a tall band sitting straight on both tickers, no white gap ============ */
+  .photos { direction: ltr; overflow: clip; background: var(--white); padding: 0; }
+  .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 40s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: clamp(160px, 15vw, 220px); aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: 40svh; min-height: 220px; aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
   .pop { position: relative; height: 100svh; min-height: 560px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 var(--pad); }
-  .pop__word { font-size: clamp(72px, 13vw, 240px); max-width: 9ch; }
-  html[lang="ar"] .pop__word { font-size: clamp(60px, 11vw, 200px); }
+  .pop__word { font-size: clamp(48px, 13vw, 240px); max-width: 11ch; }
   .pop__word.in { animation: pop-in .6s var(--ease-out) both; }
   .pop__word.out { animation: pop-out .3s ease-in both; }
+  /* the client's typography film drops in here: give the video id="popFilm" and it covers the word */
+  .pop__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
   @keyframes pop-in { from { transform: translateY(20px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes pop-out { to { transform: translateY(-14px) scale(1.02); opacity: 0; } }
 
-  /* ============ white chapters: label row on a hairline, then the grid ============ */
-  .sec { background: var(--white); color: var(--navy); padding: var(--s7) var(--pad); }
-  .sec__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5); padding-bottom: var(--s5); border-bottom: 1px solid var(--rule); margin-bottom: var(--s6); }
-  .sec__head .label:last-child { opacity: .55; }
+  /* ============ white chapters: each one fills the screen, content centred ============ */
+  /* a max-content child (the sliding rows) would blow the track open, so the track is pinned */
+  .sec { background: var(--white); color: var(--navy); padding: 0 var(--pad); min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; }
 
   /* 4. can strip: ten cans on paper rectangles sliding right to left, tap shows the flavor pattern (Marina, 2026-09-07 13:52) */
-  .cans { direction: ltr; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); cursor: grab; user-select: none; -webkit-user-select: none; }
+  .sec--flavors { padding-inline: 0; }
+  .cans { direction: ltr; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none; }
   .cans::-webkit-scrollbar { display: none; }
   .cans.is-drag { cursor: grabbing; }
   .cans__in { display: flex; gap: var(--gap); width: max-content; }
   .tile img { -webkit-user-drag: none; }
-  .tile { position: relative; flex: none; width: clamp(200px, 17vw, 250px); aspect-ratio: 3 / 4; background: var(--paper); overflow: clip; isolation: isolate; text-align: start; }
+  .tile { position: relative; flex: none; height: min(76svh, 720px); width: auto; aspect-ratio: 9 / 16; background: var(--paper); overflow: clip; isolation: isolate; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
   .tile[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
   .tile[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
-  .tile img { position: absolute; inset: 0; margin: auto; height: 72%; width: auto; max-width: 80%; object-fit: contain; transition: transform .45s var(--ease-out); }
+  .tile img { position: absolute; inset: 0; margin: auto; height: 88%; width: auto; max-width: 96%; object-fit: contain; transition: transform .45s var(--ease-out); }
   .tile[aria-pressed="true"] img { transform: scale(1.04); }
   .tile .tile__pat img { position: static; width: 100%; height: 100%; max-width: none; object-fit: cover; transform: none; }
-  .tile small { position: absolute; inset-inline-start: 16px; bottom: 14px; color: var(--navy); transition: color .3s; }
-  .tile[aria-pressed="true"] small { color: var(--tc); }
 
-  /* 5. people: six tall portraits, three across, the photography chapter */
-  .people__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
-  .people__grid figure { aspect-ratio: 2 / 3; overflow: clip; background: var(--paper); }
-  .people__grid img { width: 100%; height: 100%; object-fit: cover; }
+  /* 5. people: twelve tall portraits in one fast band, edge to edge */
+  .sec--people { padding-inline: 0; }
+  .people { direction: ltr; overflow: clip; }
+  .people__in { display: flex; gap: var(--gap); width: max-content; animation: strip 56s linear infinite; }
+  .people__in:hover { animation-play-state: paused; }
+  .people figure { flex: none; height: 84svh; min-height: 380px; aspect-ratio: 4 / 5; overflow: clip; background: var(--paper); }
+  .people img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* 6. the statement, one line, before the footer */
+  .say { background: var(--white); color: var(--blue); padding: var(--s6) var(--pad); min-height: 100svh; display: grid; place-items: center; }
+  .say h2 { font-size: clamp(40px, 11vw, 128px); max-width: 15ch; }
+  html[lang="ar"] .say h2 { font-size: clamp(32px, 6.4vw, 104px); }
 
   /* ============ footer: white, logo, hairline, columns of links, hairline, one line ============ */
-  .footer { background: var(--white); color: var(--navy); padding: 0 var(--pad) var(--s5); }
-  .footer .in { border-top: 1px solid var(--rule); padding-top: var(--s6); }
-  .footer__top { padding-bottom: var(--s5); border-bottom: 1px solid var(--rule); }
+  .footer { background: var(--white); color: var(--navy); }
+  .footer .in { padding-inline: var(--pad); }
+  .footer__top { padding: var(--s6) 0 var(--s5); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
   .footer__top .wm { height: 32px; }
-  .footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--s6) var(--gap); padding: var(--s6) 0; }
-  .footer__brand p { max-width: 30ch; font-size: 15px; font-weight: 600; line-height: 1.5; opacity: .8; }
+  .footer__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s6) var(--gap); padding: var(--s6) 0; max-width: 640px; }
   .footer h3 { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .55; margin-bottom: 18px; }
   html[lang="ar"] .footer h3 { font-size: 13px; }
   .footer ul { list-style: none; display: grid; gap: 10px; justify-items: start; }
   .footer li a, .footer li button { font-size: 15px; font-weight: 700; transition: opacity .25s; }
   .footer li a:hover, .footer li button:hover { opacity: .6; }
   .footer li button[aria-current="true"] { opacity: .45; cursor: default; }
-  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: var(--s5); border-top: 1px solid var(--rule); font-size: 12px; font-weight: 600; opacity: .6; }
+  .footer__social { display: flex; justify-content: center; gap: 10px; background: var(--navy); color: var(--white); padding: 22px var(--pad); margin-bottom: var(--s5); }
+  .footer__social a { display: grid; place-items: center; width: 44px; height: 44px; opacity: .9; transition: opacity .25s, scale .25s var(--ease-out); }
+  .footer__social a:hover { opacity: 1; scale: 1.12; }
+  .footer__social svg { width: 22px; height: 22px; }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-bottom: var(--s5); font-size: 12px; font-weight: 600; opacity: .6; }
 
   @media (max-width: 760px) {
-    .can { height: min(52svh, 440px); filter: none; }
-    .burst { width: 130vw; }
-    .photos__in, .strip__in { animation-duration: 90s; }
-    .tile { width: 44vw; }
-    .tile small { inset-inline-start: 12px; bottom: 10px; }
-    .people__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
-    .people__grid::-webkit-scrollbar { display: none; }
-    .people__grid figure { flex: none; width: 78vw; scroll-snap-align: start; }
+    .spin { height: min(60svh, 500px); }
+    .strip__in { animation-duration: 90s; }
+    .photos__in { animation-duration: 60s; }
+    .photos figure { height: 32svh; min-height: 180px; }
+    .people__in { animation-duration: 42s; }
+    .people figure { height: 70svh; min-height: 320px; }
+    .sec { min-height: 0; padding-block: var(--s6); }
+    .say { min-height: 0; padding-block: var(--s7); }
+    .tile { height: min(62svh, 470px); }
     .footer__grid { grid-template-columns: 1fr 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .strip__in { animation: none !important; }
-    .photos, .strip { overflow-x: auto; }
-    .rv { opacity: 1; translate: 0 0; }
+    .photos__in, .strip__in, .people__in { animation: none !important; }
+    .photos, .strip, .people { overflow-x: auto; }
+    .rv { opacity: 1; translate: 0 0; scale: 1; }
     .pop__word { opacity: 1; }
   }
 </style>
@@ -216,61 +225,55 @@
   </div>
 </nav>
 
-<!-- 1. hero: no copy, the can flips through the ten flavors and the background follows. placeholder for the client's video -->
+<!-- 1. hero: no copy. one can turning, the flavor morphs under it, the ground follows the flavor.
+     stand-in for the client's can-flip film: drop it in as <video class="spin__film" ...> inside .spin -->
 <section class="hero" id="top">
   <div class="stage" aria-hidden="true">
-    <div class="stage__name display" id="spinName">Cola</div>
-    <div class="burst" id="burst"><svg viewBox="-100 -100 200 200"><g id="burstG"></g></svg></div>
-    <div class="tilt"><img class="can" id="spinCan" src="../assets/can-cola.png" alt="" fetchpriority="high" /></div>
+    <div class="spin" id="spin"></div>
   </div>
-  <span class="hero__label label" id="spinLabel">Cola</span>
+  <div class="curtain" id="curtain" aria-hidden="true"></div>
   <nav class="hero__dots" id="dots" aria-label="Flavors"></nav>
 </section>
 
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1" lang="en"></div></div>
 
-<!-- 2. product photography strip, short. placeholders until the client's group shots arrive -->
+<!-- 2. still life, sitting straight on both tickers. Marina's set, reworked shots land Monday -->
 <div class="photos" id="products"><div class="photos__in" id="productsIn"></div></div>
 
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
 
-<!-- 3. pop-style brand statements. stand-in for the client's typography video, word only -->
+<!-- 3. the brand lines, one word at a time. stand-in for the client's typography film:
+     drop it in as <video class="pop__film" ...> inside this section and it covers the word -->
 <section class="pop" id="pop">
-  <h2 class="pop__word display" id="popWord">Bold by nature</h2>
+  <h2 class="pop__word display" id="popWord">Dare to try at your fullest</h2>
 </section>
 
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip3" lang="en"></div></div>
 
-<!-- 4. the product wall: ten cans on paper rectangles. tap a can and its graphic pattern fills the tile -->
-<section class="sec" id="flavors">
-  <div class="in">
-    <div class="sec__head rv"><span class="label" data-i18n="h_flavors">Ten flavors</span><span class="label" data-i18n="fl_hint">Tap a can</span></div>
-  </div>
-  <div class="cans"><div class="cans__in" id="tiles"></div></div>
+<!-- 4. ten cans on paper rectangles, sliding. tap a can and its graphic pattern fills the tile -->
+<section class="sec sec--flavors" id="flavors">
+  <div class="cans rv"><div class="cans__in" id="tiles"></div></div>
 </section>
 
-<!-- 5. people: the six mood references Marina sent on 2026-09-05, until the tailor-made shoot -->
-<section class="sec" id="life">
-  <div class="in">
-    <div class="sec__head rv"><span class="label" data-i18n="h_people">People</span><span class="label" data-i18n="h_people_r">Like no one else</span></div>
-    <div class="people__grid" id="lifeIn"></div>
-  </div>
+<!-- 5. people: Marina's twelve lifestyle shots, one fast band -->
+<section class="sec sec--people" id="life">
+  <div class="people"><div class="people__in" id="lifeIn"></div></div>
+</section>
+
+<!-- 6. the one statement, blown up -->
+<section class="say">
+  <h2 class="display rv" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2>
 </section>
 
 <footer class="footer" id="links">
   <div class="in">
-    <div class="footer__top"><span class="wm"></span></div>
+    <div class="footer__top rv"><span class="wm"></span></div>
     <div class="footer__grid">
-      <div class="footer__brand"><p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p></div>
-      <div>
+      <div class="rv">
         <h3 data-i18n="f_explore">Explore</h3>
         <ul id="footLinks"></ul>
       </div>
-      <div>
-        <h3 data-i18n="f_follow">Follow</h3>
-        <ul id="footSocial"></ul>
-      </div>
-      <div>
+      <div class="rv" style="--i:1">
         <h3 data-i18n="f_lang">Language</h3>
         <ul id="footLang">
           <li><button type="button" data-l="en">English</button></li>
@@ -278,6 +281,9 @@
         </ul>
       </div>
     </div>
+  </div>
+  <div class="footer__social" id="footSocial"></div>
+  <div class="in">
     <div class="footer__bottom">
       <span>© 2026 <span class="wm" style="height: 1em"></span></span>
       <span data-i18n="f_made">Designed, born and made in Saudi Arabia</span>
@@ -288,13 +294,11 @@
 <script>
   const T = {
     lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, menu: { en: 'Menu', ar: 'القائمة' },
-    h_flavors: { en: 'Ten flavors', ar: 'عشر نكهات' }, fl_hint: { en: 'Tap a can', ar: 'اضغط على علبة' },
-    h_people: { en: 'People', ar: 'الناس' }, h_people_r: { en: 'Like no one else', ar: 'ما نشبه أحد' },
     f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
     f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
-    foot: { en: 'The fastest growing Saudi beverage brand in the world.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات.' },
-    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_follow: { en: 'Follow', ar: 'تابعنا' }, f_lang: { en: 'Language', ar: 'اللغة' },
+    say: { en: 'The fastest growing Saudi beverage brand in the world', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات' },
+    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_lang: { en: 'Language', ar: 'اللغة' },
     f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
     l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
     l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
@@ -304,7 +308,7 @@
   };
   // id, background, ink on it, splash colours, pattern motif (from the client's Pantone sheet)
   const FL = [
-    ['cola', '#0b277a', '#e9e7dc', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
+    ['cola', '#001489', '#ffffff', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
     ['diet', '#cfd2d8', '#0b277a', ['#0b277a', '#e8235a', '#ffffff'], 'star'],
     ['lemon', '#009639', '#e9e7dc', ['#ffd100', '#e9e7dc', '#ffd100'], 'slice'],
     ['orange', '#f28c00', '#e9e7dc', ['#d62e1f', '#ffd100', '#e9e7dc'], 'slice'],
@@ -317,18 +321,20 @@
   ];
   const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
   // pop statements: background, ink, en, ar
+  // the client's own lines, from the guideline deck. Arabic for the first two is with Marina (Q1)
   const POP = [
-    ['#e8235a', '#e9e7dc', 'Bold by nature', 'جريئة بطبعها'],
-    ['#0b277a', '#e9e7dc', 'Made in Saudi', 'صنع في السعودية'],
-    ['#b9cc00', '#0b277a', 'Refresh different', 'انتعش بطريقتك'],
-    ['#5f259f', '#ffd100', '70+ countries', '+70 دولة'],
-    ['#1fa8dd', '#0b277a', 'Like no one else', 'ما نشبه أحد']
+    ['#001489', '#ffffff', 'Dare to try at your fullest', 'يجرؤ على المحاولة على أكمل وجه'],
+    ['#e8235a', '#ffffff', 'Spark of Brilliance', 'شرارة الإبداع'],
+    ['#5f259f', '#ffffff', 'Like no one else', 'ما نشبه أحد'],
+    ['#009639', '#ffffff', 'Made in Saudi', 'صنع في السعودية'],
+    ['#f28c00', '#001489', '70+ countries', '+70 دولة']
   ];
   // still-life product shots from Marina's 2026-09-06 WeTransfer
   const PRODUCTS = ['still/still-1.jpg', 'still/still-2.jpg', 'still/still-3.jpg', 'still/still-4.jpg', 'still/still-5.jpg', 'still/still-6.jpg'];
   // flavors with the client's real graphic pattern (assets/pattern). The other three still use the drawn stand-in
   const PATTERN = new Set(['cola', 'blackcurrant', 'citrus', 'lemon', 'orange', 'pomegranate', 'cocktail']);
-  const LIFE = ['people/people-1.jpg', 'people/people-2.jpg', 'people/people-3.jpg', 'people/people-4.jpg', 'people/people-5.jpg', 'people/people-6.jpg'];
+  // Marina's twelve lifestyle shots, 2026-09-07. These replaced the other-brand mood references
+  const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
   const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
   const CARDS = [
@@ -350,7 +356,6 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
-  const PETALS = matchMedia('(max-width: 760px)').matches ? 16 : 28;
 
   /* ---------- the one reveal ---------- */
   const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
@@ -377,33 +382,65 @@
   }
   const bigPattern = id => { if (PATTERN.has(id)) return `<img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
 
-  /* ---------- 1. hero ---------- */
-  let cur = 0, timer = null, busy = false;
-  const hero = document.getElementById('top'), can = document.getElementById('spinCan'), burstG = document.getElementById('burstG'), burst = document.getElementById('burst'), dots = document.getElementById('dots');
+  /* ---------- 1. hero: one turning can, the flavor morphs under it ----------
+     each flavor is a 7 s clip of Ahmad's turntable laid on that flavor's colour. They all start on the
+     same face, so handing the new clip the old one's currentTime keeps the can turning through the cut. */
+  let cur = 0, timer = null;
+  const hero = document.getElementById('top'), spin = document.getElementById('spin'), dots = document.getElementById('dots');
+  const clips = {};
   dots.innerHTML = FL.map(([id, bg], i) => `<button type="button" style="--d:${bg}" data-i="${i}" aria-label="${T['f_' + id].en}"></button>`).join('');
   dots.addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(+b.dataset.i, true); });
+  function clip(i) {
+    const id = FL[i][0], key = reduced ? id + '-' + lang : id;
+    if (clips[key]) return clips[key];
+    let el;
+    if (reduced) {
+      el = new Image(); el.alt = ''; el.decoding = 'async';
+      el.src = `../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
+    } else {
+      el = document.createElement('video');
+      el.muted = true; el.loop = true; el.playsInline = true;
+      el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); el.preload = 'auto';
+      el.poster = `../assets/can360/${id}-en.webp`;
+      el.src = `../assets/spin/${id}.mp4`;
+    }
+    clips[key] = el; spin.appendChild(el); return el;
+  }
+  const TURN = 7; // seconds for one revolution, the same in every clip
+  function align(v) {
+    const set = () => { try { v.currentTime = (performance.now() / 1000) % TURN; } catch (_) {} };
+    if (v.readyState >= 1) set(); else v.addEventListener('loadedmetadata', set, { once: true });
+  }
   function paint(i) {
-    const [id, bg, ink, cols] = FL[i];
+    const [, bg, ink] = FL[i];
     document.documentElement.style.setProperty('--bg', bg);
     document.documentElement.style.setProperty('--ink', ink);
-    can.src = `../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
-    burstG.innerHTML = petals(cols, PETALS, 30, 70, 0);
-    document.getElementById('spinName').textContent = T['f_' + id][lang];
-    document.getElementById('spinLabel').textContent = T['f_' + id][lang];
     dots.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
-    burst.classList.remove('is-pop'); void burst.offsetWidth; burst.classList.add('is-pop');
   }
   function go(i, manual) {
-    if (busy) return; busy = true;
-    if (manual) schedule(7000);
-    if (reduced) { cur = i; paint(i); busy = false; return; }
-    hero.classList.add('is-out');
-    setTimeout(() => { hero.classList.remove('is-out'); cur = i; paint(i); hero.classList.add('is-in'); setTimeout(() => hero.classList.remove('is-in'), 400); busy = false; }, 330);
+    if (manual) schedule(8000);
+    const from = spin.querySelector('.is-on'), to = clip(i);
+    if (to !== from) {
+      if (to.tagName === 'VIDEO') { align(to); const play = to.play(); if (play) play.catch(() => {}); }
+      to.classList.add('is-on');
+      if (from) { from.classList.remove('is-on'); setTimeout(() => { if (from.tagName === 'VIDEO' && !from.classList.contains('is-on')) from.pause(); }, 600); }
+    }
+    cur = i; paint(i);
+    if (!reduced) clip((i + 1) % FL.length); // warm the next one so the cut never stalls
   }
-  function schedule(delay) { clearInterval(timer); if (reduced) return; timer = setInterval(() => go((cur + 1) % FL.length), 2600); if (delay) { clearInterval(timer); setTimeout(() => schedule(), delay); } }
-  FL.forEach(([id]) => { const a = new Image(); a.src = `../assets/can-${id}.png`; });
-  paint(0); schedule();
+  function schedule(delay) {
+    clearInterval(timer); if (reduced) return;
+    if (delay) { setTimeout(() => schedule(), delay); return; }
+    timer = setInterval(() => go((cur + 1) % FL.length), 3600);
+  }
+  go(0); schedule();
   document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
+  // the curtain: the hero darkens to navy as it leaves, the way yoyoyo does it
+  (function () {
+    const curtain = document.getElementById('curtain');
+    const draw = () => { curtain.style.opacity = Math.min(1, Math.max(0, scrollY / (innerHeight || 1))) * .92; };
+    addEventListener('scroll', draw, { passive: true }); addEventListener('resize', draw); draw();
+  })();
 
   /* ---------- header + menu panel ---------- */
   (function () {
@@ -429,20 +466,30 @@
     document.getElementById('strip2').innerHTML = msgs.repeat(4);
     document.getElementById('strip3').innerHTML = countries.repeat(2);
   }
-  const fig = (src, i) => `<figure${i == null ? '' : ` class="rv" style="--i:${i}"`}><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
-  document.getElementById('productsIn').innerHTML = PRODUCTS.map(s => fig(s)).join('').repeat(3);
-  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('');
+  // two copies of everything that marquees: the keyframe travels exactly half the row, so it never jumps
+  const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
+  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(4);
+  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(2);
 
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
     const sec = document.getElementById('pop'), word = document.getElementById('popWord');
     let i = 0, t = null;
+    // the lines run from two words to five, so each one is sized down until it fits the chapter
+    function fit() {
+      const room = sec.clientHeight - 96, wide = sec.clientWidth - 2 * 24;
+      let f = Math.min(sec.clientWidth * (lang === 'ar' ? .26 : .30), sec.clientHeight * .44, 260);
+      word.style.fontSize = f + 'px';
+      for (let i = 0; i < 40 && f > 34 && (word.scrollHeight > room || word.scrollWidth > wide); i++) { f *= .93; word.style.fontSize = f + 'px'; }
+    }
     function show(k) {
       const [bg, ink, en, ar] = POP[k];
       sec.style.setProperty('--pb', bg); sec.style.setProperty('--pc', ink);
       word.textContent = lang === 'ar' ? ar : en;
+      fit();
       word.classList.remove('out'); word.classList.remove('in'); void word.offsetWidth; word.classList.add('in');
     }
+    addEventListener('resize', fit);
     function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 300); }
     show(0);
     new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 1600); }), { threshold: .4 }).observe(sec);
@@ -456,7 +503,7 @@
   let hold = null, dragged = false;
   // three copies: the strip sits on the middle one and wraps silently, so it slides forever and swipes both ways
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" draggable="false" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('').repeat(3);
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('').repeat(3);
     cans.scrollLeft = tiles.scrollWidth / 3;
   }
   // a tap toggles every copy of that flavor and holds the strip for 5 s; a drag never counts as a tap
@@ -478,6 +525,14 @@
     const up = () => { cans.classList.remove('is-drag'); removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => dragged = false, 0); };
     addEventListener('pointermove', move); addEventListener('pointerup', up);
   });
+  // no label row any more, so the strip demonstrates the tap once when it first comes into view
+  new IntersectionObserver((es, o) => es.forEach(e => {
+    if (!e.isIntersecting || reduced) return;
+    o.disconnect();
+    const id = FL[0][0], show = v => tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(v)));
+    setTimeout(() => { if (!on.has(id)) { show(true); setTimeout(() => { if (!on.has(id)) show(false); }, 1700); } }, 700);
+  }), { threshold: .35 }).observe(cans);
+
   // auto slide at 36 px/s, wrapping on the middle copy
   let lastT = 0;
   (function step(t) {
@@ -491,14 +546,16 @@
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
-  document.getElementById('footSocial').innerHTML = SOCIAL.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
+  document.getElementById('footSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
   function applyLang(next) {
     lang = next;
     document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
     document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
     document.querySelectorAll('#footLang button').forEach(b => b.setAttribute('aria-current', String(b.dataset.l === lang)));
-    buildStrips(); buildTiles(); paint(cur); window.popRefresh();
+    buildStrips(); buildTiles(); window.popRefresh();
+    if (reduced) { spin.innerHTML = ''; Object.keys(clips).forEach(k => delete clips[k]); }
+    go(cur);
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
   (function () {
