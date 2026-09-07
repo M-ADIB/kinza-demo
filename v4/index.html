@@ -13,32 +13,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 <link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
 <style>
+  /* ---------- the system ----------
+     colour: white ground, navy ink, blue for the strips, paper for product tiles. Pantone only in hero, pop, tile patterns.
+     spacing: one gutter (--gap) for every grid, one side margin (--pad), two section beats (--s6 short, --s7 chapter).
+     type: display (Anton) at two sizes, one 11px label, one 15px link. Nothing else.
+     entry: every white chapter opens with a label row on a hairline. Colour blocks (hero, pop) are framed by a thin strip.
+     motion: marquees run, cans flip, everything else fades up once when it enters the viewport. */
   :root {
     --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc; --white: #ffffff;
     --bg: var(--navy); --ink: var(--paper);
-    --pad: clamp(20px, 8vw, 140px);
+    --rule: rgba(11, 39, 122, .14);
+    --gap: 12px;
+    --pad: clamp(20px, 5vw, 72px);
+    --s5: 24px; --s6: clamp(48px, 6vw, 96px); --s7: clamp(80px, 9vw, 128px);
+    --max: 1320px;
     --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-spring: cubic-bezier(.34, 1.45, .5, 1);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: "Outfit", sans-serif; background: var(--navy); color: var(--paper); overflow-x: clip; }
+  body { font-family: "Outfit", sans-serif; background: var(--white); color: var(--navy); overflow-x: clip; }
   html[lang="ar"] body { font-family: "Cairo", "Outfit", sans-serif; }
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
   button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
   .display { font-family: "Anton", "Outfit", sans-serif; text-transform: uppercase; letter-spacing: .02em; line-height: 1.02; }
   html[lang="ar"] .display { font-family: "Cairo", sans-serif; font-weight: 900; text-transform: none; letter-spacing: 0; line-height: 1.28; }
+  .label { font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
+  html[lang="ar"] .label { font-size: 13px; }
   html[lang="ar"] *:not([lang="en"]) { letter-spacing: 0 !important; }
   .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
         -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
   html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
         -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
+  .in { max-width: var(--max); margin: 0 auto; }
+
+  /* one reveal for the whole page: fade up once, staggered by --i */
+  .rv { opacity: 0; translate: 0 24px; transition: opacity .7s var(--ease-out), translate .7s var(--ease-out); transition-delay: calc(var(--i, 0) * 50ms); }
+  .rv.is-in { opacity: 1; translate: 0 0; }
 
   /* ============ HEADER ============ */
-  .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(20px, 4vw, 60px); color: var(--ink); transition: color .5s, background .35s; }
-  .header.is-solid { background: var(--navy); color: var(--paper); box-shadow: 0 1px 0 rgba(233, 231, 220, .16); padding-block: 12px; }
+  .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--pad); color: var(--ink); transition: color .5s, background .35s; }
+  .header.is-solid { background: var(--white); color: var(--navy); box-shadow: 0 1px 0 var(--rule); height: 56px; }
   .header.is-open { background: transparent; box-shadow: none; color: var(--paper); }
-  .header .wm { height: 30px; }
+  .header .wm { height: 26px; }
   .burger { position: relative; width: 44px; height: 44px; margin-inline-end: -10px; display: grid; place-items: center; }
   .burger span { position: absolute; width: 26px; height: 2px; background: currentColor; transition: translate .3s var(--ease-out), rotate .3s var(--ease-out); }
   .burger span:first-child { translate: 0 -5px; }
@@ -50,7 +67,7 @@
   html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
 
   /* full-screen menu panel */
-  .menu { position: fixed; inset: 0; z-index: 60; background: var(--navy); color: var(--paper); display: grid; grid-template-rows: 1fr auto; padding: 100px clamp(20px, 6vw, 96px) 36px; overflow-y: auto; visibility: hidden; opacity: 0; translate: 0 -2%; transition: opacity .4s var(--ease-out), translate .4s var(--ease-out), visibility 0s .4s; }
+  .menu { position: fixed; inset: 0; z-index: 60; background: var(--navy); color: var(--paper); display: grid; grid-template-rows: 1fr auto; padding: 100px var(--pad) 36px; overflow-y: auto; visibility: hidden; opacity: 0; translate: 0 -2%; transition: opacity .4s var(--ease-out), translate .4s var(--ease-out), visibility 0s .4s; }
   .menu.is-open { visibility: visible; opacity: 1; translate: 0 0; transition-delay: 0s; }
   html.menu-open { overflow: hidden; }
   .menu__links { display: grid; gap: clamp(4px, 1.4vh, 14px); align-content: center; }
@@ -85,86 +102,88 @@
   .hero.is-out .can { transform: perspective(900px) rotateY(90deg) scale(.9); opacity: .6; }
   .hero.is-in .can { animation: can-in .38s var(--ease-out) both; }
   @keyframes can-in { from { transform: perspective(900px) rotateY(-90deg) scale(.9); opacity: .6; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
-  .hero__dots { position: absolute; bottom: 26px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
-  .hero__dots button { width: 14px; height: 14px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .5; transition: opacity .3s, transform .3s var(--ease-spring); }
+  .hero__dots { position: absolute; bottom: 28px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
+  .hero__dots button { width: 12px; height: 12px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .5; transition: opacity .3s, transform .3s var(--ease-spring); }
   .hero__dots button:hover, .hero__dots button[aria-current="true"] { opacity: 1; transform: scale(1.35); }
-  .hero__label { position: absolute; bottom: 52px; left: 50%; translate: -50% 0; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; opacity: .8; z-index: 3; }
-  html[lang="ar"] .hero__label { letter-spacing: 0; font-size: 13px; }
+  .hero__label { position: absolute; bottom: 54px; left: 50%; translate: -50% 0; opacity: .8; z-index: 3; }
 
-  /* ============ thin copy strips: white with blue copy ============ */
-  .strip { direction: ltr; overflow: clip; border-block: 1px solid rgba(49, 77, 160, .22); padding: 12px 0; background: var(--white); color: var(--blue); }
-  .strip__in { display: flex; gap: 34px; width: max-content; animation: strip 60s linear infinite; font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
+  /* ============ thin copy strips: 36px, white with blue copy, framing every colour block ============ */
+  .strip { direction: ltr; overflow: clip; height: 36px; display: flex; align-items: center; border-block: 1px solid var(--rule); background: var(--white); color: var(--blue); }
+  .strip__in { display: flex; gap: 34px; width: max-content; animation: strip 60s linear infinite; }
   .strip--rev .strip__in { animation-direction: reverse; }
   .strip__in span::before { content: "•"; margin-inline-end: 34px; opacity: .45; }
   .strip__in span[lang="ar"] { font-family: "Cairo", sans-serif; letter-spacing: 0; font-size: 13px; }
   @keyframes strip { to { transform: translateX(-50%); } }
 
-  /* ============ 2. product strip, short, on white ============ */
-  .photos { direction: ltr; overflow: clip; background: var(--white); padding: clamp(40px, 6vw, 90px) 0; }
-  .photos__in { display: flex; gap: 12px; width: max-content; animation: strip 70s linear infinite; }
+  /* ============ 2. product strip: one short row of 3:2 photographs, edge to edge ============ */
+  .photos { direction: ltr; overflow: clip; background: var(--white); padding: var(--s6) 0; }
+  .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 70s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: clamp(140px, 17vw, 220px); aspect-ratio: 3 / 2; overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: clamp(160px, 15vw, 220px); aspect-ratio: 3 / 2; overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* ============ 6. people strip, tall, the hero of the lower page. sliding right to left ============ */
-  .people { direction: ltr; overflow: clip; background: var(--white); padding: clamp(50px, 7vw, 110px) 0; }
-  .people__in { display: flex; gap: 14px; width: max-content; animation: strip 80s linear infinite; }
-  .people__in:hover { animation-play-state: paused; }
-  .people figure { flex: none; height: clamp(440px, 80svh, 800px); aspect-ratio: 2 / 3; overflow: clip; background: var(--paper); }
-  .people img { width: 100%; height: 100%; object-fit: cover; }
-
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
-  .pop { position: relative; height: 100svh; min-height: 560px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 20px; }
-  .pop__word { font-size: clamp(64px, 13vw, 220px); max-width: 9ch; }
-  html[lang="ar"] .pop__word { font-size: clamp(56px, 11vw, 190px); }
-  .pop__word.in { animation: pop-in .9s var(--ease-spring) both; }
-  .pop__word.out { animation: pop-out .35s ease-in both; }
-  @keyframes pop-in { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 55% { transform: scale(1.08) rotate(2deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
-  @keyframes pop-out { to { transform: scale(1.4) skewX(-12deg); opacity: 0; filter: blur(8px); } }
+  .pop { position: relative; height: 100svh; min-height: 560px; display: grid; place-items: center; overflow: clip; background: var(--pb, var(--pink)); color: var(--pc, var(--paper)); transition: background .5s var(--ease-out), color .5s; text-align: center; padding: 0 var(--pad); }
+  .pop__word { font-size: clamp(72px, 13vw, 240px); max-width: 9ch; }
+  html[lang="ar"] .pop__word { font-size: clamp(60px, 11vw, 200px); }
+  .pop__word.in { animation: pop-in .6s var(--ease-out) both; }
+  .pop__word.out { animation: pop-out .3s ease-in both; }
+  @keyframes pop-in { from { transform: translateY(20px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes pop-out { to { transform: translateY(-14px) scale(1.02); opacity: 0; } }
 
-  /* ============ 4. flavor tiles: each can on a paper rectangle, tap shows its graphic pattern ============ */
-  .flavors { background: var(--white); color: var(--blue); padding: clamp(50px, 7vw, 110px) 0 clamp(40px, 5vw, 70px); }
-  .tiles { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
-  .tiles::-webkit-scrollbar { display: none; }
-  .tile { flex: none; width: clamp(200px, 22vw, 320px); scroll-snap-align: start; display: grid; gap: 14px; justify-items: center; }
-  .tile__box { position: relative; width: 100%; aspect-ratio: 3 / 4; background: var(--paper); display: grid; place-items: center; overflow: clip; isolation: isolate; }
-  .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .5; transition: opacity .4s var(--ease-out), scale .55s var(--ease-spring); }
+  /* ============ white chapters: label row on a hairline, then the grid ============ */
+  .sec { background: var(--white); color: var(--navy); padding: var(--s7) var(--pad); }
+  .sec__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5); padding-bottom: var(--s5); border-bottom: 1px solid var(--rule); margin-bottom: var(--s6); }
+  .sec__head .label:last-child { opacity: .55; }
+
+  /* 4. product wall: ten cans on paper, five across, tap shows the flavor pattern */
+  .wall { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gap); }
+  .tile { position: relative; aspect-ratio: 3 / 4; min-width: 0; background: var(--paper); overflow: clip; isolation: isolate; text-align: start; }
+  .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
-  .tile__box[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
-  .tile__box[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
-  .tile__box img { height: 70%; width: auto; transition: transform .45s var(--ease-spring); }
-  .tile__box:hover img { transform: translateY(-4px); }
-  .tile__box[aria-pressed="true"] img { transform: scale(1.06); }
-  .tile small { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-  html[lang="ar"] .tile small { font-size: 13px; }
-  .flavors__hint { text-align: center; margin-top: clamp(24px, 3vw, 40px); font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; opacity: .6; }
-  html[lang="ar"] .flavors__hint { font-size: 13px; }
+  .tile[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
+  .tile[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
+  .tile img { position: absolute; inset: 0; margin: auto; height: 72%; width: auto; max-width: 80%; object-fit: contain; transition: transform .45s var(--ease-out); }
+  .tile[aria-pressed="true"] img { transform: scale(1.04); }
+  .tile small { position: absolute; inset-inline-start: 16px; bottom: 14px; color: var(--navy); transition: color .3s; }
+  .tile[aria-pressed="true"] small { color: var(--tc); }
 
-  /* ============ footer: white, simple columns ============ */
-  .footer { background: var(--white); color: var(--navy); padding: clamp(60px, 8vw, 110px) var(--pad) 36px; border-top: 1px solid rgba(49, 77, 160, .22); }
-  .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
-  .footer .wm { height: 36px; color: var(--navy); }
-  .footer__brand p { margin-top: 18px; max-width: 32ch; font-size: 15px; font-weight: 600; line-height: 1.5; opacity: .8; }
+  /* 5. people: six tall portraits, three across, the photography chapter */
+  .people__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .people__grid figure { aspect-ratio: 2 / 3; overflow: clip; background: var(--paper); }
+  .people__grid img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ============ footer: white, logo, hairline, columns of links, hairline, one line ============ */
+  .footer { background: var(--white); color: var(--navy); padding: 0 var(--pad) var(--s5); }
+  .footer .in { border-top: 1px solid var(--rule); padding-top: var(--s6); }
+  .footer__top { padding-bottom: var(--s5); border-bottom: 1px solid var(--rule); }
+  .footer__top .wm { height: 32px; }
+  .footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--s6) var(--gap); padding: var(--s6) 0; }
+  .footer__brand p { max-width: 30ch; font-size: 15px; font-weight: 600; line-height: 1.5; opacity: .8; }
   .footer h3 { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .55; margin-bottom: 18px; }
-  .footer ul { list-style: none; display: grid; gap: 10px; }
-  .footer li a { font-size: 15px; font-weight: 700; transition: opacity .25s; }
-  .footer li a:hover { opacity: .6; }
-  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1200px; margin: clamp(40px, 6vw, 80px) auto 0; padding-top: 22px; border-top: 1px solid rgba(49, 77, 160, .16); font-size: 12px; font-weight: 600; opacity: .6; }
+  html[lang="ar"] .footer h3 { font-size: 13px; }
+  .footer ul { list-style: none; display: grid; gap: 10px; justify-items: start; }
+  .footer li a, .footer li button { font-size: 15px; font-weight: 700; transition: opacity .25s; }
+  .footer li a:hover, .footer li button:hover { opacity: .6; }
+  .footer li button[aria-current="true"] { opacity: .45; cursor: default; }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: var(--s5); border-top: 1px solid var(--rule); font-size: 12px; font-weight: 600; opacity: .6; }
 
   @media (max-width: 760px) {
     .can { height: min(52svh, 440px); filter: none; }
     .burst { width: 130vw; }
-    .photos figure { height: 140px; }
-    .people figure { height: 70svh; }
-    .photos__in, .people__in, .strip__in { animation-duration: 90s; }
-    .tile { width: 62vw; }
+    .photos__in, .strip__in { animation-duration: 90s; }
+    .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile small { inset-inline-start: 12px; bottom: 10px; }
+    .people__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
+    .people__grid::-webkit-scrollbar { display: none; }
+    .people__grid figure { flex: none; width: 78vw; scroll-snap-align: start; }
     .footer__grid { grid-template-columns: 1fr 1fr; }
-    .footer__brand { grid-column: 1 / -1; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .people__in, .strip__in { animation: none !important; }
-    .photos, .people, .strip { overflow-x: auto; }
+    .photos__in, .strip__in { animation: none !important; }
+    .photos, .strip { overflow-x: auto; }
+    .rv { opacity: 1; translate: 0 0; }
     .pop__word { opacity: 1; }
   }
 </style>
@@ -195,63 +214,79 @@
     <div class="burst" id="burst"><svg viewBox="-100 -100 200 200"><g id="burstG"></g></svg></div>
     <div class="tilt"><img class="can" id="spinCan" src="../assets/can-cola.png" alt="" fetchpriority="high" /></div>
   </div>
-  <span class="hero__label" id="spinLabel">Cola</span>
+  <span class="hero__label label" id="spinLabel">Cola</span>
   <nav class="hero__dots" id="dots" aria-label="Flavors"></nav>
 </section>
 
-<div class="strip" aria-hidden="true"><div class="strip__in" id="strip1" lang="en"></div></div>
+<div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1" lang="en"></div></div>
 
 <!-- 2. product photography strip, short. placeholders until the client's group shots arrive -->
 <div class="photos" id="products"><div class="photos__in" id="productsIn"></div></div>
 
-<div class="strip strip--rev" aria-hidden="true"><div class="strip__in" id="strip2"></div></div>
+<div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
 
 <!-- 3. pop-style brand statements. stand-in for the client's typography video, word only -->
 <section class="pop" id="pop">
   <h2 class="pop__word display" id="popWord">Bold by nature</h2>
 </section>
 
-<!-- 4. ten cans, each on a paper rectangle. tap a can and its graphic pattern fills the tile -->
-<section class="flavors" id="flavors">
-  <div class="tiles" id="tiles"></div>
-  <p class="flavors__hint" data-i18n="fl_hint">Tap a can</p>
+<div class="strip" aria-hidden="true"><div class="strip__in label" id="strip3" lang="en"></div></div>
+
+<!-- 4. the product wall: ten cans on paper rectangles. tap a can and its graphic pattern fills the tile -->
+<section class="sec" id="flavors">
+  <div class="in">
+    <div class="sec__head rv"><span class="label" data-i18n="h_flavors">Ten flavors</span><span class="label" data-i18n="fl_hint">Tap a can</span></div>
+    <div class="wall" id="tiles"></div>
+  </div>
 </section>
 
-<div class="strip" aria-hidden="true"><div class="strip__in" id="strip3" lang="en"></div></div>
-
-<!-- 6. people strip, tall. the six mood references Marina sent on 2026-09-05, until the tailor-made shoot -->
-<div class="people" id="life"><div class="people__in" id="lifeIn"></div></div>
+<!-- 5. people: the six mood references Marina sent on 2026-09-05, until the tailor-made shoot -->
+<section class="sec" id="life">
+  <div class="in">
+    <div class="sec__head rv"><span class="label" data-i18n="h_people">People</span><span class="label" data-i18n="h_people_r">Like no one else</span></div>
+    <div class="people__grid" id="lifeIn"></div>
+  </div>
+</section>
 
 <footer class="footer" id="links">
-  <div class="footer__grid">
-    <div class="footer__brand">
-      <span class="wm"></span>
-      <p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p>
+  <div class="in">
+    <div class="footer__top"><span class="wm"></span></div>
+    <div class="footer__grid">
+      <div class="footer__brand"><p data-i18n="foot">The fastest growing Saudi beverage brand in the world.</p></div>
+      <div>
+        <h3 data-i18n="f_explore">Explore</h3>
+        <ul id="footLinks"></ul>
+      </div>
+      <div>
+        <h3 data-i18n="f_follow">Follow</h3>
+        <ul id="footSocial"></ul>
+      </div>
+      <div>
+        <h3 data-i18n="f_lang">Language</h3>
+        <ul id="footLang">
+          <li><button type="button" data-l="en">English</button></li>
+          <li><button type="button" data-l="ar" lang="ar">العربية</button></li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <h3 data-i18n="f_explore">Explore</h3>
-      <ul id="footLinks"></ul>
+    <div class="footer__bottom">
+      <span>© 2026 <span class="wm" style="height: 1em"></span></span>
+      <span data-i18n="f_made">Designed, born and made in Saudi Arabia</span>
     </div>
-    <div>
-      <h3 data-i18n="f_follow">Follow</h3>
-      <ul id="footSocial"></ul>
-    </div>
-  </div>
-  <div class="footer__bottom">
-    <span>© 2026 <span class="wm" style="height: 1em"></span></span>
-    <span data-i18n="f_made">Designed, born and made in Saudi Arabia</span>
   </div>
 </footer>
 
 <script>
   const T = {
     lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, menu: { en: 'Menu', ar: 'القائمة' },
-    fl_hint: { en: 'Tap a can', ar: 'اضغط على علبة' },
+    h_flavors: { en: 'Ten flavors', ar: 'عشر نكهات' }, fl_hint: { en: 'Tap a can', ar: 'اضغط على علبة' },
+    h_people: { en: 'People', ar: 'الناس' }, h_people_r: { en: 'Like no one else', ar: 'ما نشبه أحد' },
     f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
     f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
     foot: { en: 'The fastest growing Saudi beverage brand in the world.', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات.' },
-    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_follow: { en: 'Follow', ar: 'تابعنا' }, f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
+    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_follow: { en: 'Follow', ar: 'تابعنا' }, f_lang: { en: 'Language', ar: 'اللغة' },
+    f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
     l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
     l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
     l3: { en: 'Join the team', ar: 'انضم للفريق' }, l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
@@ -280,7 +315,7 @@
     ['#5f259f', '#ffd100', '70+ countries', '+70 دولة'],
     ['#1fa8dd', '#0b277a', 'Like no one else', 'ما نشبه أحد']
   ];
-  const PRODUCTS = ['group/group-1.jpg', 'group/group-2.jpg', 'group/group-3.jpg', 'group/group-4.jpg'];
+  const PRODUCTS = ['group/group-1.jpg', 'group/group-2.jpg', 'group/group-3.jpg', 'group/group-4.jpg', 'group/group-5.jpg'];
   const LIFE = ['people/people-1.jpg', 'people/people-2.jpg', 'people/people-3.jpg', 'people/people-4.jpg', 'people/people-5.jpg', 'people/people-6.jpg'];
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
   const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
@@ -304,6 +339,10 @@
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   const PETALS = matchMedia('(max-width: 760px)').matches ? 16 : 28;
+
+  /* ---------- the one reveal ---------- */
+  const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  const watch = () => document.querySelectorAll('.rv:not(.is-in)').forEach(el => rvIO.observe(el));
 
   /* ---------- burst + pattern drawing ---------- */
   function petals(cols, n, r0, r1, seed) {
@@ -378,9 +417,9 @@
     document.getElementById('strip2').innerHTML = msgs.repeat(4);
     document.getElementById('strip3').innerHTML = countries.repeat(2);
   }
-  const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
-  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(3);
-  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(3);
+  const fig = (src, i) => `<figure${i == null ? '' : ` class="rv" style="--i:${i}"`}><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
+  document.getElementById('productsIn').innerHTML = PRODUCTS.map(s => fig(s)).join('').repeat(3);
+  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('');
 
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
@@ -392,20 +431,21 @@
       word.textContent = lang === 'ar' ? ar : en;
       word.classList.remove('out'); word.classList.remove('in'); void word.offsetWidth; word.classList.add('in');
     }
-    function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 340); }
+    function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 300); }
     show(0);
     new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 1600); }), { threshold: .4 }).observe(sec);
     sec.addEventListener('click', next);
     window.popRefresh = () => show(i);
   })();
 
-  /* ---------- 4. flavor tiles ---------- */
+  /* ---------- 4. product wall ---------- */
   const tiles = document.getElementById('tiles');
   const on = new Set(); // tiles showing their pattern, kept across a language switch
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg]) => `<div class="tile"><button type="button" class="tile__box" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /></button><small>${esc(T['f_' + id][lang])}</small></div>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink], i) => `<button type="button" class="tile rv" data-id="${id}" aria-pressed="${on.has(id)}" style="--i:${i % 5};--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('');
+    watch();
   }
-  tiles.addEventListener('click', e => { const b = e.target.closest('.tile__box'); if (!b) return; const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id); b.setAttribute('aria-pressed', String(on.has(id))); });
+  tiles.addEventListener('click', e => { const b = e.target.closest('.tile'); if (!b) return; const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id); b.setAttribute('aria-pressed', String(on.has(id))); });
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
@@ -415,6 +455,7 @@
     document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
     document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
+    document.querySelectorAll('#footLang button').forEach(b => b.setAttribute('aria-current', String(b.dataset.l === lang)));
     buildStrips(); buildTiles(); paint(cur); window.popRefresh();
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
@@ -423,6 +464,8 @@
     let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
     applyLang(q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en'));
     document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
+    document.getElementById('footLang').addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.l !== lang) applyLang(b.dataset.l); });
+    watch();
   })();
 </script>
 </body>

@@ -18,11 +18,13 @@ Three versions of the same content sit side by side so the client can pick one.
 - `v3/index.html` is version 3, built from the client's Keynote brief (`~/Downloads/KINZA landing-page.key`) and then
   reworked to Adib's feedback: split hero (copy left, spinning can right), full-bleed statement bands in the Poppi
   style, two image rails where a tap flips a picture into its flavor pattern, the vertical reel, Saudi Made, links.
-- `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction, reworked to Marina's
-  2026-09-07 notes: can-flip hero with no copy, white strips with blue copy, a short product strip, a full-height
-  pop word (stand-in for the client's typography video), ten cans on paper rectangles where a tap shows the
-  flavor pattern, a tall people strip, and a plain white footer in columns. Sharp corners everywhere, white space
-  between sections. Header is logo plus hamburger opening a full-screen navy menu.
+- `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction, rebuilt on 2026-09-07 as
+  one system after the note-by-note version looked cheap: can-flip hero with no copy, 36 px white strips with blue
+  copy framing every colour block, a short 3:2 product strip, a full-height pop word (stand-in for the client's
+  typography video), a product wall of ten cans on paper tiles (5 x 2, tap shows the flavor pattern), six tall
+  portraits 3 x 2, and a white footer in columns after coca-cola.com. Tokens and rules sit in the comment at the top
+  of its style tag. Sharp corners everywhere, one 12 px gutter, hairlines between chapters. Header is logo plus
+  hamburger opening a full-screen navy menu.
 - `assets/` holds the ten can renders as `can-<flavor>.png` with an `-ar.png` Arabic face for each, the two slim
   250 ml renders, the logo files, the Saudi Made mark, `assets/life/` for the Instagram stills, three client
   Instagram posters (`Instagram Kinzabev*.jpg`), the vertical reel `Kinzabev Video.mp4` (version 3),
