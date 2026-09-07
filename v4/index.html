@@ -140,9 +140,11 @@
   .sec__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5); padding-bottom: var(--s5); border-bottom: 1px solid var(--rule); margin-bottom: var(--s6); }
   .sec__head .label:last-child { opacity: .55; }
 
-  /* 4. product wall: ten cans on paper, five across, tap shows the flavor pattern */
-  .wall { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gap); }
-  .tile { position: relative; aspect-ratio: 3 / 4; min-width: 0; background: var(--paper); overflow: clip; isolation: isolate; text-align: start; }
+  /* 4. can strip: ten cans on paper rectangles sliding right to left, tap shows the flavor pattern (Marina, 2026-09-07 13:52) */
+  .cans { direction: ltr; overflow: clip; margin: 0 calc(-1 * var(--pad)); }
+  .cans__in { display: flex; gap: var(--gap); width: max-content; animation: strip 90s linear infinite; }
+  .cans__in:hover, .cans__in.is-held { animation-play-state: paused; }
+  .tile { position: relative; flex: none; width: clamp(200px, 17vw, 250px); aspect-ratio: 3 / 4; background: var(--paper); overflow: clip; isolation: isolate; text-align: start; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
   .tile[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
@@ -177,7 +179,8 @@
     .can { height: min(52svh, 440px); filter: none; }
     .burst { width: 130vw; }
     .photos__in, .strip__in { animation-duration: 90s; }
-    .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile { width: 44vw; }
+    .cans__in { animation-duration: 120s; }
     .tile small { inset-inline-start: 12px; bottom: 10px; }
     .people__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad); scroll-padding-inline: var(--pad); }
     .people__grid::-webkit-scrollbar { display: none; }
@@ -186,8 +189,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .strip__in { animation: none !important; }
-    .photos, .strip { overflow-x: auto; }
+    .photos__in, .strip__in, .cans__in { animation: none !important; }
+    .photos, .strip, .cans { overflow-x: auto; }
     .rv { opacity: 1; translate: 0 0; }
     .pop__word { opacity: 1; }
   }
@@ -241,8 +244,8 @@
 <section class="sec" id="flavors">
   <div class="in">
     <div class="sec__head rv"><span class="label" data-i18n="h_flavors">Ten flavors</span><span class="label" data-i18n="fl_hint">Tap a can</span></div>
-    <div class="wall" id="tiles"></div>
   </div>
+  <div class="cans"><div class="cans__in" id="tiles"></div></div>
 </section>
 
 <!-- 5. people: the six mood references Marina sent on 2026-09-05, until the tailor-made shoot -->
@@ -446,14 +449,19 @@
     window.popRefresh = () => show(i);
   })();
 
-  /* ---------- 4. product wall ---------- */
+  /* ---------- 4. can strip ---------- */
   const tiles = document.getElementById('tiles');
-  const on = new Set(); // tiles showing their pattern, kept across a language switch
+  const on = new Set(); // flavors showing their pattern, kept across a language switch
+  let hold = null;
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink], i) => `<button type="button" class="tile rv" data-id="${id}" aria-pressed="${on.has(id)}" style="--i:${i % 5};--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('');
-    watch();
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png" alt="" loading="lazy" /><small class="label">${esc(T['f_' + id][lang])}</small></button>`).join('').repeat(2);
   }
-  tiles.addEventListener('click', e => { const b = e.target.closest('.tile'); if (!b) return; const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id); b.setAttribute('aria-pressed', String(on.has(id))); });
+  tiles.addEventListener('click', e => {
+    const b = e.target.closest('.tile'); if (!b) return; const id = b.dataset.id;
+    on.has(id) ? on.delete(id) : on.add(id);
+    tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(on.has(id))));
+    tiles.classList.add('is-held'); clearTimeout(hold); hold = setTimeout(() => tiles.classList.remove('is-held'), 5000);
+  });
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');

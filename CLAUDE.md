@@ -21,7 +21,8 @@ Three versions of the same content sit side by side so the client can pick one.
 - `v4/index.html` is version 4, the visual-led option from the client's 2026-09-05 direction, rebuilt on 2026-09-07 as
   one system after the note-by-note version looked cheap: can-flip hero with no copy, 36 px white strips with blue
   copy framing every colour block, a short 3:2 product strip, a full-height pop word (stand-in for the client's
-  typography video), a product wall of ten cans on paper tiles (5 x 2, tap shows the flavor pattern), six tall
+  typography video), a sliding strip of ten cans on paper tiles (tap shows the flavor pattern, strip holds
+  5 s), six tall
   portraits 3 x 2, and a white footer in columns after coca-cola.com. Tokens and rules sit in the comment at the top
   of its style tag. Sharp corners everywhere, one 12 px gutter, hairlines between chapters. Header is logo plus
   hamburger opening a full-screen navy menu.
