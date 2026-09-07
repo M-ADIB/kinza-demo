@@ -57,8 +57,8 @@
   .rv.is-in { opacity: 1; translate: 0 0; scale: 1; }
 
   /* ============ HEADER ============ */
-  .header { position: fixed; inset: 12px auto auto 50%; translate: -50% 0; width: 184px; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; background: var(--white); color: var(--navy); transition: color .5s, background .35s; }
-  .header.is-solid { background: var(--white); color: var(--navy); box-shadow: 0 2px 16px rgba(0, 20, 137, .12); }
+  .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--pad); color: var(--ink); transition: color .5s, background .35s; }
+  .header.is-solid { background: var(--white); color: var(--navy); box-shadow: 0 1px 0 var(--rule); }
   .header.is-open { background: var(--navy); box-shadow: none; color: var(--white); }
   .header .wm { height: 26px; }
   .burger { position: relative; width: 44px; height: 44px; margin-inline-end: -10px; display: grid; place-items: center; }
@@ -122,9 +122,10 @@
   @keyframes strip { to { transform: translateX(-50%); } }
 
   /* ============ 2. still life: a tall band sitting straight on both tickers, no white gap ============ */
-  .photos { direction: ltr; overflow: clip; background: var(--white); padding: 0; }
-  .photos__in { display: flex; width: max-content; animation: strip 28s linear infinite; }
-  .photos__in:hover { animation-play-state: paused; }
+  .photos { direction: ltr; overflow-x: auto; scrollbar-width: none; cursor: grab; overscroll-behavior-x: contain; background: var(--white); padding: 0; }
+  .photos__in { display: flex; width: max-content; }
+  .photos::-webkit-scrollbar { display: none; }
+  .photos img { -webkit-user-drag: none; user-select: none; }
   .photos figure { flex: none; height: 74svh; min-height: 320px; aspect-ratio: 4 / 3; margin-inline-end: var(--gap); overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -159,24 +160,31 @@
   .tile[aria-pressed="true"] img { transform: scale(1.04); }
   .tile .tile__pat img { position: static; width: 100%; height: 100%; max-width: none; object-fit: cover; transform: none; }
 
-  /* 5. the pattern wall: nine flavours on one screen, straight from the brand deck */
-  .grid9 { height: 100svh; min-height: 520px; overflow: clip; background: var(--white); }
-  .grid9__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100%; }
+  /* 5. the pattern wall: complete portrait artwork, straight from the brand deck */
+  .grid9 { background: var(--white); }
+  .grid9__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
   .grid9 figure { overflow: clip; background: var(--paper); }
-  .grid9 img { width: 100%; height: 100%; object-fit: cover; }
+  .grid9 img { width: 100%; height: auto; }
 
   /* 6. people: three columns of tall portraits sliding past each other, after yoyoyo's grid */
   .sec--people { padding: 0; min-height: 0; }
-  .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; }
-  .wall__col { will-change: transform; }
-  .wall__col:nth-child(odd) { animation: wall-up 12s linear infinite; }
-  .wall__col:nth-child(even) { animation: wall-down 12s linear infinite; }
-  .wall__col:nth-child(2) { animation-delay: -4s; }
-  .wall__col:nth-child(3) { animation-delay: -8s; }
-  @keyframes wall-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-  @keyframes wall-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-  /* the gap lives on the figure, not on the column: only then is half the stack exactly one copy */
+  .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; align-items: start; }
+  .wall__col { will-change: transform; animation: wall-sweep 7.6s cubic-bezier(.2, 0, .05, 1) infinite paused; }
+  .wall__col:nth-child(even) { animation-name: wall-sweep-reverse; }
+  .wall.is-playing .wall__col { animation-play-state: running; }
+  @keyframes wall-sweep {
+    0%, 100% { transform: translateY(0); }
+    36.8421%, 50% { transform: translateY(calc(-1 * var(--travel, 0px))); }
+    86.8421% { transform: translateY(0); }
+  }
+  @keyframes wall-sweep-reverse {
+    0%, 100% { transform: translateY(calc(-1 * var(--travel, 0px))); }
+    36.8421%, 50% { transform: translateY(0); }
+    86.8421% { transform: translateY(calc(-1 * var(--travel, 0px))); }
+  }
+  /* Each column travels only as far as its last portrait. */
   .wall figure { aspect-ratio: 4 / 5; margin-bottom: var(--gap); overflow: clip; background: var(--paper); }
+  .wall figure:last-child { margin-bottom: 0; }
   .wall img { width: 100%; height: 100%; object-fit: cover; }
 
   /* The closing claim, with Saudi as the visual centre. */
@@ -207,17 +215,14 @@
   .footer__social svg { width: 24px; height: 24px; }
   .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 24px; border-top: 1px solid rgba(255,255,255,.2); font-size: 12px; font-weight: 600; opacity: .7; }
 
-  @media (max-width: 760px) {
+  @media (max-width: 656px) {
     .spin { height: min(60svh, 500px); }
     .strip__in { animation-duration: 90s; }
-    .photos__in { animation-duration: 24s; }
-    .photos figure { height: 62svh; min-height: 320px; aspect-ratio: 4 / 5; }
-    .wall { padding-inline: 0; height: 86svh; }
-    .wall__col:nth-child(odd) { animation-duration: 14s; }
-    .wall__col:nth-child(even) { animation-duration: 14s; }
+    .photos figure { height: 364px; min-height: 0; aspect-ratio: 4 / 5; }
+    .wall { padding-inline: 0; height: 100svh; }
     .sec { min-height: 0; padding: 0; }
     .say { min-height: 0; padding-block: var(--s7); }
-    .tile { height: 86svh; min-height: 440px; width: 82vw; }
+    .tile { height: 364px; min-height: 0; width: 64vw; }
     .footer__grid { grid-template-columns: 1fr; gap: 36px; }
     #footLang { display: flex; gap: 24px; }
   }
@@ -269,7 +274,7 @@
 
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
 
-<!-- 3. the pattern wall: nine flavours on one screen, before the copy (Marina, 2026-09-07 call) -->
+<!-- 3. the pattern wall: nine complete portrait patterns, before the copy (Marina, 2026-09-07 call) -->
 <section class="grid9" id="patterns" aria-hidden="true"><div class="grid9__in" id="patternGrid"></div></section>
 
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4" lang="en"></div></div>
@@ -501,20 +506,26 @@
   }
   // two copies of everything that marquees: the keyframe travels exactly half the row, so it never jumps
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
-  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(4);
+  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
   document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
   (function () {
     const wall = document.getElementById('lifeIn');
-    const phone = matchMedia('(max-width: 760px)');
+    const phone = matchMedia('(max-width: 656px)');
     function buildWall() {
     const cols = phone.matches ? 2 : 3;
     wall.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
     wall.innerHTML = Array.from({ length: cols }, (_, c) => {
       const own = LIFE.filter((_, i) => i % cols === c).map(fig).join('');
-      return `<div class="wall__col">${own}${own.replace(/<figure>/g, '<figure class="dup">')}</div>`;
+      return `<div class="wall__col">${own}</div>`;
     }).join('');
     }
-    buildWall(); phone.addEventListener('change', buildWall);
+    function fitWall() {
+      wall.querySelectorAll('.wall__col').forEach(col => col.style.setProperty('--travel', Math.max(0, col.scrollHeight - wall.clientHeight) + 'px'));
+    }
+    buildWall(); phone.addEventListener('change', () => { buildWall(); fitWall(); });
+    new ResizeObserver(fitWall).observe(wall);
+    new IntersectionObserver(es => wall.classList.toggle('is-playing', es[0].isIntersecting), { rootMargin: '33% 0px' }).observe(wall);
+    fitWall();
   })();
 
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
@@ -543,64 +554,98 @@
     window.popRefresh = () => show(i);
   })();
 
-  /* ---------- 4. can strip ---------- */
+  /* Reference gallery timing: a quick eased sweep, one-second hold, then reverse.
+     Native touch scrolling remains available. Dragging sets the next direction. */
+  function sweepEase(progress) {
+    let lo = 0, hi = 1, t = progress;
+    for (let i = 0; i < 16; i++) {
+      t = (lo + hi) / 2;
+      const x = 3 * (1-t) * (1-t) * t * .2 + 3 * (1-t) * t * t * .05 + t*t*t;
+      if (x < progress) lo = t; else hi = t;
+    }
+    return 3 * (1-t) * t * t + t*t*t;
+  }
+  function galleryMotion(viewport, track, count, bounds) {
+    let direction = 1, visible = false, last = 0, elapsed = 0, duration = 0;
+    let from = null, to = 0, rest = 0, holdTimer, dragging = false, dragged = false, momentum = 0;
+    function hold(ms) {
+      track.classList.add('is-held'); clearTimeout(holdTimer); from = null;
+      if (ms) holdTimer = setTimeout(() => track.classList.remove('is-held'), ms);
+    }
+    function reset() { from = null; rest = 0; }
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { rootMargin: '33% 0px' }).observe(viewport);
+    viewport.addEventListener('pointerdown', e => {
+      if (e.button && e.button !== 0) return;
+      hold(0); dragged = false; momentum = 0;
+      if (e.pointerType !== 'mouse') return;
+      dragging = true; viewport.classList.add('is-drag');
+      const x = e.clientX, start = viewport.scrollLeft;
+      let previousX = x, previousTime = performance.now(), velocity = 0;
+      const move = ev => {
+        const dx = ev.clientX - x, now = performance.now();
+        velocity = Math.max(-3, Math.min(3, (previousX - ev.clientX) / Math.max(1, now-previousTime)));
+        previousX = ev.clientX; previousTime = now;
+        if (Math.abs(dx) > 4) { dragged = true; direction = dx < 0 ? 1 : -1; }
+        viewport.scrollLeft = start - dx;
+      };
+      const end = () => {
+        dragging = false; momentum = dragged && performance.now()-previousTime < 100 ? velocity : 0; viewport.classList.remove('is-drag'); hold(4000);
+        removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+        setTimeout(() => dragged = false, 0);
+      };
+      addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
+    });
+    viewport.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') hold(4000); });
+    viewport.addEventListener('pointercancel', () => hold(4000));
+    viewport.addEventListener('wheel', () => hold(4000), { passive: true });
+    viewport.addEventListener('touchmove', () => hold(4000), { passive: true });
+    viewport.addEventListener('focusin', () => hold(0));
+    viewport.addEventListener('focusout', e => { if (!viewport.contains(e.relatedTarget)) hold(1500); });
+    new ResizeObserver(reset).observe(viewport);
+    (function frame(now) {
+      const dt = last ? Math.min(50, now-last) : 0; last = now;
+      if (!reduced && visible && !document.hidden && !dragging && Math.abs(momentum) > .02) {
+        viewport.scrollLeft += momentum * dt; momentum *= Math.exp(-dt / 240);
+      }
+      if (!reduced && visible && !document.hidden && !dragging && !track.classList.contains('is-held')) {
+        const [min, max] = bounds();
+        if (max > min) {
+          if (rest > 0) rest -= dt;
+          else {
+            if (from === null) {
+              from = viewport.scrollLeft; to = direction > 0 ? max : min; elapsed = 0;
+              duration = Math.max(1300, count * (4400 / 13) * Math.abs(to-from) / (max-min));
+            }
+            elapsed += dt;
+            const progress = Math.min(1, elapsed / duration);
+            viewport.scrollLeft = from + (to-from) * sweepEase(progress);
+            if (progress === 1) { direction *= -1; from = null; rest = 1000; }
+          }
+        }
+      }
+      requestAnimationFrame(frame);
+    })(0);
+    return { hold, reset, wasDragged: () => dragged };
+  }
+  const productViewport = document.getElementById('products'), productTrack = document.getElementById('productsIn');
+  galleryMotion(productViewport, productTrack, PRODUCTS.length, () => [0, productViewport.scrollWidth-productViewport.clientWidth]);
+
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
-  const on = new Set(); // flavors showing their pattern, kept across a language switch
-  let hold = null, dragged = false;
-  // three copies: the strip sits on the middle one and wraps silently, so it slides forever and swipes both ways
+  const on = new Set();
+  function cycleWidth() { return tiles.children.length > FL.length ? tiles.children[FL.length].offsetLeft - tiles.children[0].offsetLeft : 0; }
+  const canMotion = galleryMotion(cans, tiles, FL.length, () => {
+    const W = cycleWidth(); return [W, Math.max(W, 2*W-cans.clientWidth)];
+  });
   function buildTiles() {
     tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('').repeat(3);
-    cans.scrollLeft = cycleWidth();
+    cans.scrollLeft = cycleWidth(); canMotion.reset();
   }
-  // a tap toggles every copy of that flavor and holds the strip for 5 s; a drag never counts as a tap
   tiles.addEventListener('click', e => {
-    const b = e.target.closest('.tile'); if (!b || dragged) return; const id = b.dataset.id;
-    on.has(id) ? on.delete(id) : on.add(id);
+    const b = e.target.closest('.tile'); if (!b || canMotion.wasDragged()) return;
+    const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
     tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(on.has(id))));
-    pause(5000);
+    canMotion.hold(5000);
   });
-  function pause(ms) { tiles.classList.add('is-held'); clearTimeout(hold); if (ms) hold = setTimeout(() => tiles.classList.remove('is-held'), ms); }
-  cans.addEventListener('mouseenter', () => pause(0));
-  cans.addEventListener('mouseleave', () => pause(1500));
-  cans.addEventListener('focusin', () => pause(0));
-  cans.addEventListener('focusout', e => { if (!cans.contains(e.relatedTarget)) pause(1500); });
-  ['touchstart', 'wheel'].forEach(ev => cans.addEventListener(ev, () => pause(4000), { passive: true }));
-  // mouse drag scrolls the strip; touch uses the native swipe
-  cans.addEventListener('pointerdown', e => {
-    if (e.pointerType !== 'mouse') return;
-    pause(0);
-    const x0 = e.clientX, s0 = cans.scrollLeft; dragged = false; cans.classList.add('is-drag');
-    const move = ev => { const dx = ev.clientX - x0; if (Math.abs(dx) > 4) dragged = true; cans.scrollLeft = s0 - dx; };
-    const up = () => { pause(4000); cans.classList.remove('is-drag'); removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => dragged = false, 0); };
-    addEventListener('pointermove', move); addEventListener('pointerup', up);
-  });
-  // no label row any more, so the strip demonstrates the tap once when it first comes into view
-  new IntersectionObserver((es, o) => es.forEach(e => {
-    if (!e.isIntersecting || reduced) return;
-    o.disconnect();
-    const id = FL[0][0], show = v => tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(v)));
-    setTimeout(() => { if (!on.has(id)) { show(true); setTimeout(() => { if (!on.has(id)) show(false); }, 1700); } }, 700);
-  }), { threshold: .35 }).observe(cans);
-
-  // The repeat distance includes each tile's trailing gutter. A gentle reversal
-  // takes the row through every flavour and back, with native scrolling between.
-  function cycleWidth() { return tiles.children.length > FL.length ? tiles.children[FL.length].offsetLeft - tiles.children[0].offsetLeft : 0; }
-  let lastT = 0, travel = 0, cansVisible = false;
-  new IntersectionObserver(es => { cansVisible = es[0].isIntersecting; }).observe(cans);
-  (function step(t) {
-    const W = cycleWidth();
-    if (W > 0 && !cans.classList.contains('is-drag')) {
-      if (!reduced && !document.hidden && cansVisible && !tiles.classList.contains('is-held') && lastT) {
-        const dt = Math.min(50, t - lastT) / 1000;
-        const period = Math.max(16, W / 90);
-        travel += dt;
-        cans.scrollLeft += 320 * Math.cos(travel * Math.PI * 2 / period) * dt;
-      }
-      if (cans.scrollLeft < W * .5) cans.scrollLeft += W;
-      else if (cans.scrollLeft > W * 1.5) cans.scrollLeft -= W;
-    }
-    lastT = t; requestAnimationFrame(step);
-  })(0);
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
