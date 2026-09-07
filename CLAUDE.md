@@ -30,6 +30,8 @@ Three versions of the same content sit side by side so the client can pick one.
   Instagram posters (`Instagram Kinzabev*.jpg`), the vertical reel `Kinzabev Video.mp4` (version 3),
   `assets/group/` with the group product shots and `assets/people/` with the six mood references, both pulled from
   the client's Keynote (version 4 placeholders).
+  `assets/still/` has Marina's six still-life product shots (v4 product strip), `assets/pattern/` her seven flavor
+  patterns (v4 tile tap) and `assets/slim-ar/` her seven slim Arabic-face renders on grey, all from 2026-09-06.
 - `.claude/handoff.md` is the running session log. It is gitignored, so it stays on this machine only.
 
 ## Brand rules
@@ -68,8 +70,9 @@ The dev server config is `.claude/launch.json`, entry `kinza-static`, python htt
 
 ## Open
 
-- Client assets still to come for v4: hero can-flip video, animated pop typography video, group product
-  photography, flavor patterns and graphics, tailor-made lifestyle photography. The client asked for white headings
+- Client assets still to come for v4: hero can-flip video, animated pop typography video (Marina asked for the video
+  sizes twice on 2026-09-06, still unanswered), patterns for diet, lemon zero and soda water, and the people
+  photography from her expired 2026-09-04 WeTransfer (ask her to resend). The client asked for white headings
   on v3; it uses paper `#e9e7dc`, a one-line change if they insist on pure white.
 
 - Build a real 3D can from the label artwork the client sent. The flat version is rasterised at `.claude/label300-1.png`.

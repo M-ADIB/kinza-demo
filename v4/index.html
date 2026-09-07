@@ -119,7 +119,7 @@
   .photos { direction: ltr; overflow: clip; background: var(--white); padding: var(--s6) 0; }
   .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 70s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: clamp(160px, 15vw, 220px); aspect-ratio: 3 / 2; overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: clamp(160px, 15vw, 220px); aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
@@ -145,6 +145,7 @@
   .tile[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
   .tile img { position: absolute; inset: 0; margin: auto; height: 72%; width: auto; max-width: 80%; object-fit: contain; transition: transform .45s var(--ease-out); }
   .tile[aria-pressed="true"] img { transform: scale(1.04); }
+  .tile .tile__pat img { position: static; width: 100%; height: 100%; max-width: none; object-fit: cover; transform: none; }
   .tile small { position: absolute; inset-inline-start: 16px; bottom: 14px; color: var(--navy); transition: color .3s; }
   .tile[aria-pressed="true"] small { color: var(--tc); }
 
@@ -315,7 +316,10 @@
     ['#5f259f', '#ffd100', '70+ countries', '+70 دولة'],
     ['#1fa8dd', '#0b277a', 'Like no one else', 'ما نشبه أحد']
   ];
-  const PRODUCTS = ['group/group-1.jpg', 'group/group-2.jpg', 'group/group-3.jpg', 'group/group-4.jpg', 'group/group-5.jpg'];
+  // still-life product shots from Marina's 2026-09-06 WeTransfer
+  const PRODUCTS = ['still/still-1.jpg', 'still/still-2.jpg', 'still/still-3.jpg', 'still/still-4.jpg', 'still/still-5.jpg', 'still/still-6.jpg'];
+  // flavors with the client's real graphic pattern (assets/pattern). The other three still use the drawn stand-in
+  const PATTERN = new Set(['cola', 'blackcurrant', 'citrus', 'lemon', 'orange', 'pomegranate', 'cocktail']);
   const LIFE = ['people/people-1.jpg', 'people/people-2.jpg', 'people/people-3.jpg', 'people/people-4.jpg', 'people/people-5.jpg', 'people/people-6.jpg'];
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
   const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
@@ -363,7 +367,7 @@
     let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
-  const bigPattern = id => { const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
+  const bigPattern = id => { if (PATTERN.has(id)) return `<img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
 
   /* ---------- 1. hero ---------- */
   let cur = 0, timer = null, busy = false;
