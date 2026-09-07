@@ -25,6 +25,7 @@
      motion: marquees run, cans flip, everything else fades up once when it enters the viewport. */
   :root {
     --blue: #314da0; --navy: #001489; --pink: #e8235a; --paper: #e9e7dc; --white: #ffffff;
+    --grey: #ededed; /* the ground under Marina's own can renders */
     --bg: var(--navy); --ink: var(--white);
     --rule: rgba(0, 20, 137, .14);
     --gap: 12px;
@@ -121,7 +122,7 @@
   .photos { direction: ltr; overflow: clip; background: var(--white); padding: 0; }
   .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 40s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: 40svh; min-height: 220px; aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: 44svh; min-height: 220px; aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
@@ -145,22 +146,36 @@
   .cans.is-drag { cursor: grabbing; }
   .cans__in { display: flex; gap: var(--gap); width: max-content; }
   .tile img { -webkit-user-drag: none; }
-  .tile { position: relative; flex: none; height: min(76svh, 720px); width: auto; aspect-ratio: 9 / 16; background: var(--paper); overflow: clip; isolation: isolate; }
+  .tile { position: relative; flex: none; height: min(76svh, 720px); width: auto; aspect-ratio: 9 / 16; background: linear-gradient(180deg, #f5f5f5, #e4e4e4); overflow: clip; isolation: isolate; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
   .tile[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
+  @media (hover: hover) { .tile:hover .tile__pat { opacity: 1; scale: 1; } .tile:hover img { transform: scale(1.04); } }
   .tile[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
   .tile img { position: absolute; inset: 0; margin: auto; height: 88%; width: auto; max-width: 96%; object-fit: contain; transition: transform .45s var(--ease-out); }
   .tile[aria-pressed="true"] img { transform: scale(1.04); }
   .tile .tile__pat img { position: static; width: 100%; height: 100%; max-width: none; object-fit: cover; transform: none; }
 
-  /* 5. people: twelve tall portraits in one fast band, edge to edge */
-  .sec--people { padding-inline: 0; }
-  .people { direction: ltr; overflow: clip; }
-  .people__in { display: flex; gap: var(--gap); width: max-content; animation: strip 56s linear infinite; }
-  .people__in:hover { animation-play-state: paused; }
-  .people figure { flex: none; height: 84svh; min-height: 380px; aspect-ratio: 4 / 5; overflow: clip; background: var(--paper); }
-  .people img { width: 100%; height: 100%; object-fit: cover; }
+  /* 5. the pattern wall: nine flavours on one screen, straight from the brand deck */
+  .grid9 { height: 100svh; min-height: 520px; overflow: clip; background: var(--white); }
+  .grid9__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100%; padding: var(--gap); }
+  .grid9 figure { overflow: clip; background: var(--paper); }
+  .grid9 img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* 6. people: three columns of tall portraits sliding past each other, after yoyoyo's grid */
+  .sec--people { padding: 0; min-height: 0; }
+  .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; padding-inline: var(--gap); }
+  .wall__col { will-change: transform; }
+  .wall__col:nth-child(odd) { animation: wall-up 20s linear infinite; }
+  .wall__col:nth-child(even) { animation: wall-down 20s linear infinite; }
+  .wall__col:nth-child(2) { animation-delay: -7s; }
+  .wall__col:nth-child(3) { animation-delay: -13s; }
+  .wall:hover .wall__col { animation-play-state: paused; }
+  @keyframes wall-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+  @keyframes wall-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+  /* the gap lives on the figure, not on the column: only then is half the stack exactly one copy */
+  .wall figure { aspect-ratio: 4 / 5; margin-bottom: var(--gap); overflow: clip; background: var(--paper); }
+  .wall img { width: 100%; height: 100%; object-fit: cover; }
 
   /* 6. the statement, one line, before the footer */
   .say { background: var(--white); color: var(--blue); padding: var(--s6) var(--pad); min-height: 100svh; display: grid; place-items: center; }
@@ -190,8 +205,9 @@
     .strip__in { animation-duration: 90s; }
     .photos__in { animation-duration: 60s; }
     .photos figure { height: 32svh; min-height: 180px; }
-    .people__in { animation-duration: 42s; }
-    .people figure { height: 70svh; min-height: 320px; }
+    .wall { padding-inline: 0; height: 86svh; }
+    .wall__col:nth-child(odd) { animation-duration: 16s; }
+    .wall__col:nth-child(even) { animation-duration: 16s; }
     .sec { min-height: 0; padding-block: var(--s6); }
     .say { min-height: 0; padding-block: var(--s7); }
     .tile { height: min(62svh, 470px); }
@@ -199,8 +215,10 @@
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-    .photos__in, .strip__in, .people__in { animation: none !important; }
-    .photos, .strip, .people { overflow-x: auto; }
+    .photos__in, .strip__in { animation: none !important; }
+    .photos, .strip { overflow-x: auto; }
+    .wall { height: auto; }
+    .wall .dup { display: none; }
     .rv { opacity: 1; translate: 0 0; scale: 1; }
     .pop__word { opacity: 1; }
   }
@@ -242,7 +260,12 @@
 
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
 
-<!-- 3. the brand lines, one word at a time. stand-in for the client's typography film:
+<!-- 3. the pattern wall: nine flavours on one screen, before the copy (Marina, 2026-09-07 call) -->
+<section class="grid9" id="patterns" aria-hidden="true"><div class="grid9__in" id="patternGrid"></div></section>
+
+<div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4" lang="en"></div></div>
+
+<!-- 4. the brand lines, one word at a time. stand-in for the client's typography film:
      drop it in as <video class="pop__film" ...> inside this section and it covers the word -->
 <section class="pop" id="pop">
   <h2 class="pop__word display" id="popWord">Dare to try at your fullest</h2>
@@ -250,17 +273,17 @@
 
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip3" lang="en"></div></div>
 
-<!-- 4. ten cans on paper rectangles, sliding. tap a can and its graphic pattern fills the tile -->
+<!-- 5. ten cans on grey, sliding. hover or tap a can and its graphic pattern fills the tile -->
 <section class="sec sec--flavors" id="flavors">
   <div class="cans rv"><div class="cans__in" id="tiles"></div></div>
 </section>
 
-<!-- 5. people: Marina's twelve lifestyle shots, one fast band -->
+<!-- 6. people: Marina's twelve lifestyle shots, three columns sliding past each other -->
 <section class="sec sec--people" id="life">
-  <div class="people"><div class="people__in" id="lifeIn"></div></div>
+  <div class="wall" id="lifeIn"></div>
 </section>
 
-<!-- 6. the one statement, blown up -->
+<!-- 7. the one statement, blown up -->
 <section class="say">
   <h2 class="display rv" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2>
 </section>
@@ -332,7 +355,8 @@
   // still-life product shots from Marina's 2026-09-06 WeTransfer
   const PRODUCTS = ['still/still-1.jpg', 'still/still-2.jpg', 'still/still-3.jpg', 'still/still-4.jpg', 'still/still-5.jpg', 'still/still-6.jpg'];
   // flavors with the client's real graphic pattern (assets/pattern). The other three still use the drawn stand-in
-  const PATTERN = new Set(['cola', 'blackcurrant', 'citrus', 'lemon', 'orange', 'pomegranate', 'cocktail']);
+  const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail']);
+  const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Marina's twelve lifestyle shots, 2026-09-07. These replaced the other-brand mood references
   const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
@@ -465,11 +489,21 @@
     document.getElementById('strip1').innerHTML = countries.repeat(2);
     document.getElementById('strip2').innerHTML = msgs.repeat(4);
     document.getElementById('strip3').innerHTML = countries.repeat(2);
+    document.getElementById('strip4').innerHTML = countries.repeat(2);
   }
   // two copies of everything that marquees: the keyframe travels exactly half the row, so it never jumps
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(4);
-  document.getElementById('lifeIn').innerHTML = LIFE.map(fig).join('').repeat(2);
+  document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
+  (function () {
+    const cols = matchMedia('(max-width: 760px)').matches ? 2 : 3;
+    const wall = document.getElementById('lifeIn');
+    wall.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+    wall.innerHTML = Array.from({ length: cols }, (_, c) => {
+      const own = LIFE.filter((_, i) => i % cols === c).map(fig).join('');
+      return `<div class="wall__col">${own}${own.replace(/<figure>/g, '<figure class="dup">')}</div>`;
+    }).join('');
+  })();
 
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
