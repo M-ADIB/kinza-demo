@@ -57,9 +57,9 @@
   .rv.is-in { opacity: 1; translate: 0 0; scale: 1; }
 
   /* ============ HEADER ============ */
-  .header { position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--pad); color: var(--ink); transition: color .5s, background .35s; }
-  .header.is-solid { background: var(--white); color: var(--navy); box-shadow: 0 1px 0 var(--rule); height: 56px; }
-  .header.is-open { background: transparent; box-shadow: none; color: var(--paper); }
+  .header { position: fixed; inset: 12px auto auto 50%; translate: -50% 0; width: 184px; z-index: 70; display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; background: var(--white); color: var(--navy); transition: color .5s, background .35s; }
+  .header.is-solid { background: var(--white); color: var(--navy); box-shadow: 0 2px 16px rgba(0, 20, 137, .12); }
+  .header.is-open { background: var(--navy); box-shadow: none; color: var(--white); }
   .header .wm { height: 26px; }
   .burger { position: relative; width: 44px; height: 44px; margin-inline-end: -10px; display: grid; place-items: center; }
   .burger span { position: absolute; width: 26px; height: 2px; background: currentColor; transition: translate .3s var(--ease-out), rotate .3s var(--ease-out); }
@@ -72,11 +72,11 @@
   html[lang="ar"] .chip { letter-spacing: 0; font-size: 13px; }
 
   /* full-screen menu panel */
-  .menu { position: fixed; inset: 0; z-index: 60; background: var(--navy); color: var(--paper); display: grid; grid-template-rows: 1fr auto; padding: 100px var(--pad) 36px; overflow-y: auto; visibility: hidden; opacity: 0; translate: 0 -2%; transition: opacity .4s var(--ease-out), translate .4s var(--ease-out), visibility 0s .4s; }
+  .menu { position: fixed; inset: 0; z-index: 60; background: var(--navy); color: var(--white); display: grid; grid-template-rows: 1fr auto; padding: 100px var(--pad) 36px; overflow-y: auto; visibility: hidden; opacity: 0; translate: 0 -2%; transition: opacity .4s var(--ease-out), translate .4s var(--ease-out), visibility 0s .4s; }
   .menu.is-open { visibility: visible; opacity: 1; translate: 0 0; transition-delay: 0s; }
   html.menu-open { overflow: hidden; }
   .menu__links { display: grid; gap: clamp(4px, 1.4vh, 14px); align-content: center; }
-  .menu__links a { font-size: clamp(40px, 9vw, 96px); color: var(--paper); opacity: 0; translate: 0 18px; transition: opacity .5s var(--ease-out), translate .5s var(--ease-out); }
+  .menu__links a { font-size: clamp(40px, 9vw, 96px); color: var(--white); opacity: 0; translate: 0 18px; transition: opacity .5s var(--ease-out), translate .5s var(--ease-out); }
   .menu__links a:hover { opacity: .7; }
   .menu.is-open .menu__links a { opacity: 1; translate: 0 0; }
   .menu.is-open .menu__links a:nth-child(2) { transition-delay: .06s; }
@@ -104,7 +104,10 @@
   /* the reduced-motion still is the bare can, so it takes no mask and matches the clip's can height */
   .spin > img { -webkit-mask-image: none; mask-image: none; height: 80%; width: auto; inset: 0; margin: auto; }
   /* the client's own can-flip film drops in here: give it class="spin__film" and it covers the stack */
-  .spin__film { opacity: 1; z-index: 2; }
+  .spin:has(.spin__film) { width: 100%; height: 100%; aspect-ratio: auto; }
+  .hero:has(.spin__film) { padding: 0; }
+  .spin > .spin__film { opacity: 1; z-index: 2; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+  .hero:has(.spin__film) .hero__dots { display: none; }
   .curtain { position: absolute; inset: 0; background: var(--navy); opacity: 0; pointer-events: none; z-index: 4; }
   .hero__dots { position: absolute; bottom: 28px; left: 50%; translate: -50% 0; display: flex; gap: 8px; z-index: 5; }
   .hero__dots button { width: 12px; height: 12px; border-radius: 50%; background: var(--d); border: 2px solid var(--ink); opacity: .5; transition: opacity .3s, transform .3s var(--ease-spring); }
@@ -120,9 +123,9 @@
 
   /* ============ 2. still life: a tall band sitting straight on both tickers, no white gap ============ */
   .photos { direction: ltr; overflow: clip; background: var(--white); padding: 0; }
-  .photos__in { display: flex; gap: var(--gap); width: max-content; animation: strip 40s linear infinite; }
+  .photos__in { display: flex; width: max-content; animation: strip 28s linear infinite; }
   .photos__in:hover { animation-play-state: paused; }
-  .photos figure { flex: none; height: 44svh; min-height: 220px; aspect-ratio: 16 / 9; overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: 74svh; min-height: 320px; aspect-ratio: 4 / 3; margin-inline-end: var(--gap); overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
@@ -140,84 +143,90 @@
   .sec { background: var(--white); color: var(--navy); padding: 0 var(--pad); min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; }
 
   /* 4. can strip: ten cans on paper rectangles sliding right to left, tap shows the flavor pattern (Marina, 2026-09-07 13:52) */
-  .sec--flavors { padding-inline: 0; }
+  .sec--flavors { padding: 0; min-height: 0; background: var(--grey); }
   .cans { direction: ltr; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none; }
   .cans::-webkit-scrollbar { display: none; }
   .cans.is-drag { cursor: grabbing; }
-  .cans__in { display: flex; gap: var(--gap); width: max-content; }
+  .cans__in { display: flex; width: max-content; }
   .tile img { -webkit-user-drag: none; }
-  .tile { position: relative; flex: none; height: min(76svh, 720px); width: auto; aspect-ratio: 9 / 16; background: linear-gradient(180deg, #f5f5f5, #e4e4e4); overflow: clip; isolation: isolate; }
+  .tile { position: relative; flex: none; height: 100svh; min-height: 520px; width: max(34vw, 52svh); margin-inline-end: var(--gap); background: linear-gradient(180deg, #f5f5f5, #e4e4e4); overflow: clip; isolation: isolate; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
   .tile__pat svg { width: 150%; height: auto; }
   .tile[aria-pressed="true"] .tile__pat { opacity: 1; scale: 1; }
   @media (hover: hover) { .tile:hover .tile__pat { opacity: 1; scale: 1; } .tile:hover img { transform: scale(1.04); } }
   .tile[aria-pressed="true"] .tile__pat svg { animation: slow-spin 60s linear infinite; }
-  .tile img { position: absolute; inset: 0; margin: auto; height: 88%; width: auto; max-width: 96%; object-fit: contain; transition: transform .45s var(--ease-out); }
+  .tile img { position: absolute; inset: 0; margin: auto; height: 108%; width: 100%; max-width: none; object-fit: contain; transition: transform .45s var(--ease-out); }
   .tile[aria-pressed="true"] img { transform: scale(1.04); }
   .tile .tile__pat img { position: static; width: 100%; height: 100%; max-width: none; object-fit: cover; transform: none; }
 
   /* 5. the pattern wall: nine flavours on one screen, straight from the brand deck */
   .grid9 { height: 100svh; min-height: 520px; overflow: clip; background: var(--white); }
-  .grid9__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100%; padding: var(--gap); }
+  .grid9__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100%; }
   .grid9 figure { overflow: clip; background: var(--paper); }
   .grid9 img { width: 100%; height: 100%; object-fit: cover; }
 
   /* 6. people: three columns of tall portraits sliding past each other, after yoyoyo's grid */
   .sec--people { padding: 0; min-height: 0; }
-  .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; padding-inline: var(--gap); }
+  .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; }
   .wall__col { will-change: transform; }
-  .wall__col:nth-child(odd) { animation: wall-up 20s linear infinite; }
-  .wall__col:nth-child(even) { animation: wall-down 20s linear infinite; }
-  .wall__col:nth-child(2) { animation-delay: -7s; }
-  .wall__col:nth-child(3) { animation-delay: -13s; }
-  .wall:hover .wall__col { animation-play-state: paused; }
+  .wall__col:nth-child(odd) { animation: wall-up 12s linear infinite; }
+  .wall__col:nth-child(even) { animation: wall-down 12s linear infinite; }
+  .wall__col:nth-child(2) { animation-delay: -4s; }
+  .wall__col:nth-child(3) { animation-delay: -8s; }
   @keyframes wall-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
   @keyframes wall-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
   /* the gap lives on the figure, not on the column: only then is half the stack exactly one copy */
   .wall figure { aspect-ratio: 4 / 5; margin-bottom: var(--gap); overflow: clip; background: var(--paper); }
   .wall img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* 6. the statement, one line, before the footer */
-  .say { background: var(--white); color: var(--blue); padding: var(--s6) var(--pad); min-height: 100svh; display: grid; place-items: center; }
-  .say h2 { font-size: clamp(40px, 11vw, 128px); max-width: 15ch; }
-  html[lang="ar"] .say h2 { font-size: clamp(32px, 6.4vw, 104px); }
+  /* The closing claim, with Saudi as the visual centre. */
+  .say { background: var(--white); color: var(--blue); padding: clamp(56px, 7vw, 100px) var(--pad); min-height: 100svh; display: grid; place-items: center; text-align: center; }
+  .say h2 { width: 100%; }
+  .say__intro { display: block; font-size: clamp(28px, 4.2vw, 64px); }
+  .say__hero { display: block; font-size: clamp(100px, 24vw, 360px); margin-block: 12px; }
+  .say__end { display: block; font-size: clamp(36px, 7vw, 108px); }
+  html[lang="ar"] .say__intro { font-size: clamp(24px, 3.8vw, 56px); }
+  html[lang="ar"] .say__hero { font-size: clamp(64px, 15vw, 224px); }
+  html[lang="ar"] .say__end { font-size: clamp(30px, 5.6vw, 84px); }
 
-  /* ============ footer: white, logo, hairline, columns of links, hairline, one line ============ */
-  .footer { background: var(--white); color: var(--navy); }
-  .footer .in { padding-inline: var(--pad); }
-  .footer__top { padding: var(--s6) 0 var(--s5); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .footer__top .wm { height: 32px; }
-  .footer__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s6) var(--gap); padding: var(--s6) 0; max-width: 640px; }
-  .footer h3 { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .55; margin-bottom: 18px; }
+  /* One blue footer, using the menu's white type and icons. */
+  .footer { background: var(--navy); color: var(--white); padding-top: var(--s6); }
+  .footer .in { padding-inline: var(--pad); max-width: none; }
+  .footer__grid { display: grid; grid-template-columns: 3fr 1fr; gap: var(--s6) var(--gap); padding-bottom: var(--s6); }
+  .footer h3 { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .65; margin-bottom: 24px; }
   html[lang="ar"] .footer h3 { font-size: 13px; }
-  .footer ul { list-style: none; display: grid; gap: 10px; justify-items: start; }
-  .footer li a, .footer li button { font-size: 15px; font-weight: 700; transition: opacity .25s; }
-  .footer li a:hover, .footer li button:hover { opacity: .6; }
-  .footer li button[aria-current="true"] { opacity: .45; cursor: default; }
-  .footer__social { display: flex; justify-content: center; gap: 10px; background: var(--navy); color: var(--white); padding: 22px var(--pad); margin-bottom: var(--s5); }
-  .footer__social a { display: grid; place-items: center; width: 44px; height: 44px; opacity: .9; transition: opacity .25s, scale .25s var(--ease-out); }
-  .footer__social a:hover { opacity: 1; scale: 1.12; }
-  .footer__social svg { width: 22px; height: 22px; }
-  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-bottom: var(--s5); font-size: 12px; font-weight: 600; opacity: .6; }
+  .footer ul { list-style: none; display: grid; gap: 12px; justify-items: start; }
+  .footer li a { font-family: "Anton", sans-serif; font-size: clamp(28px, 4.5vw, 68px); text-transform: uppercase; letter-spacing: .02em; line-height: 1.15; }
+  html[lang="ar"] .footer li a { font-family: "Cairo", sans-serif; font-weight: 900; line-height: 1.28; }
+  .footer li button { font-size: 16px; font-weight: 700; padding-block: 6px; }
+  .footer li a:hover, .footer li button:hover { opacity: .65; }
+  .footer li button[aria-current="true"] { text-decoration: underline; text-underline-offset: 5px; cursor: default; }
+  .footer__social { display: flex; justify-content: flex-start; gap: 12px; color: var(--white); padding: 0 var(--pad) 32px; }
+  .footer__social a { display: grid; place-items: center; width: 44px; height: 44px; transition: opacity .25s, scale .25s var(--ease-out); }
+  .footer__social a:hover { opacity: .7; scale: 1.1; }
+  .footer__social svg { width: 24px; height: 24px; }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 24px; border-top: 1px solid rgba(255,255,255,.2); font-size: 12px; font-weight: 600; opacity: .7; }
 
   @media (max-width: 760px) {
     .spin { height: min(60svh, 500px); }
     .strip__in { animation-duration: 90s; }
-    .photos__in { animation-duration: 60s; }
-    .photos figure { height: 32svh; min-height: 180px; }
+    .photos__in { animation-duration: 24s; }
+    .photos figure { height: 62svh; min-height: 320px; aspect-ratio: 4 / 5; }
     .wall { padding-inline: 0; height: 86svh; }
-    .wall__col:nth-child(odd) { animation-duration: 16s; }
-    .wall__col:nth-child(even) { animation-duration: 16s; }
-    .sec { min-height: 0; padding-block: var(--s6); }
+    .wall__col:nth-child(odd) { animation-duration: 14s; }
+    .wall__col:nth-child(even) { animation-duration: 14s; }
+    .sec { min-height: 0; padding: 0; }
     .say { min-height: 0; padding-block: var(--s7); }
-    .tile { height: min(62svh, 470px); }
-    .footer__grid { grid-template-columns: 1fr 1fr; }
+    .tile { height: 86svh; min-height: 440px; width: 82vw; }
+    .footer__grid { grid-template-columns: 1fr; gap: 36px; }
+    #footLang { display: flex; gap: 24px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
     .photos__in, .strip__in { animation: none !important; }
     .photos, .strip { overflow-x: auto; }
-    .wall { height: auto; }
+    html { scroll-behavior: auto; }
+    .wall { height: auto; min-height: 0; }
     .wall .dup { display: none; }
     .rv { opacity: 1; translate: 0 0; scale: 1; }
     .pop__word { opacity: 1; }
@@ -275,7 +284,7 @@
 
 <!-- 5. ten cans on grey, sliding. hover or tap a can and its graphic pattern fills the tile -->
 <section class="sec sec--flavors" id="flavors">
-  <div class="cans rv"><div class="cans__in" id="tiles"></div></div>
+  <div class="cans"><div class="cans__in" id="tiles"></div></div>
 </section>
 
 <!-- 6. people: Marina's twelve lifestyle shots, three columns sliding past each other -->
@@ -285,12 +294,11 @@
 
 <!-- 7. the one statement, blown up -->
 <section class="say">
-  <h2 class="display rv" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2>
+  <h2 class="display rv" id="statement">The fastest growing Saudi beverage brand in the world</h2>
 </section>
 
 <footer class="footer" id="links">
   <div class="in">
-    <div class="footer__top rv"><span class="wm"></span></div>
     <div class="footer__grid">
       <div class="rv">
         <h3 data-i18n="f_explore">Explore</h3>
@@ -496,13 +504,17 @@
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('').repeat(4);
   document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
   (function () {
-    const cols = matchMedia('(max-width: 760px)').matches ? 2 : 3;
     const wall = document.getElementById('lifeIn');
+    const phone = matchMedia('(max-width: 760px)');
+    function buildWall() {
+    const cols = phone.matches ? 2 : 3;
     wall.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
     wall.innerHTML = Array.from({ length: cols }, (_, c) => {
       const own = LIFE.filter((_, i) => i % cols === c).map(fig).join('');
       return `<div class="wall__col">${own}${own.replace(/<figure>/g, '<figure class="dup">')}</div>`;
     }).join('');
+    }
+    buildWall(); phone.addEventListener('change', buildWall);
   })();
 
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
@@ -526,7 +538,7 @@
     addEventListener('resize', fit);
     function next() { if (reduced) { i = (i + 1) % POP.length; show(i); return; } word.classList.add('out'); setTimeout(() => { i = (i + 1) % POP.length; show(i); }, 300); }
     show(0);
-    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting) t = setInterval(next, 1600); }), { threshold: .4 }).observe(sec);
+    new IntersectionObserver(es => es.forEach(e => { clearInterval(t); if (e.isIntersecting && !reduced) t = setInterval(next, 1600); }), { threshold: .4 }).observe(sec);
     sec.addEventListener('click', next);
     window.popRefresh = () => show(i);
   })();
@@ -538,7 +550,7 @@
   // three copies: the strip sits on the middle one and wraps silently, so it slides forever and swipes both ways
   function buildTiles() {
     tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('').repeat(3);
-    cans.scrollLeft = tiles.scrollWidth / 3;
+    cans.scrollLeft = cycleWidth();
   }
   // a tap toggles every copy of that flavor and holds the strip for 5 s; a drag never counts as a tap
   tiles.addEventListener('click', e => {
@@ -550,13 +562,16 @@
   function pause(ms) { tiles.classList.add('is-held'); clearTimeout(hold); if (ms) hold = setTimeout(() => tiles.classList.remove('is-held'), ms); }
   cans.addEventListener('mouseenter', () => pause(0));
   cans.addEventListener('mouseleave', () => pause(1500));
+  cans.addEventListener('focusin', () => pause(0));
+  cans.addEventListener('focusout', e => { if (!cans.contains(e.relatedTarget)) pause(1500); });
   ['touchstart', 'wheel'].forEach(ev => cans.addEventListener(ev, () => pause(4000), { passive: true }));
   // mouse drag scrolls the strip; touch uses the native swipe
   cans.addEventListener('pointerdown', e => {
     if (e.pointerType !== 'mouse') return;
+    pause(0);
     const x0 = e.clientX, s0 = cans.scrollLeft; dragged = false; cans.classList.add('is-drag');
     const move = ev => { const dx = ev.clientX - x0; if (Math.abs(dx) > 4) dragged = true; cans.scrollLeft = s0 - dx; };
-    const up = () => { cans.classList.remove('is-drag'); removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => dragged = false, 0); };
+    const up = () => { pause(4000); cans.classList.remove('is-drag'); removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => dragged = false, 0); };
     addEventListener('pointermove', move); addEventListener('pointerup', up);
   });
   // no label row any more, so the strip demonstrates the tap once when it first comes into view
@@ -567,13 +582,22 @@
     setTimeout(() => { if (!on.has(id)) { show(true); setTimeout(() => { if (!on.has(id)) show(false); }, 1700); } }, 700);
   }), { threshold: .35 }).observe(cans);
 
-  // auto slide at 36 px/s, wrapping on the middle copy
-  let lastT = 0;
+  // The repeat distance includes each tile's trailing gutter. A gentle reversal
+  // takes the row through every flavour and back, with native scrolling between.
+  function cycleWidth() { return tiles.children.length > FL.length ? tiles.children[FL.length].offsetLeft - tiles.children[0].offsetLeft : 0; }
+  let lastT = 0, travel = 0, cansVisible = false;
+  new IntersectionObserver(es => { cansVisible = es[0].isIntersecting; }).observe(cans);
   (function step(t) {
-    const W = tiles.scrollWidth / 3;
-    if (W > 0) {
-      if (!reduced && !document.hidden && !tiles.classList.contains('is-held') && lastT) cans.scrollLeft += 36 * Math.min(50, t - lastT) / 1000;
-      if (cans.scrollLeft < W * .5) cans.scrollLeft += W; else if (cans.scrollLeft > W * 1.5) cans.scrollLeft -= W;
+    const W = cycleWidth();
+    if (W > 0 && !cans.classList.contains('is-drag')) {
+      if (!reduced && !document.hidden && cansVisible && !tiles.classList.contains('is-held') && lastT) {
+        const dt = Math.min(50, t - lastT) / 1000;
+        const period = Math.max(16, W / 90);
+        travel += dt;
+        cans.scrollLeft += 320 * Math.cos(travel * Math.PI * 2 / period) * dt;
+      }
+      if (cans.scrollLeft < W * .5) cans.scrollLeft += W;
+      else if (cans.scrollLeft > W * 1.5) cans.scrollLeft -= W;
     }
     lastT = t; requestAnimationFrame(step);
   })(0);
@@ -587,6 +611,8 @@
     document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
     document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
     document.querySelectorAll('#footLang button').forEach(b => b.setAttribute('aria-current', String(b.dataset.l === lang)));
+    const lines = lang === 'ar' ? ['العلامة', 'السعودية', 'الأسرع نمواً في عالم المشروبات'] : ['The fastest growing', 'Saudi', 'beverage brand<br>in the world'];
+    document.getElementById('statement').innerHTML = `<span class="say__intro">${lines[0]}</span> <span class="say__hero">${lines[1]}</span> <span class="say__end">${lines[2]}</span>`;
     buildStrips(); buildTiles(); window.popRefresh();
     if (reduced) { spin.innerHTML = ''; Object.keys(clips).forEach(k => delete clips[k]); }
     go(cur);
