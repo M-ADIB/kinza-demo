@@ -122,11 +122,11 @@
   @keyframes strip { to { transform: translateX(-50%); } }
 
   /* ============ 2. still life: a tall band sitting straight on both tickers, no white gap ============ */
-  .photos { direction: ltr; overflow-x: auto; scrollbar-width: none; cursor: grab; overscroll-behavior-x: contain; background: var(--white); padding: 0; }
-  .photos__in { display: flex; width: max-content; }
+  .photos { direction: ltr; overflow: hidden; touch-action: pan-y; scrollbar-width: none; cursor: grab; overscroll-behavior-x: contain; background: var(--white); padding: 0; }
+  .photos__in { display: flex; width: max-content; will-change: transform; }
   .photos::-webkit-scrollbar { display: none; }
   .photos img { -webkit-user-drag: none; user-select: none; }
-  .photos figure { flex: none; height: 74svh; min-height: 320px; aspect-ratio: 4 / 3; margin-inline-end: var(--gap); overflow: clip; background: var(--paper); }
+  .photos figure { flex: none; height: 100svh; min-height: 520px; aspect-ratio: 4 / 3; margin-inline-end: var(--gap); overflow: clip; background: var(--paper); }
   .photos img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ============ 3. pop typography: stand-in for the client's video, word only ============ */
@@ -145,10 +145,10 @@
 
   /* 4. can strip: ten cans on paper rectangles sliding right to left, tap shows the flavor pattern (Marina, 2026-09-07 13:52) */
   .sec--flavors { padding: 0; min-height: 0; background: var(--grey); }
-  .cans { direction: ltr; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .cans { direction: ltr; overflow: hidden; touch-action: pan-y; overscroll-behavior-x: contain; scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none; }
   .cans::-webkit-scrollbar { display: none; }
   .cans.is-drag { cursor: grabbing; }
-  .cans__in { display: flex; width: max-content; }
+  .cans__in { display: flex; width: max-content; will-change: transform; }
   .tile img { -webkit-user-drag: none; }
   .tile { position: relative; flex: none; height: 100svh; min-height: 520px; width: max(34vw, 52svh); margin-inline-end: var(--gap); background: linear-gradient(180deg, #f5f5f5, #e4e4e4); overflow: clip; isolation: isolate; }
   .tile__pat { position: absolute; inset: 0; z-index: -1; background: var(--tb); display: grid; place-items: center; opacity: 0; scale: .6; transition: opacity .4s var(--ease-out), scale .55s var(--ease-out); }
@@ -169,21 +169,9 @@
   /* 6. people: three columns of tall portraits sliding past each other, after yoyoyo's grid */
   .sec--people { padding: 0; min-height: 0; }
   .wall { direction: ltr; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); height: 100svh; min-height: 520px; overflow: clip; align-items: start; }
-  .wall__col { will-change: transform; animation: wall-sweep 7.6s cubic-bezier(.2, 0, .05, 1) infinite paused; }
-  .wall__col:nth-child(even) { animation-name: wall-sweep-reverse; }
-  .wall.is-playing .wall__col { animation-play-state: running; }
-  @keyframes wall-sweep {
-    0%, 100% { transform: translateY(0); }
-    36.8421%, 50% { transform: translateY(calc(-1 * var(--travel, 0px))); }
-    86.8421% { transform: translateY(0); }
-  }
-  @keyframes wall-sweep-reverse {
-    0%, 100% { transform: translateY(calc(-1 * var(--travel, 0px))); }
-    36.8421%, 50% { transform: translateY(0); }
-    86.8421% { transform: translateY(calc(-1 * var(--travel, 0px))); }
-  }
+  .wall__col { will-change: transform; }
   /* Each column travels only as far as its last portrait. */
-  .wall figure { aspect-ratio: 4 / 5; margin-bottom: var(--gap); overflow: clip; background: var(--paper); }
+  .wall figure { aspect-ratio: 635 / 790; margin-bottom: var(--gap); overflow: clip; background: var(--paper); }
   .wall figure:last-child { margin-bottom: 0; }
   .wall img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -229,7 +217,7 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
     .photos__in, .strip__in { animation: none !important; }
-    .photos, .strip { overflow-x: auto; }
+    .photos, .cans, .strip { overflow-x: auto; touch-action: auto; }
     html { scroll-behavior: auto; }
     .wall { height: auto; min-height: 0; }
     .wall .dup { display: none; }
@@ -508,26 +496,6 @@
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
   document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
-  (function () {
-    const wall = document.getElementById('lifeIn');
-    const phone = matchMedia('(max-width: 656px)');
-    function buildWall() {
-    const cols = phone.matches ? 2 : 3;
-    wall.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
-    wall.innerHTML = Array.from({ length: cols }, (_, c) => {
-      const own = LIFE.filter((_, i) => i % cols === c).map(fig).join('');
-      return `<div class="wall__col">${own}</div>`;
-    }).join('');
-    }
-    function fitWall() {
-      wall.querySelectorAll('.wall__col').forEach(col => col.style.setProperty('--travel', Math.max(0, col.scrollHeight - wall.clientHeight) + 'px'));
-    }
-    buildWall(); phone.addEventListener('change', () => { buildWall(); fitWall(); });
-    new ResizeObserver(fitWall).observe(wall);
-    new IntersectionObserver(es => wall.classList.toggle('is-playing', es[0].isIntersecting), { rootMargin: '33% 0px' }).observe(wall);
-    fitWall();
-  })();
-
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
     const sec = document.getElementById('pop'), word = document.getElementById('popWord');
@@ -554,98 +522,189 @@
     window.popRefresh = () => show(i);
   })();
 
-  /* Reference gallery timing: a quick eased sweep, one-second hold, then reverse.
-     Native touch scrolling remains available. Dragging sets the next direction. */
-  function sweepEase(progress) {
-    let lo = 0, hi = 1, t = progress;
-    for (let i = 0; i < 16; i++) {
-      t = (lo + hi) / 2;
-      const x = 3 * (1-t) * (1-t) * t * .2 + 3 * (1-t) * t * t * .05 + t*t*t;
-      if (x < progress) lo = t; else hi = t;
-    }
-    return 3 * (1-t) * t * t + t*t*t;
+  /* YoYo gallery1/gallery4: finite transform sweeps, custom ease, one second at
+     each end. Browser animations keep fractional motion off the scroll pipeline. */
+  const galleryEase = 'cubic-bezier(.2, 0, .05, 1)';
+  function observeGallery(viewport, change) {
+    let observer;
+    const observe = () => {
+      if (observer) observer.disconnect();
+      observer = new IntersectionObserver(es => change(es[0].isIntersecting), {
+        rootMargin: `${viewport.clientHeight / 3}px 0px`
+      });
+      observer.observe(viewport);
+    };
+    new ResizeObserver(observe).observe(viewport);
+    observe();
   }
-  function galleryMotion(viewport, track, count, bounds) {
-    let direction = 1, visible = false, last = 0, elapsed = 0, duration = 0;
-    let from = null, to = 0, rest = 0, holdTimer, dragging = false, dragged = false, momentum = 0;
-    function hold(ms) {
-      track.classList.add('is-held'); clearTimeout(holdTimer); from = null;
-      if (ms) holdTimer = setTimeout(() => track.classList.remove('is-held'), ms);
+  function galleryMotion(viewport, track, count) {
+    let animation, timer, visible = false, pressing = false, keyboard = false;
+    let position = 0, direction = 1, dragged = false, inertia = 0;
+    const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
+    const clamp = x => Math.max(0, Math.min(limit(), x));
+    const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
+    function stop() {
+      clearTimeout(timer);
+      if (animation) {
+        position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+        animation.cancel(); animation = null; draw();
+      }
+      cancelAnimationFrame(inertia);
     }
-    function reset() { from = null; rest = 0; }
-    new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { rootMargin: '33% 0px' }).observe(viewport);
-    viewport.addEventListener('pointerdown', e => {
-      if (e.button && e.button !== 0) return;
-      hold(0); dragged = false; momentum = 0;
-      if (e.pointerType !== 'mouse') return;
-      dragging = true; viewport.classList.add('is-drag');
-      const x = e.clientX, start = viewport.scrollLeft;
-      let previousX = x, previousTime = performance.now(), velocity = 0;
-      const move = ev => {
-        const dx = ev.clientX - x, now = performance.now();
-        velocity = Math.max(-3, Math.min(3, (previousX - ev.clientX) / Math.max(1, now-previousTime)));
-        previousX = ev.clientX; previousTime = now;
-        if (Math.abs(dx) > 4) { dragged = true; direction = dx < 0 ? 1 : -1; }
-        viewport.scrollLeft = start - dx;
+    function run() {
+      if (reduced || !visible || document.hidden || pressing || keyboard || animation || !limit()) return;
+      clearTimeout(timer);
+      track.classList.remove('is-held');
+      const end = direction > 0 ? limit() : 0;
+      if (Math.abs(end-position) < 5) {
+        position = end; draw(); direction *= -1; timer = setTimeout(run, 1000); return;
+      }
+      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit());
+      animation = track.animate([
+        { transform: `translate3d(${-position}px,0,0)` },
+        { transform: `translate3d(${-end}px,0,0)` }
+      ], { duration, easing: galleryEase, fill: 'forwards' });
+      animation.onfinish = () => {
+        position = end; animation.cancel(); animation = null; draw(); run();
       };
-      const end = () => {
-        dragging = false; momentum = dragged && performance.now()-previousTime < 100 ? velocity : 0; viewport.classList.remove('is-drag'); hold(4000);
+    }
+    function hold(ms = 1000) {
+      stop(); track.classList.add('is-held');
+      if (ms) timer = setTimeout(run, ms);
+    }
+    function reset() { stop(); position = clamp(position); draw(); run(); }
+    observeGallery(viewport, active => {
+      visible = active;
+      if (active) {
+        track.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+        run();
+      } else stop();
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
+    new ResizeObserver(reset).observe(viewport);
+    viewport.addEventListener('pointerdown', e => {
+      if (reduced || !e.isPrimary || e.button !== 0) return;
+      hold(0); pressing = true; dragged = false;
+      const startX = e.clientX, startY = e.clientY, start = position;
+      let lastX = startX, lastTime = performance.now(), velocity = 0;
+      const move = ev => {
+        if (ev.pointerId !== e.pointerId) return;
+        const dx = ev.clientX-startX, dy = ev.clientY-startY;
+        if (!dragged && Math.abs(dx) <= Math.max(5, Math.abs(dy))) return;
+        dragged = true; viewport.classList.add('is-drag');
+        const now = performance.now();
+        velocity = Math.max(-3, Math.min(3, (lastX-ev.clientX) / Math.max(1, now-lastTime)));
+        lastX = ev.clientX; lastTime = now;
+        position = clamp(start-dx); direction = dx < 0 ? 1 : -1; draw();
+      };
+      const end = ev => {
+        if (ev.pointerId !== e.pointerId) return;
+        pressing = false; viewport.classList.remove('is-drag');
         removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
-        setTimeout(() => dragged = false, 0);
+        if (ev.type === 'pointercancel' || performance.now()-lastTime > 100) velocity = 0;
+        let time = performance.now();
+        const coast = now => {
+          const dt = Math.min(32, now-time); time = now;
+          const next = clamp(position + velocity*dt);
+          velocity *= Math.exp(-dt/240);
+          if (Math.abs(next-position) < .1 || Math.abs(velocity) < .02) { hold(1000); return; }
+          position = next; draw(); inertia = requestAnimationFrame(coast);
+        };
+        inertia = requestAnimationFrame(coast);
+        setTimeout(() => { dragged = false; }, 0);
       };
       addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
     });
-    viewport.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') hold(4000); });
-    viewport.addEventListener('pointercancel', () => hold(4000));
-    viewport.addEventListener('wheel', () => hold(4000), { passive: true });
-    viewport.addEventListener('touchmove', () => hold(4000), { passive: true });
-    viewport.addEventListener('focusin', () => hold(0));
-    viewport.addEventListener('focusout', e => { if (!viewport.contains(e.relatedTarget)) hold(1500); });
-    new ResizeObserver(reset).observe(viewport);
-    (function frame(now) {
-      const dt = last ? Math.min(50, now-last) : 0; last = now;
-      if (!reduced && visible && !document.hidden && !dragging && Math.abs(momentum) > .02) {
-        viewport.scrollLeft += momentum * dt; momentum *= Math.exp(-dt / 240);
-      }
-      if (!reduced && visible && !document.hidden && !dragging && !track.classList.contains('is-held')) {
-        const [min, max] = bounds();
-        if (max > min) {
-          if (rest > 0) rest -= dt;
-          else {
-            if (from === null) {
-              from = viewport.scrollLeft; to = direction > 0 ? max : min; elapsed = 0;
-              duration = Math.max(1300, count * (4400 / 13) * Math.abs(to-from) / (max-min));
-            }
-            elapsed += dt;
-            const progress = Math.min(1, elapsed / duration);
-            viewport.scrollLeft = from + (to-from) * sweepEase(progress);
-            if (progress === 1) { direction *= -1; from = null; rest = 1000; }
-          }
-        }
-      }
-      requestAnimationFrame(frame);
-    })(0);
+    viewport.addEventListener('wheel', e => {
+      const delta = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+      if (reduced || !delta) return;
+      e.preventDefault(); hold(); position = clamp(position + delta); direction = delta > 0 ? 1 : -1; draw();
+    }, { passive: false });
+    // Only keyboard focus holds a row. Mouse hover and mouse focus never do.
+    viewport.addEventListener('focusin', e => {
+      if (reduced || !e.target.matches(':focus-visible')) return;
+      keyboard = true; hold(0);
+      const tile = e.target.closest('.tile');
+      if (tile) { position = clamp(tile.offsetLeft); draw(); }
+    });
+    viewport.addEventListener('focusout', e => {
+      if (!viewport.contains(e.relatedTarget)) { keyboard = false; hold(); }
+    });
+    // Absorb browser scrolling used to reveal focused buttons into the transform.
+    viewport.addEventListener('scroll', () => {
+      if (reduced || !viewport.scrollLeft) return;
+      stop(); position = clamp(position + viewport.scrollLeft); viewport.scrollLeft = 0; draw(); run();
+    });
     return { hold, reset, wasDragged: () => dragged };
   }
   const productViewport = document.getElementById('products'), productTrack = document.getElementById('productsIn');
-  galleryMotion(productViewport, productTrack, PRODUCTS.length, () => [0, productViewport.scrollWidth-productViewport.clientWidth]);
+  galleryMotion(productViewport, productTrack, PRODUCTS.length);
 
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set();
-  function cycleWidth() { return tiles.children.length > FL.length ? tiles.children[FL.length].offsetLeft - tiles.children[0].offsetLeft : 0; }
-  const canMotion = galleryMotion(cans, tiles, FL.length, () => {
-    const W = cycleWidth(); return [W, Math.max(W, 2*W-cans.clientWidth)];
-  });
+  const canMotion = galleryMotion(cans, tiles, FL.length);
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('').repeat(3);
-    cans.scrollLeft = cycleWidth(); canMotion.reset();
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    canMotion.reset();
   }
   tiles.addEventListener('click', e => {
     const b = e.target.closest('.tile'); if (!b || canMotion.wasDragged()) return;
     const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
-    tiles.querySelectorAll(`.tile[data-id="${id}"]`).forEach(t => t.setAttribute('aria-pressed', String(on.has(id))));
-    canMotion.hold(5000);
+    b.setAttribute('aria-pressed', String(on.has(id))); canMotion.hold();
   });
+
+  (function peopleMotion() {
+    const wall = document.getElementById('lifeIn'), phone = matchMedia('(max-width: 656px)');
+    let animations = [], timer, visible = false, forward = true, progress = 0;
+    function stop() {
+      clearTimeout(timer);
+      const first = wall.firstElementChild, distance = first ? Math.max(0, first.offsetHeight-wall.clientHeight) : 0;
+      if (distance) progress = Math.max(0, Math.min(1, -new DOMMatrixReadOnly(getComputedStyle(first).transform).m42 / distance));
+      animations.forEach(a => a.cancel()); animations = [];
+      draw();
+    }
+    function draw() {
+      [...wall.children].forEach((col, i) => {
+        const distance = Math.max(0, col.offsetHeight-wall.clientHeight);
+        col.style.transform = `translate3d(0,${-distance*(i === 1 ? 1-progress : progress)}px,0)`;
+      });
+    }
+    function run() {
+      if (reduced || !visible || document.hidden || animations.length) return;
+      clearTimeout(timer);
+      const cols = [...wall.children], distance = Math.max(0, cols[0].offsetHeight-wall.clientHeight);
+      if (!distance) return;
+      const target = forward ? 1 : 0;
+      if (Math.abs(target-progress)*distance < 5) { forward = !forward; timer = setTimeout(run, 1000); return; }
+      const fullDuration = Math.max(2800, Math.max(...cols.map(c => c.children.length))*2700/7);
+      const duration = Math.max(1000, fullDuration*Math.abs(target-progress));
+      animations = cols.map((col, i) => {
+        const travel = Math.max(0, col.offsetHeight-wall.clientHeight);
+        return col.animate([
+          { transform: `translate3d(0,${-travel*(i === 1 ? 1-progress : progress)}px,0)` },
+          { transform: `translate3d(0,${-travel*(i === 1 ? 1-target : target)}px,0)` }
+        ], { duration, easing: galleryEase, fill: 'forwards' });
+      });
+      animations[0].onfinish = () => {
+        progress = target; animations.forEach(a => a.cancel()); animations = []; draw(); run();
+      };
+    }
+    function build() {
+      stop();
+      const count = phone.matches ? 2 : 3;
+      wall.style.gridTemplateColumns = `repeat(${count}, minmax(0, 1fr))`;
+      wall.innerHTML = Array.from({ length: count }, (_, c) => `<div class="wall__col">${LIFE.filter((_, i) => i % count === c).map(fig).join('')}</div>`).join('');
+      draw(); run();
+    }
+    build(); phone.addEventListener('change', build);
+    new ResizeObserver(() => { stop(); draw(); run(); }).observe(wall);
+    observeGallery(wall, active => {
+      visible = active;
+      if (active) { wall.querySelectorAll('img').forEach(img => { img.loading = 'eager'; }); run(); }
+      else stop();
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
+  })();
 
   /* ---------- footer, language ---------- */
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
