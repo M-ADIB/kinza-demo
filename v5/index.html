@@ -420,7 +420,7 @@ html.menu-open {
 .photos figure {
   height:calc(100svh - 72px);
   min-height:520px;
-  aspect-ratio:1.35;
+  aspect-ratio:1600/893;
   flex:none;
   margin-right:12px;
   overflow:clip
@@ -836,9 +836,10 @@ html[lang=ar] .footer li a {
     width:11px
   }
   .photos figure {
-    height:364px;
+    height:auto;
+    width:100vw;
     min-height:0;
-    aspect-ratio:4/5
+    aspect-ratio:1600/893
   }
   .section-bar {
     padding:20px 16px;
@@ -1115,13 +1116,24 @@ html[lang=ar] .footer li a {
   #footLinks { gap:20px }
   .footer__bottom { margin-top:32px }
 }
+/* Production hero: full bleed, with the complete landscape film on phones. */
+.hero { min-height:0; padding-top:72px; background:var(--navy) }
+.hero__media { position:relative; width:100%; height:calc(100svh - 72px) }
+.hero__media > img,.hero__media > video {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover
+}
+.hero__media > video { z-index:1 }
+@media(max-width:656px) {
+  .hero { height:auto; min-height:0; max-height:none; padding-top:64px }
+  .hero__media { height:auto; aspect-ratio:16/9 }
+}
 </style>
 </head>
 <body>
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
-<section class="hero" id="top" aria-label="Kinza"><div class="hero__cans" aria-hidden="true"><img class="hero__can" src="../assets/can360/lemon-en.webp" alt=""><img class="hero__can" src="../assets/can360/cola-en.webp" alt="" fetchpriority="high"><img class="hero__can" src="../assets/can360/blackcurrant-en.webp" alt=""></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__media" id="heroMedia" aria-hidden="true"><img src="../assets/v5-launch/hero-poster.jpg" alt="" fetchpriority="high" width="1920" height="1080"></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
@@ -1167,7 +1179,7 @@ html[lang=ar] .footer li a {
   ];
   const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
   // Six supplied product photographs.
-  const PRODUCTS = ['still/still-1.jpg', 'still/still-2.jpg', 'still/still-3.jpg', 'still/still-4.jpg', 'still/still-5.jpg', 'still/still-6.jpg'];
+  const PRODUCTS = ['v5-launch/still-1.jpg', 'v5-launch/still-2.jpg', 'v5-launch/still-3.jpg', 'v5-launch/still-4.jpg', 'v5-launch/still-5.jpg', 'v5-launch/still-6.jpg'];
   // Nine supplied portrait artworks. Soda water has no supplied artwork.
   const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail']);
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
@@ -1193,6 +1205,29 @@ html[lang=ar] .footer li a {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+
+  // The final hero film is independent of the placeholder flavor chapter.
+  (function () {
+    if (reduced) return;
+    const media = document.getElementById('heroMedia');
+    const video = document.createElement('video');
+    video.className = 'hero__film';
+    video.muted = true; video.loop = true; video.autoplay = true;
+    video.playsInline = true; video.preload = 'auto';
+    video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
+    video.poster = '../assets/v5-launch/hero-poster.jpg';
+    let visible = false, failed = false;
+    const sync = () => {
+      if (failed) return;
+      if (visible && !document.hidden) video.play().catch(() => {});
+      else video.pause();
+    };
+    video.addEventListener('error', () => { failed = true; video.remove(); });
+    video.src = '../assets/v5-launch/hero.mp4';
+    media.appendChild(video);
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(media);
+    document.addEventListener('visibilitychange', sync);
+  })();
 
   /* ---------- the one reveal ---------- */
   const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
@@ -1220,7 +1255,7 @@ html[lang=ar] .footer li a {
   const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `pattern-${id}.jpg` : `../assets/pattern/${id}.jpg`;
   const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
 
-  // The hero fan and the turning-can chapter share a flavor palette.
+  // The turning-can chapter retains its own flavor cycle.
   let cur = 0, timer = null, resumeTimer = null, filmVisible = false;
   const hero = document.getElementById('top'), spin = document.getElementById('spin');
   const clips = {};
@@ -1245,10 +1280,6 @@ html[lang=ar] .footer li a {
     const set = () => { try { v.currentTime = (performance.now() / 1000) % TURN; } catch (_) {} };
     if (v.readyState >= 1) set(); else v.addEventListener('loadedmetadata', set, { once: true });
   }
-  function updateHero(i) {
-    const ids = [FL[(i + 2) % FL.length][0], FL[i][0], FL[(i + 6) % FL.length][0]];
-    document.querySelectorAll('.hero__can').forEach((img,k) => { img.src = `../assets/can360/${ids[k]}-${lang}.webp`; });
-  }
   function paint(i) {
     const [, bg, ink] = FL[i];
     document.documentElement.style.setProperty('--bg', bg);
@@ -1262,7 +1293,7 @@ html[lang=ar] .footer li a {
       to.classList.add('is-on');
       if (from) { from.classList.remove('is-on'); setTimeout(() => { if (from.tagName === 'VIDEO' && !from.classList.contains('is-on')) from.pause(); }, 600); }
     }
-    cur = i; paint(i); updateHero(i);
+    cur = i; paint(i);
     if (!reduced) clip((i + 1) % FL.length); // warm the next one so the cut never stalls
   }
   function schedule(delay) {
