@@ -540,81 +540,49 @@ html.menu-open {
 .tile {
   flex:none;
   position:relative;
-  width:max(33.33vw,48svh);
-  height:calc(100svh - 72px);
-  min-height:520px;
+  height:min(84svh,800px);
+  aspect-ratio:900 / 1370;
+  width:auto;
   overflow:clip;
   isolation:isolate;
   background:var(--grey);
-  border-right:12px solid white;
+  margin-inline-end:12px;
+  transition:background .7s var(--ease);
   text-align:start
 }
 .tile>img {
   position:absolute;
-  width:100%;
-  height:100%;
+  width:78%;
+  height:72%;
   object-fit:contain;
-  inset:-2% 0 0;
-  transition:transform .55s var(--ease)
+  inset:0;
+  margin:auto;
+  z-index:1;
+  pointer-events:none
 }
 .tile__pat {
   position:absolute;
   inset:0;
-  z-index:-1;
+  z-index:2;
   background:var(--tb);
   opacity:0;
-  clip-path:inset(100% 0 0);
-  transition:clip-path .55s var(--ease),opacity .2s
+  pointer-events:none;
+  transition:opacity .7s var(--ease)
 }
-.tile__pat img {
+.tile__pat img,.tile__pat svg {
   width:100%;
   height:100%;
   object-fit:contain
 }
-.tile__pat svg {
-  width:100%;
-  height:100%
-}
-.tile__name {
-  position:absolute;
-  bottom:22px;
-  left:22px;
-  font-size:14px;
-  font-weight:700;
-  background:white;
-  padding:8px 12px
-}
-.tile__plus {
-  position:absolute;
-  right:22px;
-  bottom:22px;
-  font-size:28px;
-  font-weight:300;
-  background:white;
-  width:36px;
-  height:36px;
-  text-align:center;
-  line-height:32px;
-  transition:transform .4s
+.tile[aria-pressed=true] {
+  background:var(--tb)
 }
 .tile[aria-pressed=true] .tile__pat {
-  opacity:1;
-  clip-path:inset(0)
-}
-.tile[aria-pressed=true]>img {
-  transform:scale(.87) rotate(-8deg)
-}
-.tile[aria-pressed=true] .tile__plus {
-  transform:rotate(45deg)
+  opacity:.72
 }
 @media(hover:hover) {
-  .tile:hover .tile__pat {
-    opacity:1;
-    clip-path:inset(0)
-  }
-  .tile:hover>img {
-    transform:scale(.87) rotate(-8deg)
-  }
+  .tile:hover { background:var(--tb) }
+  .tile:hover .tile__pat { opacity:.72 }
 }
 .is-drag {
   cursor:grabbing
@@ -984,19 +952,7 @@ html[lang=ar] .life__overlay h2 {
     height:490px
   }
   .tile {
-    height:440px;
-    min-height:0;
-    width:76vw;
-    border-width:12px
-  }
-  .tile__name {
-    left:12px;
-    bottom:14px;
-    font-size:12px
-  }
-  .tile__plus {
-    right:12px;
-    bottom:14px
+    height:440px
   }
   .wall {
     height:700px;
@@ -1218,10 +1174,6 @@ html[lang=ar] .life__overlay h2 {
   .pop__copy {
     padding-block:24px
   }
-  .tile>img {
-    height:94%;
-    top:0
-  }
   .hero__title {
     z-index:4
   }
@@ -1286,10 +1238,7 @@ html[lang=ar] .say:after {
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
 <section class="pop" id="pop"><div class="pop__copy"><span class="label" data-i18n="made">Made in Saudi</span><h2 class="display pop__word" id="popWord" >Like no one else</h2><span class="label" data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div><div class="spin" id="spin" aria-hidden="true"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4"></div></div>
-<div class="section-bar"><h2 class="display" data-i18n="world">A world of flavor</h2><span class="label" data-i18n="drag">Drag to discover</span></div>
-<section class="patterns" id="patterns" data-i18n-label="patternLabel" aria-label="Flavor artwork"><div class="pattern__in" id="patternGrid"></div></section>
-<div class="strip" aria-hidden="true"><div class="strip__in label" id="strip3"></div></div>
-<section id="flavors"><div class="section-bar"><h2 class="display" data-i18n="flavors">Ten flavors. Full attitude.</h2><span class="label" data-i18n="touch">Hover or tap a can</span></div><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
+<section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
 <section class="life" id="life"><div class="wall" id="lifeIn"></div><div class="life__overlay"><p class="label" data-i18n="made">Made in Saudi</p><h2 class="display" data-i18n="life">Made for your kind of life</h2></div></section>
 <section class="say"><h2 class="display" id="statement">The fastest growing Saudi beverage brand in the world</h2></section>
 </main>
@@ -1378,7 +1327,7 @@ html[lang=ar] .say:after {
     let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
-  const patternSource = id => id === 'lemonzero' ? 'pattern-lemonzero.jpg' : `../assets/pattern/${id}.jpg`;
+  const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `pattern-${id}.jpg` : `../assets/pattern/${id}.jpg`;
   const bigPattern = id => { if (PATTERN.has(id)) return `<img src="${patternSource(id)}" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
 
   // The hero fan and the turning-can chapter share a flavor palette.
@@ -1478,13 +1427,11 @@ html[lang=ar] .say:after {
     const countries = COUNTRIES.map(c => `<span lang="en">${esc(c)}</span>`).join('');
     document.getElementById('strip1').innerHTML = countries.repeat(2);
     document.getElementById('strip2').innerHTML = msgs.repeat(4);
-    document.getElementById('strip3').innerHTML = countries.repeat(2);
     document.getElementById('strip4').innerHTML = countries.repeat(2);
   }
   // Photo and artwork tracks contain one finite set. Only text tickers repeat.
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
-  document.getElementById('patternGrid').innerHTML = WALL9.map(id => `<figure><img src="${patternSource(id)}" alt="" loading="lazy" /></figure>`).join('');
   window.popRefresh = () => refreshPop(cur);
 
   /* YoYo gallery1/gallery4: finite transform sweeps, custom ease, one second at
@@ -1604,13 +1551,12 @@ html[lang=ar] .say:after {
   }
   const productViewport = document.getElementById('products'), productTrack = document.getElementById('productsIn');
   galleryMotion(productViewport, productTrack, PRODUCTS.length);
-  galleryMotion(document.getElementById('patterns'), document.getElementById('patternGrid'), WALL9.length);
 
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length);
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /><span class="tile__name">${esc(T['f_' + id][lang])}</span><span class="tile__plus" aria-hidden="true">+</span></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
