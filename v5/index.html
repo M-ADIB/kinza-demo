@@ -578,15 +578,19 @@ html.menu-open {
   height:100%;
   object-fit:contain
 }
+/* Label artwork must fully cover the can, otherwise its lettering doubles. */
+.tile__pat:empty {
+  z-index:0
+}
 .tile[aria-pressed=true] {
   background:var(--tb)
 }
 .tile[aria-pressed=true] .tile__pat {
-  opacity:.48
+  opacity:1
 }
 @media(hover:hover) {
   .tile:hover { background:var(--tb) }
-  .tile:hover .tile__pat { opacity:.48 }
+  .tile:hover .tile__pat { opacity:1 }
 }
 .is-drag {
   cursor:grabbing
