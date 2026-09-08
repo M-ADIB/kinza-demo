@@ -561,13 +561,13 @@ html.menu-open {
   object-fit:contain;
   inset:0;
   margin:auto;
-  z-index:1;
+  z-index:2;
   pointer-events:none
 }
 .tile__pat {
   position:absolute;
   inset:0;
-  z-index:2;
+  z-index:0;
   background:var(--tb);
   opacity:0;
   pointer-events:none;
@@ -577,10 +577,6 @@ html.menu-open {
   width:100%;
   height:100%;
   object-fit:contain
-}
-/* Label artwork must fully cover the can, otherwise its lettering doubles. */
-.tile__pat:empty {
-  z-index:0
 }
 .tile[aria-pressed=true] {
   background:var(--tb)
