@@ -539,7 +539,7 @@ html.menu-open {
   object-fit:contain
 }
 .cans {
-  background:var(--grey)
+  background:var(--white)
 }
 .tile {
   flex:none;
@@ -551,13 +551,13 @@ html.menu-open {
   isolation:isolate;
   background:var(--grey);
   margin-inline-end:12px;
-  transition:background .7s var(--ease);
+  transition:background .25s var(--ease);
   text-align:start
 }
 .tile>img {
   position:absolute;
-  width:78%;
-  height:72%;
+  width:70%;
+  height:64%;
   object-fit:contain;
   inset:0;
   margin:auto;
@@ -571,7 +571,7 @@ html.menu-open {
   background:var(--tb);
   opacity:0;
   pointer-events:none;
-  transition:opacity .7s var(--ease)
+  transition:opacity .25s var(--ease)
 }
 .tile__pat img,.tile__pat svg {
   width:100%;
@@ -582,18 +582,18 @@ html.menu-open {
   background:var(--tb)
 }
 .tile[aria-pressed=true] .tile__pat {
-  opacity:.72
+  opacity:.48
 }
 @media(hover:hover) {
   .tile:hover { background:var(--tb) }
-  .tile:hover .tile__pat { opacity:.72 }
+  .tile:hover .tile__pat { opacity:.48 }
 }
 .is-drag {
   cursor:grabbing
 }
 .life {
   position:relative;
-  background:var(--navy)
+  background:var(--white)
 }
 .wall {
   display:grid;
@@ -621,76 +621,18 @@ html.menu-open {
   width:100%;
   object-fit:cover
 }
-.life__overlay {
-  position:absolute;
-  inset:auto 0 0;
-  padding:100px 24px 24px;
-  color:white;
-  background:linear-gradient(transparent,#0009);
-  pointer-events:none
-}
-.life__overlay h2 {
-  font-size:clamp(54px,9.8vw,150px);
-  max-width:11ch
-}
-.life__overlay .label {
-  margin-bottom:18px
-}
-.say {
-  min-height:100svh;
-  background:white;
-  color:var(--navy);
-  padding:56px 24px 48px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  overflow:clip
-}
-.say h2 {
-  width:100%;
-  position:relative;
-  z-index:1
-}
-.say__intro {
-  display:block;
-  font-size:5.8vw
-}
-.say__hero {
-  display:block;
-  font-size:29vw;
-  line-height:1.02;
-  margin:8px 0 16px
-}
-.say__end {
-  display:block;
-  font-size:6.7vw;
-  max-width:100%;
-  text-align:end
-}
-.say__end br {
-  display:none
-}
-.say:after {
-  content:'↗';
-  position:absolute;
-  right:24px;
-  top:11%;
-  font-size:18vw;
-  line-height:1;
-  z-index:0
-}
 .rv {
   opacity:1
 }
 .footer {
   background:var(--navy);
   color:white;
-  padding:42px 24px 0
+  padding:56px clamp(24px,4vw,64px) 0
 }
 .footer__grid {
   display:grid;
-  grid-template-columns:3fr 1fr;
-  gap:24px
+  grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);
+  gap:clamp(48px,8vw,128px)
 }
 .footer h3 {
   font-size:12px;
@@ -703,13 +645,15 @@ html.menu-open {
 .footer ul {
   list-style:none
 }
+#footLinks { display:grid; gap:24px; justify-items:start }
+.footer__aside { display:flex; flex-direction:column; align-items:flex-start }
 .footer li a {
   font-family:Anton,sans-serif;
   display:block;
-  font-size:clamp(36px,5.6vw,86px);
+  font-size:clamp(30px,4.5vw,70px);
   line-height:1.15;
   text-transform:uppercase;
-  padding-bottom:12px
+  padding-bottom:0
 }
 .footer li a:hover {
   opacity:.65
@@ -724,8 +668,9 @@ html.menu-open {
 }
 .footer__social {
   display:flex;
-  gap:20px;
-  margin:36px 0
+  gap:4px;
+  margin-top:auto;
+  padding-top:32px
 }
 .footer__social a {
   height:44px;
@@ -734,10 +679,11 @@ html.menu-open {
   place-items:center
 }
 .footer__social svg {
-  width:26px;
-  height:26px
+  width:21px;
+  height:21px
 }
 .footer__bottom {
+  margin-top:48px;
   border-top:1px solid #ffffff40;
   padding:22px 0;
   display:flex;
@@ -775,27 +721,10 @@ html[lang=ar] .spin {
   right:auto;
   left:-5%
 }
-html[lang=ar] .say__hero {
-  font-size:20vw
-}
-html[lang=ar] .say__intro {
-  font-size:5vw
-}
-html[lang=ar] .say__end {
-  font-size:6vw
-}
-html[lang=ar] .say:after {
-  right:auto;
-  left:24px
-}
 html[lang=ar] .footer li a {
   font-family:Cairo,sans-serif;
   font-weight:900;
   line-height:1.28
-}
-html[lang=ar] .life__overlay h2 {
-  font-size:8vw;
-  max-width:13ch
 }
 @media(max-width:900px) {
   .header__center {
@@ -962,37 +891,6 @@ html[lang=ar] .life__overlay h2 {
     height:700px;
     min-height:0
   }
-  .life__overlay {
-    padding:100px 16px 24px
-  }
-  .life__overlay h2 {
-    font-size:16vw;
-    max-width:11ch
-  }
-  .say {
-    min-height:0;
-    padding:64px 16px 58px
-  }
-  .say__intro {
-    font-size:7.8vw
-  }
-  .say__hero {
-    font-size:28vw;
-    margin:14px 0 24px
-  }
-  .say__end {
-    font-size:11vw;
-    max-width:15ch;
-    margin-inline-start:auto
-  }
-  .say__end br {
-    display:block
-  }
-  .say:after {
-    font-size:15vw;
-    top:29%;
-    right:16px
-  }
   .footer {
     padding:30px 16px 0
   }
@@ -1001,15 +899,16 @@ html[lang=ar] .life__overlay h2 {
     gap:32px
   }
   .footer li a {
-    font-size:10vw
+    font-size:8vw
   }
   .footer h3 {
     margin-bottom:16px
   }
   .footer__social {
-    gap:12px;
-    justify-content:space-between;
-    margin:24px 0
+    gap:4px;
+    justify-content:flex-start;
+    margin:0;
+    padding-top:24px
   }
   .footer__bottom {
     flex-direction:column;
@@ -1059,23 +958,11 @@ html[lang=ar] .life__overlay h2 {
   html[lang=ar] .pop__copy {
     padding:24px 16px
   }
-  html[lang=ar] .say__intro {
-    font-size:8vw
-  }
-  html[lang=ar] .say__hero {
-    font-size:20vw
-  }
-  html[lang=ar] .say__end {
-    font-size:9vw
-  }
-  html[lang=ar] .life__overlay h2 {
-    font-size:12vw
-  }
   html[lang=ar] .section-bar h2 {
     font-size:25px
   }
   html[lang=ar] .footer li a {
-    font-size:8vw
+    font-size:6.6vw
   }
 }
 @media(prefers-reduced-motion:reduce) {
@@ -1096,10 +983,6 @@ html[lang=ar] .life__overlay h2 {
   }
   .wall__col {
     transform:none!important
-  }
-  .life__overlay {
-    position:relative;
-    background:var(--navy)
   }
   .hero__can {
     transform:translate(-50%,-36%)
@@ -1146,9 +1029,6 @@ html[lang=ar] .life__overlay h2 {
 }
 .pop__copy {
   padding-block:40px
-}
-.say__end br:after {
-  content:' '
 }
 @media(max-width:656px) {
   .hero__can {
@@ -1221,14 +1101,19 @@ html[lang=ar] .life__overlay h2 {
     inset:12px 6px
   }
 }
-html[lang=ar] .say:after {
-  top:48px
+/* Editorial system: clean media, small copy ribbons and white image gutters. */
+.pop { display:block }
+.spin,html[lang=ar] .spin {
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:auto
 }
-
-/* The opening keeps only the brand artwork, floating cans and brand line. */
-.hero__title { bottom:32px }
+.spin > video { object-fit:contain }
 @media(max-width:656px) {
-  .hero__title,html[lang=ar] .hero__title { bottom:32px }
+  .pop { height:100svh; min-height:520px; max-height:900px }
+  #footLinks { gap:20px }
+  .footer__bottom { margin-top:32px }
 }
 </style>
 </head>
@@ -1236,17 +1121,19 @@ html[lang=ar] .say:after {
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
-<section class="hero" id="top" aria-label="Kinza"><span class="wm hero__logo" aria-hidden="true"></span><div class="hero__cans" aria-hidden="true"><img class="hero__can" src="../assets/can360/lemon-en.webp" alt=""><img class="hero__can" src="../assets/can360/cola-en.webp" alt="" fetchpriority="high"><img class="hero__can" src="../assets/can360/blackcurrant-en.webp" alt=""></div><h1 class="display hero__title" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__cans" aria-hidden="true"><img class="hero__can" src="../assets/can360/lemon-en.webp" alt=""><img class="hero__can" src="../assets/can360/cola-en.webp" alt="" fetchpriority="high"><img class="hero__can" src="../assets/can360/blackcurrant-en.webp" alt=""></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
-<div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2"></div></div>
-<section class="pop" id="pop"><div class="pop__copy"><span class="label" data-i18n="made">Made in Saudi</span><h2 class="display pop__word" id="popWord" >Like no one else</h2><span class="label" data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div><div class="spin" id="spin" aria-hidden="true"></div></section>
+<div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
+<section class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="spin" id="spin" aria-hidden="true"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4"></div></div>
 <section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
-<section class="life" id="life"><div class="wall" id="lifeIn"></div><div class="life__overlay"><p class="label" data-i18n="made">Made in Saudi</p><h2 class="display" data-i18n="life">Made for your kind of life</h2></div></section>
-<section class="say"><h2 class="display" id="statement">The fastest growing Saudi beverage brand in the world</h2></section>
+<div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip5" data-copy="life"></div></div>
+<section class="life" id="life" data-i18n-label="life" aria-label="Made for your kind of life"><div class="wall" id="lifeIn"></div></section>
+<div class="strip" aria-hidden="true"><div class="strip__in label" id="strip6" data-copy="say"></div></div>
+<h2 class="sr-only" id="statement">The fastest growing Saudi beverage brand in the world</h2>
 </main>
-<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div><h3 data-i18n="f_lang">Language</h3><ul id="footLang"><li><button data-l="en">English</button></li><li><button data-l="ar" lang="ar">العربية</button></li></ul><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a></div></div><div class="footer__social" id="footSocial"></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
+<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><h3 data-i18n="f_lang">Language</h3><ul id="footLang"><li><button data-l="en">English</button></li><li><button data-l="ar" lang="ar">العربية</button></li></ul><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
 
 <script>
   const T = {
@@ -1331,7 +1218,7 @@ html[lang=ar] .say:after {
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
   const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `pattern-${id}.jpg` : `../assets/pattern/${id}.jpg`;
-  const bigPattern = id => { if (PATTERN.has(id)) return `<img src="${patternSource(id)}" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
+  const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
 
   // The hero fan and the turning-can chapter share a flavor palette.
   let cur = 0, timer = null, resumeTimer = null, filmVisible = false;
@@ -1358,13 +1245,6 @@ html[lang=ar] .say:after {
     const set = () => { try { v.currentTime = (performance.now() / 1000) % TURN; } catch (_) {} };
     if (v.readyState >= 1) set(); else v.addEventListener('loadedmetadata', set, { once: true });
   }
-  function refreshPop(i) {
-    const word = document.getElementById('popWord');
-    const en = ['Like no\none else', 'Made in\nSaudi', 'Ten\nflavors'];
-    const ar = ['ما\nنشبه\nأحد', 'صنع في\nالسعودية', 'عشر\nنكهات'];
-    word.textContent = (lang === 'ar' ? ar : en)[i % 3];
-    word.classList.remove('is-changing'); void word.offsetWidth; word.classList.add('is-changing');
-  }
   function updateHero(i) {
     const ids = [FL[(i + 2) % FL.length][0], FL[i][0], FL[(i + 6) % FL.length][0]];
     document.querySelectorAll('.hero__can').forEach((img,k) => { img.src = `../assets/can360/${ids[k]}-${lang}.webp`; });
@@ -1382,7 +1262,7 @@ html[lang=ar] .say:after {
       to.classList.add('is-on');
       if (from) { from.classList.remove('is-on'); setTimeout(() => { if (from.tagName === 'VIDEO' && !from.classList.contains('is-on')) from.pause(); }, 600); }
     }
-    cur = i; paint(i); updateHero(i); refreshPop(i);
+    cur = i; paint(i); updateHero(i);
     if (!reduced) clip((i + 1) % FL.length); // warm the next one so the cut never stalls
   }
   function schedule(delay) {
@@ -1426,14 +1306,16 @@ html[lang=ar] .say:after {
 
   /* ---------- strips ---------- */
   function buildStrips() {
-    const phrase = `<span lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${esc(STRIP_COPY[lang])}</span>`;
-    // Each repeated item includes its own spacing so the half-track loop joins exactly.
-    document.querySelectorAll('.strip__in').forEach(track => { track.innerHTML = phrase.repeat(24); });
+    document.querySelectorAll('.strip__in').forEach(track => {
+      const copy = track.dataset.copy ? T[track.dataset.copy][lang] : STRIP_COPY[lang];
+      const phrase = `<span lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${esc(copy)}</span>`;
+      // Each repeated item includes its spacing, so the half-track loop joins exactly.
+      track.innerHTML = phrase.repeat(24);
+    });
   }
   // Photo and artwork tracks contain one finite set. Only text tickers repeat.
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
-  window.popRefresh = () => refreshPop(cur);
 
   /* YoYo gallery1/gallery4: finite transform sweeps, custom ease, one second at
      each end. Browser animations keep fractional motion off the scroll pipeline. */
@@ -1451,13 +1333,17 @@ html[lang=ar] .say:after {
     observe();
   }
   function galleryMotion(viewport, track, count) {
-    let animation, timer, visible = false, pressing = false, keyboard = false;
+    let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
     const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
+    function schedule(ms) {
+      clearTimeout(timer); deadline = performance.now() + ms;
+      timer = setTimeout(() => { deadline = 0; run(); }, ms);
+    }
     function stop() {
-      clearTimeout(timer);
+      clearTimeout(timer); deadline = 0;
       if (animation) {
         position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
         animation.cancel(); animation = null; draw();
@@ -1470,7 +1356,7 @@ html[lang=ar] .say:after {
       track.classList.remove('is-held');
       const end = direction > 0 ? limit() : 0;
       if (Math.abs(end-position) < 5) {
-        position = end; draw(); direction *= -1; timer = setTimeout(run, 1000); return;
+        position = end; draw(); direction *= -1; schedule(1000); return;
       }
       const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit());
       animation = track.animate([
@@ -1483,7 +1369,7 @@ html[lang=ar] .say:after {
     }
     function hold(ms = 1000) {
       stop(); track.classList.add('is-held');
-      if (ms) timer = setTimeout(run, ms);
+      if (ms) schedule(ms);
     }
     function reset() { stop(); position = clamp(position); draw(); run(); }
     observeGallery(viewport, active => {
@@ -1497,13 +1383,21 @@ html[lang=ar] .say:after {
     new ResizeObserver(reset).observe(viewport);
     viewport.addEventListener('pointerdown', e => {
       if (reduced || !e.isPrimary || e.button !== 0) return;
-      hold(0); pressing = true; dragged = false;
+      const remaining = Math.max(0, deadline-performance.now());
+      clearTimeout(timer); deadline = 0; cancelAnimationFrame(inertia);
+      if (animation) {
+        const time = animation.currentTime ?? 0;
+        animation.pause(); animation.currentTime = time;
+        position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+      }
+      pressing = true; dragged = false; keyboard = false;
       const startX = e.clientX, startY = e.clientY, start = position;
       let lastX = startX, lastTime = performance.now(), velocity = 0;
       const move = ev => {
         if (ev.pointerId !== e.pointerId) return;
         const dx = ev.clientX-startX, dy = ev.clientY-startY;
         if (!dragged && Math.abs(dx) <= Math.max(5, Math.abs(dy))) return;
+        if (!dragged) stop();
         dragged = true; viewport.classList.add('is-drag');
         const now = performance.now();
         velocity = Math.max(-3, Math.min(3, (lastX-ev.clientX) / Math.max(1, now-lastTime)));
@@ -1514,6 +1408,15 @@ html[lang=ar] .say:after {
         if (ev.pointerId !== e.pointerId) return;
         pressing = false; viewport.classList.remove('is-drag');
         removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+        if (!dragged) {
+          track.classList.remove('is-held');
+          if (visible && !document.hidden && !keyboard) {
+            if (animation) animation.play();
+            else if (remaining) schedule(remaining);
+            else run();
+          }
+          return;
+        }
         if (ev.type === 'pointercancel' || performance.now()-lastTime > 100) velocity = 0;
         let time = performance.now();
         const coast = now => {
@@ -1629,9 +1532,8 @@ html[lang=ar] .say:after {
     document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
     document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', T[el.dataset.i18nLabel][lang]));
     document.querySelectorAll('#footLang button').forEach(b => b.setAttribute('aria-current', String(b.dataset.l === lang)));
-    const lines = lang === 'ar' ? ['العلامة', 'السعودية', 'الأسرع نمواً في عالم المشروبات'] : ['The fastest growing', 'Saudi', 'beverage brand <br>in the world'];
-    document.getElementById('statement').innerHTML = `<span class="say__intro">${lines[0]}</span> <span class="say__hero">${lines[1]}</span> <span class="say__end">${lines[2]}</span>`;
-    buildStrips(); buildTiles(); window.popRefresh();
+    document.getElementById('statement').textContent = T.say[lang];
+    buildStrips(); buildTiles();
     document.querySelectorAll('#menuSocial a,#footSocial a').forEach((a,i)=>a.setAttribute('aria-label',T[SOCIAL[i%SOCIAL.length][1]][lang]));
     if (reduced) { spin.innerHTML = ''; Object.keys(clips).forEach(k => delete clips[k]); }
     go(cur);
