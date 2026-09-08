@@ -21,7 +21,7 @@
   --blue:#314da0;
   --white:#fff;
   --grey:#ededed;
-  --gap:12px;
+  --gap:6px;
   --pad:24px;
   --bg:#001489;
   --ink:#fff;
@@ -421,7 +421,7 @@ html.menu-open {
   min-height:520px;
   aspect-ratio:1600/893;
   flex:none;
-  margin-right:12px;
+  margin-right:var(--gap);
   overflow:clip
 }
 .photos img {
@@ -529,7 +529,7 @@ html.menu-open {
 .pattern__in figure {
   flex:none;
   height:calc(100svh - 150px);
-  margin-right:12px;
+  margin-right:var(--gap);
   aspect-ratio:900/1370
 }
 .pattern__in img {
@@ -549,7 +549,7 @@ html.menu-open {
   overflow:clip;
   isolation:isolate;
   background:var(--grey);
-  margin-inline-end:12px;
+  margin-inline-end:var(--gap);
   transition:background .25s var(--ease);
   text-align:start
 }
@@ -566,7 +566,7 @@ html.menu-open {
 .tile__pat {
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:3;
   background:var(--tb);
   opacity:0;
   pointer-events:none;
@@ -581,11 +581,11 @@ html.menu-open {
   background:var(--tb)
 }
 .tile[aria-pressed=true] .tile__pat {
-  opacity:1
+  opacity:.48
 }
 @media(hover:hover) {
   .tile:hover { background:var(--tb) }
-  .tile:hover .tile__pat { opacity:1 }
+  .tile:hover .tile__pat { opacity:.48 }
 }
 .is-drag {
   cursor:grabbing
@@ -597,7 +597,7 @@ html.menu-open {
 .wall {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
+  gap:var(--gap);
   height:100svh;
   min-height:520px;
   overflow:clip;
@@ -609,7 +609,7 @@ html.menu-open {
 }
 .wall figure {
   aspect-ratio:635/790;
-  margin-bottom:12px;
+  margin-bottom:var(--gap);
   overflow:clip
 }
 .wall figure:last-child {
