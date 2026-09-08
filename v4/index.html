@@ -554,13 +554,17 @@
     observe();
   }
   function galleryMotion(viewport, track, count) {
-    let animation, timer, visible = false, pressing = false, keyboard = false;
+    let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
     const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
+    function schedule(ms) {
+      clearTimeout(timer); deadline = performance.now() + ms;
+      timer = setTimeout(() => { deadline = 0; run(); }, ms);
+    }
     function stop() {
-      clearTimeout(timer);
+      clearTimeout(timer); deadline = 0;
       if (animation) {
         position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
         animation.cancel(); animation = null; draw();
@@ -573,7 +577,7 @@
       track.classList.remove('is-held');
       const end = direction > 0 ? limit() : 0;
       if (Math.abs(end-position) < 5) {
-        position = end; draw(); direction *= -1; timer = setTimeout(run, 1000); return;
+        position = end; draw(); direction *= -1; schedule(1000); return;
       }
       const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit());
       animation = track.animate([
@@ -586,7 +590,7 @@
     }
     function hold(ms = 1000) {
       stop(); track.classList.add('is-held');
-      if (ms) timer = setTimeout(run, ms);
+      if (ms) schedule(ms);
     }
     function reset() { stop(); position = clamp(position); draw(); run(); }
     observeGallery(viewport, active => {
@@ -600,13 +604,20 @@
     new ResizeObserver(reset).observe(viewport);
     viewport.addEventListener('pointerdown', e => {
       if (reduced || !e.isPrimary || e.button !== 0) return;
-      hold(0); pressing = true; dragged = false;
+      const remaining = Math.max(0, deadline-performance.now());
+      clearTimeout(timer); deadline = 0; cancelAnimationFrame(inertia);
+      if (animation) {
+        animation.pause();
+        position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+      }
+      pressing = true; dragged = false; keyboard = false;
       const startX = e.clientX, startY = e.clientY, start = position;
       let lastX = startX, lastTime = performance.now(), velocity = 0;
       const move = ev => {
         if (ev.pointerId !== e.pointerId) return;
         const dx = ev.clientX-startX, dy = ev.clientY-startY;
         if (!dragged && Math.abs(dx) <= Math.max(5, Math.abs(dy))) return;
+        if (!dragged) stop();
         dragged = true; viewport.classList.add('is-drag');
         const now = performance.now();
         velocity = Math.max(-3, Math.min(3, (lastX-ev.clientX) / Math.max(1, now-lastTime)));
@@ -617,6 +628,15 @@
         if (ev.pointerId !== e.pointerId) return;
         pressing = false; viewport.classList.remove('is-drag');
         removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+        if (!dragged) {
+          track.classList.remove('is-held');
+          if (visible && !document.hidden && !keyboard) {
+            if (animation) animation.play();
+            else if (remaining) schedule(remaining);
+            else run();
+          }
+          return;
+        }
         if (ev.type === 'pointercancel' || performance.now()-lastTime > 100) velocity = 0;
         let time = performance.now();
         const coast = now => {
@@ -666,7 +686,7 @@
   tiles.addEventListener('click', e => {
     const b = e.target.closest('.tile'); if (!b || canMotion.wasDragged()) return;
     const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
-    b.setAttribute('aria-pressed', String(on.has(id))); canMotion.hold();
+    b.setAttribute('aria-pressed', String(on.has(id)));
   });
 
   (function peopleMotion() {
