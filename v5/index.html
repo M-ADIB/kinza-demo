@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="../assets/can360/cola-en.webp" fetchpriority="high" />
 <style>
 :root {
   --navy:#001489;
@@ -1116,13 +1115,19 @@ html[lang=ar] .footer li a {
   #footLinks { gap:20px }
   .footer__bottom { margin-top:32px }
 }
-/* Production hero: full-screen, full-bleed video on desktop and phones. */
+/* Supplied films: an immersive hero and uncropped typography frames. */
 .hero { min-height:0; padding-top:72px; background:var(--navy) }
 .hero__media { position:relative; width:100%; height:calc(100svh - 72px) }
-.hero__media > img,.hero__media > video {
+.film-media > picture,.film-media > picture > img,.film-media > video {
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover
 }
-.hero__media > video { z-index:1 }
+.film-media > video { z-index:1; opacity:0 }
+.film-media > video.is-playing { opacity:1 }
+.pop { height:auto; min-height:0; max-height:none; aspect-ratio:16/9; background:#d4e400 }
+.pop__media { position:absolute; inset:0 }
+@media(max-aspect-ratio:1/1) {
+  .pop { aspect-ratio:9/16 }
+}
 @media(max-width:656px) {
   .hero { height:100svh; min-height:0; max-height:none; padding-top:64px }
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
@@ -1133,11 +1138,11 @@ html[lang=ar] .footer li a {
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
-<section class="hero" id="top" aria-label="Kinza"><div class="hero__media" id="heroMedia" aria-hidden="true"><img src="../assets/v5-launch/hero-poster.jpg" alt="" fetchpriority="high" width="1920" height="1080"></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/v5-launch/hero-portrait.jpg"><img src="../assets/v5-launch/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
-<section class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="spin" id="spin" aria-hidden="true"></div></section>
+<section class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/v5-launch/typography-portrait.jpg"><img src="../assets/v5-launch/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4"></div></div>
 <section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip5" data-copy="life"></div></div>
@@ -1206,28 +1211,40 @@ html[lang=ar] .footer li a {
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 
-  // The final hero film is independent of the placeholder flavor chapter.
-  (function () {
+  // Load the matching supplied format only when its chapter is visible.
+  function mountFilm(id, name) {
     if (reduced) return;
-    const media = document.getElementById('heroMedia');
+    const media = document.getElementById(id);
+    const portrait = matchMedia('(max-aspect-ratio:1/1)');
     const video = document.createElement('video');
-    video.className = 'hero__film';
-    video.muted = true; video.loop = true; video.autoplay = true;
-    video.playsInline = true; video.preload = 'auto';
+    video.muted = true; video.loop = true; video.playsInline = true;
+    video.preload = 'none';
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
-    video.poster = '../assets/v5-launch/hero-poster.jpg';
-    let visible = false, failed = false;
+    let visible = false, failed = false, source = '';
     const sync = () => {
       if (failed) return;
-      if (visible && !document.hidden) video.play().catch(() => {});
-      else video.pause();
+      if (!visible || document.hidden) { video.pause(); return; }
+      const next = `../assets/v5-launch/${name}-${portrait.matches ? 'portrait' : 'landscape'}`;
+      if (next !== source) {
+        source = next;
+        video.classList.remove('is-playing');
+        video.poster = `${source}.jpg`;
+        video.src = `${source}.mp4`;
+      }
+      video.play().catch(() => {});
     };
+    video.addEventListener('playing', () => {
+      if (visible && !document.hidden) video.classList.add('is-playing');
+      else video.pause();
+    });
     video.addEventListener('error', () => { failed = true; video.remove(); });
-    video.src = '../assets/v5-launch/hero.mp4';
     media.appendChild(video);
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(media);
+    portrait.addEventListener('change', () => { video.classList.remove('is-playing'); sync(); });
     document.addEventListener('visibilitychange', sync);
-  })();
+  }
+  mountFilm('heroMedia', 'hero');
+  mountFilm('popMedia', 'typography');
 
   /* ---------- the one reveal ---------- */
   const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
@@ -1255,54 +1272,6 @@ html[lang=ar] .footer li a {
   const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `pattern-${id}.jpg` : `../assets/pattern/${id}.jpg`;
   const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
 
-  // The turning-can chapter retains its own flavor cycle.
-  let cur = 0, timer = null, resumeTimer = null, filmVisible = false;
-  const hero = document.getElementById('top'), spin = document.getElementById('spin');
-  const clips = {};
-  function clip(i) {
-    const id = FL[i][0], key = reduced ? id + '-' + lang : id;
-    if (clips[key]) return clips[key];
-    let el;
-    if (reduced) {
-      el = new Image(); el.alt = ''; el.decoding = 'async';
-      el.src = `../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
-    } else {
-      el = document.createElement('video'); el.dataset.flavor = id;
-      el.muted = true; el.loop = true; el.playsInline = true;
-      el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); el.preload = 'auto';
-      el.poster = `../assets/can360/${id}-en.webp`;
-      el.src = `../assets/spin/${id}.mp4`;
-    }
-    clips[key] = el; spin.appendChild(el); return el;
-  }
-  const TURN = 7; // seconds for one revolution, the same in every clip
-  function align(v) {
-    const set = () => { try { v.currentTime = (performance.now() / 1000) % TURN; } catch (_) {} };
-    if (v.readyState >= 1) set(); else v.addEventListener('loadedmetadata', set, { once: true });
-  }
-  function paint(i) {
-    const [, bg, ink] = FL[i];
-    document.documentElement.style.setProperty('--bg', bg);
-    document.documentElement.style.setProperty('--ink', ink);
-  }
-  function go(i, manual) {
-    if (manual) schedule(8000);
-    const from = spin.querySelector('.is-on'), to = clip(i);
-    if (to !== from) {
-      if (to.tagName === 'VIDEO') { align(to); if (filmVisible && !document.hidden) to.play().catch(() => {}); }
-      to.classList.add('is-on');
-      if (from) { from.classList.remove('is-on'); setTimeout(() => { if (from.tagName === 'VIDEO' && !from.classList.contains('is-on')) from.pause(); }, 600); }
-    }
-    cur = i; paint(i);
-    if (!reduced) clip((i + 1) % FL.length); // warm the next one so the cut never stalls
-  }
-  function schedule(delay) {
-    clearInterval(timer); clearTimeout(resumeTimer); if (reduced) return;
-    if (delay) { resumeTimer = setTimeout(() => schedule(), delay); return; }
-    timer = setInterval(() => go((cur + 1) % FL.length), 3600);
-  }
-  go(0); schedule();
-  document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
   // The hero darkens into the next chapter as it leaves.
   (function () {
     const curtain = document.getElementById('curtain');
@@ -1566,9 +1535,6 @@ html[lang=ar] .footer li a {
     document.getElementById('statement').textContent = T.say[lang];
     buildStrips(); buildTiles();
     document.querySelectorAll('#menuSocial a,#footSocial a').forEach((a,i)=>a.setAttribute('aria-label',T[SOCIAL[i%SOCIAL.length][1]][lang]));
-    if (reduced) { spin.innerHTML = ''; Object.keys(clips).forEach(k => delete clips[k]); }
-    go(cur);
-    spin.querySelectorAll('img[data-flavor]').forEach(img => { img.src = `../assets/can360/${img.dataset.flavor}-${lang}.webp`; });
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
   (function () {
@@ -1581,19 +1547,5 @@ html[lang=ar] .footer li a {
     watch();
   })();
 
-  // Pause the video when its chapter is outside the viewport.
-  new IntersectionObserver(entries => {
-    filmVisible = entries[0].isIntersecting;
-    spin.querySelectorAll('video').forEach(v => { if (filmVisible && v.classList.contains('is-on') && !document.hidden) { align(v); v.play().catch(()=>{}); } else v.pause(); });
-  }).observe(document.getElementById('pop'));
-  document.addEventListener('visibilitychange', () => {
-    spin.querySelectorAll('video').forEach(v => { if (document.hidden || !filmVisible || !v.classList.contains('is-on')) v.pause(); else v.play().catch(()=>{}); });
-  });
-  // A failed video keeps an original bilingual can render visible.
-  spin.addEventListener('error', e => {
-    if (e.target.tagName !== 'VIDEO') return;
-    const v = e.target, img = new Image(), id = v.dataset.flavor;
-    img.alt = ''; img.dataset.flavor = id; img.src = `../assets/can360/${id}-${lang}.webp`; img.className = v.className; clips[id] = img; v.replaceWith(img);
-  }, true);
 </script>
 </body></html>
