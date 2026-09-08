@@ -377,12 +377,16 @@ html.menu-open {
 .strip__in {
   display:flex;
   width:max-content;
-  gap:32px;
+  gap:0;
   white-space:nowrap;
   animation:ticker 65s linear infinite
 }
+.strip__in span {
+  flex:none;
+  padding-inline-end:32px
+}
 .strip__in span:before {
-  content:'✳';
+  content:'*';
   margin-inline-end:32px
 }
 .strip--rev .strip__in {
@@ -1282,8 +1286,7 @@ html[lang=ar] .say:after {
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Twelve supplied lifestyle photographs.
   const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
-  const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
-  const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
+  const STRIP_COPY = { en: 'Ten Flavors. We Are Unlike Anyone Else', ar: 'عشر نكهات. ما نشبه أحد' };
   const CARDS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
     ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
@@ -1423,11 +1426,9 @@ html[lang=ar] .say:after {
 
   /* ---------- strips ---------- */
   function buildStrips() {
-    const msgs = MESSAGES.map(m => `<span${lang === 'ar' ? ' lang="ar"' : ''}>${esc(lang === 'ar' ? m[1] : m[0])}</span>`).join('');
-    const countries = COUNTRIES.map(c => `<span lang="en">${esc(c)}</span>`).join('');
-    document.getElementById('strip1').innerHTML = countries.repeat(2);
-    document.getElementById('strip2').innerHTML = msgs.repeat(4);
-    document.getElementById('strip4').innerHTML = countries.repeat(2);
+    const phrase = `<span lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${esc(STRIP_COPY[lang])}</span>`;
+    // Each repeated item includes its own spacing so the half-track loop joins exactly.
+    document.querySelectorAll('.strip__in').forEach(track => { track.innerHTML = phrase.repeat(24); });
   }
   // Photo and artwork tracks contain one finite set. Only text tickers repeat.
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
