@@ -1116,7 +1116,7 @@ html[lang=ar] .footer li a {
   #footLinks { gap:20px }
   .footer__bottom { margin-top:32px }
 }
-/* Production hero: full bleed, with the complete landscape film on phones. */
+/* Production hero: full-screen, full-bleed video on desktop and phones. */
 .hero { min-height:0; padding-top:72px; background:var(--navy) }
 .hero__media { position:relative; width:100%; height:calc(100svh - 72px) }
 .hero__media > img,.hero__media > video {
@@ -1124,8 +1124,8 @@ html[lang=ar] .footer li a {
 }
 .hero__media > video { z-index:1 }
 @media(max-width:656px) {
-  .hero { height:auto; min-height:0; max-height:none; padding-top:64px }
-  .hero__media { height:auto; aspect-ratio:16/9 }
+  .hero { height:100svh; min-height:0; max-height:none; padding-top:64px }
+  .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
 </style>
 </head>
