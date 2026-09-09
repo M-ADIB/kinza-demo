@@ -1603,14 +1603,15 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       viewport.classList.remove('is-free-control'); freeX = null;
       const end = direction > 0 ? limit() : 0;
       if (Math.abs(end-position) < 5) {
+        options.onEnd?.(direction);
         position = end; draw(); direction *= -1; schedule(1000); return;
       }
       options.onAuto?.(direction);
-      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18 * (options.speedScale || 1);
+      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18;
       animation = track.animate([
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
-      ], { duration, easing: options.easing || galleryEase, fill: 'forwards' });
+      ], { duration, easing: galleryEase, fill: 'forwards' });
       animation.onfinish = () => {
         position = end; animation.cancel(); animation = null; draw(); run();
       };
@@ -1727,8 +1728,9 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length, {
-    freeControl: true, speedScale: 1.25, easing: 'linear',
+    freeControl: true,
     onManual() { delete tiles.dataset.autoFace; },
+    onEnd(direction) { if (direction < 0) tiles.dataset.autoFace = 'cans'; },
     onAuto(direction) {
       tiles.dataset.autoFace = direction > 0 ? 'cans' : 'patterns';
       on.clear(); tiles.querySelectorAll('.tile').forEach(b => b.setAttribute('aria-pressed', 'false'));
@@ -1747,6 +1749,24 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   (function peopleMotion() {
     const wall = document.getElementById('lifeIn'), phone = matchMedia('(max-width: 656px)');
     let animations = [], timer, visible = false, forward = true, progress = 0;
+    let photoCursor = reduced ? LIFE.length : 12;
+    let selection = reduced ? [...LIFE] : LIFE.slice(0, 12);
+    function refreshHiddenPhotos() {
+      const bounds = wall.getBoundingClientRect();
+      const occupied = new Set(selection);
+      [...wall.children].forEach((col, c) => {
+        [...col.children].forEach((figure, row) => {
+          const rect = figure.getBoundingClientRect();
+          if (rect.bottom > bounds.top && rect.top < bounds.bottom) return;
+          const index = row*wall.children.length+c;
+          let next;
+          do { next = LIFE[photoCursor++ % LIFE.length]; } while (occupied.has(next));
+          occupied.delete(selection[index]); occupied.add(next); selection[index] = next;
+          const img = figure.querySelector('img');
+          img.loading = 'eager'; img.src = `../assets/${next}`;
+        });
+      });
+    }
     function stop() {
       clearTimeout(timer);
       const first = wall.firstElementChild, distance = first ? Math.max(0, first.offsetHeight-wall.clientHeight) : 0;
@@ -1767,26 +1787,26 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       if (!distance) return;
       const target = forward ? 1 : 0;
       if (Math.abs(target-progress)*distance < 5) { forward = !forward; timer = setTimeout(run, 1000); return; }
-      // Keep each photograph readable as the collection grows.
-      const frameHeight = cols[0].firstElementChild?.offsetHeight || wall.clientHeight;
-      const fullDuration = Math.max(2800, Math.max(...cols.map(c => c.offsetHeight-wall.clientHeight))/frameHeight*1400);
+      const fullDuration = Math.max(2800, Math.max(...cols.map(c => c.children.length))*2700/7);
       const duration = Math.max(1000, fullDuration*Math.abs(target-progress));
       animations = cols.map((col, i) => {
         const travel = Math.max(0, col.offsetHeight-wall.clientHeight);
         return col.animate([
           { transform: `translate3d(0,${-travel*(i === 1 ? 1-progress : progress)}px,0)` },
           { transform: `translate3d(0,${-travel*(i === 1 ? 1-target : target)}px,0)` }
-        ], { duration, easing: 'linear', fill: 'forwards' });
+        ], { duration, easing: galleryEase, fill: 'forwards' });
       });
       animations[0].onfinish = () => {
-        progress = target; animations.forEach(a => a.cancel()); animations = []; draw(); run();
+        progress = target; animations.forEach(a => a.cancel()); animations = []; draw();
+        // Swap only offscreen photos during the pause before the next roll.
+        refreshHiddenPhotos(); run();
       };
     }
     function build() {
       stop();
       const count = phone.matches ? 2 : 3;
       wall.style.gridTemplateColumns = `repeat(${count}, minmax(0, 1fr))`;
-      wall.innerHTML = Array.from({ length: count }, (_, c) => `<div class="wall__col">${LIFE.filter((_, i) => i % count === c).map(fig).join('')}</div>`).join('');
+      wall.innerHTML = Array.from({ length: count }, (_, c) => `<div class="wall__col">${selection.filter((_, i) => i % count === c).map(fig).join('')}</div>`).join('');
       draw(); run();
     }
     build(); phone.addEventListener('change', build);
