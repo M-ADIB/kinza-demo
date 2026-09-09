@@ -1577,7 +1577,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
     let manualUntil = 0, freeX = null, steerFrame = 0, steerSpeed = 0;
-    const manualDelay = options.freeControl ? 5000 : 1000;
+    const manualDelay = options.freeControl ? 3000 : 1000;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
     const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
