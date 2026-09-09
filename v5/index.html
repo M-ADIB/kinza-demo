@@ -588,6 +588,11 @@ html.menu-open {
   z-index:2;
   pointer-events:none
 }
+/* The slim cans stand slightly taller, with their bases aligned to the short cans. */
+.tile:is([data-id=soda],[data-id=cocktail])>img {
+  transform:scale(1.15);
+  transform-origin:50% 96%
+}
 .tile__pat {
   position:absolute;
   inset:0;
