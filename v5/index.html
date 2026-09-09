@@ -141,6 +141,21 @@ html[lang=ar] .wm {
   font-weight:700;
   min-height:44px
 }
+.header__shop {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 16px;
+  background:var(--navy);
+  color:var(--white);
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap
+}
+.header__shop:hover {
+  background:var(--blue)
+}
 .burger {
   width:44px;
   height:44px;
@@ -777,7 +792,11 @@ html[lang=ar] .footer li a {
     height:32px
   }
   .header__actions {
-    gap:18px
+    gap:10px
+  }
+  .header__shop {
+    padding-inline:12px;
+    font-size:12px
   }
   .hero {
     min-height:620px;
@@ -1135,7 +1154,7 @@ html[lang=ar] .footer li a {
 </style>
 </head>
 <body>
-<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/v5-launch/hero-portrait.jpg"><img src="../assets/v5-launch/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
@@ -1156,7 +1175,7 @@ html[lang=ar] .footer li a {
   const T = {
     like: { en: 'Like no one else', ar: 'ما نشبه أحد' }, flavors: { en: 'Ten flavors. Full attitude.', ar: 'عشر نكهات. ما نشبه أحد.' }, discover: { en: 'Explore the flavors', ar: 'اكتشف النكهات' }, scroll: { en: 'Scroll to explore', ar: 'مرّر واكتشف' }, world: { en: 'A world of flavor', ar: 'عالم من النكهات' }, life: { en: 'Made for your kind of life', ar: 'لكل لحظة في حياتك' }, spark: { en: 'Spark of brilliance', ar: 'شرارة الإبداع' }, drag: { en: 'Drag to discover', ar: 'اسحب واكتشف' }, touch: { en: 'Hover or tap a can', ar: 'المس العبوة واكتشف' }, made: { en: 'Made in Saudi', ar: 'صنع في السعودية' },
     back: { en: 'Back to top', ar: 'العودة للأعلى' }, productLabel: { en: 'Product photography', ar: 'صور المنتجات' }, patternLabel: { en: 'Flavor artwork', ar: 'رسومات النكهات' }, flavorLabel: { en: 'Flavors', ar: 'النكهات' },
-    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, menu: { en: 'Menu', ar: 'القائمة' },
+    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, shopNow: { en: 'Shop now', ar: 'تسوّق الآن' }, menu: { en: 'Menu', ar: 'القائمة' },
     f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
     f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
@@ -1190,7 +1209,7 @@ html[lang=ar] .footer li a {
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Twelve supplied lifestyle photographs.
   const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
-  const STRIP_COPY = { en: 'Ten Flavors. We Are Unlike Anyone Else', ar: 'عشر نكهات. ما نشبه أحد' };
+  const STRIP_COPY = { en: 'Ten Flavors. We Resemble No One', ar: 'عشر نكهات. ما نشبه أحد' };
   const CARDS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
     ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
