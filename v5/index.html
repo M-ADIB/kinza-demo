@@ -1440,7 +1440,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   ];
   const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
   // Six supplied product photographs.
-  const PRODUCTS = ['photos/products-2026-09-08/still-1.jpg', 'photos/products-2026-09-08/still-2.jpg', 'photos/products-2026-09-08/still-3.jpg', 'photos/products-2026-09-08/still-4.jpg', 'photos/products-2026-09-08/still-5.jpg', 'photos/products-2026-09-08/still-6.jpg'];
+  const PRODUCTS = ['photos/products-2026-09-08/still-1.webp', 'photos/products-2026-09-08/still-2.webp', 'photos/products-2026-09-08/still-3.webp', 'photos/products-2026-09-08/still-4.webp', 'photos/products-2026-09-08/still-5.webp', 'photos/products-2026-09-08/still-6.webp'];
   // Nine supplied portrait artworks. Soda water has no supplied artwork.
   const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'soda', 'cocktail']);
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
@@ -1485,7 +1485,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         source = next;
         video.classList.remove('is-playing');
         video.poster = `${source}.jpg`;
-        video.src = `${source}.mp4`;
+        video.src = `${source}${name === 'hero' ? '-web' : ''}.mp4`;
       }
       video.play().catch(() => {});
     };
@@ -1627,8 +1627,10 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
       ], { duration, easing: galleryEase, fill: 'forwards' });
-      animation.onfinish = () => {
-        position = end; animation.cancel(); animation = null; draw(); run();
+      const roll = animation;
+      roll.onfinish = () => {
+        if (animation !== roll) return;
+        position = end; roll.cancel(); animation = null; draw(); run();
       };
     }
     function hold(ms = manualDelay) {
@@ -1797,6 +1799,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         [...col.children].forEach((figure, row) => {
           const rect = figure.getBoundingClientRect();
           if (rect.bottom > bounds.top && rect.top < bounds.bottom) return;
+          if (occupied.size === LIFE.length) return;
           const index = row*wall.children.length+c;
           let next;
           do { next = LIFE[photoCursor++ % LIFE.length]; } while (occupied.has(next));
@@ -1854,22 +1857,40 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
           { transform: `translate3d(0,${-travel*(i === 1 ? 1-target : target)}px,0)` }
         ], { duration, easing: galleryEase, fill: 'forwards' });
       });
-      animations[0].onfinish = () => {
-        progress = target; animations.forEach(a => a.cancel()); animations = []; draw();
+      const rolls = animations;
+      rolls[0].onfinish = () => {
+        if (animations !== rolls) return;
+        progress = target; rolls.forEach(a => a.cancel()); animations = []; draw();
         // Swap only offscreen photos during the pause before the next roll.
         preparing = true;
         refreshHiddenPhotos().finally(() => { preparing = false; run(); });
       };
     }
+    function batchSize() {
+      if (reduced) return LIFE.length;
+      const count = phone.matches ? 2 : 3, gap = parseFloat(getComputedStyle(wall).columnGap) || 0;
+      const row = (wall.clientWidth-gap*(count-1))/count * 790/635 + gap;
+      // Leave a complete row outside the window for invisible photo replacements.
+      return Math.min(LIFE.length, Math.max(12, count*(Math.ceil((wall.clientHeight+gap)/row)+1)));
+    }
     function build() {
       stop();
       const count = phone.matches ? 2 : 3;
+      const size = batchSize();
+      selection = selection.slice(0, size);
+      while (selection.length < size) {
+        const next = LIFE[photoCursor++ % LIFE.length];
+        if (!selection.includes(next)) selection.push(next);
+      }
       wall.style.gridTemplateColumns = `repeat(${count}, minmax(0, 1fr))`;
       wall.innerHTML = Array.from({ length: count }, (_, c) => `<div class="wall__col">${selection.filter((_, i) => i % count === c).map(fig).join('')}</div>`).join('');
       draw(); run();
     }
     build(); phone.addEventListener('change', build);
-    new ResizeObserver(() => { stop(); draw(); run(); }).observe(wall);
+    new ResizeObserver(() => {
+      if (selection.length !== batchSize()) build();
+      else { stop(); draw(); run(); }
+    }).observe(wall);
     observeGallery(wall, active => {
       visible = active;
       if (active) { wall.querySelectorAll('img').forEach(img => { img.loading = 'eager'; }); run(); }
