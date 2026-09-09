@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#001489" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;900&family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet" />
 <style>
 :root {
   --navy:#001489;
@@ -1151,11 +1151,38 @@ html[lang=ar] .footer li a {
   .hero { height:100svh; min-height:0; max-height:none; padding-top:64px }
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
+
+/* One language selector across the header, navigation and footer. */
+.language-switcher { position:relative; flex:none }
+.language-globe { width:44px; height:44px; display:grid; place-items:center }
+.language-globe svg { width:24px; height:24px }
+.language-globe[aria-expanded=true] { background:var(--navy); color:white }
+.language-panel { position:absolute; top:calc(100% + 12px); inset-inline-end:0; width:300px; padding:8px; background:white; color:var(--navy); border:1px solid #00148925; box-shadow:0 12px 32px #00148920; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; z-index:1 }
+.language-panel[hidden] { display:none }
+.language-option { min-height:48px; padding:10px 12px; text-align:start; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; font-family:Outfit,'Noto Sans Arabic','Noto Sans Devanagari',sans-serif }
+.language-option::after { content:'✓'; opacity:0; font-family:Outfit,sans-serif }
+.language-option[aria-checked=true] { background:var(--navy); color:white }
+.language-option[aria-checked=true]::after { opacity:1 }
+.language-option:hover:not([aria-checked=true]) { background:#0014890d }
+#footLang { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; width:100% }
+#footLang button { min-height:44px; text-align:start; font-family:Outfit,'Noto Sans Arabic','Noto Sans Devanagari',sans-serif }
+html[lang=ur] body,html[lang=ur] .display,html[lang=ur] .footer li a { font-family:'Noto Sans Arabic',sans-serif; line-height:1.5; letter-spacing:0 }
+html[lang=hi] body,html[lang=hi] .display,html[lang=hi] .footer li a { font-family:'Noto Sans Devanagari',sans-serif; line-height:1.35; letter-spacing:0 }
+html[lang=ur] .display,html[lang=hi] .display,html[lang=ur] .footer li a,html[lang=hi] .footer li a { font-weight:900 }
+html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:none }
+.menu__links a,.footer li a { overflow-wrap:anywhere }
+@media(max-width:656px) {
+  .language-panel { position:fixed; top:72px; inset-inline:16px; width:auto; max-height:calc(100svh - 88px); overflow-y:auto }
+}
+@media(max-width:360px) {
+  .header__actions { gap:6px }
+  .header__shop { padding-inline:10px }
+}
 </style>
 </head>
 <body>
-<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
-<nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
+<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="language-switcher"><button id="headerLang" class="language-globe" aria-label="Choose language" aria-haspopup="menu" aria-controls="languageMenu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></button><div id="languageMenu" class="language-panel" role="menu" aria-label="Choose language" hidden></div></div><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/v5-launch/hero-portrait.jpg"><img src="../assets/v5-launch/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
@@ -1169,7 +1196,7 @@ html[lang=ar] .footer li a {
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip6" data-copy="say"></div></div>
 <h2 class="sr-only" id="statement">The fastest growing Saudi beverage brand in the world</h2>
 </main>
-<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><h3 data-i18n="f_lang">Language</h3><ul id="footLang"><li><button data-l="en">English</button></li><li><button data-l="ar" lang="ar">العربية</button></li></ul><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
+<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><h3 data-i18n="f_lang">Language</h3><ul id="footLang"></ul><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
 
 <script>
   const T = {
@@ -1188,6 +1215,213 @@ html[lang=ar] .footer li a {
     l4: { en: 'Online store', ar: 'المتجر الإلكتروني' }, l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
     l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' }, l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }
   };
+  const LANGUAGES = [
+    { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' },
+    { code:'fr', name:'Français', dir:'ltr' }, { code:'es', name:'Español', dir:'ltr' },
+    { code:'de', name:'Deutsch', dir:'ltr' }, { code:'tr', name:'Türkçe', dir:'ltr' },
+    { code:'ur', name:'اردو', dir:'rtl' }, { code:'hi', name:'हिन्दी', dir:'ltr' }
+  ];
+  T.chooseLanguage = { en:'Choose language', ar:'اختر اللغة' };
+  T.stripe = { en:'Ten Flavors. We Resemble No One', ar:'عشر نكهات. ما نشبه أحد' };
+  const LOCALIZED_COPY = {
+  "fr": {
+    "like": "Nous ne ressemblons à personne",
+    "flavors": "Dix saveurs. Un caractère unique.",
+    "life": "Pour votre façon de vivre",
+    "back": "Retour en haut",
+    "productLabel": "Photographies des produits",
+    "patternLabel": "Motifs des saveurs",
+    "flavorLabel": "Saveurs",
+    "shop": "Acheter en ligne",
+    "shopNow": "Acheter",
+    "menu": "Menu",
+    "f_cola": "Cola",
+    "f_diet": "Cola sans sucre",
+    "f_lemon": "Citron",
+    "f_orange": "Orange",
+    "f_citrus": "Agrumes",
+    "f_lemonzero": "Citron sans sucre",
+    "f_blackcurrant": "Cassis",
+    "f_pomegranate": "Grenade",
+    "f_soda": "Eau pétillante",
+    "f_cocktail": "Cocktail saoudien",
+    "say": "La marque saoudienne de boissons à la croissance la plus rapide au monde",
+    "f_explore": "Découvrir",
+    "f_lang": "Langue",
+    "f_made": "Conçue, née et fabriquée en Arabie saoudite",
+    "l1": "Découvrir Aseer",
+    "l2": "Devenir partenaire",
+    "l3": "Rejoindre l’équipe",
+    "l4": "Boutique en ligne",
+    "chooseLanguage": "Choisir une langue",
+    "stripe": "Dix saveurs. Nous ne ressemblons à personne"
+  },
+  "es": {
+    "like": "No nos parecemos a nadie",
+    "flavors": "Diez sabores. Una actitud única.",
+    "life": "Para tu forma de vivir",
+    "back": "Volver arriba",
+    "productLabel": "Fotografías de productos",
+    "patternLabel": "Diseños de los sabores",
+    "flavorLabel": "Sabores",
+    "shop": "Comprar en línea",
+    "shopNow": "Comprar",
+    "menu": "Menú",
+    "f_cola": "Cola",
+    "f_diet": "Cola sin azúcar",
+    "f_lemon": "Limón",
+    "f_orange": "Naranja",
+    "f_citrus": "Cítricos",
+    "f_lemonzero": "Limón sin azúcar",
+    "f_blackcurrant": "Grosella negra",
+    "f_pomegranate": "Granada",
+    "f_soda": "Agua con gas",
+    "f_cocktail": "Cóctel saudí",
+    "say": "La marca saudí de bebidas de mayor crecimiento en el mundo",
+    "f_explore": "Explorar",
+    "f_lang": "Idioma",
+    "f_made": "Diseñada, nacida y fabricada en Arabia Saudí",
+    "l1": "Descubre Aseer",
+    "l2": "Hazte socio",
+    "l3": "Únete al equipo",
+    "l4": "Tienda en línea",
+    "chooseLanguage": "Elegir idioma",
+    "stripe": "Diez sabores. No nos parecemos a nadie"
+  },
+  "de": {
+    "like": "Wir sind wie kein anderer",
+    "flavors": "Zehn Sorten. Einzigartiger Charakter.",
+    "life": "Für deinen Lebensstil",
+    "back": "Nach oben",
+    "productLabel": "Produktfotografie",
+    "patternLabel": "Designs der Sorten",
+    "flavorLabel": "Sorten",
+    "shop": "Online einkaufen",
+    "shopNow": "Jetzt kaufen",
+    "menu": "Menü",
+    "f_cola": "Cola",
+    "f_diet": "Cola ohne Zucker",
+    "f_lemon": "Zitrone",
+    "f_orange": "Orange",
+    "f_citrus": "Zitrus",
+    "f_lemonzero": "Zitrone ohne Zucker",
+    "f_blackcurrant": "Schwarze Johannisbeere",
+    "f_pomegranate": "Granatapfel",
+    "f_soda": "Sprudelwasser",
+    "f_cocktail": "Saudischer Cocktail",
+    "say": "Die weltweit am schnellsten wachsende saudische Getränkemarke",
+    "f_explore": "Entdecken",
+    "f_lang": "Sprache",
+    "f_made": "Entworfen, entstanden und hergestellt in Saudi-Arabien",
+    "l1": "Aseer entdecken",
+    "l2": "Partner werden",
+    "l3": "Teil des Teams werden",
+    "l4": "Onlineshop",
+    "chooseLanguage": "Sprache wählen",
+    "stripe": "Zehn Sorten. Wir sind wie kein anderer"
+  },
+  "tr": {
+    "like": "Kimseye benzemeyiz",
+    "flavors": "On lezzet. Eşsiz bir duruş.",
+    "life": "Senin yaşam tarzına göre",
+    "back": "Başa dön",
+    "productLabel": "Ürün fotoğrafları",
+    "patternLabel": "Lezzet desenleri",
+    "flavorLabel": "Lezzetler",
+    "shop": "İnternetten alışveriş",
+    "shopNow": "Satın al",
+    "menu": "Menü",
+    "f_cola": "Kola",
+    "f_diet": "Şekersiz kola",
+    "f_lemon": "Limon",
+    "f_orange": "Portakal",
+    "f_citrus": "Narenciye",
+    "f_lemonzero": "Şekersiz limon",
+    "f_blackcurrant": "Siyah frenk üzümü",
+    "f_pomegranate": "Nar",
+    "f_soda": "Soda",
+    "f_cocktail": "Suudi kokteyli",
+    "say": "Dünyanın en hızlı büyüyen Suudi içecek markası",
+    "f_explore": "Keşfet",
+    "f_lang": "Dil",
+    "f_made": "Suudi Arabistan’da tasarlandı, doğdu ve üretildi",
+    "l1": "Aseer’i keşfet",
+    "l2": "İş ortağımız ol",
+    "l3": "Ekibe katıl",
+    "l4": "Çevrimiçi mağaza",
+    "chooseLanguage": "Dil seçin",
+    "stripe": "On lezzet. Kimseye benzemeyiz"
+  },
+  "ur": {
+    "like": "ہم کسی جیسے نہیں",
+    "flavors": "دس ذائقے۔ منفرد انداز۔",
+    "life": "آپ کے طرزِ زندگی کے لیے",
+    "back": "اوپر جائیں",
+    "productLabel": "مصنوعات کی تصاویر",
+    "patternLabel": "ذائقوں کے ڈیزائن",
+    "flavorLabel": "ذائقے",
+    "shop": "آن لائن خریداری",
+    "shopNow": "اب خریدیں",
+    "menu": "مینو",
+    "f_cola": "کولا",
+    "f_diet": "شوگر فری کولا",
+    "f_lemon": "لیموں",
+    "f_orange": "مالٹا",
+    "f_citrus": "ترش پھل",
+    "f_lemonzero": "شوگر فری لیموں",
+    "f_blackcurrant": "بلیک کرنٹ",
+    "f_pomegranate": "انار",
+    "f_soda": "سوڈا واٹر",
+    "f_cocktail": "سعودی کاک ٹیل",
+    "say": "دنیا میں سب سے تیزی سے ترقی کرنے والا سعودی مشروبات کا برانڈ",
+    "f_explore": "دریافت کریں",
+    "f_lang": "زبان",
+    "f_made": "سعودی عرب میں ڈیزائن کیا گیا، یہیں جنم لیا اور یہیں تیار کیا گیا",
+    "l1": "عسیر دریافت کریں",
+    "l2": "شراکت دار بنیں",
+    "l3": "ٹیم میں شامل ہوں",
+    "l4": "آن لائن اسٹور",
+    "chooseLanguage": "زبان منتخب کریں",
+    "stripe": "دس ذائقے۔ ہم کسی جیسے نہیں"
+  },
+  "hi": {
+    "like": "हम किसी जैसे नहीं",
+    "flavors": "दस स्वाद। एक अनोखा अंदाज़।",
+    "life": "आपकी ज़िंदगी के अंदाज़ के लिए",
+    "back": "ऊपर जाएँ",
+    "productLabel": "उत्पादों की तस्वीरें",
+    "patternLabel": "स्वादों के डिज़ाइन",
+    "flavorLabel": "स्वाद",
+    "shop": "ऑनलाइन खरीदारी",
+    "shopNow": "अभी खरीदें",
+    "menu": "मेन्यू",
+    "f_cola": "कोला",
+    "f_diet": "शुगर-फ्री कोला",
+    "f_lemon": "नींबू",
+    "f_orange": "संतरा",
+    "f_citrus": "खट्टे फल",
+    "f_lemonzero": "शुगर-फ्री नींबू",
+    "f_blackcurrant": "ब्लैककरंट",
+    "f_pomegranate": "अनार",
+    "f_soda": "सोडा वॉटर",
+    "f_cocktail": "सऊदी कॉकटेल",
+    "say": "दुनिया में सबसे तेज़ी से बढ़ता सऊदी पेय ब्रांड",
+    "f_explore": "खोजें",
+    "f_lang": "भाषा",
+    "f_made": "सऊदी अरब में डिज़ाइन किया गया, जन्मा और निर्मित",
+    "l1": "असीर को जानें",
+    "l2": "भागीदार बनें",
+    "l3": "टीम से जुड़ें",
+    "l4": "ऑनलाइन स्टोर",
+    "chooseLanguage": "भाषा चुनें",
+    "stripe": "दस स्वाद। हम किसी जैसे नहीं"
+  }
+};
+  for (const [code, copy] of Object.entries(LOCALIZED_COPY)) {
+    for (const [key, value] of Object.entries(copy)) (T[key] ||= {})[code] = value;
+  }
+  const supportedLanguage = code => LANGUAGES.some(l => l.code === code);
+  const languageDirection = code => LANGUAGES.find(l => l.code === code)?.dir || 'ltr';
   // id, background, ink on it, splash colours, pattern motif (from the client's Pantone sheet)
   const FL = [
     ['cola', '#001489', '#ffffff', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
@@ -1209,7 +1443,6 @@ html[lang=ar] .footer li a {
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Twelve supplied lifestyle photographs.
   const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
-  const STRIP_COPY = { en: 'Ten Flavors. We Resemble No One', ar: 'عشر نكهات. ما نشبه أحد' };
   const CARDS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
     ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
@@ -1226,6 +1459,7 @@ html[lang=ar] .footer li a {
   ];
 
   let lang = 'en';
+  const tr = key => T[key]?.[lang] ?? T[key]?.en ?? '';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
@@ -1326,8 +1560,8 @@ html[lang=ar] .footer li a {
   /* ---------- strips ---------- */
   function buildStrips() {
     document.querySelectorAll('.strip__in').forEach(track => {
-      const copy = track.dataset.copy ? T[track.dataset.copy][lang] : STRIP_COPY[lang];
-      const phrase = `<span lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">${esc(copy)}</span>`;
+      const copy = tr(track.dataset.copy || 'stripe');
+      const phrase = `<span lang="${lang}" dir="${languageDirection(lang)}">${esc(copy)}</span>`;
       // Each repeated item includes its spacing, so the half-track loop joins exactly.
       track.innerHTML = phrase.repeat(24);
     });
@@ -1479,7 +1713,7 @@ html[lang=ar] .footer li a {
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length);
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id))}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
@@ -1545,23 +1779,52 @@ html[lang=ar] .footer li a {
   document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
   document.getElementById('footSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
   function applyLang(next) {
+    if (!supportedLanguage(next)) return;
     lang = next;
-    document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.querySelectorAll('[data-i18n]').forEach(el => { const t = T[el.dataset.i18n]; if (t) el.textContent = t[lang]; });
-    document.getElementById('menuBtn').setAttribute('aria-label', T.menu[lang]);
-    document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', T[el.dataset.i18nLabel][lang]));
+    document.documentElement.lang = lang; document.documentElement.dir = languageDirection(lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => { if (T[el.dataset.i18n]) el.textContent = tr(el.dataset.i18n); });
+    document.getElementById('menuBtn').setAttribute('aria-label', tr('menu'));
+    document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', tr(el.dataset.i18nLabel)));
     document.querySelectorAll('#footLang button').forEach(b => b.setAttribute('aria-current', String(b.dataset.l === lang)));
-    document.getElementById('statement').textContent = T.say[lang];
+    document.getElementById('statement').textContent = tr('say');
     buildStrips(); buildTiles();
-    document.querySelectorAll('#menuSocial a,#footSocial a').forEach((a,i)=>a.setAttribute('aria-label',T[SOCIAL[i%SOCIAL.length][1]][lang]));
+    document.querySelectorAll('#menuSocial a,#footSocial a').forEach((a,i)=>a.setAttribute('aria-label',tr(SOCIAL[i%SOCIAL.length][1])));
+    document.getElementById('headerLang').setAttribute('aria-label', `${tr('chooseLanguage')}: ${LANGUAGES.find(l => l.code === lang).name}`);
+    document.getElementById('languageMenu').setAttribute('aria-label', tr('chooseLanguage'));
+    document.querySelectorAll('#languageMenu [data-l]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.l === lang)));
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+    try { const url = new URL(location.href); url.searchParams.set('lang', lang); history.replaceState(null, '', url); } catch (_) {}
   }
   (function () {
     const q = new URLSearchParams(location.search).get('lang');
     let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
-    applyLang(q === 'ar' || q === 'en' ? q : (saved === 'ar' ? 'ar' : 'en'));
-    document.getElementById('headerLang').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
-    document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
+    const picker = document.getElementById('languageMenu'), globe = document.getElementById('headerLang');
+    picker.innerHTML = LANGUAGES.map(l => `<button type="button" class="language-option" role="menuitemradio" aria-checked="false" tabindex="-1" data-l="${l.code}" lang="${l.code}" dir="${l.dir}">${l.name}</button>`).join('');
+    document.getElementById('footLang').innerHTML = LANGUAGES.map(l => `<li><button data-l="${l.code}" lang="${l.code}" dir="${l.dir}">${l.name}</button></li>`).join('');
+    function closePicker(focus = false) {
+      picker.hidden = true; globe.setAttribute('aria-expanded', 'false');
+      if (focus) globe.focus({ preventScroll:true });
+    }
+    function openPicker() {
+      if (document.getElementById('menuBtn').getAttribute('aria-expanded') === 'true') document.getElementById('menuBtn').click();
+      picker.hidden = false; globe.setAttribute('aria-expanded', 'true');
+      picker.querySelector(`[data-l="${lang}"]`).focus({ preventScroll:true });
+    }
+    applyLang(supportedLanguage(q) ? q : (supportedLanguage(saved) ? saved : 'en'));
+    globe.addEventListener('click', () => picker.hidden ? openPicker() : closePicker(true));
+    picker.addEventListener('click', e => { const option = e.target.closest('[data-l]'); if (!option) return; applyLang(option.dataset.l); closePicker(true); });
+    picker.addEventListener('keydown', e => {
+      const options = [...picker.querySelectorAll('[data-l]')], index = options.indexOf(document.activeElement);
+      if (e.key === 'Tab') { e.preventDefault(); closePicker(true); if (!e.shiftKey) document.querySelector('.header__shop').focus(); return; }
+      if (!['ArrowDown','ArrowUp','ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+      e.preventDefault();
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? options.length-1 : (index + (['ArrowDown','ArrowRight'].includes(e.key) ? 1 : -1) + options.length) % options.length;
+      options[next].focus();
+    });
+    document.addEventListener('pointerdown', e => { if (!e.target.closest('.language-switcher')) closePicker(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !picker.hidden) { e.preventDefault(); closePicker(true); } });
+    document.getElementById('menuBtn').addEventListener('click', () => closePicker());
+    document.getElementById('langBtn').addEventListener('click', openPicker);
     document.getElementById('footLang').addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.l !== lang) applyLang(b.dataset.l); });
     watch();
   })();
