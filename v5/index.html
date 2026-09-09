@@ -1525,7 +1525,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
-  const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `../assets/patterns/v5/${id}.jpg` : `../assets/patterns/flavors/${id}.jpg`;
+  const patternSource = id => id === 'cola' ? '../assets/patterns/v5/cola.svg' : (id === 'lemonzero' || id === 'diet') ? `../assets/patterns/v5/${id}.jpg` : `../assets/patterns/flavors/${id}.jpg`;
   const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
 
   // The hero darkens into the next chapter as it leaves.
