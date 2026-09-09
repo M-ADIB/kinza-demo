@@ -1769,7 +1769,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     },
     onEnd(direction) { if (direction < 0) tiles.dataset.autoFace = 'cans'; },
     onAuto(direction) {
-      tiles.dataset.autoFace = direction > 0 ? 'cans' : 'patterns';
+      tiles.dataset.autoFace = direction > 0 ? 'patterns' : 'cans';
       on.clear(); tiles.querySelectorAll('.tile').forEach(b => b.setAttribute('aria-pressed', 'false'));
     }
   });
