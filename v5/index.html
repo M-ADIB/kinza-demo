@@ -1159,6 +1159,7 @@ html[lang=ar] .footer li a {
 .language-globe[aria-expanded=true] { background:var(--navy); color:white }
 .language-panel { position:absolute; top:calc(100% + 12px); inset-inline-end:0; width:300px; padding:8px; background:white; color:var(--navy); border:1px solid #00148925; box-shadow:0 12px 32px #00148920; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; z-index:1 }
 .language-panel[hidden] { display:none }
+.language-transition { position:fixed; inset:0; z-index:100; background:var(--navy); pointer-events:none; transform:translateX(-100%); will-change:transform }
 .language-option { min-height:48px; padding:10px 12px; text-align:start; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; font-family:Outfit,'Noto Sans Arabic','Noto Sans Devanagari',sans-serif }
 .language-option::after { content:'✓'; opacity:0; font-family:Outfit,sans-serif }
 .language-option[aria-checked=true] { background:var(--navy); color:white }
@@ -1795,6 +1796,44 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
     try { const url = new URL(location.href); url.searchParams.set('lang', lang); history.replaceState(null, '', url); } catch (_) {}
   }
+  let pendingLanguage = null, languageTransition = false;
+  async function switchLanguage(next) {
+    if (!supportedLanguage(next)) return;
+    pendingLanguage = next;
+    if (languageTransition) return;
+    if (next === lang) { pendingLanguage = null; return; }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) {
+      applyLang(next); pendingLanguage = null; return;
+    }
+    languageTransition = true;
+    const curtain = document.createElement('div');
+    curtain.className = 'language-transition';
+    curtain.setAttribute('aria-hidden', 'true');
+    document.body.append(curtain);
+    async function sweep(from, to, duration) {
+      const animation = curtain.animate([{ transform:from }, { transform:to }], {
+        duration, easing:'cubic-bezier(.76,0,.24,1)', fill:'forwards'
+      });
+      await animation.finished;
+      curtain.style.transform = to;
+      animation.cancel();
+    }
+    try {
+      while (pendingLanguage && pendingLanguage !== lang) {
+        await sweep('translateX(-100%)', 'translateX(0)', 260);
+        // Change text and reading direction only while the page is covered.
+        const selected = pendingLanguage; pendingLanguage = null;
+        applyLang(selected);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        await sweep('translateX(0)', 'translateX(100%)', 320);
+      }
+    } catch (_) {
+      // An interrupted animation must never prevent the language change.
+      if (pendingLanguage) applyLang(pendingLanguage);
+    } finally {
+      curtain.remove(); pendingLanguage = null; languageTransition = false;
+    }
+  }
   (function () {
     const q = new URLSearchParams(location.search).get('lang');
     let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
@@ -1812,7 +1851,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     }
     applyLang(supportedLanguage(q) ? q : (supportedLanguage(saved) ? saved : 'en'));
     globe.addEventListener('click', () => picker.hidden ? openPicker() : closePicker(true));
-    picker.addEventListener('click', e => { const option = e.target.closest('[data-l]'); if (!option) return; applyLang(option.dataset.l); closePicker(true); });
+    picker.addEventListener('click', e => { const option = e.target.closest('[data-l]'); if (!option) return; closePicker(true); switchLanguage(option.dataset.l); });
     picker.addEventListener('keydown', e => {
       const options = [...picker.querySelectorAll('[data-l]')], index = options.indexOf(document.activeElement);
       if (e.key === 'Tab') { e.preventDefault(); closePicker(true); if (!e.shiftKey) document.querySelector('.header__shop').focus(); return; }
@@ -1825,7 +1864,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !picker.hidden) { e.preventDefault(); closePicker(true); } });
     document.getElementById('menuBtn').addEventListener('click', () => closePicker());
     document.getElementById('langBtn').addEventListener('click', openPicker);
-    document.getElementById('footLang').addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.l !== lang) applyLang(b.dataset.l); });
+    document.getElementById('footLang').addEventListener('click', e => { const b = e.target.closest('button'); if (b) switchLanguage(b.dataset.l); });
     watch();
   })();
 
