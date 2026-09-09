@@ -1377,7 +1377,7 @@ html[lang=ar] .footer li a {
       if (Math.abs(end-position) < 5) {
         position = end; draw(); direction *= -1; schedule(1000); return;
       }
-      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit());
+      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18;
       animation = track.animate([
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
