@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://m-adib.github.io/kinza-demo/v4/" />
 <meta property="og:title" content="Kinza | Like no one else" />
 <meta property="og:description" content="Discover Kinza's bold flavors. Designed, born and made in Saudi Arabia. Like no one else." />
-<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/still/still-3.jpg" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/photos/products-earlier/still-3.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1400" />
 <meta property="og:image:height" content="781" />
@@ -20,15 +20,15 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Kinza | Like no one else" />
 <meta name="twitter:description" content="Discover Kinza's bold flavors. Designed, born and made in Saudi Arabia. Like no one else." />
-<meta name="twitter:image" content="https://m-adib.github.io/kinza-demo/assets/still/still-3.jpg" />
+<meta name="twitter:image" content="https://m-adib.github.io/kinza-demo/assets/photos/products-earlier/still-3.jpg" />
 <meta name="twitter:image:alt" content="Six colorful Kinza cans with Arabic branding, chilled on a bed of ice." />
-<link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon-64.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/brand/icons/favicon-64.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/icons/favicon-180.png" />
 <meta name="theme-color" content="#001489" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="../assets/can360/cola-en.webp" fetchpriority="high" />
+<link rel="preload" as="image" href="../assets/cans/turntable/cola-en.webp" fetchpriority="high" />
 <style>
   /* ---------- the system ----------
      colour: white ground, navy ink, blue for the strips, paper for product tiles. Pantone only in hero, pop, tile patterns.
@@ -60,9 +60,9 @@
   html[lang="ar"] .label { font-size: 13px; }
   html[lang="ar"] *:not([lang="en"]) { letter-spacing: 0 !important; }
   .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
-        -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
+        -webkit-mask: url("../assets/brand/logos/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/brand/logos/kinza-logo-en.png") center / contain no-repeat; }
   html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
-        -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
+        -webkit-mask-image: url("../assets/brand/logos/kinza-logo-ar.png"); mask-image: url("../assets/brand/logos/kinza-logo-ar.png"); }
   .in { max-width: var(--max); margin: 0 auto; }
 
   /* one reveal for the whole page: static content only, fades up and settles once */
@@ -369,12 +369,12 @@
     ['#f28c00', '#001489', '70+ countries', '+70 دولة']
   ];
   // still-life product shots from Marina's 2026-09-06 WeTransfer
-  const PRODUCTS = ['still/still-1.jpg', 'still/still-2.jpg', 'still/still-3.jpg', 'still/still-4.jpg', 'still/still-5.jpg', 'still/still-6.jpg'];
-  // flavors with the client's real graphic pattern (assets/pattern). The other three still use the drawn stand-in
+  const PRODUCTS = ['photos/products-earlier/still-1.jpg', 'photos/products-earlier/still-2.jpg', 'photos/products-earlier/still-3.jpg', 'photos/products-earlier/still-4.jpg', 'photos/products-earlier/still-5.jpg', 'photos/products-earlier/still-6.jpg'];
+  // flavors with the client's real graphic pattern (assets/patterns/flavors). The other three still use the drawn stand-in
   const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail']);
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Marina's twelve lifestyle shots, 2026-09-07. These replaced the other-brand mood references
-  const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
+  const LIFE = Array.from({ length: 12 }, (_, i) => `photos/lifestyle-earlier/people-${String(i + 1).padStart(2, '0')}.jpg`);
   const COUNTRIES = ['Saudi Arabia', 'UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman', 'Jordan', 'Iraq', 'Egypt', 'Morocco', 'Sudan', 'Yemen', 'Lebanon', 'Pakistan', 'Malaysia', 'Indonesia', 'United Kingdom', 'Germany', 'France', 'Turkey', 'Nigeria', 'Kenya', 'South Africa', 'Australia', 'Canada', 'USA', 'Brazil', 'India', 'Bangladesh', 'Sri Lanka'];
   const MESSAGES = [['Made in Saudi', 'صنع في السعودية'], ['Ten flavors', 'عشر نكهات'], ['70+ countries', '+70 دولة'], ['Ice cold or nothing', 'باردة جداً أو لا'], ['Like no one else', 'ما نشبه أحد'], ['Fastest growing Saudi brand', 'أسرع علامة سعودية نمواً']];
   const CARDS = [
@@ -420,7 +420,7 @@
     let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
-  const bigPattern = id => { if (PATTERN.has(id)) return `<img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
+  const bigPattern = id => { if (PATTERN.has(id)) return `<img src="../assets/patterns/flavors/${id}.jpg" alt="" loading="lazy" />`; const [, , , cols, kind] = FLI[id]; return `<svg viewBox="-100 -100 200 200"><g opacity=".55">${petals(cols, 36, 30, 70, 3)}</g>${motif(kind, cols)}</svg>`; };
 
   /* ---------- 1. hero: one turning can, the flavor morphs under it ----------
      each flavor is a 7 s clip of Ahmad's turntable laid on that flavor's colour. They all start on the
@@ -436,13 +436,13 @@
     let el;
     if (reduced) {
       el = new Image(); el.alt = ''; el.decoding = 'async';
-      el.src = `../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
+      el.src = `../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
     } else {
       el = document.createElement('video');
       el.muted = true; el.loop = true; el.playsInline = true;
       el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); el.preload = 'auto';
-      el.poster = `../assets/can360/${id}-en.webp`;
-      el.src = `../assets/spin/${id}.mp4`;
+      el.poster = `../assets/cans/turntable/${id}-en.webp`;
+      el.src = `../assets/videos/can-spins/${id}.mp4`;
     }
     clips[key] = el; spin.appendChild(el); return el;
   }
@@ -511,7 +511,7 @@
   // two copies of everything that marquees: the keyframe travels exactly half the row, so it never jumps
   const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
   document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
-  document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/pattern/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
+  document.getElementById('patternGrid').innerHTML = WALL9.map((id, i) => `<figure class="rv" style="--i:${i}"><img src="../assets/patterns/flavors/${id}.jpg" alt="" loading="lazy" /></figure>`).join('');
   /* ---------- 3. pop statements, cycling while on screen. the client's video replaces this ---------- */
   (function () {
     const sec = document.getElementById('pop'), word = document.getElementById('popWord');
@@ -680,7 +680,7 @@
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length);
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {

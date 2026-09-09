@@ -9,15 +9,15 @@
 <meta name="description" content="Kinza. Designed, born and made in Saudi Arabia. Ten flavors, 70+ countries, one attitude: like no one else." />
 <meta property="og:title" content="Kinza — Like no one else" />
 <meta property="og:description" content="Ten flavors. 70+ countries. Designed, born and made in Saudi Arabia." />
-<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/v5-launch/still-3.jpg" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/photos/products-2026-09-08/still-3.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon-64.png" />
-<link rel="apple-touch-icon" href="../assets/favicon-180.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/brand/icons/favicon-64.png" />
+<link rel="apple-touch-icon" href="../assets/brand/icons/favicon-180.png" />
 <meta name="theme-color" content="#001489" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="../assets/v5-launch/hero-poster.jpg" fetchpriority="high" />
+<link rel="preload" as="image" href="../assets/videos/earlier/hero-poster.jpg" fetchpriority="high" />
 <style>
 :root {
   --navy:#001489;
@@ -97,13 +97,13 @@ html[lang=ar] .label {
   display:inline-block;
   aspect-ratio:1519/547;
   background:currentColor;
-  mask:url('../assets/kinza-logo-en.png') center/contain no-repeat;
-  -webkit-mask:url('../assets/kinza-logo-en.png') center/contain no-repeat
+  mask:url('../assets/brand/logos/kinza-logo-en.png') center/contain no-repeat;
+  -webkit-mask:url('../assets/brand/logos/kinza-logo-en.png') center/contain no-repeat
 }
 html[lang=ar] .wm {
   aspect-ratio:1528/648;
-  mask-image:url('../assets/kinza-logo-ar.png');
-  -webkit-mask-image:url('../assets/kinza-logo-ar.png')
+  mask-image:url('../assets/brand/logos/kinza-logo-ar.png');
+  -webkit-mask-image:url('../assets/brand/logos/kinza-logo-ar.png')
 }
 .sr-only {
   position:absolute;
@@ -1163,7 +1163,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><button id="headerLang" data-i18n="lang">العربية</button><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
-<section class="hero" id="top" aria-label="Kinza"><div class="hero__media" id="heroMedia" aria-hidden="true"><img src="../assets/v5-launch/hero-poster.jpg" alt="" fetchpriority="high" width="1920" height="1080"></div><h1 class="sr-only" data-i18n="like">Like no one else</h1></section>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__media" id="heroMedia" aria-hidden="true"><img src="../assets/videos/earlier/hero-poster.jpg" alt="" fetchpriority="high" width="1920" height="1080"></div><h1 class="sr-only" data-i18n="like">Like no one else</h1></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
@@ -1209,12 +1209,12 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
   ];
   const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
   // Six supplied product photographs.
-  const PRODUCTS = ['v5-launch/still-1.jpg', 'v5-launch/still-2.jpg', 'v5-launch/still-3.jpg', 'v5-launch/still-4.jpg', 'v5-launch/still-5.jpg', 'v5-launch/still-6.jpg'];
+  const PRODUCTS = ['photos/products-2026-09-08/still-1.jpg', 'photos/products-2026-09-08/still-2.jpg', 'photos/products-2026-09-08/still-3.jpg', 'photos/products-2026-09-08/still-4.jpg', 'photos/products-2026-09-08/still-5.jpg', 'photos/products-2026-09-08/still-6.jpg'];
   // Nine supplied portrait artworks. Soda water has no supplied artwork.
   const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail']);
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
   // Twelve supplied lifestyle photographs.
-  const LIFE = Array.from({ length: 12 }, (_, i) => `people-real/people-${String(i + 1).padStart(2, '0')}.jpg`);
+  const LIFE = Array.from({ length: 12 }, (_, i) => `photos/lifestyle-earlier/people-${String(i + 1).padStart(2, '0')}.jpg`);
   const STRIP_COPY = { en: 'Ten Flavors. We Are Unlike Anyone Else', ar: 'عشر نكهات. ما نشبه أحد' };
   const CARDS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
@@ -1245,7 +1245,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
     video.muted = true; video.loop = true; video.autoplay = true;
     video.playsInline = true; video.preload = 'auto';
     video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
-    video.poster = '../assets/v5-launch/hero-poster.jpg';
+    video.poster = '../assets/videos/earlier/hero-poster.jpg';
     let visible = false, failed = false;
     const sync = () => {
       if (failed) return;
@@ -1253,7 +1253,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
       else video.pause();
     };
     video.addEventListener('error', () => { failed = true; video.remove(); });
-    video.src = '../assets/v5-launch/hero.mp4';
+    video.src = '../assets/videos/earlier/hero.mp4';
     media.appendChild(video);
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(media);
     document.addEventListener('visibilitychange', sync);
@@ -1282,7 +1282,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
     let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
     return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
   }
-  const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `../v5/pattern-${id}.jpg` : `../assets/pattern/${id}.jpg`;
+  const patternSource = id => (id === 'lemonzero' || id === 'diet') ? `../assets/patterns/v5/${id}.jpg` : `../assets/patterns/flavors/${id}.jpg`;
   const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
 
   // The turning-can chapter retains its own flavor cycle.
@@ -1295,13 +1295,13 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
     let el;
     if (reduced) {
       el = new Image(); el.alt = ''; el.decoding = 'async';
-      el.src = `../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
+      el.src = `../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp`;
     } else {
       el = document.createElement('video'); el.dataset.flavor = id;
       el.muted = true; el.loop = true; el.playsInline = true;
       el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); el.preload = 'auto';
-      el.poster = `../assets/can360/${id}-en.webp`;
-      el.src = `../assets/spin/${id}.mp4`;
+      el.poster = `../assets/cans/turntable/${id}-en.webp`;
+      el.src = `../assets/videos/can-spins/${id}.mp4`;
     }
     clips[key] = el; spin.appendChild(el); return el;
   }
@@ -1430,7 +1430,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length);
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(T['f_' + id][lang])}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
@@ -1465,7 +1465,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
     document.querySelectorAll('#menuSocial a,#footSocial a').forEach((a,i)=>a.setAttribute('aria-label',T[SOCIAL[i%SOCIAL.length][1]][lang]));
     if (reduced) { spin.innerHTML = ''; Object.keys(clips).forEach(k => delete clips[k]); }
     go(cur);
-    spin.querySelectorAll('img[data-flavor]').forEach(img => { img.src = `../assets/can360/${img.dataset.flavor}-${lang}.webp`; });
+    spin.querySelectorAll('img[data-flavor]').forEach(img => { img.src = `../assets/cans/turntable/${img.dataset.flavor}-${lang}.webp`; });
     try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
   }
   (function () {
@@ -1490,7 +1490,7 @@ html.cinema { --head:72px; --frame:calc(100svh - var(--head)); scroll-behavior:a
   spin.addEventListener('error', e => {
     if (e.target.tagName !== 'VIDEO') return;
     const v = e.target, img = new Image(), id = v.dataset.flavor;
-    img.alt = ''; img.dataset.flavor = id; img.src = `../assets/can360/${id}-${lang}.webp`; img.className = v.className; clips[id] = img; v.replaceWith(img);
+    img.alt = ''; img.dataset.flavor = id; img.src = `../assets/cans/turntable/${id}-${lang}.webp`; img.className = v.className; clips[id] = img; v.replaceWith(img);
   }, true);
   (function cinematicScroll() {
     if (reduced) return;

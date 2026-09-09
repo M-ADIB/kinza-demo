@@ -8,14 +8,14 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Kinza — Designed, born and made in Saudi Arabia" />
 <meta property="og:description" content="The fastest growing Saudi beverage brand in the world. 70+ countries and growing. Find every flavor and every link here." />
-<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/cans/classic/can-cola-hero.png" />
 <meta property="og:url" content="https://m-adib.github.io/kinza-demo/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#314da0" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="assets/can-cola-hero.png" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/cans/classic/can-cola-hero.png" fetchpriority="high" />
 <style>
   :root {
     --blue: #314da0;
@@ -49,12 +49,12 @@
     display: inline-block;
     height: .92em;
     aspect-ratio: 1519 / 547;
-    background: url("assets/kinza-logo-en.png") center / contain no-repeat;
+    background: url("assets/brand/logos/kinza-logo-en.png") center / contain no-repeat;
     vertical-align: -.1em;
   }
-  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; background-image: url("assets/kinza-logo-ar.png"); vertical-align: -.22em; height: 1.1em; }
-  .wm--paper { background-image: url("assets/kinza-logo-en-paper.png"); }
-  html[lang="ar"] .wm--paper { background-image: url("assets/kinza-logo-ar-paper.png"); }
+  html[lang="ar"] .wm { aspect-ratio: 1528 / 648; background-image: url("assets/brand/logos/kinza-logo-ar.png"); vertical-align: -.22em; height: 1.1em; }
+  .wm--paper { background-image: url("assets/brand/logos/kinza-logo-en-paper.png"); }
+  html[lang="ar"] .wm--paper { background-image: url("assets/brand/logos/kinza-logo-ar-paper.png"); }
 
   /* paper grain over the whole page */
   body::before {
@@ -587,7 +587,7 @@
 
 <section class="hero" id="top">
   <h1 class="hero__title" aria-label="Kinza Cola">
-    <span class="line"><span class="word"><img class="hero__logo" src="assets/kinza-logo-en.png" data-en="assets/kinza-logo-en.png" data-ar="assets/kinza-logo-ar.png" alt="Kinza" fetchpriority="high" /></span></span>
+    <span class="line"><span class="word"><img class="hero__logo" src="assets/brand/logos/kinza-logo-en.png" data-en="assets/brand/logos/kinza-logo-en.png" data-ar="assets/brand/logos/kinza-logo-ar.png" alt="Kinza" fetchpriority="high" /></span></span>
     <span class="line line--sub"><span class="word hero__sub display" data-i18n="hero_sub">Cola</span></span>
   </h1>
 
@@ -598,7 +598,7 @@
   </div>
 
   <div class="hero__badge">
-    <img src="assets/saudi-made.svg" data-en="assets/saudi-made.svg" data-ar="assets/saudi-made-ar.svg" alt="Saudi Made, the Kingdom's official programme mark" />
+    <img src="assets/brand/marks/saudi-made.svg" data-en="assets/brand/marks/saudi-made.svg" data-ar="assets/brand/marks/saudi-made-ar.svg" alt="Saudi Made, the Kingdom's official programme mark" />
   </div>
 
   <div class="hero__can-home" id="canHome"></div>
@@ -611,7 +611,7 @@
 </section>
 
 <div class="can-flyer is-resting" id="canFlyer">
-  <img class="hero__can" src="assets/can-cola-hero.png" data-en="assets/can-cola-hero.png" data-ar="assets/can-cola-hero-ar.png" alt="Kinza Cola can" fetchpriority="high" />
+  <img class="hero__can" src="assets/cans/classic/can-cola-hero.png" data-en="assets/cans/classic/can-cola-hero.png" data-ar="assets/cans/classic/can-cola-hero-ar.png" alt="Kinza Cola can" fetchpriority="high" />
 </div>
 
 <section class="lineup" id="lineup">
@@ -850,7 +850,7 @@
 
   // marquee content (duplicated once so translateX(-50%) loops seamlessly)
   (function () {
-    const can = '<img src="assets/can-cola-small.png" data-en="assets/can-cola-small.png" data-ar="assets/can-cola-small-ar.png" alt="">';
+    const can = '<img src="assets/cans/classic/can-cola-small.png" data-en="assets/cans/classic/can-cola-small.png" data-ar="assets/cans/classic/can-cola-small-ar.png" alt="">';
     const seg1 = '<span>Made&nbsp;in&nbsp;Saudi</span>' + can + '<span class="wm"></span>' + can + '<span>70+&nbsp;countries</span>' + can;
     const seg2 = '<span lang="ar">صنع في السعودية</span>' + can + '<span lang="ar">كينزا</span>' + can + '<span lang="ar">أكثر من 70 دولة</span>' + can;
     document.getElementById('mq1').innerHTML = seg1.repeat(4);
@@ -919,7 +919,7 @@
   ];
   (function () {
     const grid = document.getElementById('lineupGrid');
-    const src = (id, size) => `assets/can-${id}${size === '250' && FLAVORS.find(f => f[0] === id)[3].length > 1 ? '-slim' : ''}`;
+    const src = (id, size) => `assets/cans/classic/can-${id}${size === '250' && FLAVORS.find(f => f[0] === id)[3].length > 1 ? '-slim' : ''}`;
     grid.insertAdjacentHTML('beforeend', FLAVORS.map(([id, key, name, sizes]) => {
       const fmt = sizes.length > 1
         ? sizes.map((sz, i) => `<button type="button" class="${i === 0 ? 'is-on' : ''}" data-id="${id}" data-size="${sz}">${sz} ml</button>`).join('')
@@ -958,7 +958,7 @@
       ['soda', -98, 39], ['cocktail', 78, 21], ['diet', 102, 3], ['lemon', 134, -25], ['lemonzero', -48, -15]
     ];
     wrap.insertAdjacentHTML('beforeend', PINS.map(([id], i) =>
-      `<span class="globe__pin" style="transition-delay:${i * 90}ms"><img src="assets/can-${id}.png" data-en="assets/can-${id}.png" data-ar="assets/can-${id}-ar.png" alt="" loading="lazy" /></span>`
+      `<span class="globe__pin" style="transition-delay:${i * 90}ms"><img src="assets/cans/classic/can-${id}.png" data-en="assets/cans/classic/can-${id}.png" data-ar="assets/cans/classic/can-${id}-ar.png" alt="" loading="lazy" /></span>`
     ).join(''));
     const pinEls = [...wrap.querySelectorAll('.globe__pin')];
     const pinVec = PINS.map(([, lon, lat]) => [Math.cos(lat * D2R) * Math.sin(lon * D2R), Math.sin(lat * D2R), Math.cos(lat * D2R) * Math.cos(lon * D2R)]);

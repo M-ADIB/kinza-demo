@@ -6,12 +6,12 @@
 <title>Kinza — كينزا | Like no one else</title>
 <meta name="description" content="Kinza. Designed, born and made in Saudi Arabia. Ten flavors, 70+ countries, one attitude: like no one else." />
 <meta property="og:title" content="Kinza — Like no one else" />
-<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/can-cola-hero.png" />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/cans/classic/can-cola-hero.png" />
 <meta name="theme-color" content="#0b277a" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="../assets/can-cola.png" fetchpriority="high" />
+<link rel="preload" as="image" href="../assets/cans/classic/can-cola.png" fetchpriority="high" />
 <style>
   :root {
     --blue: #314da0; --navy: #0b277a; --pink: #e8235a; --paper: #e9e7dc;
@@ -42,9 +42,9 @@
 
   /* wordmark: the logo painted in the current text colour, never typed */
   .wm { display: inline-block; height: .92em; aspect-ratio: 1519 / 547; background: currentColor; vertical-align: -.1em;
-        -webkit-mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/kinza-logo-en.png") center / contain no-repeat; }
+        -webkit-mask: url("../assets/brand/logos/kinza-logo-en.png") center / contain no-repeat; mask: url("../assets/brand/logos/kinza-logo-en.png") center / contain no-repeat; }
   html[lang="ar"] .wm { aspect-ratio: 1528 / 648; height: 1.1em; vertical-align: -.22em;
-        -webkit-mask-image: url("../assets/kinza-logo-ar.png"); mask-image: url("../assets/kinza-logo-ar.png"); }
+        -webkit-mask-image: url("../assets/brand/logos/kinza-logo-ar.png"); mask-image: url("../assets/brand/logos/kinza-logo-ar.png"); }
 
   /* ============ HEADER ============ */
   .header { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px var(--pad); color: var(--ink); transition: color .5s, background .35s, box-shadow .35s; }
@@ -227,7 +227,7 @@
       <path d="M22 62 C 26 28, 174 28, 178 62" opacity=".35" stroke-dasharray="4 5" />
       <path d="M172 54 l6 8 -9 3" />
     </svg>
-    <div class="tilt"><img class="can" id="spinCan" src="../assets/can-cola.png" alt="" fetchpriority="high" /></div>
+    <div class="tilt"><img class="can" id="spinCan" src="../assets/cans/classic/can-cola.png" alt="" fetchpriority="high" /></div>
   </div>
 </section>
 
@@ -257,12 +257,12 @@
       <div><b>#1</b><span data-i18n="s_fast">fastest growing Saudi brand</span></div>
     </div>
   </div>
-  <div class="phone"><video id="reel" muted loop playsinline preload="metadata" src="../assets/Kinzabev%20Video.mp4"></video></div>
+  <div class="phone"><video id="reel" muted loop playsinline preload="metadata" src="../assets/videos/social/Kinzabev%20Video.mp4"></video></div>
 </section>
 
 <!-- 5. saudi made -->
 <section class="saudi sec" id="saudi">
-  <img src="../assets/saudi-made.svg" data-en="../assets/saudi-made.svg" data-ar="../assets/saudi-made-ar.svg" alt="Saudi Made" />
+  <img src="../assets/brand/marks/saudi-made.svg" data-en="../assets/brand/marks/saudi-made.svg" data-ar="../assets/brand/marks/saudi-made-ar.svg" alt="Saudi Made" />
   <div>
     <h2 class="display"><span data-i18n="sa_h1">Designed, born</span><br><span data-i18n="sa_h2">and made in Saudi.</span></h2>
     <p class="lede"><span class="wm"></span> <span data-i18n="sa_p">is a Saudi brand, Saudi owned, from the first sketch to the last can. The fastest growing Saudi beverage brand in the world, and still growing.</span></p>
@@ -325,10 +325,10 @@
   const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
   // full-bleed bands: picture, effect, lines (en / ar). A line starting with ^ is dimmed, * is the wordmark.
   const BANDS = [
-    ['Instagram Kinzabev (1).jpg', 'slide', ['Born in Saudi.', '^Made for the world.'], ['وُلدت في السعودية.', '^صُنعت للعالم.']],
-    ['Instagram Kinzabev (2).jpg', 'stretch', ['Bold by nature.', '^Made to connect.'], ['جريئة بطبعها.', '^صُنعت للتواصل.']],
-    ['Instagram Kinzabev.jpg', 'blur', ['Same spirit.', '^Different places.'], ['نفس الروح.', '^أماكن مختلفة.']],
-    ['life/reel-poster.jpg', 'roll', ['Real taste.', '^Real energy.'], ['طعم حقيقي.', '^طاقة حقيقية.']]
+    ['photos/social/Instagram Kinzabev (1).jpg', 'slide', ['Born in Saudi.', '^Made for the world.'], ['وُلدت في السعودية.', '^صُنعت للعالم.']],
+    ['photos/social/Instagram Kinzabev (2).jpg', 'stretch', ['Bold by nature.', '^Made to connect.'], ['جريئة بطبعها.', '^صُنعت للتواصل.']],
+    ['photos/social/Instagram Kinzabev.jpg', 'blur', ['Same spirit.', '^Different places.'], ['نفس الروح.', '^أماكن مختلفة.']],
+    ['photos/social/reel-poster.jpg', 'roll', ['Real taste.', '^Real energy.'], ['طعم حقيقي.', '^طاقة حقيقية.']]
   ];
   const LINKS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1', 'l1s', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.7 3.8 9S14.6 18.4 12 21M12 3c-2.6 2.6-3.8 5.7-3.8 9S9.4 18.4 12 21"/>'],
@@ -343,8 +343,8 @@
     ['https://www.facebook.com/KinzaBev/', 'l10', 'at', '<path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.6c-.3-.04-1.3-.13-2.4-.13-2.4 0-4 1.45-4 4.1v2.3H7.6V14h2.7v8z" fill="currentColor" stroke="none"/>']
   ];
   // the two rails: kind (photo or can), source, flavor for the pattern side
-  const RAIL_A = [['p', 'life/kiosk.jpg', 'cola'], ['c', 'can-orange.png', 'orange'], ['p', 'life/neon.jpg', 'blackcurrant'], ['p', 'Instagram Kinzabev (1).jpg', 'cola'], ['p', 'life/pour.jpg', 'cocktail'], ['c', 'can-lemon.png', 'lemon'], ['p', 'life/race.jpg', 'pomegranate'], ['p', 'life/fridge.jpg', 'soda'], ['c', 'can-citrus.png', 'citrus'], ['p', 'Instagram Kinzabev (2).jpg', 'orange']];
-  const RAIL_B = [['p', 'life/majlis.jpg', 'orange'], ['c', 'can-pomegranate.png', 'pomegranate'], ['p', 'life/park.jpg', 'lemon'], ['p', 'Instagram Kinzabev.jpg', 'cola'], ['p', 'life/soda.jpg', 'soda'], ['c', 'can-blackcurrant.png', 'blackcurrant'], ['p', 'life/desk.jpg', 'diet'], ['c', 'can-cocktail.png', 'cocktail'], ['p', 'life/mocktail.jpg', 'citrus'], ['p', 'life/sofa.jpg', 'lemonzero'], ['c', 'can-diet.png', 'diet']];
+  const RAIL_A = [['p', 'photos/social/kiosk.jpg', 'cola'], ['c', 'cans/classic/can-orange.png', 'orange'], ['p', 'photos/social/neon.jpg', 'blackcurrant'], ['p', 'photos/social/Instagram Kinzabev (1).jpg', 'cola'], ['p', 'photos/social/pour.jpg', 'cocktail'], ['c', 'cans/classic/can-lemon.png', 'lemon'], ['p', 'photos/social/race.jpg', 'pomegranate'], ['p', 'photos/social/fridge.jpg', 'soda'], ['c', 'cans/classic/can-citrus.png', 'citrus'], ['p', 'photos/social/Instagram Kinzabev (2).jpg', 'orange']];
+  const RAIL_B = [['p', 'photos/social/majlis.jpg', 'orange'], ['c', 'cans/classic/can-pomegranate.png', 'pomegranate'], ['p', 'photos/social/park.jpg', 'lemon'], ['p', 'photos/social/Instagram Kinzabev.jpg', 'cola'], ['p', 'photos/social/soda.jpg', 'soda'], ['c', 'cans/classic/can-blackcurrant.png', 'blackcurrant'], ['p', 'photos/social/desk.jpg', 'diet'], ['c', 'cans/classic/can-cocktail.png', 'cocktail'], ['p', 'photos/social/mocktail.jpg', 'citrus'], ['p', 'photos/social/sofa.jpg', 'lemonzero'], ['c', 'cans/classic/can-diet.png', 'diet']];
 
   let lang = 'en';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -401,7 +401,7 @@
     const [id, bg, ink, cols] = FL[i];
     document.documentElement.style.setProperty('--bg', bg);
     document.documentElement.style.setProperty('--ink', ink);
-    can.src = `../assets/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
+    can.src = `../assets/cans/classic/can-${id}${lang === 'ar' ? '-ar' : ''}.png`;
     burstG.innerHTML = petals(cols, 28, 30, 70, 0);
     document.getElementById('spinName').textContent = T['f_' + id][lang];
     document.getElementById('spinLabel').textContent = T['f_' + id][lang];
@@ -417,7 +417,7 @@
     setTimeout(() => { hero.classList.remove('is-out'); cur = i; paint(i); hero.classList.add('is-in'); setTimeout(() => hero.classList.remove('is-in'), 400); busy = false; }, 330);
   }
   function schedule(delay) { clearInterval(timer); if (reduced) return; timer = setInterval(() => go((cur + 1) % FL.length), 2600); if (delay) { clearInterval(timer); setTimeout(() => schedule(), delay); } }
-  FL.forEach(([id]) => { const a = new Image(); a.src = `../assets/can-${id}.png`; });
+  FL.forEach(([id]) => { const a = new Image(); a.src = `../assets/cans/classic/can-${id}.png`; });
   paint(0);
   document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : schedule());
   schedule();
