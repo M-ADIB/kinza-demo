@@ -600,10 +600,6 @@ html.menu-open {
 }
 #tiles[data-auto-face=patterns] .tile__pat { clip-path:inset(0) }
 .cans.is-free-control { cursor:ew-resize }
-@media(hover:hover) {
-  .tile:hover { background:var(--tb) }
-  .tile:hover .tile__pat { clip-path:inset(0) }
-}
 .is-drag {
   cursor:grabbing
 }
@@ -1137,6 +1133,9 @@ html[lang=ar] .footer li a {
 @media(max-aspect-ratio:1/1) {
   .pop { aspect-ratio:9/16 }
 }
+@media(min-width:657px) and (max-width:1366px) {
+  .pop { height:100svh; aspect-ratio:auto }
+}
 @media(max-width:656px) {
   .hero { height:100svh; min-height:0; max-height:none; padding-top:64px }
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
@@ -1577,7 +1576,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   function galleryMotion(viewport, track, count, options = {}) {
     let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
-    let manualUntil = 0, freeX = null;
+    let manualUntil = 0, freeX = null, edgeFrame = 0, edgeSpeed = 0;
     const manualDelay = options.freeControl ? 5000 : 1000;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
@@ -1593,6 +1592,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         animation.cancel(); animation = null; draw();
       }
       cancelAnimationFrame(inertia);
+      cancelAnimationFrame(edgeFrame); edgeFrame = 0;
     }
     function run() {
       if (reduced || !visible || document.hidden || pressing || keyboard || animation || !limit()) return;
@@ -1626,6 +1626,20 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       if (ms) schedule(ms);
     }
     function reset() { stop(); position = clamp(position); draw(); run(); }
+    function panEdge(x) {
+      cancelAnimationFrame(edgeFrame);
+      const bounds = viewport.getBoundingClientRect(), zone = Math.min(100, bounds.width / 5);
+      edgeSpeed = x < bounds.left + zone ? -Math.min(1, (bounds.left + zone-x)/zone)
+        : x > bounds.right-zone ? Math.min(1, (x-bounds.right+zone)/zone) : 0;
+      let last = performance.now();
+      const tick = now => {
+        if (!edgeSpeed || pressing || !visible || document.hidden || now >= manualUntil) return;
+        position = clamp(position + edgeSpeed * Math.min(32, now-last) * .9);
+        direction = edgeSpeed > 0 ? 1 : -1; last = now; draw();
+        edgeFrame = requestAnimationFrame(tick);
+      };
+      if (edgeSpeed) edgeFrame = requestAnimationFrame(tick);
+    }
     observeGallery(viewport, active => {
       visible = active;
       if (active) {
@@ -1645,6 +1659,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
       }
       pressing = true; dragged = false; keyboard = false;
+      cancelAnimationFrame(edgeFrame);
       freeX = null;
       const startX = e.clientX, startY = e.clientY, start = position;
       let lastX = startX, lastTime = performance.now(), velocity = 0;
@@ -1698,8 +1713,9 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       const delta = freeX-e.clientX; freeX = e.clientX;
       if (Math.abs(delta) < .5) return;
       hold(); position = clamp(position+delta); direction = delta > 0 ? 1 : -1; draw();
+      panEdge(e.clientX);
     });
-    viewport.addEventListener('pointerleave', () => { freeX = null; });
+    viewport.addEventListener('pointerleave', () => { freeX = null; cancelAnimationFrame(edgeFrame); });
     viewport.addEventListener('wheel', e => {
       const delta = e.deltaX || (e.shiftKey ? e.deltaY : 0);
       if (reduced || !delta) return;
@@ -1729,7 +1745,12 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   const on = new Set();
   const canMotion = galleryMotion(cans, tiles, FL.length, {
     freeControl: true,
-    onManual() { delete tiles.dataset.autoFace; },
+    onManual() {
+      if (tiles.dataset.autoFace === 'patterns') {
+        tiles.querySelectorAll('.tile').forEach(b => { on.add(b.dataset.id); b.setAttribute('aria-pressed', 'true'); });
+      }
+      delete tiles.dataset.autoFace;
+    },
     onEnd(direction) { if (direction < 0) tiles.dataset.autoFace = 'cans'; },
     onAuto(direction) {
       tiles.dataset.autoFace = direction > 0 ? 'cans' : 'patterns';
@@ -1742,18 +1763,20 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   }
   tiles.addEventListener('click', e => {
     const b = e.target.closest('.tile'); if (!b || canMotion.wasDragged()) return;
+    canMotion.hold();
     const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
     b.setAttribute('aria-pressed', String(on.has(id)));
   });
 
   (function peopleMotion() {
     const wall = document.getElementById('lifeIn'), phone = matchMedia('(max-width: 656px)');
-    let animations = [], timer, visible = false, forward = true, progress = 0;
+    let animations = [], timer, visible = false, forward = true, progress = 0, preparing = false;
     let photoCursor = reduced ? LIFE.length : 12;
     let selection = reduced ? [...LIFE] : LIFE.slice(0, 12);
-    function refreshHiddenPhotos() {
+    async function refreshHiddenPhotos() {
       const bounds = wall.getBoundingClientRect();
       const occupied = new Set(selection);
+      const replacements = [];
       [...wall.children].forEach((col, c) => {
         [...col.children].forEach((figure, row) => {
           const rect = figure.getBoundingClientRect();
@@ -1761,10 +1784,29 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
           const index = row*wall.children.length+c;
           let next;
           do { next = LIFE[photoCursor++ % LIFE.length]; } while (occupied.has(next));
-          occupied.delete(selection[index]); occupied.add(next); selection[index] = next;
+          occupied.add(next);
           const img = figure.querySelector('img');
-          img.loading = 'eager'; img.src = `../assets/${next}`;
+          replacements.push((async () => {
+            const ready = new Image(); ready.src = `../assets/${next}`;
+            let timeout;
+            const loaded = await Promise.race([
+              ready.decode().then(() => true, () => false),
+              new Promise(resolve => { timeout = setTimeout(() => resolve(false), 4000); })
+            ]);
+            clearTimeout(timeout);
+            return loaded ? { img, figure, index, next, ready } : null;
+          })());
         });
+      });
+      const loaded = await Promise.all(replacements);
+      const currentBounds = wall.getBoundingClientRect();
+      loaded.forEach(item => {
+        if (!item || !item.img.isConnected) return;
+        const rect = item.figure.getBoundingClientRect();
+        if (rect.bottom > currentBounds.top && rect.top < currentBounds.bottom) return;
+        selection[item.index] = item.next;
+        item.ready.alt = item.img.alt; item.ready.loading = 'eager';
+        item.img.replaceWith(item.ready);
       });
     }
     function stop() {
@@ -1781,7 +1823,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       });
     }
     function run() {
-      if (reduced || !visible || document.hidden || animations.length) return;
+      if (reduced || !visible || document.hidden || animations.length || preparing) return;
       clearTimeout(timer);
       const cols = [...wall.children], distance = Math.max(0, cols[0].offsetHeight-wall.clientHeight);
       if (!distance) return;
@@ -1799,7 +1841,8 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       animations[0].onfinish = () => {
         progress = target; animations.forEach(a => a.cancel()); animations = []; draw();
         // Swap only offscreen photos during the pause before the next roll.
-        refreshHiddenPhotos(); run();
+        preparing = true;
+        refreshHiddenPhotos().finally(() => { preparing = false; run(); });
       };
     }
     function build() {
