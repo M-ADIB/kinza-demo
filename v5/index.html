@@ -24,7 +24,7 @@
 <meta name="theme-color" content="#001489" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700;900&family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 <style>
 :root {
   --navy:#001489;
@@ -1156,7 +1156,7 @@ html[lang=ar] .footer li a {
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
 
-/* One language selector across the header, navigation and footer. */
+/* Shared English and Arabic selector for the header and navigation. */
 .language-switcher { position:relative; flex:none }
 .language-globe { width:44px; height:44px; display:grid; place-items:center }
 .language-globe svg { width:24px; height:24px }
@@ -1164,15 +1164,11 @@ html[lang=ar] .footer li a {
 .language-panel { position:absolute; top:calc(100% + 12px); inset-inline-end:0; width:300px; padding:8px; background:white; color:var(--navy); border:1px solid #00148925; box-shadow:0 12px 32px #00148920; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; z-index:1 }
 .language-panel[hidden] { display:none }
 .language-transition { position:fixed; inset:0; z-index:100; background:var(--navy); pointer-events:none; transform:translateX(-100%); will-change:transform }
-.language-option { min-height:48px; padding:10px 12px; text-align:start; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; font-family:Outfit,'Noto Sans Arabic','Noto Sans Devanagari',sans-serif }
+.language-option { min-height:48px; padding:10px 12px; text-align:start; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; font-family:Outfit,Cairo,sans-serif }
 .language-option::after { content:'✓'; opacity:0; font-family:Outfit,sans-serif }
 .language-option[aria-checked=true] { background:var(--navy); color:white }
 .language-option[aria-checked=true]::after { opacity:1 }
 .language-option:hover:not([aria-checked=true]) { background:#0014890d }
-html[lang=ur] body,html[lang=ur] .display,html[lang=ur] .footer li a { font-family:'Noto Sans Arabic',sans-serif; line-height:1.5; letter-spacing:0 }
-html[lang=hi] body,html[lang=hi] .display,html[lang=hi] .footer li a { font-family:'Noto Sans Devanagari',sans-serif; line-height:1.35; letter-spacing:0 }
-html[lang=ur] .display,html[lang=hi] .display,html[lang=ur] .footer li a,html[lang=hi] .footer li a { font-weight:900 }
-html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:none }
 .menu__links a,.footer li a { overflow-wrap:anywhere }
 @media(max-width:656px) {
   .language-panel { position:fixed; top:72px; inset-inline:16px; width:auto; max-height:calc(100svh - 88px); overflow-y:auto }
@@ -1219,210 +1215,10 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' }, l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }
   };
   const LANGUAGES = [
-    { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' },
-    { code:'fr', name:'Français', dir:'ltr' }, { code:'es', name:'Español', dir:'ltr' },
-    { code:'de', name:'Deutsch', dir:'ltr' }, { code:'tr', name:'Türkçe', dir:'ltr' },
-    { code:'ur', name:'اردو', dir:'rtl' }, { code:'hi', name:'हिन्दी', dir:'ltr' }
+    { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' }
   ];
   T.chooseLanguage = { en:'Choose language', ar:'اختر اللغة' };
   T.stripe = { en:'Ten Flavors. We Resemble No One', ar:'عشر نكهات. ما نشبه أحد' };
-  const LOCALIZED_COPY = {
-  "fr": {
-    "like": "Nous ne ressemblons à personne",
-    "flavors": "Dix saveurs. Un caractère unique.",
-    "life": "Pour votre façon de vivre",
-    "back": "Retour en haut",
-    "productLabel": "Photographies des produits",
-    "patternLabel": "Motifs des saveurs",
-    "flavorLabel": "Saveurs",
-    "shop": "Acheter en ligne",
-    "shopNow": "Acheter",
-    "menu": "Menu",
-    "f_cola": "Cola",
-    "f_diet": "Cola sans sucre",
-    "f_lemon": "Citron",
-    "f_orange": "Orange",
-    "f_citrus": "Agrumes",
-    "f_lemonzero": "Citron sans sucre",
-    "f_blackcurrant": "Cassis",
-    "f_pomegranate": "Grenade",
-    "f_soda": "Eau pétillante",
-    "f_cocktail": "Cocktail saoudien",
-    "say": "La marque saoudienne de boissons à la croissance la plus rapide au monde",
-    "f_explore": "Découvrir",
-    "f_lang": "Langue",
-    "f_made": "Conçue, née et fabriquée en Arabie saoudite",
-    "l1": "Découvrir Aseer",
-    "l2": "Devenir partenaire",
-    "l3": "Rejoindre l’équipe",
-    "l4": "Boutique en ligne",
-    "chooseLanguage": "Choisir une langue",
-    "stripe": "Dix saveurs. Nous ne ressemblons à personne"
-  },
-  "es": {
-    "like": "No nos parecemos a nadie",
-    "flavors": "Diez sabores. Una actitud única.",
-    "life": "Para tu forma de vivir",
-    "back": "Volver arriba",
-    "productLabel": "Fotografías de productos",
-    "patternLabel": "Diseños de los sabores",
-    "flavorLabel": "Sabores",
-    "shop": "Comprar en línea",
-    "shopNow": "Comprar",
-    "menu": "Menú",
-    "f_cola": "Cola",
-    "f_diet": "Cola sin azúcar",
-    "f_lemon": "Limón",
-    "f_orange": "Naranja",
-    "f_citrus": "Cítricos",
-    "f_lemonzero": "Limón sin azúcar",
-    "f_blackcurrant": "Grosella negra",
-    "f_pomegranate": "Granada",
-    "f_soda": "Agua con gas",
-    "f_cocktail": "Cóctel saudí",
-    "say": "La marca saudí de bebidas de mayor crecimiento en el mundo",
-    "f_explore": "Explorar",
-    "f_lang": "Idioma",
-    "f_made": "Diseñada, nacida y fabricada en Arabia Saudí",
-    "l1": "Descubre Aseer",
-    "l2": "Hazte socio",
-    "l3": "Únete al equipo",
-    "l4": "Tienda en línea",
-    "chooseLanguage": "Elegir idioma",
-    "stripe": "Diez sabores. No nos parecemos a nadie"
-  },
-  "de": {
-    "like": "Wir sind wie kein anderer",
-    "flavors": "Zehn Sorten. Einzigartiger Charakter.",
-    "life": "Für deinen Lebensstil",
-    "back": "Nach oben",
-    "productLabel": "Produktfotografie",
-    "patternLabel": "Designs der Sorten",
-    "flavorLabel": "Sorten",
-    "shop": "Online einkaufen",
-    "shopNow": "Jetzt kaufen",
-    "menu": "Menü",
-    "f_cola": "Cola",
-    "f_diet": "Cola ohne Zucker",
-    "f_lemon": "Zitrone",
-    "f_orange": "Orange",
-    "f_citrus": "Zitrus",
-    "f_lemonzero": "Zitrone ohne Zucker",
-    "f_blackcurrant": "Schwarze Johannisbeere",
-    "f_pomegranate": "Granatapfel",
-    "f_soda": "Sprudelwasser",
-    "f_cocktail": "Saudischer Cocktail",
-    "say": "Die weltweit am schnellsten wachsende saudische Getränkemarke",
-    "f_explore": "Entdecken",
-    "f_lang": "Sprache",
-    "f_made": "Entworfen, entstanden und hergestellt in Saudi-Arabien",
-    "l1": "Aseer entdecken",
-    "l2": "Partner werden",
-    "l3": "Teil des Teams werden",
-    "l4": "Onlineshop",
-    "chooseLanguage": "Sprache wählen",
-    "stripe": "Zehn Sorten. Wir sind wie kein anderer"
-  },
-  "tr": {
-    "like": "Kimseye benzemeyiz",
-    "flavors": "On lezzet. Eşsiz bir duruş.",
-    "life": "Senin yaşam tarzına göre",
-    "back": "Başa dön",
-    "productLabel": "Ürün fotoğrafları",
-    "patternLabel": "Lezzet desenleri",
-    "flavorLabel": "Lezzetler",
-    "shop": "İnternetten alışveriş",
-    "shopNow": "Satın al",
-    "menu": "Menü",
-    "f_cola": "Kola",
-    "f_diet": "Şekersiz kola",
-    "f_lemon": "Limon",
-    "f_orange": "Portakal",
-    "f_citrus": "Narenciye",
-    "f_lemonzero": "Şekersiz limon",
-    "f_blackcurrant": "Siyah frenk üzümü",
-    "f_pomegranate": "Nar",
-    "f_soda": "Soda",
-    "f_cocktail": "Suudi kokteyli",
-    "say": "Dünyanın en hızlı büyüyen Suudi içecek markası",
-    "f_explore": "Keşfet",
-    "f_lang": "Dil",
-    "f_made": "Suudi Arabistan’da tasarlandı, doğdu ve üretildi",
-    "l1": "Aseer’i keşfet",
-    "l2": "İş ortağımız ol",
-    "l3": "Ekibe katıl",
-    "l4": "Çevrimiçi mağaza",
-    "chooseLanguage": "Dil seçin",
-    "stripe": "On lezzet. Kimseye benzemeyiz"
-  },
-  "ur": {
-    "like": "ہم کسی جیسے نہیں",
-    "flavors": "دس ذائقے۔ منفرد انداز۔",
-    "life": "آپ کے طرزِ زندگی کے لیے",
-    "back": "اوپر جائیں",
-    "productLabel": "مصنوعات کی تصاویر",
-    "patternLabel": "ذائقوں کے ڈیزائن",
-    "flavorLabel": "ذائقے",
-    "shop": "آن لائن خریداری",
-    "shopNow": "اب خریدیں",
-    "menu": "مینو",
-    "f_cola": "کولا",
-    "f_diet": "شوگر فری کولا",
-    "f_lemon": "لیموں",
-    "f_orange": "مالٹا",
-    "f_citrus": "ترش پھل",
-    "f_lemonzero": "شوگر فری لیموں",
-    "f_blackcurrant": "بلیک کرنٹ",
-    "f_pomegranate": "انار",
-    "f_soda": "سوڈا واٹر",
-    "f_cocktail": "سعودی کاک ٹیل",
-    "say": "دنیا میں سب سے تیزی سے ترقی کرنے والا سعودی مشروبات کا برانڈ",
-    "f_explore": "دریافت کریں",
-    "f_lang": "زبان",
-    "f_made": "سعودی عرب میں ڈیزائن کیا گیا، یہیں جنم لیا اور یہیں تیار کیا گیا",
-    "l1": "عسیر دریافت کریں",
-    "l2": "شراکت دار بنیں",
-    "l3": "ٹیم میں شامل ہوں",
-    "l4": "آن لائن اسٹور",
-    "chooseLanguage": "زبان منتخب کریں",
-    "stripe": "دس ذائقے۔ ہم کسی جیسے نہیں"
-  },
-  "hi": {
-    "like": "हम किसी जैसे नहीं",
-    "flavors": "दस स्वाद। एक अनोखा अंदाज़।",
-    "life": "आपकी ज़िंदगी के अंदाज़ के लिए",
-    "back": "ऊपर जाएँ",
-    "productLabel": "उत्पादों की तस्वीरें",
-    "patternLabel": "स्वादों के डिज़ाइन",
-    "flavorLabel": "स्वाद",
-    "shop": "ऑनलाइन खरीदारी",
-    "shopNow": "अभी खरीदें",
-    "menu": "मेन्यू",
-    "f_cola": "कोला",
-    "f_diet": "शुगर-फ्री कोला",
-    "f_lemon": "नींबू",
-    "f_orange": "संतरा",
-    "f_citrus": "खट्टे फल",
-    "f_lemonzero": "शुगर-फ्री नींबू",
-    "f_blackcurrant": "ब्लैककरंट",
-    "f_pomegranate": "अनार",
-    "f_soda": "सोडा वॉटर",
-    "f_cocktail": "सऊदी कॉकटेल",
-    "say": "दुनिया में सबसे तेज़ी से बढ़ता सऊदी पेय ब्रांड",
-    "f_explore": "खोजें",
-    "f_lang": "भाषा",
-    "f_made": "सऊदी अरब में डिज़ाइन किया गया, जन्मा और निर्मित",
-    "l1": "असीर को जानें",
-    "l2": "भागीदार बनें",
-    "l3": "टीम से जुड़ें",
-    "l4": "ऑनलाइन स्टोर",
-    "chooseLanguage": "भाषा चुनें",
-    "stripe": "दस स्वाद। हम किसी जैसे नहीं"
-  }
-};
-  for (const [code, copy] of Object.entries(LOCALIZED_COPY)) {
-    for (const [key, value] of Object.entries(copy)) (T[key] ||= {})[code] = value;
-  }
   const supportedLanguage = code => LANGUAGES.some(l => l.code === code);
   const languageDirection = code => LANGUAGES.find(l => l.code === code)?.dir || 'ltr';
   // id, background, ink on it, splash colours, pattern motif (from the client's Pantone sheet)
