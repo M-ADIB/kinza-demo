@@ -598,6 +598,8 @@ html.menu-open {
 .tile[aria-pressed=true] .tile__pat {
   clip-path:inset(0)
 }
+#tiles[data-auto-face=patterns] .tile__pat { clip-path:inset(0) }
+.cans.is-free-control { cursor:ew-resize }
 @media(hover:hover) {
   .tile:hover { background:var(--tb) }
   .tile:hover .tile__pat { clip-path:inset(0) }
@@ -1572,9 +1574,11 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     new ResizeObserver(observe).observe(viewport);
     observe();
   }
-  function galleryMotion(viewport, track, count) {
+  function galleryMotion(viewport, track, count, options = {}) {
     let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
+    let manualUntil = 0, freeX = null;
+    const manualDelay = options.freeControl ? 5000 : 1000;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
     const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
@@ -1592,23 +1596,32 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
     }
     function run() {
       if (reduced || !visible || document.hidden || pressing || keyboard || animation || !limit()) return;
+      const remaining = manualUntil-performance.now();
+      if (remaining > 0) { schedule(remaining); return; }
       clearTimeout(timer);
       track.classList.remove('is-held');
+      viewport.classList.remove('is-free-control'); freeX = null;
       const end = direction > 0 ? limit() : 0;
       if (Math.abs(end-position) < 5) {
         position = end; draw(); direction *= -1; schedule(1000); return;
       }
-      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18;
+      options.onAuto?.(direction);
+      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18 * (options.speedScale || 1);
       animation = track.animate([
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
-      ], { duration, easing: galleryEase, fill: 'forwards' });
+      ], { duration, easing: options.easing || galleryEase, fill: 'forwards' });
       animation.onfinish = () => {
         position = end; animation.cancel(); animation = null; draw(); run();
       };
     }
-    function hold(ms = 1000) {
+    function hold(ms = manualDelay) {
       stop(); track.classList.add('is-held');
+      options.onManual?.();
+      if (options.freeControl) {
+        manualUntil = ms ? performance.now()+ms : 0;
+        viewport.classList.toggle('is-free-control', !!ms);
+      }
       if (ms) schedule(ms);
     }
     function reset() { stop(); position = clamp(position); draw(); run(); }
@@ -1631,6 +1644,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
       }
       pressing = true; dragged = false; keyboard = false;
+      freeX = null;
       const startX = e.clientX, startY = e.clientY, start = position;
       let lastX = startX, lastTime = performance.now(), velocity = 0;
       const move = ev => {
@@ -1648,6 +1662,12 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         if (ev.pointerId !== e.pointerId) return;
         pressing = false; viewport.classList.remove('is-drag');
         removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+        if (options.freeControl) {
+          freeX = ev.pointerType === 'mouse' ? ev.clientX : null;
+          hold();
+          if (dragged) setTimeout(() => { dragged = false; }, 0);
+          return;
+        }
         if (!dragged) {
           track.classList.remove('is-held');
           if (visible && !document.hidden && !keyboard) {
@@ -1671,6 +1691,14 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       };
       addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
     });
+    viewport.addEventListener('pointermove', e => {
+      if (!options.freeControl || reduced || pressing || e.pointerType !== 'mouse' || e.buttons || performance.now() >= manualUntil) return;
+      if (freeX === null) { freeX = e.clientX; return; }
+      const delta = freeX-e.clientX; freeX = e.clientX;
+      if (Math.abs(delta) < .5) return;
+      hold(); position = clamp(position+delta); direction = delta > 0 ? 1 : -1; draw();
+    });
+    viewport.addEventListener('pointerleave', () => { freeX = null; });
     viewport.addEventListener('wheel', e => {
       const delta = e.deltaX || (e.shiftKey ? e.deltaY : 0);
       if (reduced || !delta) return;
@@ -1698,7 +1726,14 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
 
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set();
-  const canMotion = galleryMotion(cans, tiles, FL.length);
+  const canMotion = galleryMotion(cans, tiles, FL.length, {
+    freeControl: true, speedScale: 1.25, easing: 'linear',
+    onManual() { delete tiles.dataset.autoFace; },
+    onAuto(direction) {
+      tiles.dataset.autoFace = direction > 0 ? 'cans' : 'patterns';
+      on.clear(); tiles.querySelectorAll('.tile').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    }
+  });
   function buildTiles() {
     tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id))}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/can360/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
