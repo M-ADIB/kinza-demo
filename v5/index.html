@@ -1576,7 +1576,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
   function galleryMotion(viewport, track, count, options = {}) {
     let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
     let position = 0, direction = 1, dragged = false, inertia = 0;
-    let manualUntil = 0, freeX = null, edgeFrame = 0, edgeSpeed = 0;
+    let manualUntil = 0, freeX = null, steerFrame = 0, steerSpeed = 0;
     const manualDelay = options.freeControl ? 5000 : 1000;
     const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
     const clamp = x => Math.max(0, Math.min(limit(), x));
@@ -1592,7 +1592,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         animation.cancel(); animation = null; draw();
       }
       cancelAnimationFrame(inertia);
-      cancelAnimationFrame(edgeFrame); edgeFrame = 0;
+      cancelAnimationFrame(steerFrame); steerFrame = 0;
     }
     function run() {
       if (reduced || !visible || document.hidden || pressing || keyboard || animation || !limit()) return;
@@ -1626,19 +1626,21 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       if (ms) schedule(ms);
     }
     function reset() { stop(); position = clamp(position); draw(); run(); }
-    function panEdge(x) {
-      cancelAnimationFrame(edgeFrame);
-      const bounds = viewport.getBoundingClientRect(), zone = Math.min(100, bounds.width / 5);
-      edgeSpeed = x < bounds.left + zone ? -Math.min(1, (bounds.left + zone-x)/zone)
+    // A released pointer steers the row instead of carrying a can along with it.
+    // The middle fifth is still, so another can can be selected without drifting.
+    function steer(x) {
+      cancelAnimationFrame(steerFrame);
+      const bounds = viewport.getBoundingClientRect(), zone = bounds.width * .4;
+      steerSpeed = x < bounds.left + zone ? -Math.min(1, (bounds.left + zone-x)/zone)
         : x > bounds.right-zone ? Math.min(1, (x-bounds.right+zone)/zone) : 0;
       let last = performance.now();
       const tick = now => {
-        if (!edgeSpeed || pressing || !visible || document.hidden || now >= manualUntil) return;
-        position = clamp(position + edgeSpeed * Math.min(32, now-last) * .9);
-        direction = edgeSpeed > 0 ? 1 : -1; last = now; draw();
-        edgeFrame = requestAnimationFrame(tick);
+        if (!steerSpeed || pressing || !visible || document.hidden || now >= manualUntil) return;
+        position = clamp(position + steerSpeed * Math.min(32, now-last) * .9);
+        direction = steerSpeed > 0 ? 1 : -1; last = now; draw();
+        steerFrame = requestAnimationFrame(tick);
       };
-      if (edgeSpeed) edgeFrame = requestAnimationFrame(tick);
+      if (steerSpeed) steerFrame = requestAnimationFrame(tick);
     }
     observeGallery(viewport, active => {
       visible = active;
@@ -1659,7 +1661,7 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
         position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
       }
       pressing = true; dragged = false; keyboard = false;
-      cancelAnimationFrame(edgeFrame);
+      cancelAnimationFrame(steerFrame);
       freeX = null;
       const startX = e.clientX, startY = e.clientY, start = position;
       let lastX = startX, lastTime = performance.now(), velocity = 0;
@@ -1712,10 +1714,9 @@ html[lang=ur] .label,html[lang=hi] .label { letter-spacing:0; text-transform:non
       if (freeX === null) { freeX = e.clientX; return; }
       const delta = freeX-e.clientX; freeX = e.clientX;
       if (Math.abs(delta) < .5) return;
-      hold(); position = clamp(position+delta); direction = delta > 0 ? 1 : -1; draw();
-      panEdge(e.clientX);
+      hold(); steer(e.clientX);
     });
-    viewport.addEventListener('pointerleave', () => { freeX = null; cancelAnimationFrame(edgeFrame); });
+    viewport.addEventListener('pointerleave', () => { freeX = null; cancelAnimationFrame(steerFrame); });
     viewport.addEventListener('wheel', e => {
       const delta = e.deltaX || (e.shiftKey ? e.deltaY : 0);
       if (reduced || !delta) return;
