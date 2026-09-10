@@ -132,6 +132,9 @@ html[lang=ar] .wm {
   color:var(--navy);
   border-bottom:1px solid rgba(0,20,137,.15)
 }
+.header { transition:transform .24s ease, opacity .24s ease, visibility .24s }
+.header.is-past-hero { transform:translateY(-100%); opacity:0; visibility:hidden; pointer-events:none }
+@media(prefers-reduced-motion:reduce) { .header { transition:none } }
 .header .wm {
   width:104px;
   height:38px
@@ -1161,18 +1164,38 @@ html[lang=ar] .footer li a {
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
 
-.brand-statement { background:#fff; color:var(--navy); padding:clamp(48px,6vw,88px) clamp(24px,5vw,80px) }
-.brand-statement__inner { display:grid; grid-template-columns:minmax(0,1fr) clamp(160px,17vw,210px); align-items:center; gap:clamp(40px,6vw,88px); max-width:1200px; margin:0 auto; direction:ltr }
-.brand-statement h2 { grid-column:1; grid-row:1; max-width:23ch; margin:0; font-size:clamp(32px,4vw,60px); font-weight:900; line-height:1.1; letter-spacing:-.025em; text-wrap:balance; text-align:left }
-.brand-statement__mark { grid-column:2; grid-row:1; width:100%; height:auto; margin:0; display:block }
-.brand-statement__mark--ar { display:none }
-html[lang=ar] .brand-statement__mark--en { display:none }
-html[lang=ar] .brand-statement__mark--ar { display:block }
-html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spacing:0; direction:rtl; text-align:right }
+.brand-statement { background:#fff; color:var(--navy); padding:clamp(48px,7vw,104px) 24px }
+.brand-statement__inner { max-width:1120px; margin:auto }
+.brand-statement h2 { margin:0 auto; max-width:23ch; font-size:clamp(34px,5.5vw,78px); font-weight:900; line-height:1.12; letter-spacing:-.035em; text-align:center; text-wrap:balance }
+.reach__mark { flex:none; width:156px; padding:14px 12px; background:#fff }
+.saudi-mark { display:block; width:100%; height:auto }
+.saudi-mark--ar, .pop[hidden] { display:none }
+html[lang=ar] .saudi-mark--en { display:none }
+html[lang=ar] .saudi-mark--ar { display:block }
+html[lang=ar] .brand-statement h2 { max-width:23ch; line-height:1.5; letter-spacing:0 }
+.values { background:var(--navy); color:#fff; padding:clamp(40px,5vw,72px) 0; overflow:hidden }
+.values__inner { max-width:1440px; margin:auto }
+.values__head { padding:0 clamp(24px,5vw,80px); display:flex; align-items:center; justify-content:space-between; gap:32px }
+.values h2 { font-size:clamp(23px,2.5vw,36px); line-height:1.2; font-weight:800; margin:0 }
+.values__intro { font-size:16px; line-height:1.5; max-width:36ch; margin:0; opacity:.75 }
+.values__list { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:0; margin:32px 0; list-style:none; overscroll-behavior-x:contain }
+.values__list::-webkit-scrollbar { display:none }
+.values__list li { flex:0 0 100%; min-width:0; box-sizing:border-box; scroll-snap-align:start; padding:clamp(32px,5vw,72px) clamp(24px,5vw,80px); display:flex; flex-direction:column; justify-content:center; min-height:340px }
+.values__list h3 { font-size:clamp(48px,7vw,104px); line-height:1.08; letter-spacing:-.035em; margin:0 0 24px; font-weight:900; max-width:18ch }
+.values__list p { font-size:clamp(19px,2.2vw,30px); line-height:1.5; margin:0; max-width:40ch }
+.values__controls { display:flex; align-items:center; gap:20px; padding:0 clamp(24px,5vw,80px) }
+.values__controls button { min-width:48px; height:48px; border:1px solid #ffffff80; color:inherit; font-size:24px }
+.values__controls button:last-child { margin-inline-start:auto; padding:0 18px; font-size:15px }
+.values__controls button:focus-visible,.values__list:focus-visible { outline:2px solid white; outline-offset:4px }
+html[lang=ar] .values__list h3 { letter-spacing:0; line-height:1.4 }
+html[lang=ar] #valuePrev,html[lang=ar] #valueNext { transform:scaleX(-1) }
 @media(max-width:656px) {
-  .brand-statement__inner { grid-template-columns:minmax(0,1fr); gap:28px }
-  .brand-statement h2 { grid-column:1; grid-row:1; max-width:none }
-  .brand-statement__mark { width:144px; grid-column:1; grid-row:2; justify-self:end }
+ .brand-statement h2 { font-size:clamp(30px,8.6vw,46px) }
+ .reach__mark { width:132px; padding:12px 10px }
+ .values__head { display:block }
+ .values__intro { margin-top:16px }
+ .values__list li { min-height:330px }
+ .values__list h3 { font-size:clamp(40px,11vw,64px) }
 }
 
 /* Shared English and Arabic selector for the header and navigation. */
@@ -1203,7 +1226,7 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
   .reach__title { font-size: clamp(56px, 7.6vw, 112px); font-weight: 400; }
   .reach__title > span:last-child { display: block; }
   .reach__stat { padding-inline-start: clamp(24px, 4vw, 64px); border-inline-start: 1px solid rgba(255,255,255,.3); }
-  .reach__number { display: block; font-family: Anton, sans-serif; font-size: clamp(120px, 14.5vw, 216px); font-weight: 400; line-height: 1; letter-spacing: -.03em; direction: ltr; }
+  .reach__number { display: block; font-family: Anton, sans-serif; font-size: clamp(72px, 8vw, 120px); font-weight: 400; line-height: 1; letter-spacing: -.03em; direction: ltr; }
   .reach__countries { display: block; font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; margin-top: 12px; }
   .reach__map { position: relative; direction: ltr; width: 100%; max-width: 1320px; margin: 30px auto 10px; }
   .reach__map svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -1214,11 +1237,9 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
   .reach__origin-core { fill: currentColor; }
   .reach__origin-label { position: absolute; left: 61.87%; top: 43.17%; transform: translate(-50%, calc(-100% - 26px)); background: var(--navy); padding: 5px 9px; font-size: clamp(10px, 1vw, 14px); font-weight: 700; white-space: nowrap; }
   .reach__note { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.3); font-size: 16px; line-height: 1.5; }
-  .reach__note .wm { flex: none; width: 92px; height: auto; }
   html[lang="ar"] .reach__from { font-family: Cairo, sans-serif; line-height: 1.5; letter-spacing: 0; }
   html[lang="ar"] .reach__title { font-size: clamp(48px, 6.6vw, 96px); }
   html[lang="ar"] .reach__number { font-family: Anton, sans-serif; }
-  html[lang="ar"] .reach__note .wm { height: auto; }
   @media (prefers-reduced-motion: no-preference) {
     .reach.is-in .reach__route { animation: reach-route 1.7s var(--ease) both; animation-delay: calc(var(--route) * 65ms); }
     @keyframes reach-route { from { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; } to { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .75; } }
@@ -1229,15 +1250,14 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     .reach__title { font-size: clamp(48px, 13vw, 82px); }
     .reach__from { font-size: 18px; margin-bottom: 10px; }
     .reach__stat { display: flex; align-items: center; gap: 24px; padding-inline-start: 0; border: 0; }
-    .reach__number { font-size: clamp(116px, 33vw, 180px); }
+    .reach__number { font-size: clamp(64px, 19vw, 96px); }
     .reach__countries { font-size: 18px; max-width: 8em; margin: 0; line-height: 1.4; }
     .reach__map { margin-block: 24px; }
     .reach__land { stroke-width: 4; opacity: .42; }
     .reach__route { stroke-width: 1.8; }
     .reach__origin-label { transform: translate(-50%, calc(-100% - 12px)); font-size: 10px; padding: 3px 5px; }
     .reach__note { align-items: flex-end; font-size: 14px; gap: 20px; padding-top: 20px; }
-    .reach__note .wm { width: 72px; }
-    html[lang="ar"] .reach__title { font-size: clamp(44px, 12vw, 72px); }
+      html[lang="ar"] .reach__title { font-size: clamp(44px, 12vw, 72px); }
   }
 
 </style>
@@ -1247,11 +1267,12 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/hero-portrait.jpg"><img src="../assets/videos/campaign/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
-<section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2><img class="brand-statement__mark brand-statement__mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000" loading="lazy"><img class="brand-statement__mark brand-statement__mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986" loading="lazy"></div></section>
+<section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="say">The fastest-growing Saudi beverage brand in the world</h2></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
-<section class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/typography-portrait.jpg"><img src="../assets/videos/campaign/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
+<section class="values" id="values" aria-labelledby="valuesTitle"><div class="values__inner"><div class="values__head"><h2 id="valuesTitle" data-i18n="values_title">Rooted in our values.</h2><p class="values__intro" data-i18n="values_intro">Treasured in our culture. Lived through the way we make, create and care.</p></div><ul class="values__list" id="valuesTrack" tabindex="0" data-i18n-label="values_title"><li><h3 data-i18n="value_0">Quality</h3><p data-i18n="value_desc_0">High-quality ingredients, products and service.</p></li><li><h3 data-i18n="value_1">Integrity</h3><p data-i18n="value_desc_1">Transparency in how we source, produce and communicate.</p></li><li><h3 data-i18n="value_2">Innovation</h3><p data-i18n="value_desc_2">Fresh ideas and continuous improvement.</p></li><li><h3 data-i18n="value_3">Customer satisfaction</h3><p data-i18n="value_desc_3">Listening to your needs and striving to exceed expectations.</p></li><li><h3 data-i18n="value_4">Food safety</h3><p data-i18n="value_desc_4">Care at every step, from production to delivery.</p></li><li><h3 data-i18n="value_5">Passion for flavor</h3><p data-i18n="value_desc_5">A passion for exciting, refreshing flavors.</p></li><li><h3 data-i18n="value_6">Responsibility</h3><p data-i18n="value_desc_6">Accountable business practices and care for our community.</p></li></ul><div class="values__controls"><button type="button" id="valuePrev" data-i18n-label="value_prev" aria-label="Previous value">&#8592;</button><span id="valueCount" dir="ltr">01 / 07</span><button type="button" id="valueNext" data-i18n-label="value_next" aria-label="Next value">&#8594;</button><button type="button" id="valuePause" data-i18n="value_pause" aria-pressed="false">Pause</button></div></div></section>
+<section hidden class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/typography-portrait.jpg"><img src="../assets/videos/campaign/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip4"></div></div>
 <section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip5" data-copy="life"></div></div>
@@ -1273,7 +1294,7 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     </svg>
     <span class="reach__origin-label" data-i18n="reach_saudi">Saudi Arabia</span>
   </div>
-  <div class="reach__note"><p data-i18n="reach_note">Saudi roots. A world of possibilities.</p><span class="wm" aria-label="Kinza"></span></div>
+  <div class="reach__note"><p data-i18n="reach_note">Saudi roots. A world of possibilities.</p><div class="reach__mark"><img class="saudi-mark saudi-mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000"><img class="saudi-mark saudi-mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986"></div></div>
 </section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="stripWorld" data-copy="reach_ribbon"></div></div>
 <h2 class="sr-only" id="statement">The fastest growing Saudi beverage brand in the world</h2>
@@ -1294,7 +1315,7 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
     f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
     f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
-    say: { en: 'The fastest growing Saudi beverage brand in the world', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات' },
+    say: { en: 'The fastest-growing Saudi beverage brand in the world', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات' },
     f_explore: { en: 'Explore', ar: 'اكتشف' }, f_lang: { en: 'Language', ar: 'اللغة' },
     f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
     l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
@@ -1303,9 +1324,12 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     l4: { en: 'Online store', ar: 'المتجر الإلكتروني' }, l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
     l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' }, l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }
   };
+  Object.assign(T, {"claim_start": {"en": "The fastest-growing", "ar": "علامة المشروبات"}, "claim_end": {"en": "beverage brand in the world.", "ar": "الأسرع نمواً في العالم."}, "message_title": {"en": "We resemble no one.", "ar": "ما نشبه أحد."}, "message_note": {"en": "Authentic refreshment. Rich taste.", "ar": "انتعاش أصيل. مذاق غني."}, "values_title": {"en": "Rooted in our values.", "ar": "قيمنا هي جذورنا."}, "values_intro": {"en": "Treasured in our culture. Lived through the way we make, create and care.", "ar": "قيم متجذرة في ثقافتنا، نعيشها في كل ما نصنعه ونبتكره ونقدمه."}, "value_0": {"en": "Quality", "ar": "الجودة"}, "value_desc_0": {"en": "High-quality ingredients, products and service.", "ar": "مكونات ومنتجات وخدمات عالية الجودة."}, "value_1": {"en": "Integrity", "ar": "النزاهة"}, "value_desc_1": {"en": "Transparency in how we source, produce and communicate.", "ar": "الشفافية في التوريد والإنتاج والتواصل."}, "value_2": {"en": "Innovation", "ar": "الابتكار"}, "value_desc_2": {"en": "Fresh ideas and continuous improvement.", "ar": "أفكار جديدة وتطوير مستمر."}, "value_3": {"en": "Customer satisfaction", "ar": "رضا العملاء"}, "value_desc_3": {"en": "Listening to your needs and striving to exceed expectations.", "ar": "نستمع إلى احتياجاتكم ونسعى لتجاوز توقعاتكم."}, "value_4": {"en": "Food safety", "ar": "سلامة الغذاء"}, "value_desc_4": {"en": "Care at every step, from production to delivery.", "ar": "عناية في كل خطوة، من الإنتاج إلى التوصيل."}, "value_5": {"en": "Passion for flavor", "ar": "الشغف بالنكهة"}, "value_desc_5": {"en": "A passion for exciting, refreshing flavors.", "ar": "شغف بنكهات مميزة ومنعشة."}, "value_6": {"en": "Responsibility", "ar": "المسؤولية"}, "value_desc_6": {"en": "Accountable business practices and care for our community.", "ar": "ممارسات مسؤولة واهتمام بمجتمعنا."}});
+  Object.assign(T, {value_prev:{en:'Previous value',ar:'القيمة السابقة'},value_next:{en:'Next value',ar:'القيمة التالية'},value_pause:{en:'Pause',ar:'إيقاف مؤقت'},value_play:{en:'Play',ar:'تشغيل'}});
   const LANGUAGES = [
     { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' }
   ];
+  T.heroHeadline = { en:'THE SPARK OF BRILLIANCE', ar:'شرارة الإبداع' };
   T.scrollLeft = { en:'Scroll left', ar:'مرر لليسار' };
   T.scrollRight = { en:'Scroll right', ar:'مرر لليمين' };
   T.chooseLanguage = { en:'Choose language', ar:'اختر اللغة' };
@@ -1387,7 +1411,7 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     document.addEventListener('visibilitychange', sync);
   }
   mountFilm('heroMedia', 'hero');
-  mountFilm('popMedia', 'typography');
+  // Typography film retained but not mounted while the chapter is hidden.
 
   /* ---------- the one reveal ---------- */
   const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
@@ -1425,14 +1449,29 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
   /* ---------- header + menu panel ---------- */
   (function () {
     const h = document.getElementById('header'), menu = document.getElementById('menu'), btn = document.getElementById('menuBtn');
-    const f = () => h.classList.toggle('is-solid', scrollY > 40); addEventListener('scroll', f, { passive: true }); f();
+    const hero = document.getElementById('top');
+    const f = () => {
+      h.classList.toggle('is-solid', scrollY > 40);
+      const hidden = hero.getBoundingClientRect().bottom <= 0 && !menu.classList.contains('is-open');
+      h.classList.toggle('is-past-hero', hidden);
+      h.inert = hidden;
+      if (hidden) {
+        document.getElementById('languageMenu').hidden = true;
+        document.getElementById('headerLang').setAttribute('aria-expanded', 'false');
+      }
+    };
+    addEventListener('scroll', f, { passive:true });
+    addEventListener('resize', f);
+    new ResizeObserver(f).observe(hero);
+    f();
     document.getElementById('menuLinks').innerHTML = CARDS.map(([href, k]) => `<a class="display" href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a>`).join('');
     document.getElementById('menuSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
     function setMenu(open) {
       menu.classList.toggle('is-open', open); h.classList.toggle('is-open', open);
       document.querySelector('main').inert = open; document.querySelector('footer').inert = open; menu.inert = !open;
       btn.setAttribute('aria-expanded', String(open)); document.documentElement.classList.toggle('menu-open', open);
-      (open ? menu.querySelector('a') : btn).focus({ preventScroll: true });
+      f();
+      if (open || !h.inert) (open ? menu.querySelector('a') : btn).focus({ preventScroll: true });
     }
     menu.inert = true;
     document.addEventListener('keydown', e => {
@@ -1895,5 +1934,39 @@ html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spac
     watch();
   })();
 
+  // One value per slide, with reading time, native touch scrolling and manual controls.
+  (() => {
+    const section=document.getElementById('values'), track=document.getElementById('valuesTrack');
+    const slides=[...track.children], pause=document.getElementById('valuePause');
+    const motion=matchMedia('(prefers-reduced-motion: reduce)');
+    let index=0, direction=1, paused=motion.matches, visible=false, timer;
+    function schedule() {
+      clearTimeout(timer);
+      if(paused || !visible || document.hidden || section.contains(document.activeElement)) return;
+      timer=setTimeout(()=>{if(index===slides.length-1) direction=-1; if(index===0) direction=1; go(index+direction)},5000);
+    }
+    function go(next, instant=false) {
+      index=Math.max(0,Math.min(slides.length-1,next));
+      track.scrollTo({left:(document.documentElement.dir==='rtl'?-1:1)*track.clientWidth*index,behavior:instant||motion.matches?'instant':'smooth'});
+      schedule();
+    }
+    function label() { pause.dataset.i18n=paused?'value_play':'value_pause'; pause.textContent=tr(pause.dataset.i18n); pause.setAttribute('aria-pressed',String(paused)); }
+    track.addEventListener('scroll',()=>{index=Math.round(Math.abs(track.scrollLeft)/track.clientWidth);document.getElementById('valueCount').textContent=String(index+1).padStart(2,'0')+' / 07';schedule()},{passive:true});
+    track.addEventListener('pointerdown',()=>clearTimeout(timer));
+    track.addEventListener('pointerup',schedule);
+    track.addEventListener('pointercancel',schedule);
+    track.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();go(index+(e.key==='ArrowRight'?1:-1)*(lang==='ar'?-1:1))}});
+    document.getElementById('valuePrev').onclick=()=>go(index-1);
+    document.getElementById('valueNext').onclick=()=>go(index+1);
+    pause.onclick=()=>{paused=!paused;label();schedule()};
+    section.addEventListener('focusin',()=>clearTimeout(timer));
+    section.addEventListener('focusout',()=>setTimeout(schedule,0));
+    document.addEventListener('visibilitychange',schedule);
+    new IntersectionObserver(es=>{visible=es[0].isIntersecting;schedule()},{threshold:.25}).observe(section);
+    new ResizeObserver(()=>go(index,true)).observe(track);
+    new MutationObserver(()=>{go(index,true);label()}).observe(document.documentElement,{attributes:true,attributeFilter:['dir']});
+    motion.addEventListener('change',()=>{paused=motion.matches;label();schedule()});
+    label();
+  })();
 </script>
 </body></html>
