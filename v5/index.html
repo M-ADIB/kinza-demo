@@ -425,6 +425,7 @@ html.menu-open {
   }
 }
 .photos,.cans,.patterns {
+  position:relative;
   overflow:hidden;
   direction:ltr;
   touch-action:pan-y;
@@ -432,6 +433,10 @@ html.menu-open {
   user-select:none;
   overscroll-behavior-x:contain
 }
+.gallery-arrows { position:absolute; inset:auto 20px 20px; display:flex; justify-content:space-between; pointer-events:none; z-index:5 }
+.gallery-arrow { width:48px; height:48px; display:grid; place-items:center; background:#fff; color:var(--navy); border:1px solid #00148933; pointer-events:auto; cursor:pointer; box-shadow:0 2px 12px #0002 }
+.gallery-arrow svg { width:24px; height:24px }
+.gallery-arrow:focus-visible { outline:3px solid var(--navy); outline-offset:3px }
 .photos__in,.cans__in,.pattern__in {
   display:flex;
   width:max-content;
@@ -1226,6 +1231,8 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
   const LANGUAGES = [
     { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' }
   ];
+  T.scrollLeft = { en:'Scroll left', ar:'مرر لليسار' };
+  T.scrollRight = { en:'Scroll right', ar:'مرر لليمين' };
   T.chooseLanguage = { en:'Choose language', ar:'اختر اللغة' };
   T.stripe = { en:'Ten Flavors. We Resemble No One', ar:'عشر نكهات. ما نشبه أحد' };
   const supportedLanguage = code => LANGUAGES.some(l => l.code === code);
@@ -1427,7 +1434,7 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
         position = end; draw(); direction *= -1; schedule(1000); return;
       }
       options.onAuto?.(direction);
-      const duration = Math.max(1300, count * 4400 / 13 * Math.abs(end-position) / limit()) * 1.18;
+      const duration = Math.max(1600, count * 2400 * Math.abs(end-position) / limit());
       animation = track.animate([
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
@@ -1474,7 +1481,7 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
     new ResizeObserver(reset).observe(viewport);
     viewport.addEventListener('pointerdown', e => {
-      if (reduced || !e.isPrimary || e.button !== 0) return;
+      if (e.target.closest('.gallery-arrows') || reduced || !e.isPrimary || e.button !== 0) return;
       const remaining = Math.max(0, deadline-performance.now());
       clearTimeout(timer); deadline = 0; cancelAnimationFrame(inertia);
       if (animation) {
@@ -1532,7 +1539,7 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
       addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
     });
     viewport.addEventListener('pointermove', e => {
-      if (!options.freeControl || reduced || pressing || e.pointerType !== 'mouse' || e.buttons || performance.now() >= manualUntil) return;
+      if (e.target.closest('.gallery-arrows') || !options.freeControl || reduced || pressing || e.pointerType !== 'mouse' || e.buttons || performance.now() >= manualUntil) return;
       if (freeX === null) { freeX = e.clientX; return; }
       const delta = freeX-e.clientX; freeX = e.clientX;
       if (Math.abs(delta) < .5) return;
@@ -1558,6 +1565,26 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
     viewport.addEventListener('scroll', () => {
       if (reduced || !viewport.scrollLeft) return;
       stop(); position = clamp(position + viewport.scrollLeft); viewport.scrollLeft = 0; draw(); run();
+    });
+    const arrows = document.createElement('div');
+    arrows.className = 'gallery-arrows';
+    arrows.innerHTML = [-1,1].map(dir => `<button type="button" class="gallery-arrow" data-step="${dir}" data-i18n-label="${dir < 0 ? 'scrollLeft' : 'scrollRight'}" aria-label="${dir < 0 ? 'Scroll left' : 'Scroll right'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="${dir < 0 ? 'M14 5l-7 7 7 7M7 12h14' : 'M10 5l7 7-7 7M17 12H3'}"/></svg></button>`).join('');
+    viewport.append(arrows);
+    arrows.addEventListener('click', e => {
+      const button = e.target.closest('[data-step]');
+      if (!button) return;
+      const step = Number(button.dataset.step);
+      const stride = track.children[1] ? track.children[1].offsetLeft-track.children[0].offsetLeft : viewport.clientWidth;
+      if (reduced) { viewport.scrollBy({ left:step*stride, behavior:'instant' }); return; }
+      hold(0); freeX = null; direction = step;
+      const target = clamp((step > 0 ? Math.floor(position/stride+.01)+1 : Math.ceil(position/stride-.01)-1)*stride);
+      const start = position;
+      animation = track.animate([{transform:`translate3d(${-start}px,0,0)`},{transform:`translate3d(${-target}px,0,0)`}], {duration:500,easing:'ease-in-out',fill:'forwards'});
+      const roll = animation;
+      roll.onfinish = () => {
+        if (animation !== roll) return;
+        position = target; roll.cancel(); animation = null; draw(); hold(3000);
+      };
     });
     return { hold, reset, wasDragged: () => dragged };
   }
