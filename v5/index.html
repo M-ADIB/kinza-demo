@@ -1161,13 +1161,20 @@ html[lang=ar] .footer li a {
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
 
-.brand-statement { background:#fff; color:var(--navy); padding:clamp(48px,7vw,104px) var(--pad); text-align:center }
-.brand-statement h2 { max-width:1200px; margin:0 auto; font-size:clamp(32px,5.5vw,80px); font-weight:900; line-height:1.08; letter-spacing:-.025em; text-wrap:balance }
-.brand-statement__mark { width:clamp(180px,20vw,260px); height:auto; margin:32px auto 0 }
+.brand-statement { display:grid; grid-template-columns:clamp(180px,20vw,260px) minmax(0,1fr); align-items:center; gap:clamp(32px,5vw,80px); background:#fff; color:var(--navy); padding:clamp(48px,7vw,104px) clamp(24px,5vw,80px); direction:ltr }
+.brand-statement h2 { grid-column:2; grid-row:1; max-width:1100px; margin:0; font-size:clamp(32px,4.6vw,68px); font-weight:900; line-height:1.08; letter-spacing:-.025em; text-wrap:balance; text-align:left }
+.brand-statement__mark { grid-column:1; grid-row:1; width:100%; height:auto; margin:0; transform:rotate(-5deg); animation:saudi-mark-float 5s ease-in-out infinite alternate }
+@keyframes saudi-mark-float { from { transform:translateY(3px) rotate(-5deg) } to { transform:translateY(-5px) rotate(-2deg) } }
 .brand-statement__mark--ar { display:none }
 html[lang=ar] .brand-statement__mark--en { display:none }
 html[lang=ar] .brand-statement__mark--ar { display:block }
-html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0 }
+html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0; direction:rtl; text-align:right }
+@media(max-width:656px) {
+  .brand-statement { grid-template-columns:minmax(0,1fr); gap:28px }
+  .brand-statement__mark { width:160px; grid-row:1 }
+  .brand-statement h2 { grid-column:1; grid-row:2 }
+}
+@media(prefers-reduced-motion:reduce) { .brand-statement__mark { animation:none } }
 
 /* Shared English and Arabic selector for the header and navigation. */
 .language-switcher { position:relative; flex:none }
