@@ -1316,6 +1316,36 @@ html[lang=ar] .values-boxes li{line-height:1.6}
 @media(min-width:657px) and (max-width:1023px){.values-boxes{grid-template-columns:repeat(4,minmax(0,1fr))}.values-boxes li:last-child{grid-column:span 2}}
 @media(max-width:656px){.values-boxes{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}.values-boxes li{min-height:80px;padding:16px;font-size:16px}.values-boxes li:last-child{grid-column:1 / -1}}
 
+
+/* One content grid for the editorial sections, independent of full-bleed media. */
+:root{--content-inset:max(24px,5vw,calc((100vw - 1280px)/2))}
+.chapter-head,.values,.reach,.footer,.brand-statement{padding-inline:var(--content-inset)}
+.values__inner{max-width:none;margin:0}
+.values__head,.values-boxes{padding-inline:0}
+.values__head{align-items:center}
+.values__head h2,.values__intro,.reach__title,.reach__stat{margin-block:0}
+.values__intro{flex:0 1 36ch}
+.chapter-bottom{align-items:center}
+@media(max-width:1023px){.values__head{flex-direction:column;align-items:flex-start;gap:16px}.values__intro{flex:auto;max-width:100%;margin:0}}
+@media(max-width:656px){.values__head{display:flex}.values__intro{margin-top:0}}
+
+/* Clear interaction feedback without fading text or shifting the layout. */
+.footer li a,.menu__links a,.journey-link{transition:color .18s ease,text-decoration-color .18s ease; text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.15em}
+.footer li a:hover,.journey-link:hover{opacity:1}
+.footer__social a,.footer__back,#lifeSocial a,.gallery-arrow,.hero-discover{transition:background-color .18s ease,color .18s ease,border-color .18s ease}
+.footer__back{width:44px;height:44px;display:grid;place-items:center;font-size:24px;border:1px solid #ffffff70}
+.footer :is(a,button):focus-visible,.chapter-head :is(a,button):focus-visible,.reach a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+.footer li a:focus-visible,.menu__links a:focus-visible{color:#d7e445;text-decoration-color:currentColor;opacity:1}
+@media(hover:hover){
+.footer li a:hover,.menu__links a:hover{color:#d7e445;text-decoration-color:currentColor;opacity:1}
+.footer__social a:hover,.footer__back:hover,#lifeSocial a:hover{background:#fff;color:var(--navy);border-color:#fff}
+.journey-link:hover{text-decoration-color:currentColor}
+.gallery-arrow:hover,.hero-discover:hover{background:var(--navy);color:white;border-color:white}
+}
+.footer__social a:focus-visible,.footer__back:focus-visible,#lifeSocial a:focus-visible{background:white;color:var(--navy);outline-color:white}
+.gallery-arrow:active,.hero-discover:active{background:var(--navy);color:white}
+@media(prefers-reduced-motion:reduce){.footer a,.menu__links a,.journey-link,#lifeSocial a,.gallery-arrow,.hero-discover{transition:none}}
+.footer a:focus-visible{outline-color:white}
 </style>
 </head>
 <body>
