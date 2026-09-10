@@ -621,7 +621,6 @@ html.menu-open {
 .tile[aria-pressed=true] .tile__pat {
   clip-path:inset(0)
 }
-#tiles[data-auto-face=patterns] .tile__pat { clip-path:inset(0) }
 .cans.is-free-control { cursor:ew-resize }
 .is-drag {
   cursor:grabbing
@@ -1317,9 +1316,6 @@ html[lang=ar] .values-boxes li{line-height:1.6}
 @media(min-width:657px) and (max-width:1023px){.values-boxes{grid-template-columns:repeat(4,minmax(0,1fr))}.values-boxes li:last-child{grid-column:span 2}}
 @media(max-width:656px){.values-boxes{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}.values-boxes li{min-height:80px;padding:16px;font-size:16px}.values-boxes li:last-child{grid-column:1 / -1}}
 
-.flavor-divider{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));height:clamp(96px,14vw,200px);overflow:hidden;background:var(--navy)}
-.flavor-divider img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:center}
-@media(max-width:656px){.flavor-divider{height:112px;grid-template-columns:repeat(3,minmax(0,1fr))}.flavor-divider img:nth-child(n+4){display:none}}
 </style>
 </head>
 <body>
@@ -1329,7 +1325,6 @@ html[lang=ar] .values-boxes li{line-height:1.6}
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/hero-portrait.jpg"><img src="../assets/videos/campaign/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
 <section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="brand_claim">The fastest-growing soft beverage brand in the world.</h2><p class="brand-intro" data-i18n="brand_refresh">We provide authentic refreshment to inspire brilliant stories and experiences.</p></div></section>
 <div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://www.kinzabev.com" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
-<section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 
 <section hidden class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/typography-portrait.jpg"><img src="../assets/videos/campaign/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
 <section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
@@ -1354,7 +1349,7 @@ html[lang=ar] .values-boxes li{line-height:1.6}
   </div>
   <div class="reach__note"><div><a class="journey-link" href="https://kinza.jotform.com/team/kinza-partner/kinza" target="_blank" rel="noopener"><span data-i18n="l2">Become a partner</span><span aria-hidden="true">↗</span></a><p class="partner-note" data-i18n="l2s">Distributors and retailers</p></div><div class="reach__mark"><img class="saudi-mark saudi-mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000"><img class="saudi-mark saudi-mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986"></div></div>
 </section>
-<div class="flavor-divider" aria-hidden="true"><img src="../assets/patterns/flavors/blackcurrant.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/citrus.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/orange.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/lemon.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/pomegranate.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/cocktail.jpg" alt="" loading="lazy" width="900" height="1370"></div>
+<section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 </main>
 <footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
 
@@ -1766,20 +1761,8 @@ html[lang=ar] .values-boxes li{line-height:1.6}
 
   const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
   const on = new Set();
-  const canMotion = galleryMotion(cans, tiles, FL.length, {
-    freeControl: true,
-    onManual() {
-      if (tiles.dataset.autoFace === 'patterns') {
-        tiles.querySelectorAll('.tile').forEach(b => { on.add(b.dataset.id); b.setAttribute('aria-pressed', 'true'); });
-      }
-      delete tiles.dataset.autoFace;
-    },
-    onEnd(direction) { if (direction < 0) tiles.dataset.autoFace = 'cans'; },
-    onAuto(direction) {
-      tiles.dataset.autoFace = direction > 0 ? 'patterns' : 'cans';
-      on.clear(); tiles.querySelectorAll('.tile').forEach(b => b.setAttribute('aria-pressed', 'false'));
-    }
-  });
+  // Sliding never changes the selected face. Patterns are toggled only by the visitor.
+  const canMotion = galleryMotion(cans, tiles, FL.length, { freeControl: true });
   function buildTiles() {
     tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id))}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
