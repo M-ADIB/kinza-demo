@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinza — كينزا</title>
+<meta name="description" content="Kinza, the fastest-growing Saudi beverage brand in the world." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Kinza" />
+<meta property="og:title" content="Kinza" />
+<meta property="og:description" content="The fastest-growing Saudi beverage brand in the world." />
+<meta property="og:image" content="https://m-adib.github.io/kinza-demo/assets/brand/sharing/kinza-social-blue.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="White Kinza logo on a blue background." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kinza" />
+<meta name="twitter:description" content="The fastest-growing Saudi beverage brand in the world." />
+<meta name="twitter:image" content="https://m-adib.github.io/kinza-demo/assets/brand/sharing/kinza-social-blue.png" />
+<meta name="twitter:image:alt" content="White Kinza logo on a blue background." />
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/brand/icons/favicon-64.png" />
+<link rel="apple-touch-icon" href="../assets/brand/icons/favicon-180.png" />
+<meta name="theme-color" content="#001489" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --navy:#001489;
+  --blue:#314da0;
+  --white:#fff;
+  --grey:#ededed;
+  --gap:6px;
+  --pad:24px;
+  --bg:#001489;
+  --ink:#fff;
+  --ease:cubic-bezier(.2,0,.05,1)
+}
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:72px
+}
+body {
+  font-family:Outfit,sans-serif;
+  color:var(--navy);
+  background:var(--white);
+  overflow-x:clip
+}
+a {
+  color:inherit;
+  text-decoration:none
+}
+button {
+  font:inherit;
+  color:inherit;
+  border:0;
+  background:none;
+  cursor:pointer
+}
+img {
+  display:block;
+  max-width:100%
+}
+button,a {
+  -webkit-tap-highlight-color:transparent
+}
+button:focus-visible,a:focus-visible {
+  outline:3px solid currentColor;
+  outline-offset:-5px
+}
+.display {
+  font-family:Anton,sans-serif;
+  text-transform:uppercase;
+  line-height:1.02;
+  letter-spacing:.02em;
+  font-weight:400
+}
+html[lang=ar] body {
+  font-family:Cairo,sans-serif
+}
+html[lang=ar] .display {
+  font-family:Cairo,sans-serif;
+  font-weight:900;
+  line-height:1.28;
+  letter-spacing:0;
+  text-transform:none
+}
+.label {
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase
+}
+html[lang=ar] .label {
+  letter-spacing:0
+}
+.wm {
+  display:inline-block;
+  aspect-ratio:1519/547;
+  background:currentColor;
+  mask:url('../assets/brand/logos/kinza-logo-en.png') center/contain no-repeat;
+  -webkit-mask:url('../assets/brand/logos/kinza-logo-en.png') center/contain no-repeat
+}
+html[lang=ar] .wm {
+  aspect-ratio:1528/648;
+  mask-image:url('../assets/brand/logos/kinza-logo-ar.png');
+  -webkit-mask-image:url('../assets/brand/logos/kinza-logo-ar.png')
+}
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip-path:inset(50%)
+}
+.header {
+  position:fixed;
+  inset:0 0 auto;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 var(--pad);
+  z-index:70;
+  background:white;
+  color:var(--navy);
+  border-bottom:1px solid rgba(0,20,137,.15)
+}
+.header { transition:transform .24s ease, opacity .24s ease, visibility .24s }
+.header.is-past-hero { transform:translateY(-100%); opacity:0; visibility:hidden; pointer-events:none }
+@media(prefers-reduced-motion:reduce) { .header { transition:none } }
+.header .wm {
+  width:104px;
+  height:38px
+}
+.header__center {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%)
+}
+.header__actions {
+  display:flex;
+  gap:28px;
+  align-items:center
+}
+.header__actions>button:first-child {
+  font-size:13px;
+  font-weight:700;
+  min-height:44px
+}
+.header__shop {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 16px;
+  background:var(--navy);
+  color:var(--white);
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap
+}
+.header__shop:hover {
+  background:var(--blue)
+}
+.burger {
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  position:relative
+}
+.burger span {
+  position:absolute;
+  width:30px;
+  height:2px;
+  background:currentColor;
+  transition:transform .3s
+}
+.burger span:first-child {
+  transform:translateY(-5px)
+}
+.burger span:last-child {
+  transform:translateY(5px)
+}
+.burger[aria-expanded=true] span:first-child {
+  transform:rotate(45deg)
+}
+.burger[aria-expanded=true] span:last-child {
+  transform:rotate(-45deg)
+}
+.header.is-open {
+  background:var(--navy);
+  color:white;
+  border-color:transparent
+}
+.menu {
+  position:fixed;
+  inset:0;
+  z-index:60;
+  background:var(--navy);
+  color:white;
+  padding:105px var(--pad) 30px;
+  display:grid;
+  grid-template-rows:1fr auto;
+  visibility:hidden;
+  opacity:0;
+  transform:translateY(-3%);
+  transition:opacity .35s,transform .5s var(--ease),visibility 0s .5s;
+  overflow-y:auto
+}
+.menu.is-open {
+  visibility:visible;
+  opacity:1;
+  transform:none;
+  transition-delay:0s
+}
+html.menu-open {
+  overflow:hidden
+}
+.menu__links {
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+.menu__links a {
+  font-size:clamp(40px,7.5vw,110px);
+  padding:10px 0;
+  border-bottom:1px solid #ffffff35
+}
+.menu__links a:hover {
+  padding-inline-start:20px
+}
+.menu__foot {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  padding-top:30px
+}
+.menu__group {
+  display:flex;
+  gap:12px
+}
+.chip {
+  padding:13px 20px;
+  border:1px solid currentColor;
+  font-size:14px
+}
+.chip--fill {
+  color:var(--navy);
+  background:white
+}
+.menu__social {
+  display:flex;
+  gap:12px
+}
+.menu__social a {
+  padding:10px
+}
+.menu svg {
+  width:24px;
+  height:24px
+}
+.hero {
+  height:100svh;
+  min-height:700px;
+  background:var(--bg);
+  color:var(--ink);
+  position:relative;
+  overflow:clip;
+  isolation:isolate;
+  transition:background .65s,color .65s;
+  padding-top:72px
+}
+.hero__logo {
+  position:absolute;
+  top:108px;
+  left:3%;
+  width:94%;
+  height:34svh;
+  pointer-events:none
+}
+.hero__can {
+  position:absolute;
+  left:50%;
+  top:47%;
+  width:min(37vw,520px);
+  height:75svh;
+  object-fit:contain;
+  max-width:none;
+  transform:translate(-50%,-36%);
+  z-index:3;
+  filter:drop-shadow(0 20px 12px #0002);
+  animation:hero-center 6s ease-in-out infinite
+}
+.hero__can:first-child {
+  z-index:2;
+  left:31%;
+  top:50%;
+  width:min(31vw,440px);
+  transform:translate(-50%,-30%) rotate(-24deg);
+  animation:hero-left 6s ease-in-out infinite
+}
+.hero__can:last-child {
+  z-index:2;
+  left:69%;
+  top:50%;
+  width:min(31vw,440px);
+  transform:translate(-50%,-30%) rotate(24deg);
+  animation:hero-right 6s ease-in-out infinite
+}
+.hero__title {
+  position:absolute;
+  bottom:60px;
+  left:0;
+  width:100%;
+  font-size:10.4vw;
+  text-align:center;
+  white-space:nowrap;
+  z-index:1
+}
+.hero__bottom {
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:18px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:5
+}
+.hero__bottom a {
+  display:flex;
+  align-items:center;
+  gap:25px
+}
+.hero__bottom a span:last-child {
+  font-size:22px
+}
+.hero__flavor {
+  display:flex;
+  gap:14px
+}
+.hero__dots {
+  position:absolute;
+  right:24px;
+  top:50%;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  z-index:5
+}
+.hero__dots button {
+  width:12px;
+  height:12px;
+  border:1px solid currentColor;
+  background:var(--d);
+  transition:transform .3s
+}
+.hero__dots button[aria-current=true] {
+  transform:scale(1.5)
+}
+.curtain {
+  position:absolute;
+  inset:0;
+  background:var(--navy);
+  pointer-events:none;
+  z-index:4;
+  opacity:0
+}
+@keyframes hero-center {
+  50% {
+    transform:translate(-50%,-39%) rotate(4deg)
+  }
+}
+@keyframes hero-left {
+  50% {
+    transform:translate(-53%,-25%) rotate(-29deg)
+  }
+}
+@keyframes hero-right {
+  50% {
+    transform:translate(-47%,-35%) rotate(29deg)
+  }
+}
+.strip {
+  height:36px;
+  display:flex;
+  align-items:center;
+  overflow:clip;
+  direction:ltr;
+  background:white;
+  color:var(--blue);
+  border-block:1px solid #00148920
+}
+.strip__in {
+  display:flex;
+  width:max-content;
+  gap:0;
+  white-space:nowrap;
+  animation:ticker 65s linear infinite
+}
+.strip__in span {
+  flex:none;
+  padding-inline-end:32px
+}
+.strip__in span:before {
+  content:'*';
+  margin-inline-end:32px
+}
+.strip--rev .strip__in {
+  animation-direction:reverse
+}
+.strip__in [lang=ar] {
+  font-family:Cairo,sans-serif
+}
+@keyframes ticker {
+  to {
+    transform:translateX(-50%)
+  }
+}
+.photos,.cans,.patterns {
+  position:relative;
+  overflow:hidden;
+  direction:ltr;
+  touch-action:pan-y;
+  cursor:grab;
+  user-select:none;
+  overscroll-behavior-x:contain
+}
+.gallery-arrows { position:absolute; inset:auto 20px 20px; display:flex; justify-content:space-between; pointer-events:none; z-index:5 }
+.gallery-arrow { width:48px; height:48px; display:grid; place-items:center; background:#fff; color:var(--navy); border:1px solid #00148933; pointer-events:auto; cursor:pointer; box-shadow:0 2px 12px #0002 }
+.gallery-arrow svg { width:24px; height:24px }
+.gallery-arrow:focus-visible { outline:3px solid var(--navy); outline-offset:3px }
+.photos__in,.cans__in,.pattern__in {
+  display:flex;
+  width:max-content;
+  will-change:transform
+}
+.photos img,.cans img,.patterns img {
+  -webkit-user-drag:none;
+  user-select:none
+}
+.photos figure {
+  height:calc(100svh - 72px);
+  min-height:520px;
+  aspect-ratio:1600/893;
+  flex:none;
+  margin-right:var(--gap);
+  overflow:clip
+}
+.photos img {
+  height:100%;
+  width:100%;
+  object-fit:cover
+}
+.section-bar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 24px;
+  gap:24px;
+  background:white;
+  color:var(--navy)
+}
+.section-bar h2 {
+  font-size:clamp(28px,3.6vw,60px)
+}
+.section-bar .label {
+  white-space:nowrap
+}
+.pop {
+  height:100svh;
+  min-height:650px;
+  background:var(--bg);
+  color:var(--ink);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;
+  overflow:clip;
+  transition:background .65s,color .65s
+}
+.pop__copy {
+  padding:32px 0 30px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  z-index:2;
+  pointer-events:none
+}
+.pop__word {
+  font-size:clamp(70px,11vw,170px);
+  max-width:6.5ch;
+  overflow-wrap:normal
+}
+.pop__copy>.label:last-child {
+  max-width:240px;
+  line-height:1.5
+}
+.spin {
+  position:absolute;
+  right:-5%;
+  top:0;
+  height:100%;
+  width:65%
+}
+.spin>* {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  opacity:0;
+  transition:opacity .45s;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent),linear-gradient(transparent,#000 12%,#000 88%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent),linear-gradient(transparent,#000 12%,#000 88%,transparent);
+  mask-composite:intersect
+}
+.spin>.is-on {
+  opacity:1
+}
+.spin>img {
+  mask:none;
+  -webkit-mask:none;
+  height:82%;
+  top:9%
+}
+.spin>.spin__film {
+  object-fit:cover;
+  opacity:1;
+  mask:none;
+  -webkit-mask:none
+}
+.pop:has(.spin__film) .pop__copy {
+  display:none
+}
+.pop:has(.spin__film) .spin {
+  inset:0;
+  width:100%
+}
+.pop__film {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:3
+}
+.patterns {
+  background:var(--white)
+}
+.pattern__in figure {
+  flex:none;
+  height:calc(100svh - 150px);
+  margin-right:var(--gap);
+  aspect-ratio:900/1370
+}
+.pattern__in img {
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+.cans {
+  background:var(--white)
+}
+.tile {
+  flex:none;
+  position:relative;
+  height:min(84svh,800px);
+  aspect-ratio:900 / 1370;
+  width:auto;
+  overflow:clip;
+  isolation:isolate;
+  background:var(--grey);
+  margin-inline-end:var(--gap);
+  transition:background .25s var(--ease);
+  text-align:start
+}
+.tile>img {
+  position:absolute;
+  width:70%;
+  height:64%;
+  object-fit:contain;
+  inset:0;
+  margin:auto;
+  z-index:2;
+  pointer-events:none
+}
+/* The slim cans stand slightly taller, with their bases aligned to the short cans. */
+.tile:is([data-id=soda],[data-id=cocktail])>img {
+  transform:scale(1.15);
+  transform-origin:50% 96%
+}
+.tile__pat {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  background:var(--tb);
+  clip-path:inset(0 0 100% 0);
+  pointer-events:none;
+  transition:clip-path .25s var(--ease)
+}
+.tile__pat img,.tile__pat svg {
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+.tile[aria-pressed=true] {
+  background:var(--tb)
+}
+.tile[aria-pressed=true] .tile__pat {
+  clip-path:inset(0)
+}
+#tiles[data-auto-face=patterns] .tile__pat { clip-path:inset(0) }
+.cans.is-free-control { cursor:ew-resize }
+.is-drag {
+  cursor:grabbing
+}
+.life {
+  position:relative;
+  background:var(--white)
+}
+.wall {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--gap);
+  height:100svh;
+  min-height:520px;
+  overflow:clip;
+  direction:ltr;
+  align-items:start
+}
+.wall__col {
+  will-change:transform
+}
+.wall figure {
+  aspect-ratio:635/790;
+  margin-bottom:var(--gap);
+  overflow:clip
+}
+.wall figure:last-child {
+  margin:0
+}
+.wall img {
+  height:100%;
+  width:100%;
+  object-fit:cover
+}
+.rv {
+  opacity:1
+}
+.footer {
+  background:var(--navy);
+  color:white;
+  padding:56px clamp(24px,4vw,64px) 0
+}
+.footer__grid {
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);
+  gap:clamp(48px,8vw,128px)
+}
+.footer h3 {
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:500;
+  margin-bottom:24px;
+  opacity:.7
+}
+.footer ul {
+  list-style:none
+}
+#footLinks { display:grid; gap:24px; justify-items:start }
+.footer__aside { display:flex; flex-direction:column; align-items:flex-start }
+.footer li a {
+  font-family:Anton,sans-serif;
+  display:block;
+  font-size:clamp(30px,4.5vw,70px);
+  line-height:1.15;
+  text-transform:uppercase;
+  padding-bottom:0
+}
+.footer li a:hover {
+  opacity:.65
+}
+.footer__social {
+  display:flex;
+  gap:4px;
+  margin-top:auto;
+  padding-top:32px
+}
+.footer__social a {
+  height:44px;
+  width:44px;
+  display:grid;
+  place-items:center
+}
+.footer__social svg {
+  width:21px;
+  height:21px
+}
+.footer__bottom {
+  margin-top:48px;
+  border-top:1px solid #ffffff40;
+  padding:22px 0;
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  gap:20px
+}
+.footer__bottom .wm {
+  width:40px;
+  height:16px;
+  flex:none
+}
+.footer__copyright {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  line-height:16px
+}
+.footer__back {
+  display:block;
+  font-size:14px;
+  margin-top:26px
+}
+html[lang=ar] .hero__title {
+  font-size:10vw
+}
+html[lang=ar] .pop__copy {
+  padding:30px 24px 30px 0
+}
+html[lang=ar] .pop__word {
+  font-size:9vw;
+  max-width:6ch
+}
+html[lang=ar] .spin {
+  right:auto;
+  left:-5%
+}
+html[lang=ar] .footer li a {
+  font-family:Cairo,sans-serif;
+  font-weight:900;
+  line-height:1.28
+}
+@media(max-width:900px) {
+  .header__center {
+    display:none
+  }
+  .hero__logo {
+    height:28svh
+  }
+  .hero__can {
+    width:50vw
+  }
+  .hero__can:first-child,.hero__can:last-child {
+    width:44vw
+  }
+  .hero__can:first-child {
+    left:24%
+  }
+  .hero__can:last-child {
+    left:76%
+  }
+  .hero__title {
+    bottom:90px
+  }
+  .hero__dots {
+    top:auto;
+    bottom:72px;
+    right:50%;
+    transform:translateX(50%);
+    flex-direction:row
+  }
+  .pop__word {
+    font-size:12vw
+  }
+  .menu__foot {
+    flex-wrap:wrap
+  }
+}
+@media(max-width:656px) {
+  :root {
+    --pad:16px
+  }
+  html {
+    scroll-padding-top:64px
+  }
+  .header {
+    height:64px;
+    padding-inline:16px
+  }
+  .header .wm {
+    width:86px;
+    height:32px
+  }
+  .header__actions {
+    gap:10px
+  }
+  .header__shop {
+    padding-inline:12px;
+    font-size:12px
+  }
+  .hero {
+    min-height:620px;
+    max-height:920px;
+    padding-top:64px
+  }
+  .hero__logo {
+    top:96px;
+    height:23svh;
+    left:4%;
+    width:92%
+  }
+  .hero__can {
+    width:70vw;
+    height:65svh;
+    top:40%;
+    transform:translate(-50%,-20%)
+  }
+  .hero__can:first-child,.hero__can:last-child {
+    width:56vw;
+    height:56svh;
+    top:46%
+  }
+  .hero__can:first-child {
+    left:18%
+  }
+  .hero__can:last-child {
+    left:82%
+  }
+  .hero__title {
+    font-size:10.1vw;
+    bottom:110px
+  }
+  .hero__bottom {
+    padding:18px 16px;
+    align-items:end
+  }
+  .hero__bottom .label {
+    font-size:10px;
+    letter-spacing:.05em
+  }
+  .hero__flavor {
+    flex-direction:column;
+    gap:4px
+  }
+  .hero__bottom a {
+    gap:14px
+  }
+  .hero__dots {
+    bottom:78px;
+    gap:11px
+  }
+  .hero__dots button {
+    height:11px;
+    width:11px
+  }
+  .photos figure {
+    height:auto;
+    width:100vw;
+    min-height:0;
+    aspect-ratio:1600/893
+  }
+  .section-bar {
+    padding:20px 16px;
+    align-items:start;
+    gap:12px
+  }
+  .section-bar h2 {
+    font-size:30px;
+    max-width:9ch
+  }
+  .section-bar .label {
+    font-size:10px;
+    max-width:110px;
+    white-space:normal;
+    text-align:end;
+    line-height:1.6
+  }
+  .pop {
+    height:680px;
+    min-height:0;
+    display:block
+  }
+  .pop__copy {
+    padding:24px 16px;
+    height:100%
+  }
+  .pop__word {
+    font-size:22vw;
+    max-width:6.5ch;
+    margin-top:-180px
+  }
+  .pop__copy>.label:last-child {
+    max-width:150px;
+    font-size:10px
+  }
+  .spin {
+    height:70%;
+    width:85%;
+    top:auto;
+    bottom:-3%;
+    right:-18%
+  }
+  .pattern__in figure {
+    height:490px
+  }
+  .tile {
+    height:440px
+  }
+  .wall {
+    height:700px;
+    min-height:0
+  }
+  .footer {
+    padding:30px 16px 0
+  }
+  .footer__grid {
+    grid-template-columns:1fr;
+    gap:32px
+  }
+  .footer li a {
+    font-size:8vw
+  }
+  .footer h3 {
+    margin-bottom:16px
+  }
+  .footer__social {
+    gap:4px;
+    justify-content:flex-start;
+    margin:0;
+    padding-top:24px
+  }
+  .footer__bottom {
+    flex-direction:column;
+    gap:12px
+  }
+  .menu {
+    padding:94px 16px 24px
+  }
+  .menu__links a {
+    font-size:10vw;
+    padding:16px 0
+  }
+  .menu__foot {
+    gap:20px
+  }
+  .menu__social {
+    gap:6px
+  }
+  .menu__social a {
+    padding:8px
+  }
+  .chip {
+    font-size:13px;
+    padding:12px 14px
+  }
+  html[lang=ar] .hero__logo {
+    height:26svh;
+    top:84px
+  }
+  html[lang=ar] .hero__title {
+    font-size:11vw;
+    bottom:112px
+  }
+  html[lang=ar] .pop__word {
+    font-size:20vw;
+    max-width:6ch;
+    margin-top:-160px
+  }
+  html[lang=ar] .spin {
+    right:auto;
+    left:-18%
+  }
+  html[lang=ar] .pop__copy {
+    padding:24px 16px
+  }
+  html[lang=ar] .section-bar h2 {
+    font-size:25px
+  }
+  html[lang=ar] .footer li a {
+    font-size:6.6vw
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation:none!important;
+    transition:none!important
+  }
+  html {
+    scroll-behavior:auto
+  }
+  .photos,.cans,.patterns,.strip {
+    overflow-x:auto;
+    touch-action:auto
+  }
+  .wall {
+    height:auto;
+    min-height:0
+  }
+  .wall__col {
+    transform:none!important
+  }
+  .hero__can {
+    transform:translate(-50%,-36%)
+  }
+  .curtain {
+    display:none
+  }
+}
+/* V5 layout refinements after desktop and phone visual review. */
+.hero__title {
+  z-index:4;
+  text-shadow:0 2px 18px #00148918
+}
+.curtain {
+  z-index:5
+}
+.hero__bottom,.hero__dots {
+  z-index:6
+}
+.hero__can {
+  height:66svh;
+  top:43%
+}
+.hero__can:first-child,.hero__can:last-child {
+  height:64svh;
+  top:46%
+}
+.pop__word {
+  white-space:pre-line;
+  max-width:none;
+  width:100%;
+  font-size:10.2vw
+}
+.pop__word.is-changing {
+  animation:type-wipe .65s var(--ease) both
+}
+@keyframes type-wipe {
+  from {
+    clip-path:inset(100% 0 0)
+  }
+  to {
+    clip-path:inset(0)
+  }
+}
+.pop__copy {
+  padding-block:40px
+}
+@media(max-width:656px) {
+  .hero__can {
+    height:60svh;
+    top:42%
+  }
+  .hero__can:first-child,.hero__can:last-child {
+    height:54svh;
+    top:46%
+  }
+  .section-bar h2 {
+    max-width:10ch;
+    font-size:27px
+  }
+  .section-bar .label {
+    max-width:88px
+  }
+  .pop__word {
+    font-size:20vw;
+    margin-top:-180px;
+    width:70%
+  }
+  .spin {
+    right:-12%;
+    width:80%
+  }
+  .pop__copy {
+    padding-block:24px
+  }
+  .hero__title {
+    z-index:4
+  }
+  html[lang=ar] .pop__word {
+    font-size:18vw;
+    width:95%;
+    max-width:none
+  }
+  html[lang=ar] .spin {
+    left:-12%
+  }
+}
+.hero__dots button {
+  width:24px;
+  height:24px;
+  border:0;
+  background:none;
+  position:relative;
+  transform:none!important
+}
+.hero__dots button:after {
+  content:'';
+  position:absolute;
+  inset:6px;
+  border:1px solid currentColor;
+  background:var(--d);
+  transition:transform .3s
+}
+.hero__dots button[aria-current=true]:after {
+  transform:scale(1.5)
+}
+@media(max-width:900px) {
+  .hero__dots {
+    gap:3px
+  }
+  .hero__dots button {
+    width:25px;
+    height:36px
+  }
+  .hero__dots button:after {
+    inset:12px 6px
+  }
+}
+/* Editorial system: clean media, small copy ribbons and white image gutters. */
+.pop { display:block }
+.spin,html[lang=ar] .spin {
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:auto
+}
+.spin > video { object-fit:contain }
+@media(max-width:656px) {
+  .pop { height:100svh; min-height:520px; max-height:900px }
+  #footLinks { gap:20px }
+  .footer__bottom { margin-top:32px }
+}
+/* Supplied films: an immersive hero and uncropped typography frames. */
+.hero { min-height:0; padding-top:72px; background:var(--navy) }
+.hero__media { position:relative; width:100%; height:calc(100svh - 72px) }
+.film-media > picture,.film-media > picture > img,.film-media > video {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover
+}
+.film-media > video { z-index:1; opacity:0 }
+.film-media > video.is-playing { opacity:1 }
+.pop { height:auto; min-height:0; max-height:none; aspect-ratio:16/9; background:#d4e400 }
+.pop__media { position:absolute; inset:0 }
+@media(max-aspect-ratio:1/1) {
+  .pop { aspect-ratio:9/16 }
+}
+@media(min-width:657px) and (max-width:1366px) {
+  .pop { height:100svh; aspect-ratio:auto }
+}
+@media(max-width:656px) {
+  .hero { height:100svh; min-height:0; max-height:none; padding-top:64px }
+  .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
+}
+
+.hero__headline { position:absolute; z-index:3; top:clamp(96px,8vw,120px); inset-inline:24px; margin:0; color:#fff; text-align:center; font-size:clamp(40px,6.3vw,96px); font-weight:900; line-height:1.05; letter-spacing:-.025em; text-transform:uppercase; text-wrap:balance; text-shadow:none; pointer-events:none }
+html[lang=ar] .hero__headline { line-height:1.4; letter-spacing:0 }
+@media(max-width:656px) { .hero__headline { top:88px; inset-inline:20px; font-size:clamp(34px,9.5vw,48px) } }
+.brand-statement { background:#fff; color:var(--navy); padding:clamp(48px,7vw,104px) 24px }
+.brand-statement__inner { max-width:1120px; margin:auto }
+.brand-statement h2 { margin:0 auto; max-width:23ch; font-size:clamp(34px,5.5vw,78px); font-weight:900; line-height:1.12; letter-spacing:-.035em; text-align:center; text-wrap:balance }
+.brand-messages { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:12px; margin-top:clamp(32px,5vw,64px); text-align:start }
+.brand-messages p { display:flex; align-items:center; margin:0; min-height:240px; padding:clamp(24px,3vw,40px); font-size:clamp(30px,3.2vw,46px); font-weight:900; line-height:1.1; letter-spacing:-.025em; text-wrap:balance }
+.brand-messages .brand-messages__refresh { background:#e8235a; color:#fff; font-size:clamp(23px,2.25vw,32px); line-height:1.2 }
+.brand-messages__resemble { background:#b9cc00; color:var(--navy) }
+.brand-messages__dare { background:var(--navy); color:#fff }
+html[lang=ar] .brand-messages p { letter-spacing:0; line-height:1.5 }
+@media(max-width:656px) { .brand-messages { grid-template-columns:1fr } .brand-messages p { min-height:148px; padding:28px; font-size:34px } .brand-messages .brand-messages__refresh { font-size:25px; min-height:200px } }
+.reach__mark { flex:none; width:156px; padding:14px 12px; background:#fff }
+.saudi-mark { display:block; width:100%; height:auto }
+.saudi-mark--ar, .pop[hidden] { display:none }
+html[lang=ar] .saudi-mark--en { display:none }
+html[lang=ar] .saudi-mark--ar { display:block }
+html[lang=ar] .brand-statement h2 { max-width:23ch; line-height:1.5; letter-spacing:0 }
+.values { background:var(--navy); color:#fff; padding:clamp(40px,5vw,72px) 0; overflow:hidden }
+.values__inner { max-width:1440px; margin:auto }
+.values__head { padding:0 clamp(24px,5vw,80px); display:flex; align-items:center; justify-content:space-between; gap:32px }
+.values h2 { font-size:clamp(23px,2.5vw,36px); line-height:1.2; font-weight:800; margin:0 }
+.values__intro { font-size:16px; line-height:1.5; max-width:36ch; margin:0; opacity:.75 }
+.values__list { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:0; margin:32px 0; list-style:none; overscroll-behavior-x:contain }
+.values__list::-webkit-scrollbar { display:none }
+.values__list li { flex:0 0 100%; min-width:0; box-sizing:border-box; scroll-snap-align:start; padding:clamp(32px,5vw,72px) clamp(24px,5vw,80px); display:flex; flex-direction:column; justify-content:center; min-height:340px }
+.values__list h3 { font-size:clamp(48px,7vw,104px); line-height:1.08; letter-spacing:-.035em; margin:0 0 24px; font-weight:900; max-width:18ch }
+.values__list p { font-size:clamp(19px,2.2vw,30px); line-height:1.5; margin:0; max-width:40ch }
+.values__controls { display:flex; align-items:center; gap:20px; padding:0 clamp(24px,5vw,80px) }
+.values__controls button { min-width:48px; height:48px; border:1px solid #ffffff80; color:inherit; font-size:24px }
+.values__controls button:last-child { margin-inline-start:auto; padding:0 18px; font-size:15px }
+.values__controls button:focus-visible,.values__list:focus-visible { outline:2px solid white; outline-offset:4px }
+html[lang=ar] .values__list h3 { letter-spacing:0; line-height:1.4 }
+html[lang=ar] #valuePrev,html[lang=ar] #valueNext { transform:scaleX(-1) }
+@media(max-width:656px) {
+ .brand-statement h2 { font-size:clamp(30px,8.6vw,46px) }
+ .reach__mark { width:132px; padding:12px 10px }
+ .values__head { display:block }
+ .values__intro { margin-top:16px }
+ .values__list li { min-height:330px }
+ .values__list h3 { font-size:clamp(40px,11vw,64px) }
+}
+
+/* Shared English and Arabic selector for the header and navigation. */
+.language-switcher { position:relative; flex:none }
+.language-globe { width:44px; height:44px; display:grid; place-items:center }
+.language-globe svg { width:24px; height:24px }
+.language-globe[aria-expanded=true] { background:var(--navy); color:white }
+.language-panel { position:absolute; top:calc(100% + 12px); inset-inline-end:0; width:300px; padding:8px; background:white; color:var(--navy); border:1px solid #00148925; box-shadow:0 12px 32px #00148920; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; z-index:1 }
+.language-panel[hidden] { display:none }
+.language-transition { position:fixed; inset:0; z-index:100; background:var(--navy); pointer-events:none; transform:translateX(-100%); will-change:transform }
+.language-option { min-height:48px; padding:10px 12px; text-align:start; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:14px; font-weight:600; font-family:Outfit,Cairo,sans-serif }
+.language-option::after { content:'✓'; opacity:0; font-family:Outfit,sans-serif }
+.language-option[aria-checked=true] { background:var(--navy); color:white }
+.language-option[aria-checked=true]::after { opacity:1 }
+.language-option:hover:not([aria-checked=true]) { background:#0014890d }
+.menu__links a,.footer li a { overflow-wrap:anywhere }
+@media(max-width:656px) {
+  .language-panel { position:fixed; top:72px; inset-inline:16px; width:auto; max-height:calc(100svh - 88px); overflow-y:auto }
+}
+@media(max-width:360px) {
+  .header__actions { gap:6px }
+  .header__shop { padding-inline:10px }
+}
+  /* Global presence: primary brand colours, with geography reused from V1. */
+  .reach { background: var(--navy); color: var(--white); padding: clamp(48px, 6vw, 88px) clamp(20px, 5vw, 72px) 32px; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: clip; }
+  .reach__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; }
+  .reach__from { display: block; font-family: Outfit, sans-serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.3; letter-spacing: .02em; font-weight: 600; margin-bottom: 14px; }
+  .reach__title { font-size: clamp(56px, 7.6vw, 112px); font-weight: 400; }
+  .reach__title > span:last-child { display: block; }
+  .reach__stat { padding-inline-start: clamp(24px, 4vw, 64px); border-inline-start: 1px solid rgba(255,255,255,.3); }
+  .reach__number { display: block; font-family: Anton, sans-serif; font-size: clamp(72px, 8vw, 120px); font-weight: 400; line-height: 1; letter-spacing: -.03em; direction: ltr; }
+  .reach__countries { display: block; font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; margin-top: 12px; }
+  .reach__map { position: relative; direction: ltr; width: 100%; max-width: 1320px; margin: 30px auto 10px; }
+  .reach__map svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .reach__land { fill: none; stroke: currentColor; stroke-width: 3.4; stroke-linecap: round; opacity: .32; }
+  .reach__routes { fill: currentColor; }
+  .reach__route { fill: none; stroke: currentColor; stroke-width: 1.15; opacity: .75; }
+  .reach__origin { fill: var(--navy); stroke: currentColor; stroke-width: 2; }
+  .reach__origin-core { fill: currentColor; }
+  .reach__origin-label { position: absolute; left: 61.87%; top: 43.17%; transform: translate(-50%, calc(-100% - 26px)); background: var(--navy); padding: 5px 9px; font-size: clamp(10px, 1vw, 14px); font-weight: 700; white-space: nowrap; }
+  .reach__note { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.3); font-size: 16px; line-height: 1.5; }
+  html[lang="ar"] .reach__from { font-family: Cairo, sans-serif; line-height: 1.5; letter-spacing: 0; }
+  html[lang="ar"] .reach__title { font-size: clamp(48px, 6.6vw, 96px); }
+  html[lang="ar"] .reach__number { font-family: Anton, sans-serif; }
+  @media (prefers-reduced-motion: no-preference) {
+    .reach.is-in .reach__route { animation: reach-route 1.7s var(--ease) both; animation-delay: calc(var(--route) * 65ms); }
+    @keyframes reach-route { from { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; } to { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .75; } }
+  }
+  @media (max-width: 656px) {
+    .reach { min-height: 0; padding-top: 48px; padding-bottom: 28px; }
+    .reach__head { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .reach__title { font-size: clamp(48px, 13vw, 82px); }
+    .reach__from { font-size: 18px; margin-bottom: 10px; }
+    .reach__stat { display: flex; align-items: center; gap: 24px; padding-inline-start: 0; border: 0; }
+    .reach__number { font-size: clamp(64px, 19vw, 96px); }
+    .reach__countries { font-size: 18px; max-width: 8em; margin: 0; line-height: 1.4; }
+    .reach__map { margin-block: 24px; }
+    .reach__land { stroke-width: 4; opacity: .42; }
+    .reach__route { stroke-width: 1.8; }
+    .reach__origin-label { transform: translate(-50%, calc(-100% - 12px)); font-size: 10px; padding: 3px 5px; }
+    .reach__note { align-items: flex-end; font-size: 14px; gap: 20px; padding-top: 20px; }
+      html[lang="ar"] .reach__title { font-size: clamp(44px, 12vw, 72px); }
+  }
+
+
+/* V7: a continuous product story, followed by people, commitments and origin. */
+.hero-discover{position:absolute;z-index:4;bottom:36px;left:50%;transform:translateX(-50%);background:white;color:var(--navy);padding:16px 24px;font-size:16px;font-weight:700;white-space:nowrap}
+.brand-intro{max-width:49ch;margin:28px auto 0;font-size:clamp(18px,2vw,24px);line-height:1.5;text-align:center}
+.brand-statement{padding-block:clamp(64px,8vw,120px)}
+.chapter-head{padding:clamp(48px,6vw,88px) clamp(24px,5vw,80px);background:var(--navy);color:white}
+.chapter-head h2,.journey-close h2{font-size:clamp(42px,6.5vw,96px);line-height:1.04;letter-spacing:-.04em;font-weight:900;margin:0;max-width:17ch;text-transform:uppercase;text-wrap:balance}
+.eyebrow{font-size:16px;margin:0 0 22px;font-weight:600}
+.chapter-bottom{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:28px}
+.chapter-head p:not(.eyebrow){font-size:clamp(18px,2vw,24px);line-height:1.5;margin:24px 0 0}
+.chapter-bottom p{margin:0!important}
+.journey-link{display:inline-flex;align-items:center;justify-content:space-between;gap:36px;border-bottom:1px solid currentColor;padding:14px 0;font-size:20px;font-weight:700;min-height:48px}
+.journey-link:hover{opacity:.75}
+.chapter-head--pink{background:#e8235a}
+.social-invite{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:28px;font-size:16px;font-weight:600}
+#lifeSocial{display:flex;gap:8px;flex-wrap:wrap}
+#lifeSocial a{display:grid;place-items:center;width:44px;height:44px;border:1px solid #ffffff80}
+#lifeSocial svg{width:21px;height:21px}
+.tile-name{position:absolute;bottom:18px;inset-inline:18px;z-index:5;width:fit-content;max-width:calc(100% - 36px);padding:10px 16px;background:white;color:var(--navy);font-size:18px;font-weight:700;pointer-events:none}
+.values{padding-block:clamp(48px,6vw,88px)}
+.values__head{align-items:start}
+.values__head h2{font-size:clamp(36px,5vw,64px)}
+.value-choices{display:flex;flex-wrap:wrap;gap:8px;padding:0 clamp(24px,5vw,80px);margin-top:32px}
+.value-choices button{padding:12px 16px;border:1px solid #ffffff70;font-size:16px;line-height:1.4;color:white;text-align:start}
+.value-choices button[aria-pressed=true]{background:white;color:var(--navy)}
+.values__list{margin:20px 0}
+.values__list li{min-height:230px;padding-block:28px}
+.values__list h3{font-size:clamp(32px,4vw,56px);margin-bottom:18px}
+.values__list p{font-size:clamp(18px,2vw,24px)}
+.reach__note{align-items:center}
+.reach__note .partner-note{font-size:16px;line-height:1.5;margin:10px 0 0}
+.journey-close{padding:clamp(56px,8vw,120px) clamp(24px,5vw,80px);background:#b9cc00;color:var(--navy)}
+.journey-close h2{max-width:none}
+.journey-close .journey-link{margin-top:28px;min-width:180px}
+html[lang=ar] .chapter-head h2,html[lang=ar] .journey-close h2{line-height:1.4;letter-spacing:0}
+@media(max-width:656px){.chapter-bottom{display:block}.chapter-bottom .journey-link{margin-top:18px}.hero-discover{bottom:24px}.brand-statement h2{font-size:34px}.brand-intro{font-size:18px}.chapter-head h2,.journey-close h2{font-size:44px}.values__list li{min-height:230px}.value-choices button{font-size:14px;padding:10px 12px}.values__head h2{font-size:36px}.reach__note{gap:24px}.tile-name{font-size:16px}}
+
+
+/* All seven commitments are visible together, without a second layer of copy. */
+.values{background:#fff;color:var(--navy);padding-block:clamp(48px,6vw,88px)}
+.values__intro{opacity:1}
+.values-boxes{list-style:none;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin:36px 0 0;padding:0 clamp(24px,5vw,80px)}
+.values-boxes li{display:flex;align-items:center;justify-content:center;min-height:112px;padding:18px 10px;background:#f0f2f9;color:var(--navy);font-size:clamp(15px,1.4vw,20px);font-weight:700;line-height:1.35;text-align:center;overflow-wrap:normal}
+html[lang=ar] .values-boxes li{line-height:1.6}
+@media(min-width:657px) and (max-width:1023px){.values-boxes{grid-template-columns:repeat(4,minmax(0,1fr))}.values-boxes li:last-child{grid-column:span 2}}
+@media(max-width:656px){.values-boxes{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}.values-boxes li{min-height:80px;padding:16px;font-size:16px}.values-boxes li:last-child{grid-column:1 / -1}}
+
+.flavor-divider{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));height:clamp(96px,14vw,200px);overflow:hidden;background:var(--navy)}
+.flavor-divider img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:center}
+@media(max-width:656px){.flavor-divider{height:112px;grid-template-columns:repeat(3,minmax(0,1fr))}.flavor-divider img:nth-child(n+4){display:none}}
+</style>
+</head>
+<body>
+<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="language-switcher"><button id="headerLang" class="language-globe" aria-label="Choose language" aria-haspopup="menu" aria-controls="languageMenu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></button><div id="languageMenu" class="language-panel" role="menu" aria-label="Choose language" hidden></div></div><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
+<main>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/hero-portrait.jpg"><img src="../assets/videos/campaign/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
+<section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="brand_claim">The fastest-growing soft beverage brand in the world.</h2><p class="brand-intro" data-i18n="brand_refresh">We provide authentic refreshment to inspire brilliant stories and experiences.</p></div></section>
+<div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://www.kinzabev.com" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
+<section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
+
+<section hidden class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/typography-portrait.jpg"><img src="../assets/videos/campaign/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
+<section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
+<div class="chapter-head chapter-head--pink"><h2 data-i18n="brand_resemble">WE RESEMBLE NO ONE.</h2><p data-i18n="life">Made for your kind of life</p><div class="social-invite"><span data-i18n="v7_follow">Follow Kinza</span><div id="lifeSocial"></div></div></div>
+<section class="life" id="life" data-i18n-label="life" aria-label="Made for your kind of life"><div class="wall" id="lifeIn"></div></section>
+<section class="values" id="values" aria-labelledby="valuesTitle"><div class="values__inner"><div class="values__head"><h2 id="valuesTitle" data-i18n="values_title">Rooted in our values.</h2><p class="values__intro" data-i18n="values_intro">Treasured in our culture. Lived through the way we make, create and care.</p></div><ul class="values-boxes"><li data-i18n="value_0">Quality</li><li data-i18n="value_1">Integrity</li><li data-i18n="value_2">Innovation</li><li data-i18n="value_3">Customer satisfaction</li><li data-i18n="value_4">Food safety</li><li data-i18n="value_5">Passion for flavor</li><li data-i18n="value_6">Responsibility</li></ul></div></section>
+<!-- Global reach: the map shows representative connections, not an exhaustive market list. -->
+<section class="reach" id="world" aria-labelledby="reachTitle">
+  <div class="reach__head">
+    <h2 class="reach__title display" id="reachTitle"><span class="reach__from" data-i18n="reach_from">From Saudi Arabia</span><span data-i18n="reach_world">To the world.</span></h2>
+    <p class="reach__stat"><span class="reach__number" dir="ltr">70+</span><span class="reach__countries" data-i18n="reach_countries">countries and growing</span></p>
+  </div>
+  <div class="reach__map" aria-hidden="true">
+    <svg viewBox="0 0 1000 450" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <path class="reach__land" d="M319.2 430.2h.1M312.6 421.6h.1M323.5 421.6h.1M320.3 413.0h.1M330.8 413.0h.1M314.0 404.4h.1M324.0 404.4h.1M937.3 404.4h.1M311.3 395.8h.1M320.9 395.8h.1M330.7 395.8h.1M882.3 395.8h.1M318.0 387.2h.1M327.4 387.2h.1M336.7 387.2h.1M952.6 387.2h.1M315.2 378.6h.1M324.3 378.6h.1M333.4 378.6h.1M342.3 378.6h.1M864.9 378.6h.1M874.0 378.6h.1M882.8 378.6h.1M321.6 370.0h.1M330.2 370.0h.1M338.8 370.0h.1M347.7 370.0h.1M356.3 370.0h.1M547.8 370.0h.1M556.7 370.0h.1M565.3 370.0h.1M809.0 370.0h.1M817.9 370.0h.1M852.6 370.0h.1M861.2 370.0h.1M870.1 370.0h.1M878.7 370.0h.1M887.4 370.0h.1M312.9 361.4h.1M321.5 361.4h.1M329.9 361.4h.1M338.6 361.4h.1M346.9 361.4h.1M355.6 361.4h.1M364.0 361.4h.1M551.1 361.4h.1M559.5 361.4h.1M567.9 361.4h.1M576.5 361.4h.1M806.1 361.4h.1M814.5 361.4h.1M822.9 361.4h.1M831.5 361.4h.1M839.9 361.4h.1M848.6 361.4h.1M857.0 361.4h.1M865.6 361.4h.1M874.0 361.4h.1M882.4 361.4h.1M891.0 361.4h.1M899.4 361.4h.1M321.5 352.8h.1M329.9 352.8h.1M338.1 352.8h.1M346.5 352.8h.1M354.6 352.8h.1M363.0 352.8h.1M371.4 352.8h.1M545.7 352.8h.1M553.9 352.8h.1M562.3 352.8h.1M570.5 352.8h.1M578.9 352.8h.1M803.1 352.8h.1M811.3 352.8h.1M819.7 352.8h.1M827.8 352.8h.1M836.2 352.8h.1M844.6 352.8h.1M852.8 352.8h.1M861.2 352.8h.1M869.4 352.8h.1M877.8 352.8h.1M885.9 352.8h.1M894.3 352.8h.1M902.7 352.8h.1M321.5 344.2h.1M329.7 344.2h.1M337.9 344.2h.1M345.8 344.2h.1M354.0 344.2h.1M362.1 344.2h.1M370.3 344.2h.1M540.6 344.2h.1M548.8 344.2h.1M556.7 344.2h.1M564.8 344.2h.1M573.0 344.2h.1M581.2 344.2h.1M589.1 344.2h.1M621.8 344.2h.1M800.0 344.2h.1M808.2 344.2h.1M816.3 344.2h.1M824.5 344.2h.1M832.7 344.2h.1M840.6 344.2h.1M848.8 344.2h.1M856.9 344.2h.1M865.1 344.2h.1M873.0 344.2h.1M881.2 344.2h.1M889.4 344.2h.1M897.5 344.2h.1M316.1 335.6h.1M324.0 335.6h.1M332.2 335.6h.1M340.1 335.6h.1M348.0 335.6h.1M356.0 335.6h.1M364.2 335.6h.1M372.1 335.6h.1M380.0 335.6h.1M388.0 335.6h.1M539.9 335.6h.1M548.1 335.6h.1M556.0 335.6h.1M564.0 335.6h.1M571.9 335.6h.1M580.1 335.6h.1M588.0 335.6h.1M620.0 335.6h.1M803.9 335.6h.1M811.8 335.6h.1M819.8 335.6h.1M827.7 335.6h.1M835.9 335.6h.1M843.8 335.6h.1M851.7 335.6h.1M859.7 335.6h.1M867.9 335.6h.1M875.8 335.6h.1M883.7 335.6h.1M891.6 335.6h.1M939.7 335.6h.1M318.9 327.0h.1M326.5 327.0h.1M334.5 327.0h.1M342.4 327.0h.1M350.4 327.0h.1M358.0 327.0h.1M366.0 327.0h.1M373.9 327.0h.1M381.9 327.0h.1M389.6 327.0h.1M539.5 327.0h.1M547.4 327.0h.1M555.1 327.0h.1M563.0 327.0h.1M571.0 327.0h.1M578.9 327.0h.1M586.6 327.0h.1M618.1 327.0h.1M626.1 327.0h.1M823.1 327.0h.1M831.0 327.0h.1M838.7 327.0h.1M846.7 327.0h.1M854.6 327.0h.1M862.6 327.0h.1M870.2 327.0h.1M878.2 327.0h.1M886.1 327.0h.1M305.8 318.4h.1M313.7 318.4h.1M321.4 318.4h.1M329.1 318.4h.1M336.8 318.4h.1M344.8 318.4h.1M352.5 318.4h.1M360.2 318.4h.1M367.9 318.4h.1M375.8 318.4h.1M383.5 318.4h.1M391.2 318.4h.1M531.0 318.4h.1M538.7 318.4h.1M546.7 318.4h.1M554.4 318.4h.1M562.1 318.4h.1M569.8 318.4h.1M577.7 318.4h.1M585.4 318.4h.1M593.1 318.4h.1M600.8 318.4h.1M624.2 318.4h.1M632.1 318.4h.1M834.0 318.4h.1M841.7 318.4h.1M849.4 318.4h.1M857.1 318.4h.1M865.1 318.4h.1M880.5 318.4h.1M301.0 309.8h.1M308.7 309.8h.1M316.4 309.8h.1M324.1 309.8h.1M331.5 309.8h.1M339.2 309.8h.1M346.9 309.8h.1M354.6 309.8h.1M362.3 309.8h.1M369.8 309.8h.1M377.5 309.8h.1M385.2 309.8h.1M392.9 309.8h.1M538.3 309.8h.1M546.0 309.8h.1M553.7 309.8h.1M561.1 309.8h.1M568.8 309.8h.1M576.5 309.8h.1M584.2 309.8h.1M591.9 309.8h.1M599.4 309.8h.1M607.1 309.8h.1M630.2 309.8h.1M852.1 309.8h.1M859.8 309.8h.1M298.6 301.2h.1M306.0 301.2h.1M313.7 301.2h.1M321.5 301.2h.1M328.9 301.2h.1M336.6 301.2h.1M344.1 301.2h.1M351.8 301.2h.1M359.2 301.2h.1M367.0 301.2h.1M374.7 301.2h.1M382.1 301.2h.1M389.8 301.2h.1M397.3 301.2h.1M541.8 301.2h.1M549.5 301.2h.1M556.9 301.2h.1M564.7 301.2h.1M572.1 301.2h.1M579.8 301.2h.1M587.5 301.2h.1M595.0 301.2h.1M602.7 301.2h.1M288.5 292.6h.1M296.2 292.6h.1M303.7 292.6h.1M311.2 292.6h.1M318.9 292.6h.1M326.3 292.6h.1M333.8 292.6h.1M341.5 292.6h.1M349.0 292.6h.1M356.4 292.6h.1M364.2 292.6h.1M371.6 292.6h.1M379.1 292.6h.1M386.8 292.6h.1M394.3 292.6h.1M401.7 292.6h.1M537.8 292.6h.1M545.3 292.6h.1M552.7 292.6h.1M560.5 292.6h.1M567.9 292.6h.1M575.4 292.6h.1M583.1 292.6h.1M590.6 292.6h.1M598.3 292.6h.1M794.6 292.6h.1M802.0 292.6h.1M870.0 292.6h.1M877.4 292.6h.1M892.6 292.6h.1M286.2 284.0h.1M294.0 284.0h.1M301.4 284.0h.1M308.9 284.0h.1M316.4 284.0h.1M323.8 284.0h.1M331.3 284.0h.1M338.7 284.0h.1M346.2 284.0h.1M353.9 284.0h.1M361.4 284.0h.1M368.9 284.0h.1M376.3 284.0h.1M383.8 284.0h.1M391.3 284.0h.1M398.7 284.0h.1M533.8 284.0h.1M541.3 284.0h.1M548.8 284.0h.1M556.2 284.0h.1M563.7 284.0h.1M571.2 284.0h.1M578.6 284.0h.1M586.1 284.0h.1M593.8 284.0h.1M601.3 284.0h.1M781.2 284.0h.1M818.5 284.0h.1M826.0 284.0h.1M871.0 284.0h.1M878.5 284.0h.1M885.9 284.0h.1M286.2 275.4h.1M293.9 275.4h.1M301.4 275.4h.1M308.8 275.4h.1M316.3 275.4h.1M323.8 275.4h.1M331.2 275.4h.1M338.7 275.4h.1M346.1 275.4h.1M353.9 275.4h.1M361.3 275.4h.1M368.8 275.4h.1M376.3 275.4h.1M526.1 275.4h.1M533.9 275.4h.1M541.3 275.4h.1M548.8 275.4h.1M556.3 275.4h.1M563.7 275.4h.1M571.2 275.4h.1M578.7 275.4h.1M586.1 275.4h.1M593.9 275.4h.1M601.3 275.4h.1M773.8 275.4h.1M796.2 275.4h.1M803.7 275.4h.1M818.6 275.4h.1M863.7 275.4h.1M871.2 275.4h.1M291.7 266.8h.1M299.2 266.8h.1M306.4 266.8h.1M313.9 266.8h.1M321.3 266.8h.1M328.8 266.8h.1M336.3 266.8h.1M343.7 266.8h.1M351.2 266.8h.1M358.7 266.8h.1M529.9 266.8h.1M537.3 266.8h.1M544.5 266.8h.1M552.0 266.8h.1M559.5 266.8h.1M566.9 266.8h.1M574.4 266.8h.1M581.9 266.8h.1M589.3 266.8h.1M596.8 266.8h.1M604.3 266.8h.1M611.7 266.8h.1M768.0 266.8h.1M775.5 266.8h.1M797.6 266.8h.1M805.1 266.8h.1M812.5 266.8h.1M820.0 266.8h.1M827.5 266.8h.1M842.4 266.8h.1M293.9 258.2h.1M301.4 258.2h.1M308.8 258.2h.1M316.3 258.2h.1M323.8 258.2h.1M331.2 258.2h.1M338.7 258.2h.1M346.2 258.2h.1M353.9 258.2h.1M361.4 258.2h.1M526.1 258.2h.1M533.9 258.2h.1M541.3 258.2h.1M548.8 258.2h.1M556.3 258.2h.1M563.7 258.2h.1M571.2 258.2h.1M578.7 258.2h.1M586.1 258.2h.1M593.8 258.2h.1M601.3 258.2h.1M608.8 258.2h.1M616.2 258.2h.1M623.7 258.2h.1M773.8 258.2h.1M803.7 258.2h.1M811.1 258.2h.1M294.0 249.6h.1M301.5 249.6h.1M308.9 249.6h.1M316.4 249.6h.1M323.9 249.6h.1M331.3 249.6h.1M338.8 249.6h.1M346.2 249.6h.1M473.9 249.6h.1M481.3 249.6h.1M488.8 249.6h.1M496.3 249.6h.1M503.7 249.6h.1M518.7 249.6h.1M526.1 249.6h.1M533.8 249.6h.1M541.3 249.6h.1M548.8 249.6h.1M556.2 249.6h.1M563.7 249.6h.1M571.2 249.6h.1M578.6 249.6h.1M586.1 249.6h.1M593.8 249.6h.1M601.3 249.6h.1M608.7 249.6h.1M616.2 249.6h.1M623.7 249.6h.1M811.0 249.6h.1M833.6 249.6h.1M281.1 241.0h.1M296.3 241.0h.1M303.8 241.0h.1M311.2 241.0h.1M318.9 241.0h.1M326.4 241.0h.1M333.8 241.0h.1M469.9 241.0h.1M477.4 241.0h.1M484.8 241.0h.1M492.5 241.0h.1M500.0 241.0h.1M507.5 241.0h.1M515.2 241.0h.1M522.6 241.0h.1M530.1 241.0h.1M537.8 241.0h.1M545.3 241.0h.1M552.7 241.0h.1M560.4 241.0h.1M567.9 241.0h.1M575.4 241.0h.1M583.1 241.0h.1M590.5 241.0h.1M598.3 241.0h.1M605.7 241.0h.1M613.2 241.0h.1M620.9 241.0h.1M628.3 241.0h.1M764.2 241.0h.1M832.1 241.0h.1M275.8 232.4h.1M313.8 232.4h.1M458.2 232.4h.1M465.7 232.4h.1M473.4 232.4h.1M481.1 232.4h.1M488.6 232.4h.1M496.3 232.4h.1M503.7 232.4h.1M511.4 232.4h.1M518.9 232.4h.1M526.6 232.4h.1M534.3 232.4h.1M541.8 232.4h.1M549.5 232.4h.1M556.9 232.4h.1M564.6 232.4h.1M572.1 232.4h.1M579.8 232.4h.1M587.5 232.4h.1M595.0 232.4h.1M602.7 232.4h.1M610.1 232.4h.1M633.0 232.4h.1M701.4 232.4h.1M709.1 232.4h.1M777.4 232.4h.1M784.9 232.4h.1M262.8 223.8h.1M270.5 223.8h.1M278.2 223.8h.1M461.7 223.8h.1M469.5 223.8h.1M477.2 223.8h.1M484.6 223.8h.1M492.3 223.8h.1M500.0 223.8h.1M507.7 223.8h.1M515.4 223.8h.1M522.8 223.8h.1M530.5 223.8h.1M538.3 223.8h.1M546.0 223.8h.1M553.7 223.8h.1M561.1 223.8h.1M568.8 223.8h.1M576.5 223.8h.1M584.2 223.8h.1M591.9 223.8h.1M599.3 223.8h.1M607.1 223.8h.1M614.8 223.8h.1M622.5 223.8h.1M630.2 223.8h.1M699.0 223.8h.1M706.7 223.8h.1M760.1 223.8h.1M767.8 223.8h.1M775.5 223.8h.1M783.2 223.8h.1M821.4 223.8h.1M236.1 215.2h.1M243.8 215.2h.1M251.5 215.2h.1M259.5 215.2h.1M461.3 215.2h.1M469.0 215.2h.1M476.7 215.2h.1M484.4 215.2h.1M492.3 215.2h.1M500.0 215.2h.1M507.7 215.2h.1M515.6 215.2h.1M523.3 215.2h.1M531.0 215.2h.1M538.7 215.2h.1M546.7 215.2h.1M554.4 215.2h.1M562.1 215.2h.1M569.7 215.2h.1M577.7 215.2h.1M585.4 215.2h.1M593.1 215.2h.1M600.8 215.2h.1M616.4 215.2h.1M624.1 215.2h.1M632.1 215.2h.1M639.8 215.2h.1M701.8 215.2h.1M709.5 215.2h.1M717.5 215.2h.1M756.2 215.2h.1M763.9 215.2h.1M771.6 215.2h.1M779.5 215.2h.1M224.5 206.6h.1M232.1 206.6h.1M240.1 206.6h.1M263.6 206.6h.1M295.1 206.6h.1M460.6 206.6h.1M468.5 206.6h.1M476.4 206.6h.1M484.1 206.6h.1M492.1 206.6h.1M500.0 206.6h.1M507.9 206.6h.1M515.9 206.6h.1M523.6 206.6h.1M531.5 206.6h.1M539.4 206.6h.1M547.4 206.6h.1M555.1 206.6h.1M563.0 206.6h.1M570.9 206.6h.1M578.9 206.6h.1M586.6 206.6h.1M594.5 206.6h.1M610.4 206.6h.1M618.0 206.6h.1M626.0 206.6h.1M633.9 206.6h.1M641.9 206.6h.1M649.5 206.6h.1M696.9 206.6h.1M704.9 206.6h.1M712.5 206.6h.1M720.5 206.6h.1M752.0 206.6h.1M759.9 206.6h.1M767.9 206.6h.1M775.5 206.6h.1M791.4 206.6h.1M221.9 198.0h.1M230.1 198.0h.1M238.0 198.0h.1M286.6 198.0h.1M463.8 198.0h.1M471.7 198.0h.1M479.9 198.0h.1M487.9 198.0h.1M496.0 198.0h.1M504.0 198.0h.1M512.1 198.0h.1M520.1 198.0h.1M528.3 198.0h.1M536.2 198.0h.1M544.4 198.0h.1M552.3 198.0h.1M560.5 198.0h.1M568.4 198.0h.1M576.6 198.0h.1M584.5 198.0h.1M592.7 198.0h.1M608.8 198.0h.1M616.7 198.0h.1M624.9 198.0h.1M632.8 198.0h.1M641.0 198.0h.1M648.9 198.0h.1M689.3 198.0h.1M697.3 198.0h.1M705.5 198.0h.1M713.4 198.0h.1M721.6 198.0h.1M729.5 198.0h.1M737.7 198.0h.1M745.9 198.0h.1M753.8 198.0h.1M762.0 198.0h.1M769.9 198.0h.1M778.1 198.0h.1M786.0 198.0h.1M794.2 198.0h.1M802.1 198.0h.1M818.2 198.0h.1M217.9 189.4h.1M226.1 189.4h.1M234.2 189.4h.1M242.4 189.4h.1M463.1 189.4h.1M471.3 189.4h.1M479.5 189.4h.1M487.6 189.4h.1M495.8 189.4h.1M504.2 189.4h.1M512.4 189.4h.1M520.5 189.4h.1M528.7 189.4h.1M536.9 189.4h.1M545.0 189.4h.1M553.2 189.4h.1M561.4 189.4h.1M569.5 189.4h.1M577.7 189.4h.1M585.9 189.4h.1M602.2 189.4h.1M610.4 189.4h.1M618.5 189.4h.1M626.7 189.4h.1M634.9 189.4h.1M659.4 189.4h.1M667.5 189.4h.1M675.7 189.4h.1M683.9 189.4h.1M692.0 189.4h.1M700.2 189.4h.1M708.4 189.4h.1M716.5 189.4h.1M724.7 189.4h.1M732.9 189.4h.1M741.3 189.4h.1M749.5 189.4h.1M757.6 189.4h.1M765.8 189.4h.1M773.9 189.4h.1M782.1 189.4h.1M790.3 189.4h.1M798.4 189.4h.1M806.6 189.4h.1M814.8 189.4h.1M207.1 180.8h.1M215.5 180.8h.1M223.9 180.8h.1M232.3 180.8h.1M240.5 180.8h.1M474.8 180.8h.1M483.2 180.8h.1M491.6 180.8h.1M500.0 180.8h.1M508.4 180.8h.1M516.8 180.8h.1M525.2 180.8h.1M533.4 180.8h.1M541.8 180.8h.1M550.2 180.8h.1M558.6 180.8h.1M567.0 180.8h.1M575.4 180.8h.1M583.8 180.8h.1M591.9 180.8h.1M600.3 180.8h.1M608.7 180.8h.1M617.1 180.8h.1M625.6 180.8h.1M642.4 180.8h.1M650.5 180.8h.1M658.9 180.8h.1M667.3 180.8h.1M675.7 180.8h.1M684.1 180.8h.1M692.5 180.8h.1M700.9 180.8h.1M709.1 180.8h.1M717.5 180.8h.1M725.9 180.8h.1M734.3 180.8h.1M742.7 180.8h.1M751.1 180.8h.1M759.5 180.8h.1M767.7 180.8h.1M776.1 180.8h.1M784.5 180.8h.1M792.9 180.8h.1M801.3 180.8h.1M809.7 180.8h.1M818.1 180.8h.1M195.7 172.2h.1M204.4 172.2h.1M213.0 172.2h.1M221.4 172.2h.1M230.0 172.2h.1M238.7 172.2h.1M247.3 172.2h.1M255.7 172.2h.1M264.3 172.2h.1M273.0 172.2h.1M281.4 172.2h.1M478.5 172.2h.1M487.2 172.2h.1M495.8 172.2h.1M504.2 172.2h.1M512.8 172.2h.1M521.5 172.2h.1M530.1 172.2h.1M538.5 172.2h.1M555.8 172.2h.1M564.2 172.2h.1M581.4 172.2h.1M590.1 172.2h.1M598.5 172.2h.1M607.1 172.2h.1M615.7 172.2h.1M624.4 172.2h.1M632.8 172.2h.1M641.4 172.2h.1M650.0 172.2h.1M658.4 172.2h.1M667.1 172.2h.1M675.7 172.2h.1M684.3 172.2h.1M692.7 172.2h.1M701.4 172.2h.1M710.0 172.2h.1M718.6 172.2h.1M727.0 172.2h.1M735.7 172.2h.1M744.3 172.2h.1M752.7 172.2h.1M761.3 172.2h.1M770.0 172.2h.1M778.6 172.2h.1M787.0 172.2h.1M795.6 172.2h.1M804.3 172.2h.1M812.9 172.2h.1M192.6 163.6h.1M201.5 163.6h.1M210.4 163.6h.1M219.0 163.6h.1M227.8 163.6h.1M236.7 163.6h.1M245.3 163.6h.1M254.2 163.6h.1M263.1 163.6h.1M271.7 163.6h.1M280.6 163.6h.1M289.4 163.6h.1M482.5 163.6h.1M491.1 163.6h.1M500.0 163.6h.1M508.9 163.6h.1M517.5 163.6h.1M526.4 163.6h.1M596.5 163.6h.1M605.4 163.6h.1M614.0 163.6h.1M622.9 163.6h.1M631.8 163.6h.1M640.4 163.6h.1M649.3 163.6h.1M658.1 163.6h.1M666.7 163.6h.1M675.6 163.6h.1M684.5 163.6h.1M693.1 163.6h.1M702.0 163.6h.1M710.6 163.6h.1M719.4 163.6h.1M728.3 163.6h.1M736.9 163.6h.1M745.8 163.6h.1M754.7 163.6h.1M763.3 163.6h.1M772.2 163.6h.1M781.0 163.6h.1M789.6 163.6h.1M798.5 163.6h.1M807.4 163.6h.1M842.3 163.6h.1M851.2 163.6h.1M191.2 155.0h.1M200.3 155.0h.1M209.4 155.0h.1M218.5 155.0h.1M227.3 155.0h.1M236.4 155.0h.1M245.5 155.0h.1M254.6 155.0h.1M263.7 155.0h.1M272.8 155.0h.1M281.9 155.0h.1M291.0 155.0h.1M300.1 155.0h.1M490.9 155.0h.1M518.2 155.0h.1M527.3 155.0h.1M572.8 155.0h.1M581.9 155.0h.1M591.0 155.0h.1M599.8 155.0h.1M608.9 155.0h.1M618.0 155.0h.1M627.1 155.0h.1M645.3 155.0h.1M654.4 155.0h.1M663.5 155.0h.1M672.6 155.0h.1M681.7 155.0h.1M690.8 155.0h.1M699.9 155.0h.1M709.0 155.0h.1M718.1 155.0h.1M727.2 155.0h.1M736.3 155.0h.1M745.4 155.0h.1M754.5 155.0h.1M763.6 155.0h.1M772.7 155.0h.1M781.5 155.0h.1M790.6 155.0h.1M799.7 155.0h.1M808.8 155.0h.1M836.1 155.0h.1M863.4 155.0h.1M180.0 146.4h.1M189.3 146.4h.1M198.6 146.4h.1M208.2 146.4h.1M217.5 146.4h.1M226.9 146.4h.1M236.4 146.4h.1M245.8 146.4h.1M255.3 146.4h.1M264.7 146.4h.1M274.0 146.4h.1M283.6 146.4h.1M292.9 146.4h.1M302.2 146.4h.1M481.1 146.4h.1M490.7 146.4h.1M556.4 146.4h.1M575.3 146.4h.1M584.7 146.4h.1M594.2 146.4h.1M603.6 146.4h.1M612.9 146.4h.1M622.5 146.4h.1M641.1 146.4h.1M650.7 146.4h.1M660.0 146.4h.1M669.6 146.4h.1M678.9 146.4h.1M688.2 146.4h.1M697.8 146.4h.1M707.1 146.4h.1M716.4 146.4h.1M726.0 146.4h.1M735.3 146.4h.1M744.7 146.4h.1M754.2 146.4h.1M763.6 146.4h.1M773.1 146.4h.1M782.5 146.4h.1M791.8 146.4h.1M801.4 146.4h.1M829.6 146.4h.1M867.1 146.4h.1M187.3 137.8h.1M197.1 137.8h.1M206.9 137.8h.1M216.7 137.8h.1M226.5 137.8h.1M236.3 137.8h.1M246.1 137.8h.1M255.9 137.8h.1M265.7 137.8h.1M275.2 137.8h.1M285.0 137.8h.1M294.8 137.8h.1M304.6 137.8h.1M314.4 137.8h.1M480.4 137.8h.1M490.2 137.8h.1M500.0 137.8h.1M529.4 137.8h.1M548.7 137.8h.1M558.5 137.8h.1M568.3 137.8h.1M607.5 137.8h.1M617.3 137.8h.1M636.9 137.8h.1M646.4 137.8h.1M656.2 137.8h.1M666.0 137.8h.1M675.8 137.8h.1M685.6 137.8h.1M695.4 137.8h.1M705.2 137.8h.1M715.0 137.8h.1M724.8 137.8h.1M734.3 137.8h.1M744.1 137.8h.1M753.9 137.8h.1M763.7 137.8h.1M773.5 137.8h.1M783.3 137.8h.1M793.1 137.8h.1M802.9 137.8h.1M812.7 137.8h.1M822.5 137.8h.1M832.0 137.8h.1M861.4 137.8h.1M185.4 129.2h.1M195.5 129.2h.1M205.7 129.2h.1M215.7 129.2h.1M226.0 129.2h.1M236.0 129.2h.1M246.3 129.2h.1M256.5 129.2h.1M266.5 129.2h.1M276.8 129.2h.1M286.8 129.2h.1M297.1 129.2h.1M307.1 129.2h.1M317.3 129.2h.1M327.3 129.2h.1M337.6 129.2h.1M500.0 129.2h.1M510.3 129.2h.1M520.3 129.2h.1M530.5 129.2h.1M540.5 129.2h.1M550.8 129.2h.1M560.8 129.2h.1M571.1 129.2h.1M591.3 129.2h.1M601.6 129.2h.1M611.6 129.2h.1M631.9 129.2h.1M642.1 129.2h.1M652.1 129.2h.1M662.4 129.2h.1M672.7 129.2h.1M682.7 129.2h.1M692.9 129.2h.1M702.9 129.2h.1M713.2 129.2h.1M723.2 129.2h.1M733.5 129.2h.1M743.5 129.2h.1M753.7 129.2h.1M764.0 129.2h.1M774.0 129.2h.1M784.3 129.2h.1M794.3 129.2h.1M804.5 129.2h.1M814.6 129.2h.1M824.8 129.2h.1M834.8 129.2h.1M845.1 129.2h.1M184.7 120.6h.1M195.4 120.6h.1M206.2 120.6h.1M216.9 120.6h.1M227.6 120.6h.1M238.1 120.6h.1M248.8 120.6h.1M259.5 120.6h.1M270.2 120.6h.1M281.0 120.6h.1M291.7 120.6h.1M302.4 120.6h.1M312.9 120.6h.1M355.8 120.6h.1M494.6 120.6h.1M505.4 120.6h.1M516.1 120.6h.1M526.8 120.6h.1M537.5 120.6h.1M548.0 120.6h.1M558.7 120.6h.1M569.4 120.6h.1M580.2 120.6h.1M590.9 120.6h.1M601.6 120.6h.1M612.3 120.6h.1M622.8 120.6h.1M633.5 120.6h.1M644.2 120.6h.1M655.0 120.6h.1M665.7 120.6h.1M676.4 120.6h.1M687.1 120.6h.1M697.6 120.6h.1M708.3 120.6h.1M719.0 120.6h.1M729.8 120.6h.1M740.5 120.6h.1M751.2 120.6h.1M761.9 120.6h.1M772.4 120.6h.1M783.1 120.6h.1M793.8 120.6h.1M804.6 120.6h.1M815.3 120.6h.1M826.0 120.6h.1M836.7 120.6h.1M847.2 120.6h.1M184.1 112.0h.1M195.3 112.0h.1M206.5 112.0h.1M217.9 112.0h.1M229.1 112.0h.1M240.5 112.0h.1M251.7 112.0h.1M263.1 112.0h.1M274.3 112.0h.1M285.7 112.0h.1M296.9 112.0h.1M308.0 112.0h.1M319.5 112.0h.1M330.6 112.0h.1M342.1 112.0h.1M488.8 112.0h.1M500.0 112.0h.1M511.2 112.0h.1M522.6 112.0h.1M533.8 112.0h.1M545.2 112.0h.1M556.4 112.0h.1M567.8 112.0h.1M579.0 112.0h.1M590.4 112.0h.1M601.6 112.0h.1M612.7 112.0h.1M624.2 112.0h.1M635.3 112.0h.1M646.8 112.0h.1M657.9 112.0h.1M669.4 112.0h.1M680.5 112.0h.1M692.0 112.0h.1M703.1 112.0h.1M714.3 112.0h.1M725.7 112.0h.1M736.9 112.0h.1M748.3 112.0h.1M759.5 112.0h.1M770.9 112.0h.1M782.1 112.0h.1M793.5 112.0h.1M804.7 112.0h.1M815.9 112.0h.1M827.3 112.0h.1M838.5 112.0h.1M849.9 112.0h.1M861.1 112.0h.1M183.1 103.4h.1M195.0 103.4h.1M206.8 103.4h.1M219.0 103.4h.1M230.8 103.4h.1M243.0 103.4h.1M254.8 103.4h.1M266.7 103.4h.1M278.8 103.4h.1M290.7 103.4h.1M302.5 103.4h.1M314.7 103.4h.1M326.5 103.4h.1M338.7 103.4h.1M350.5 103.4h.1M482.1 103.4h.1M493.9 103.4h.1M517.9 103.4h.1M529.8 103.4h.1M541.9 103.4h.1M553.8 103.4h.1M565.9 103.4h.1M577.8 103.4h.1M589.6 103.4h.1M601.8 103.4h.1M613.6 103.4h.1M625.5 103.4h.1M637.6 103.4h.1M649.5 103.4h.1M661.3 103.4h.1M673.5 103.4h.1M685.3 103.4h.1M697.5 103.4h.1M709.3 103.4h.1M721.2 103.4h.1M733.3 103.4h.1M745.2 103.4h.1M757.0 103.4h.1M769.2 103.4h.1M781.0 103.4h.1M793.2 103.4h.1M805.0 103.4h.1M816.9 103.4h.1M829.0 103.4h.1M840.9 103.4h.1M852.7 103.4h.1M900.7 103.4h.1M169.2 94.8h.1M181.7 94.8h.1M194.5 94.8h.1M207.3 94.8h.1M220.1 94.8h.1M232.7 94.8h.1M245.5 94.8h.1M258.3 94.8h.1M270.8 94.8h.1M309.0 94.8h.1M321.8 94.8h.1M334.6 94.8h.1M487.2 94.8h.1M525.4 94.8h.1M538.2 94.8h.1M563.8 94.8h.1M576.3 94.8h.1M589.1 94.8h.1M601.9 94.8h.1M614.5 94.8h.1M627.3 94.8h.1M640.1 94.8h.1M652.6 94.8h.1M665.4 94.8h.1M678.2 94.8h.1M691.0 94.8h.1M703.6 94.8h.1M716.4 94.8h.1M729.2 94.8h.1M741.7 94.8h.1M754.5 94.8h.1M767.3 94.8h.1M779.9 94.8h.1M792.7 94.8h.1M805.5 94.8h.1M818.3 94.8h.1M830.8 94.8h.1M843.6 94.8h.1M894.6 94.8h.1M907.4 94.8h.1M98.7 86.2h.1M112.2 86.2h.1M153.1 86.2h.1M166.8 86.2h.1M180.2 86.2h.1M194.0 86.2h.1M207.4 86.2h.1M221.1 86.2h.1M234.6 86.2h.1M248.3 86.2h.1M261.8 86.2h.1M316.4 86.2h.1M520.5 86.2h.1M533.9 86.2h.1M561.1 86.2h.1M574.8 86.2h.1M588.5 86.2h.1M602.0 86.2h.1M615.7 86.2h.1M629.2 86.2h.1M642.9 86.2h.1M656.4 86.2h.1M670.1 86.2h.1M683.6 86.2h.1M697.3 86.2h.1M710.8 86.2h.1M724.5 86.2h.1M738.2 86.2h.1M751.7 86.2h.1M765.4 86.2h.1M778.9 86.2h.1M792.6 86.2h.1M806.0 86.2h.1M819.8 86.2h.1M833.2 86.2h.1M846.9 86.2h.1M901.3 86.2h.1M91.2 77.6h.1M106.0 77.6h.1M120.9 77.6h.1M135.8 77.6h.1M150.6 77.6h.1M165.5 77.6h.1M180.4 77.6h.1M195.2 77.6h.1M210.1 77.6h.1M225.0 77.6h.1M239.8 77.6h.1M254.7 77.6h.1M314.2 77.6h.1M388.5 77.6h.1M522.3 77.6h.1M537.2 77.6h.1M566.9 77.6h.1M581.8 77.6h.1M596.6 77.6h.1M611.5 77.6h.1M626.4 77.6h.1M641.2 77.6h.1M656.1 77.6h.1M671.0 77.6h.1M685.8 77.6h.1M700.7 77.6h.1M715.6 77.6h.1M730.4 77.6h.1M745.3 77.6h.1M760.2 77.6h.1M775.0 77.6h.1M789.9 77.6h.1M804.8 77.6h.1M819.6 77.6h.1M834.5 77.6h.1M849.4 77.6h.1M864.2 77.6h.1M879.1 77.6h.1M894.0 77.6h.1M908.8 77.6h.1M923.7 77.6h.1M97.5 69.0h.1M113.5 69.0h.1M129.7 69.0h.1M145.7 69.0h.1M161.7 69.0h.1M177.9 69.0h.1M193.9 69.0h.1M210.2 69.0h.1M226.2 69.0h.1M242.4 69.0h.1M258.4 69.0h.1M274.6 69.0h.1M290.6 69.0h.1M322.8 69.0h.1M387.3 69.0h.1M451.8 69.0h.1M532.2 69.0h.1M548.2 69.0h.1M564.5 69.0h.1M580.5 69.0h.1M612.7 69.0h.1M628.9 69.0h.1M644.9 69.0h.1M661.2 69.0h.1M677.2 69.0h.1M693.1 69.0h.1M709.4 69.0h.1M725.4 69.0h.1M741.6 69.0h.1M757.6 69.0h.1M773.8 69.0h.1M789.8 69.0h.1M806.1 69.0h.1M822.1 69.0h.1M838.3 69.0h.1M854.3 69.0h.1M870.3 69.0h.1M886.5 69.0h.1M902.5 69.0h.1M918.8 69.0h.1M934.8 69.0h.1M87.2 60.4h.1M105.3 60.4h.1M123.1 60.4h.1M141.2 60.4h.1M159.0 60.4h.1M177.1 60.4h.1M194.9 60.4h.1M212.8 60.4h.1M230.8 60.4h.1M248.7 60.4h.1M266.7 60.4h.1M284.6 60.4h.1M302.6 60.4h.1M320.5 60.4h.1M338.5 60.4h.1M356.4 60.4h.1M374.5 60.4h.1M392.3 60.4h.1M410.4 60.4h.1M428.2 60.4h.1M446.3 60.4h.1M464.1 60.4h.1M482.2 60.4h.1M500.0 60.4h.1M517.8 60.4h.1M679.5 60.4h.1M114.4 51.8h.1M134.7 51.8h.1M236.3 51.8h.1M276.8 51.8h.1M297.1 51.8h.1M317.5 51.8h.1M378.3 51.8h.1M398.4 51.8h.1M418.8 51.8h.1M560.8 51.8h.1M662.4 51.8h.1M682.5 51.8h.1M702.9 51.8h.1M723.2 51.8h.1M743.6 51.8h.1M763.7 51.8h.1M784.1 51.8h.1M804.4 51.8h.1M824.8 51.8h.1M844.9 51.8h.1M865.3 51.8h.1M885.6 51.8h.1M219.2 43.2h.1M289.4 43.2h.1M312.9 43.2h.1M383.1 43.2h.1M406.5 43.2h.1M429.8 43.2h.1M710.6 43.2h.1M734.0 43.2h.1M757.3 43.2h.1M780.8 43.2h.1M804.2 43.2h.1M223.2 34.6h.1M278.5 34.6h.1M361.5 34.6h.1M389.1 34.6h.1M417.0 34.6h.1M444.7 34.6h.1M749.2 34.6h.1M832.4 34.6h.1M295.8 26.0h.1M363.9 26.0h.1M397.9 26.0h.1M431.9 26.0h.1M534.0 26.0h.1M738.3 26.0h.1M322.5 17.4h.1M367.0 17.4h.1M411.2 17.4h.1M455.7 17.4h.1"/>
+      <g class="reach__routes"><path class="reach__route" style="--route:0" pathLength="1" d="M618.7 194.3Q426.2 7.4 233.7 96.0"/><circle cx="233.7" cy="96.0" r="3.5"/><path class="reach__route" style="--route:1" pathLength="1" d="M618.7 194.3Q432.4 62.5 246.0 148.2"/><circle cx="246.0" cy="148.2" r="3.5"/><path class="reach__route" style="--route:2" pathLength="1" d="M618.7 194.3Q558.1 80.3 497.5 108.3"/><circle cx="497.5" cy="108.3" r="3.5"/><path class="reach__route" style="--route:3" pathLength="1" d="M618.7 194.3Q572.0 83.4 525.4 111.4"/><circle cx="525.4" cy="111.4" r="3.5"/><path class="reach__route" style="--route:4" pathLength="1" d="M618.7 194.3Q600.1 157.1 581.5 185.1"/><circle cx="581.5" cy="185.1" r="3.5"/><path class="reach__route" style="--route:5" pathLength="1" d="M618.7 194.3Q570.0 166.3 521.3 240.4"/><circle cx="521.3" cy="240.4" r="3.5"/><path class="reach__route" style="--route:6" pathLength="1" d="M618.7 194.3Q593.5 166.3 568.2 357.1"/><circle cx="568.2" cy="357.1" r="3.5"/><path class="reach__route" style="--route:7" pathLength="1" d="M618.7 194.3Q662.5 166.3 706.3 203.5"/><circle cx="706.3" cy="203.5" r="3.5"/><path class="reach__route" style="--route:8" pathLength="1" d="M618.7 194.3Q695.3 159.0 772.0 258.8"/><circle cx="772.0" cy="258.8" r="3.5"/><path class="reach__route" style="--route:9" pathLength="1" d="M618.7 194.3Q735.9 140.4 853.2 344.8"/><circle cx="853.2" cy="344.8" r="3.5"/></g>
+      <path d="M618.7 184.3v-24" stroke="currentColor" stroke-width="1" fill="none"/>
+      <circle class="reach__origin" cx="618.7" cy="194.3" r="10"/>
+      <circle class="reach__origin-core" cx="618.7" cy="194.3" r="4"/>
+    </svg>
+    <span class="reach__origin-label" data-i18n="reach_saudi">Saudi Arabia</span>
+  </div>
+  <div class="reach__note"><div><a class="journey-link" href="https://kinza.jotform.com/team/kinza-partner/kinza" target="_blank" rel="noopener"><span data-i18n="l2">Become a partner</span><span aria-hidden="true">↗</span></a><p class="partner-note" data-i18n="l2s">Distributors and retailers</p></div><div class="reach__mark"><img class="saudi-mark saudi-mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000"><img class="saudi-mark saudi-mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986"></div></div>
+</section>
+<div class="flavor-divider" aria-hidden="true"><img src="../assets/patterns/flavors/blackcurrant.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/citrus.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/orange.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/lemon.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/pomegranate.jpg" alt="" loading="lazy" width="900" height="1370"><img src="../assets/patterns/flavors/cocktail.jpg" alt="" loading="lazy" width="900" height="1370"></div>
+</main>
+<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
+
+<script>
+  const T = {
+    reach_from: { en: 'From Saudi Arabia', ar: 'من السعودية' },
+    reach_world: { en: 'To the world.', ar: 'إلى العالم.' },
+    reach_countries: { en: 'countries and growing', ar: 'دولة والعدد في ازدياد' },
+    reach_saudi: { en: 'Saudi Arabia', ar: 'السعودية' },
+    reach_note: { en: 'Saudi roots. A world of possibilities.', ar: 'جذور سعودية. آفاق عالمية.' },
+    reach_ribbon: { en: 'From Saudi Arabia to the world', ar: 'من السعودية إلى العالم' },
+    like: { en: 'Like no one else', ar: 'ما نشبه أحد' }, flavors: { en: 'Ten flavors. Full attitude.', ar: 'عشر نكهات. ما نشبه أحد.' }, discover: { en: 'Explore the flavors', ar: 'اكتشف النكهات' }, scroll: { en: 'Scroll to explore', ar: 'مرّر واكتشف' }, world: { en: 'A world of flavor', ar: 'عالم من النكهات' }, life: { en: 'Made for your kind of life', ar: 'لكل لحظة في حياتك' }, spark: { en: 'Spark of brilliance', ar: 'شرارة الإبداع' }, drag: { en: 'Drag to discover', ar: 'اسحب واكتشف' }, touch: { en: 'Hover or tap a can', ar: 'المس العبوة واكتشف' }, made: { en: 'Made in Saudi', ar: 'صنع في السعودية' },
+    back: { en: 'Back to top', ar: 'العودة للأعلى' }, productLabel: { en: 'Product photography', ar: 'صور المنتجات' }, patternLabel: { en: 'Flavor artwork', ar: 'رسومات النكهات' }, flavorLabel: { en: 'Flavors', ar: 'النكهات' },
+    lang: { en: 'العربية', ar: 'English' }, shop: { en: 'Shop online', ar: 'تسوّق أونلاين' }, shopNow: { en: 'Shop now', ar: 'تسوّق الآن' }, menu: { en: 'Menu', ar: 'القائمة' },
+    f_cola: { en: 'Cola', ar: 'كولا' }, f_diet: { en: 'Diet Cola', ar: 'دايت كولا' }, f_lemon: { en: 'Lemon', ar: 'ليمون' },
+    f_orange: { en: 'Orange', ar: 'برتقال' }, f_citrus: { en: 'Citrus', ar: 'حمضيات' }, f_lemonzero: { en: 'Lemon Zero', ar: 'ليمون بدون سكر' },
+    f_blackcurrant: { en: 'Blackcurrant', ar: 'توت بري' }, f_pomegranate: { en: 'Pomegranate', ar: 'رمان' }, f_soda: { en: 'Soda Water', ar: 'مياه غازية' }, f_cocktail: { en: 'Saudi Cocktail', ar: 'كوكتيل سعودي' },
+    say: { en: 'The fastest-growing Saudi beverage brand in the world', ar: 'العلامة السعودية الأسرع نمواً في عالم المشروبات' },
+    f_explore: { en: 'Explore', ar: 'اكتشف' }, f_lang: { en: 'Language', ar: 'اللغة' },
+    f_made: { en: 'Designed, born and made in Saudi Arabia', ar: 'صُممت ووُلدت وصُنعت في السعودية' },
+    l1: { en: 'Discover Aseer', ar: 'اكتشف عسير' }, l1s: { en: 'Where the brand comes from', ar: 'حيث بدأت العلامة' },
+    l2: { en: 'Become a partner', ar: 'كن شريكاً' }, l2s: { en: 'Distributors and retailers', ar: 'للموزعين وتجار التجزئة' },
+    l3: { en: 'Join the team', ar: 'انضم للفريق' }, l3s: { en: 'Careers in Saudi Arabia', ar: 'وظائف في السعودية' },
+    l4: { en: 'Online store', ar: 'المتجر الإلكتروني' }, l4s: { en: 'Every flavor, delivered', ar: 'كل النكهات توصل لبابك' },
+    l5: { en: 'Instagram', ar: 'إنستغرام' }, l6: { en: 'TikTok', ar: 'تيك توك' }, l7: { en: 'Snapchat', ar: 'سناب شات' }, l8: { en: 'YouTube', ar: 'يوتيوب' }, l9: { en: 'X', ar: 'X' }, l10: { en: 'Facebook', ar: 'فيسبوك' }
+  };
+  Object.assign(T, {"claim_start": {"en": "The fastest-growing", "ar": "علامة المشروبات"}, "claim_end": {"en": "beverage brand in the world.", "ar": "الأسرع نمواً في العالم."}, "message_title": {"en": "We resemble no one.", "ar": "ما نشبه أحد."}, "message_note": {"en": "Authentic refreshment. Rich taste.", "ar": "انتعاش أصيل. مذاق غني."}, "values_title": {"en": "Rooted in our values.", "ar": "قيمنا هي جذورنا."}, "values_intro": {"en": "Treasured in our culture. Lived through the way we make, create and care.", "ar": "قيم متجذرة في ثقافتنا، نعيشها في كل ما نصنعه ونبتكره ونقدمه."}, "value_0": {"en": "Quality", "ar": "الجودة"}, "value_desc_0": {"en": "High-quality ingredients, products and service.", "ar": "مكونات ومنتجات وخدمات عالية الجودة."}, "value_1": {"en": "Integrity", "ar": "النزاهة"}, "value_desc_1": {"en": "Transparency in how we source, produce and communicate.", "ar": "الشفافية في التوريد والإنتاج والتواصل."}, "value_2": {"en": "Innovation", "ar": "الابتكار"}, "value_desc_2": {"en": "Fresh ideas and continuous improvement.", "ar": "أفكار جديدة وتطوير مستمر."}, "value_3": {"en": "Customer satisfaction", "ar": "رضا العملاء"}, "value_desc_3": {"en": "Listening to your needs and striving to exceed expectations.", "ar": "نستمع إلى احتياجاتكم ونسعى لتجاوز توقعاتكم."}, "value_4": {"en": "Food safety", "ar": "سلامة الغذاء"}, "value_desc_4": {"en": "Care at every step, from production to delivery.", "ar": "عناية في كل خطوة، من الإنتاج إلى التوصيل."}, "value_5": {"en": "Passion for flavor", "ar": "الشغف بالنكهة"}, "value_desc_5": {"en": "A passion for exciting, refreshing flavors.", "ar": "شغف بنكهات مميزة ومنعشة."}, "value_6": {"en": "Responsibility", "ar": "المسؤولية"}, "value_desc_6": {"en": "Accountable business practices and care for our community.", "ar": "ممارسات مسؤولة واهتمام بمجتمعنا."}});
+  Object.assign(T, {value_prev:{en:'Previous value',ar:'القيمة السابقة'},value_next:{en:'Next value',ar:'القيمة التالية'},value_pause:{en:'Pause',ar:'إيقاف مؤقت'},value_play:{en:'Play',ar:'تشغيل'}});
+  Object.assign(T, {"brand_claim": {"en": "The fastest-growing soft beverage brand in the world.", "ar": "العلامة الأسرع نمواً في عالم المشروبات الغازية."}, "brand_refresh": {"en": "We provide authentic refreshment to inspire brilliant stories and experiences.", "ar": "نقدم انتعاشاً أصيلاً لنلهم قصصاً وتجارب متألقة."}, "brand_resemble": {"en": "We Resemble No One", "ar": "ما نشبه أحد"}, "brand_dare": {"en": "Dare To Try", "ar": "تجرّأ على التجربة"}});
+  Object.assign(T, {"brand_claim": {"en": "The fastest-growing Saudi beverage brand in the world.", "ar": "العلامة السعودية الأسرع نمواً في عالم المشروبات."}, "v7_flavors": {"en": "Ten flavors. Find yours.", "ar": "عشر نكهات. اكتشف نكهتك."}, "v7_explore": {"en": "Explore the flavors. Discover their patterns.", "ar": "اكتشف النكهات وتعرّف على نقوشها."}, "v7_follow": {"en": "Follow Kinza", "ar": "تابع كينزا"}, "v7_find": {"en": "Find your flavor.", "ar": "اكتشف نكهتك."}, "values_intro": {"en": "Our values shape what we make and how we work.", "ar": "قيمنا توجه ما نصنعه وكيف نعمل."}});
+  const LANGUAGES = [
+    { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' }
+  ];
+  T.heroHeadline = { en:'THE SPARK OF BRILLIANCE', ar:'شرارة الإبداع' };
+  T.scrollLeft = { en:'Scroll left', ar:'مرر لليسار' };
+  T.scrollRight = { en:'Scroll right', ar:'مرر لليمين' };
+  T.chooseLanguage = { en:'Choose language', ar:'اختر اللغة' };
+  T.stripe = { en:'Ten Flavors. We Resemble No One', ar:'عشر نكهات. ما نشبه أحد' };
+  const supportedLanguage = code => LANGUAGES.some(l => l.code === code);
+  const languageDirection = code => LANGUAGES.find(l => l.code === code)?.dir || 'ltr';
+  // id, background, ink on it, splash colours, pattern motif (from the client's Pantone sheet)
+  const FL = [
+    ['cola', '#001489', '#ffffff', ['#e8235a', '#e9e7dc', '#e8235a'], 'star'],
+    ['diet', '#cfd2d8', '#001489', ['#001489', '#e8235a', '#ffffff'], 'star'],
+    ['lemon', '#009639', '#e9e7dc', ['#ffd100', '#e9e7dc', '#ffd100'], 'slice'],
+    ['orange', '#f28c00', '#e9e7dc', ['#d62e1f', '#ffd100', '#e9e7dc'], 'slice'],
+    ['citrus', '#b9cc00', '#001489', ['#ffd100', '#1e8a45', '#ffffff'], 'slice'],
+    ['lemonzero', '#1e8a45', '#e9e7dc', ['#e9e7dc', '#ffd100', '#b9cc00'], 'slice'],
+    ['blackcurrant', '#5f259f', '#e9e7dc', ['#1b2a80', '#b9cc00', '#e9e7dc'], 'berries'],
+    ['pomegranate', '#b6203c', '#e9e7dc', ['#ff5a3c', '#1e8a45', '#e9e7dc'], 'pome'],
+    ['soda', '#1fa8dd', '#001489', ['#ffffff', '#001489', '#ffffff'], 'bubbles'],
+    ['cocktail', '#d9a21b', '#001489', ['#d62e1f', '#1e8a45', '#ffffff'], 'star']
+  ];
+  const FLI = Object.fromEntries(FL.map(f => [f[0], f]));
+  // Six supplied product photographs.
+  const PRODUCTS = ['photos/products-2026-09-08/still-1.webp', 'photos/products-2026-09-08/still-2.webp', 'photos/products-2026-09-08/still-3.webp', 'photos/products-2026-09-08/still-4.webp', 'photos/products-2026-09-08/still-5.webp', 'photos/products-2026-09-08/still-6.webp'];
+  // Nine supplied portrait artworks. Soda water has no supplied artwork.
+  const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'soda', 'cocktail']);
+  const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
+  // Fifty selected photographs from the September 9 client collection.
+  const LIFE = Array.from({ length: 50 }, (_, i) => `photos/lifestyle-2026-09-09/people-${String(i + 1).padStart(2, '0')}.webp`);
+  const CARDS = [
+    ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
+    ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
+    ['https://kinza.jotform.com/form/join-kinza-team', 'l3'],
+    ['https://www.kinzabev.com', 'l4']
+  ];
+  const SOCIAL = [
+    ['https://www.instagram.com/kinzabev', 'l5', '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/>'],
+    ['https://www.tiktok.com/@kinzabev', 'l6', '<path d="M19.6 8.6a5.8 5.8 0 0 1-3.6-1.3v6.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3a2.5 2.5 0 1 0 1.7 2.4V2.5h2.9a4.7 4.7 0 0 0 3.6 3.4v2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.snapchat.com/add/kinzabev', 'l7', '<path d="M12 3c3 0 5 2.2 5 5.2v2.3c.8.2 1.4-.2 1.8 0 .3.4-.4 1-1.4 1.4.5 1.8 1.9 3 3.6 3.4-.5 1-1.7 1.1-2.4 1.3-.2.6-.2 1.2-.7 1.2-.7 0-1.4-.4-2.4 0-.9.4-1.8 1.4-3.5 1.4s-2.6-1-3.5-1.4c-1-.4-1.7 0-2.4 0-.5 0-.5-.6-.7-1.2-.7-.2-1.9-.3-2.4-1.3 1.7-.4 3.1-1.6 3.6-3.4-1-.4-1.7-1-1.4-1.4.4-.2 1 .2 1.8 0V8.2C7 5.2 9 3 12 3z"/>'],
+    ['https://www.youtube.com/@kinzabev', 'l8', '<rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.3l5 2.7-5 2.7z" fill="currentColor" stroke="none"/>'],
+    ['https://www.twitter.com/kinzabev', 'l9', '<path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.2l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2z" fill="currentColor" stroke="none"/>'],
+    ['https://www.facebook.com/KinzaBev/', 'l10', '<path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.6c-.3-.04-1.3-.13-2.4-.13-2.4 0-4 1.45-4 4.1v2.3H7.6V14h2.7v8z" fill="currentColor" stroke="none"/>']
+  ];
+
+  let lang = 'en';
+  const tr = key => T[key]?.[lang] ?? T[key]?.en ?? '';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+
+  // Load the matching supplied format only when its chapter is visible.
+  function mountFilm(id, name) {
+    if (reduced) return;
+    const media = document.getElementById(id);
+    const portrait = matchMedia('(max-aspect-ratio:1/1)');
+    const video = document.createElement('video');
+    video.muted = true; video.loop = true; video.playsInline = true;
+    video.preload = 'none';
+    video.setAttribute('muted', ''); video.setAttribute('playsinline', '');
+    let visible = false, failed = false, source = '';
+    const sync = () => {
+      if (failed) return;
+      if (!visible || document.hidden) { video.pause(); return; }
+      const next = `../assets/videos/campaign/${name}-${portrait.matches ? 'portrait' : 'landscape'}`;
+      if (next !== source) {
+        source = next;
+        video.classList.remove('is-playing');
+        video.poster = `${source}.jpg`;
+        video.src = `${source}${name === 'hero' ? '-web' : ''}.mp4`;
+      }
+      video.play().catch(() => {});
+    };
+    video.addEventListener('playing', () => {
+      if (visible && !document.hidden) video.classList.add('is-playing');
+      else video.pause();
+    });
+    video.addEventListener('error', () => { failed = true; video.remove(); });
+    media.appendChild(video);
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(media);
+    portrait.addEventListener('change', () => { video.classList.remove('is-playing'); sync(); });
+    document.addEventListener('visibilitychange', sync);
+  }
+  mountFilm('heroMedia', 'hero');
+  // Typography film retained but not mounted while the chapter is hidden.
+
+  /* ---------- the one reveal ---------- */
+  const rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  const watch = () => document.querySelectorAll('.rv:not(.is-in), .reach:not(.is-in)').forEach(el => rvIO.observe(el));
+
+  /* ---------- burst + pattern drawing ---------- */
+  function petals(cols, n, r0, r1, seed) {
+    let out = '';
+    for (let i = 0; i < n; i++) {
+      const a = i * 360 / n + (seed || 0), len = r0 + ((i * 7 + 3) % 5) * (r1 - r0) / 4, w = 2 + (i % 3), dist = 34 + ((i * 5) % 4) * 6;
+      out += `<ellipse cx="0" cy="${-(dist + len / 2)}" rx="${w}" ry="${len / 2}" fill="${cols[i % cols.length]}" transform="rotate(${a})"/>`;
+      if (i % 4 === 1) out += `<circle cx="0" cy="${-(dist + len + 8)}" r="${1.4 + (i % 2)}" fill="${cols[(i + 1) % cols.length]}" transform="rotate(${a + 4})"/>`;
+    }
+    return out;
+  }
+  function motif(kind, cols) {
+    const a = cols[0], b = cols[1] || cols[0], p = '#fff';
+    if (kind === 'slice') return `<circle r="24" fill="${p}"/><circle r="20" fill="${a}"/>` + [0, 45, 90, 135].map(d => `<line x1="-20" y1="0" x2="20" y2="0" stroke="${p}" stroke-width="2.4" transform="rotate(${d})"/>`).join('') + `<circle r="3" fill="${p}"/>`;
+    if (kind === 'berries') return `<line x1="0" y1="26" x2="0" y2="-22" stroke="${p}" stroke-width="2.5"/>` + [[0, -22, 8], [-12, -8, 8], [12, -6, 8], [-8, 8, 7], [9, 10, 7], [0, 0, 6]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${b}" stroke="${p}" stroke-width="1.5"/>`).join('');
+    if (kind === 'pome') { let d = ''; for (let y = -16; y <= 16; y += 8) for (let x = -16; x <= 16; x += 8) if (x * x + y * y < 330) d += `<circle cx="${x}" cy="${y + 4}" r="2.8" fill="${a}"/>`; return `<path d="M0 -30 L10 -18 A22 22 0 1 1 -10 -18 Z" fill="${p}"/>${d}`; }
+    if (kind === 'bubbles') return [[0, 0, 12], [-18, -14, 6], [16, -18, 8], [18, 12, 5], [-16, 14, 7], [4, 24, 4]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${p}" stroke-width="2.2"/>`).join('');
+    let pts = ''; for (let i = 0; i < 16; i++) { const r = i % 2 ? 9 : 26, t = i * Math.PI / 8; pts += `${(r * Math.sin(t)).toFixed(1)},${(-r * Math.cos(t)).toFixed(1)} `; }
+    return `<polygon points="${pts}" fill="${a}"/><circle r="5" fill="${p}"/>`;
+  }
+  const patternSource = id => id === 'cola' ? '../assets/patterns/v5/cola.svg' : (id === 'lemonzero' || id === 'diet') ? `../assets/patterns/v5/${id}.jpg` : `../assets/patterns/flavors/${id}.jpg`;
+  const bigPattern = id => PATTERN.has(id) ? `<img src="${patternSource(id)}" alt="" loading="lazy" />` : '';
+
+  // The hero darkens into the next chapter as it leaves.
+  (function () {
+    const curtain = document.getElementById('curtain');
+    const draw = () => { curtain.style.opacity = Math.min(1, Math.max(0, scrollY / (innerHeight || 1))) * .92; };
+    addEventListener('scroll', draw, { passive: true }); addEventListener('resize', draw); draw();
+  })();
+
+  /* ---------- header + menu panel ---------- */
+  (function () {
+    const h = document.getElementById('header'), menu = document.getElementById('menu'), btn = document.getElementById('menuBtn');
+    const hero = document.getElementById('top');
+    const f = () => {
+      h.classList.toggle('is-solid', scrollY > 40);
+      const hidden = scrollY > 0 && !menu.classList.contains('is-open');
+      h.classList.toggle('is-past-hero', hidden);
+      h.inert = hidden;
+      if (hidden) {
+        document.getElementById('languageMenu').hidden = true;
+        document.getElementById('headerLang').setAttribute('aria-expanded', 'false');
+      }
+    };
+    addEventListener('scroll', f, { passive:true });
+    addEventListener('resize', f);
+    new ResizeObserver(f).observe(hero);
+    f();
+    document.getElementById('menuLinks').innerHTML = CARDS.map(([href, k]) => `<a class="display" href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a>`).join('');
+    document.getElementById('menuSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
+    function setMenu(open) {
+      menu.classList.toggle('is-open', open); h.classList.toggle('is-open', open);
+      document.querySelector('main').inert = open; document.querySelector('footer').inert = open; menu.inert = !open;
+      btn.setAttribute('aria-expanded', String(open)); document.documentElement.classList.toggle('menu-open', open);
+      f();
+      if (open || !h.inert) (open ? menu.querySelector('a') : btn).focus({ preventScroll: true });
+    }
+    menu.inert = true;
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Tab' || !menu.classList.contains('is-open')) return;
+      const items = [btn, ...menu.querySelectorAll('a,button')];
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    btn.addEventListener('click', () => setMenu(!menu.classList.contains('is-open')));
+    menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) setMenu(false); });
+  })();
+
+  /* ---------- strips ---------- */
+  function buildStrips() {
+    document.querySelectorAll('.strip__in').forEach(track => {
+      const copy = tr(track.dataset.copy || 'stripe');
+      const phrase = `<span lang="${lang}" dir="${languageDirection(lang)}">${esc(copy)}</span>`;
+      // Each repeated item includes its spacing, so the half-track loop joins exactly.
+      track.innerHTML = phrase.repeat(24);
+    });
+  }
+  // Photo and artwork tracks contain one finite set. Only text tickers repeat.
+  const fig = src => `<figure><img src="../assets/${encodeURI(src)}" alt="" loading="lazy" /></figure>`;
+  document.getElementById('productsIn').innerHTML = PRODUCTS.map(fig).join('');
+
+  /* YoYo gallery1/gallery4: finite transform sweeps, custom ease, one second at
+     each end. Browser animations keep fractional motion off the scroll pipeline. */
+  const galleryEase = 'cubic-bezier(.2, 0, .05, 1)';
+  function observeGallery(viewport, change) {
+    let observer;
+    const observe = () => {
+      if (observer) observer.disconnect();
+      observer = new IntersectionObserver(es => change(es[0].isIntersecting), {
+        rootMargin: `${viewport.clientHeight / 3}px 0px`
+      });
+      observer.observe(viewport);
+    };
+    new ResizeObserver(observe).observe(viewport);
+    observe();
+  }
+  function galleryMotion(viewport, track, count, options = {}) {
+    let animation, timer, deadline = 0, visible = false, pressing = false, keyboard = false;
+    let position = 0, direction = 1, dragged = false, inertia = 0;
+    let manualUntil = 0, freeX = null, steerFrame = 0, steerSpeed = 0;
+    const manualDelay = options.freeControl ? 3000 : 1000;
+    const limit = () => Math.max(0, track.offsetWidth - viewport.clientWidth);
+    const clamp = x => Math.max(0, Math.min(limit(), x));
+    const draw = () => { track.style.transform = `translate3d(${-position}px,0,0)`; };
+    function schedule(ms) {
+      clearTimeout(timer); deadline = performance.now() + ms;
+      timer = setTimeout(() => { deadline = 0; run(); }, ms);
+    }
+    function stop() {
+      clearTimeout(timer); deadline = 0;
+      if (animation) {
+        position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+        animation.cancel(); animation = null; draw();
+      }
+      cancelAnimationFrame(inertia);
+      cancelAnimationFrame(steerFrame); steerFrame = 0;
+    }
+    function run() {
+      if (reduced || !visible || document.hidden || pressing || keyboard || animation || !limit()) return;
+      const remaining = manualUntil-performance.now();
+      if (remaining > 0) { schedule(remaining); return; }
+      clearTimeout(timer);
+      track.classList.remove('is-held');
+      viewport.classList.remove('is-free-control'); freeX = null;
+      const end = direction > 0 ? limit() : 0;
+      if (Math.abs(end-position) < 5) {
+        options.onEnd?.(direction);
+        position = end; draw(); direction *= -1; schedule(1000); return;
+      }
+      options.onAuto?.(direction);
+      const duration = Math.max(1600, count * 2400 * Math.abs(end-position) / limit());
+      animation = track.animate([
+        { transform: `translate3d(${-position}px,0,0)` },
+        { transform: `translate3d(${-end}px,0,0)` }
+      ], { duration, easing: galleryEase, fill: 'forwards' });
+      const roll = animation;
+      roll.onfinish = () => {
+        if (animation !== roll) return;
+        position = end; roll.cancel(); animation = null; draw(); run();
+      };
+    }
+    function hold(ms = manualDelay) {
+      stop(); track.classList.add('is-held');
+      options.onManual?.();
+      if (options.freeControl) {
+        manualUntil = ms ? performance.now()+ms : 0;
+        viewport.classList.toggle('is-free-control', !!ms);
+      }
+      if (ms) schedule(ms);
+    }
+    function reset() { stop(); position = clamp(position); draw(); run(); }
+    // A released pointer steers the row instead of carrying a can along with it.
+    // The middle fifth is still, so another can can be selected without drifting.
+    function steer(x) {
+      cancelAnimationFrame(steerFrame);
+      const bounds = viewport.getBoundingClientRect(), zone = bounds.width * .4;
+      steerSpeed = x < bounds.left + zone ? -Math.min(1, (bounds.left + zone-x)/zone)
+        : x > bounds.right-zone ? Math.min(1, (x-bounds.right+zone)/zone) : 0;
+      let last = performance.now();
+      const tick = now => {
+        if (!steerSpeed || pressing || !visible || document.hidden || now >= manualUntil) return;
+        position = clamp(position + steerSpeed * Math.min(32, now-last) * .9);
+        direction = steerSpeed > 0 ? 1 : -1; last = now; draw();
+        steerFrame = requestAnimationFrame(tick);
+      };
+      if (steerSpeed) steerFrame = requestAnimationFrame(tick);
+    }
+    observeGallery(viewport, active => {
+      visible = active;
+      if (active) {
+        track.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+        run();
+      } else stop();
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
+    new ResizeObserver(reset).observe(viewport);
+    viewport.addEventListener('pointerdown', e => {
+      if (e.target.closest('.gallery-arrows') || reduced || !e.isPrimary || e.button !== 0) return;
+      const remaining = Math.max(0, deadline-performance.now());
+      clearTimeout(timer); deadline = 0; cancelAnimationFrame(inertia);
+      if (animation) {
+        const time = animation.currentTime ?? 0;
+        animation.pause(); animation.currentTime = time;
+        position = -new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+      }
+      pressing = true; dragged = false; keyboard = false;
+      cancelAnimationFrame(steerFrame);
+      freeX = null;
+      const startX = e.clientX, startY = e.clientY, start = position;
+      let lastX = startX, lastTime = performance.now(), velocity = 0;
+      const move = ev => {
+        if (ev.pointerId !== e.pointerId) return;
+        const dx = ev.clientX-startX, dy = ev.clientY-startY;
+        if (!dragged && Math.abs(dx) <= Math.max(5, Math.abs(dy))) return;
+        if (!dragged) stop();
+        dragged = true; viewport.classList.add('is-drag');
+        const now = performance.now();
+        velocity = Math.max(-3, Math.min(3, (lastX-ev.clientX) / Math.max(1, now-lastTime)));
+        lastX = ev.clientX; lastTime = now;
+        position = clamp(start-dx); direction = dx < 0 ? 1 : -1; draw();
+      };
+      const end = ev => {
+        if (ev.pointerId !== e.pointerId) return;
+        pressing = false; viewport.classList.remove('is-drag');
+        removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+        if (options.freeControl) {
+          freeX = ev.pointerType === 'mouse' ? ev.clientX : null;
+          hold();
+          if (dragged) setTimeout(() => { dragged = false; }, 0);
+          return;
+        }
+        if (!dragged) {
+          track.classList.remove('is-held');
+          if (visible && !document.hidden && !keyboard) {
+            if (animation) animation.play();
+            else if (remaining) schedule(remaining);
+            else run();
+          }
+          return;
+        }
+        if (ev.type === 'pointercancel' || performance.now()-lastTime > 100) velocity = 0;
+        let time = performance.now();
+        const coast = now => {
+          const dt = Math.min(32, now-time); time = now;
+          const next = clamp(position + velocity*dt);
+          velocity *= Math.exp(-dt/240);
+          if (Math.abs(next-position) < .1 || Math.abs(velocity) < .02) { hold(1000); return; }
+          position = next; draw(); inertia = requestAnimationFrame(coast);
+        };
+        inertia = requestAnimationFrame(coast);
+        setTimeout(() => { dragged = false; }, 0);
+      };
+      addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
+    });
+    viewport.addEventListener('pointermove', e => {
+      if (e.target.closest('.gallery-arrows') || !options.freeControl || reduced || pressing || e.pointerType !== 'mouse' || e.buttons || performance.now() >= manualUntil) return;
+      if (freeX === null) { freeX = e.clientX; return; }
+      const delta = freeX-e.clientX; freeX = e.clientX;
+      if (Math.abs(delta) < .5) return;
+      hold(); steer(e.clientX);
+    });
+    viewport.addEventListener('pointerleave', () => { freeX = null; cancelAnimationFrame(steerFrame); });
+    viewport.addEventListener('wheel', e => {
+      const delta = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+      if (reduced || !delta) return;
+      e.preventDefault(); hold(); position = clamp(position + delta); direction = delta > 0 ? 1 : -1; draw();
+    }, { passive: false });
+    // Only keyboard focus holds a row. Mouse hover and mouse focus never do.
+    viewport.addEventListener('focusin', e => {
+      if (reduced || !e.target.matches(':focus-visible')) return;
+      keyboard = true; hold(0);
+      const tile = e.target.closest('.tile');
+      if (tile) { position = clamp(tile.offsetLeft); draw(); }
+    });
+    viewport.addEventListener('focusout', e => {
+      if (!viewport.contains(e.relatedTarget)) { keyboard = false; hold(); }
+    });
+    // Absorb browser scrolling used to reveal focused buttons into the transform.
+    viewport.addEventListener('scroll', () => {
+      if (reduced || !viewport.scrollLeft) return;
+      stop(); position = clamp(position + viewport.scrollLeft); viewport.scrollLeft = 0; draw(); run();
+    });
+    const arrows = document.createElement('div');
+    arrows.className = 'gallery-arrows';
+    arrows.innerHTML = [-1,1].map(dir => `<button type="button" class="gallery-arrow" data-step="${dir}" data-i18n-label="${dir < 0 ? 'scrollLeft' : 'scrollRight'}" aria-label="${dir < 0 ? 'Scroll left' : 'Scroll right'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="${dir < 0 ? 'M14 5l-7 7 7 7M7 12h14' : 'M10 5l7 7-7 7M17 12H3'}"/></svg></button>`).join('');
+    viewport.append(arrows);
+    arrows.addEventListener('click', e => {
+      const button = e.target.closest('[data-step]');
+      if (!button) return;
+      const step = Number(button.dataset.step);
+      const stride = track.children[1] ? track.children[1].offsetLeft-track.children[0].offsetLeft : viewport.clientWidth;
+      if (reduced) { viewport.scrollBy({ left:step*stride, behavior:'instant' }); return; }
+      hold(0); freeX = null; direction = step;
+      const target = clamp((step > 0 ? Math.floor(position/stride+.01)+1 : Math.ceil(position/stride-.01)-1)*stride);
+      const start = position;
+      animation = track.animate([{transform:`translate3d(${-start}px,0,0)`},{transform:`translate3d(${-target}px,0,0)`}], {duration:500,easing:'ease-in-out',fill:'forwards'});
+      const roll = animation;
+      roll.onfinish = () => {
+        if (animation !== roll) return;
+        position = target; roll.cancel(); animation = null; draw(); hold(3000);
+      };
+    });
+    return { hold, reset, wasDragged: () => dragged };
+  }
+  const productViewport = document.getElementById('products'), productTrack = document.getElementById('productsIn');
+  galleryMotion(productViewport, productTrack, PRODUCTS.length);
+
+  const tiles = document.getElementById('tiles'), cans = tiles.parentElement;
+  const on = new Set();
+  const canMotion = galleryMotion(cans, tiles, FL.length, {
+    freeControl: true,
+    onManual() {
+      if (tiles.dataset.autoFace === 'patterns') {
+        tiles.querySelectorAll('.tile').forEach(b => { on.add(b.dataset.id); b.setAttribute('aria-pressed', 'true'); });
+      }
+      delete tiles.dataset.autoFace;
+    },
+    onEnd(direction) { if (direction < 0) tiles.dataset.autoFace = 'cans'; },
+    onAuto(direction) {
+      tiles.dataset.autoFace = direction > 0 ? 'patterns' : 'cans';
+      on.clear(); tiles.querySelectorAll('.tile').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    }
+  });
+  function buildTiles() {
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id))}"><div class="tile__pat" aria-hidden="true">${bigPattern(id)}</div><img src="../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    canMotion.reset();
+  }
+  tiles.addEventListener('click', e => {
+    const b = e.target.closest('.tile'); if (!b || canMotion.wasDragged()) return;
+    canMotion.hold();
+    const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
+    b.setAttribute('aria-pressed', String(on.has(id)));
+  });
+
+  (function peopleMotion() {
+    const wall = document.getElementById('lifeIn'), phone = matchMedia('(max-width: 656px)');
+    let animations = [], timer, visible = false, forward = true, progress = 0, preparing = false;
+    let photoCursor = reduced ? LIFE.length : 12;
+    let selection = reduced ? [...LIFE] : LIFE.slice(0, 12);
+    async function refreshHiddenPhotos() {
+      const bounds = wall.getBoundingClientRect();
+      const occupied = new Set(selection);
+      const replacements = [];
+      [...wall.children].forEach((col, c) => {
+        [...col.children].forEach((figure, row) => {
+          const rect = figure.getBoundingClientRect();
+          if (rect.bottom > bounds.top && rect.top < bounds.bottom) return;
+          if (occupied.size === LIFE.length) return;
+          const index = row*wall.children.length+c;
+          let next;
+          do { next = LIFE[photoCursor++ % LIFE.length]; } while (occupied.has(next));
+          occupied.add(next);
+          const img = figure.querySelector('img');
+          replacements.push((async () => {
+            const ready = new Image(); ready.src = `../assets/${next}`;
+            let timeout;
+            const loaded = await Promise.race([
+              ready.decode().then(() => true, () => false),
+              new Promise(resolve => { timeout = setTimeout(() => resolve(false), 4000); })
+            ]);
+            clearTimeout(timeout);
+            return loaded ? { img, figure, index, next, ready } : null;
+          })());
+        });
+      });
+      const loaded = await Promise.all(replacements);
+      const currentBounds = wall.getBoundingClientRect();
+      loaded.forEach(item => {
+        if (!item || !item.img.isConnected) return;
+        const rect = item.figure.getBoundingClientRect();
+        if (rect.bottom > currentBounds.top && rect.top < currentBounds.bottom) return;
+        selection[item.index] = item.next;
+        item.ready.alt = item.img.alt; item.ready.loading = 'eager';
+        item.img.replaceWith(item.ready);
+      });
+    }
+    function stop() {
+      clearTimeout(timer);
+      const first = wall.firstElementChild, distance = first ? Math.max(0, first.offsetHeight-wall.clientHeight) : 0;
+      if (distance) progress = Math.max(0, Math.min(1, -new DOMMatrixReadOnly(getComputedStyle(first).transform).m42 / distance));
+      animations.forEach(a => a.cancel()); animations = [];
+      draw();
+    }
+    function draw() {
+      [...wall.children].forEach((col, i) => {
+        const distance = Math.max(0, col.offsetHeight-wall.clientHeight);
+        col.style.transform = `translate3d(0,${-distance*(i === 1 ? 1-progress : progress)}px,0)`;
+      });
+    }
+    function run() {
+      if (reduced || !visible || document.hidden || animations.length || preparing) return;
+      clearTimeout(timer);
+      const cols = [...wall.children], distance = Math.max(0, cols[0].offsetHeight-wall.clientHeight);
+      if (!distance) return;
+      const target = forward ? 1 : 0;
+      if (Math.abs(target-progress)*distance < 5) { forward = !forward; timer = setTimeout(run, 1000); return; }
+      const fullDuration = Math.max(2800, Math.max(...cols.map(c => c.children.length))*2700/7);
+      const duration = Math.max(1000, fullDuration*Math.abs(target-progress));
+      animations = cols.map((col, i) => {
+        const travel = Math.max(0, col.offsetHeight-wall.clientHeight);
+        return col.animate([
+          { transform: `translate3d(0,${-travel*(i === 1 ? 1-progress : progress)}px,0)` },
+          { transform: `translate3d(0,${-travel*(i === 1 ? 1-target : target)}px,0)` }
+        ], { duration, easing: galleryEase, fill: 'forwards' });
+      });
+      const rolls = animations;
+      rolls[0].onfinish = () => {
+        if (animations !== rolls) return;
+        progress = target; rolls.forEach(a => a.cancel()); animations = []; draw();
+        // Swap only offscreen photos during the pause before the next roll.
+        preparing = true;
+        refreshHiddenPhotos().finally(() => { preparing = false; run(); });
+      };
+    }
+    function batchSize() {
+      if (reduced) return LIFE.length;
+      const count = phone.matches ? 2 : 3, gap = parseFloat(getComputedStyle(wall).columnGap) || 0;
+      const row = (wall.clientWidth-gap*(count-1))/count * 790/635 + gap;
+      // Leave a complete row outside the window for invisible photo replacements.
+      return Math.min(LIFE.length, Math.max(12, count*(Math.ceil((wall.clientHeight+gap)/row)+1)));
+    }
+    function build() {
+      stop();
+      const count = phone.matches ? 2 : 3;
+      const size = batchSize();
+      selection = selection.slice(0, size);
+      while (selection.length < size) {
+        const next = LIFE[photoCursor++ % LIFE.length];
+        if (!selection.includes(next)) selection.push(next);
+      }
+      wall.style.gridTemplateColumns = `repeat(${count}, minmax(0, 1fr))`;
+      wall.innerHTML = Array.from({ length: count }, (_, c) => `<div class="wall__col">${selection.filter((_, i) => i % count === c).map(fig).join('')}</div>`).join('');
+      draw(); run();
+    }
+    build(); phone.addEventListener('change', build);
+    new ResizeObserver(() => {
+      if (selection.length !== batchSize()) build();
+      else { stop(); draw(); run(); }
+    }).observe(wall);
+    observeGallery(wall, active => {
+      visible = active;
+      if (active) { wall.querySelectorAll('img').forEach(img => { img.loading = 'eager'; }); run(); }
+      else stop();
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
+  })();
+
+  /* ---------- footer, language ---------- */
+  document.getElementById('footLinks').innerHTML = CARDS.map(([href, k]) => `<li><a href="${href}" target="_blank" rel="noopener" data-i18n="${k}">${T[k].en}</a></li>`).join('');
+  document.getElementById('lifeSocial').innerHTML = SOCIAL.map(([href,k,d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
+  document.getElementById('footSocial').innerHTML = SOCIAL.map(([href, k, d]) => `<a href="${href}" target="_blank" rel="noopener" aria-label="${T[k].en}">${ico(d)}</a>`).join('');
+  function applyLang(next) {
+    if (!supportedLanguage(next)) return;
+    lang = next;
+    document.documentElement.lang = lang; document.documentElement.dir = languageDirection(lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => { if (T[el.dataset.i18n]) el.textContent = tr(el.dataset.i18n); });
+    document.getElementById('menuBtn').setAttribute('aria-label', tr('menu'));
+    document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', tr(el.dataset.i18nLabel)));
+    buildStrips(); buildTiles();
+    document.querySelectorAll('#menuSocial a,#footSocial a,#lifeSocial a').forEach((a,i)=>a.setAttribute('aria-label',tr(SOCIAL[i%SOCIAL.length][1])));
+    document.getElementById('headerLang').setAttribute('aria-label', `${tr('chooseLanguage')}: ${LANGUAGES.find(l => l.code === lang).name}`);
+    document.getElementById('languageMenu').setAttribute('aria-label', tr('chooseLanguage'));
+    document.querySelectorAll('#languageMenu [data-l]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.l === lang)));
+    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
+    try { const url = new URL(location.href); url.searchParams.set('lang', lang); history.replaceState(null, '', url); } catch (_) {}
+  }
+  let pendingLanguage = null, languageTransition = false;
+  async function switchLanguage(next) {
+    if (!supportedLanguage(next)) return;
+    pendingLanguage = next;
+    if (languageTransition) return;
+    if (next === lang) { pendingLanguage = null; return; }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) {
+      applyLang(next); pendingLanguage = null; return;
+    }
+    languageTransition = true;
+    const curtain = document.createElement('div');
+    curtain.className = 'language-transition';
+    curtain.setAttribute('aria-hidden', 'true');
+    document.body.append(curtain);
+    async function sweep(from, to, duration) {
+      const animation = curtain.animate([{ transform:from }, { transform:to }], {
+        duration, easing:'cubic-bezier(.76,0,.24,1)', fill:'forwards'
+      });
+      await animation.finished;
+      curtain.style.transform = to;
+      animation.cancel();
+    }
+    try {
+      while (pendingLanguage && pendingLanguage !== lang) {
+        await sweep('translateX(-100%)', 'translateX(0)', 260);
+        // Change text and reading direction only while the page is covered.
+        const selected = pendingLanguage; pendingLanguage = null;
+        applyLang(selected);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        await sweep('translateX(0)', 'translateX(100%)', 320);
+      }
+    } catch (_) {
+      // An interrupted animation must never prevent the language change.
+      if (pendingLanguage) applyLang(pendingLanguage);
+    } finally {
+      curtain.remove(); pendingLanguage = null; languageTransition = false;
+    }
+  }
+  (function () {
+    const q = new URLSearchParams(location.search).get('lang');
+    let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
+    const picker = document.getElementById('languageMenu'), globe = document.getElementById('headerLang');
+    picker.innerHTML = LANGUAGES.map(l => `<button type="button" class="language-option" role="menuitemradio" aria-checked="false" tabindex="-1" data-l="${l.code}" lang="${l.code}" dir="${l.dir}">${l.name}</button>`).join('');
+    function closePicker(focus = false) {
+      picker.hidden = true; globe.setAttribute('aria-expanded', 'false');
+      if (focus) globe.focus({ preventScroll:true });
+    }
+    function openPicker() {
+      if (document.getElementById('menuBtn').getAttribute('aria-expanded') === 'true') document.getElementById('menuBtn').click();
+      picker.hidden = false; globe.setAttribute('aria-expanded', 'true');
+      picker.querySelector(`[data-l="${lang}"]`).focus({ preventScroll:true });
+    }
+    applyLang(supportedLanguage(q) ? q : (supportedLanguage(saved) ? saved : 'en'));
+    globe.addEventListener('click', () => picker.hidden ? openPicker() : closePicker(true));
+    picker.addEventListener('click', e => { const option = e.target.closest('[data-l]'); if (!option) return; closePicker(true); switchLanguage(option.dataset.l); });
+    picker.addEventListener('keydown', e => {
+      const options = [...picker.querySelectorAll('[data-l]')], index = options.indexOf(document.activeElement);
+      if (e.key === 'Tab') { e.preventDefault(); closePicker(true); if (!e.shiftKey) document.querySelector('.header__shop').focus(); return; }
+      if (!['ArrowDown','ArrowUp','ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+      e.preventDefault();
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? options.length-1 : (index + (['ArrowDown','ArrowRight'].includes(e.key) ? 1 : -1) + options.length) % options.length;
+      options[next].focus();
+    });
+    document.addEventListener('pointerdown', e => { if (!e.target.closest('.language-switcher')) closePicker(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !picker.hidden) { e.preventDefault(); closePicker(true); } });
+    document.getElementById('menuBtn').addEventListener('click', () => closePicker());
+    document.getElementById('langBtn').addEventListener('click', openPicker);
+    watch();
+  })();
+
+</script>
+</body></html>
