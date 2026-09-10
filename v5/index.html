@@ -1161,20 +1161,19 @@ html[lang=ar] .footer li a {
   .hero__media { height:calc(100svh - 64px); aspect-ratio:auto }
 }
 
-.brand-statement { display:grid; grid-template-columns:minmax(0,1fr) clamp(150px,17vw,220px); align-items:center; gap:clamp(32px,5vw,80px); background:#fff; color:var(--navy); padding:clamp(48px,7vw,104px) clamp(24px,5vw,80px); direction:ltr }
-.brand-statement h2 { grid-column:1; grid-row:1; max-width:1100px; margin:0; font-size:clamp(32px,4.6vw,68px); font-weight:900; line-height:1.08; letter-spacing:-.025em; text-wrap:balance; text-align:left }
-.brand-statement__mark { grid-column:2; grid-row:1; width:100%; height:auto; margin:0; transform:rotate(-5deg); animation:saudi-mark-float 5s ease-in-out infinite alternate }
-@keyframes saudi-mark-float { from { transform:translateY(3px) rotate(-5deg) } to { transform:translateY(-5px) rotate(-2deg) } }
+.brand-statement { background:#fff; color:var(--navy); padding:clamp(48px,6vw,88px) clamp(24px,5vw,80px) }
+.brand-statement__inner { display:grid; grid-template-columns:minmax(0,1fr) clamp(160px,17vw,210px); align-items:center; gap:clamp(40px,6vw,88px); max-width:1200px; margin:0 auto; direction:ltr }
+.brand-statement h2 { grid-column:1; grid-row:1; max-width:23ch; margin:0; font-size:clamp(32px,4vw,60px); font-weight:900; line-height:1.1; letter-spacing:-.025em; text-wrap:balance; text-align:left }
+.brand-statement__mark { grid-column:2; grid-row:1; width:100%; height:auto; margin:0; display:block }
 .brand-statement__mark--ar { display:none }
 html[lang=ar] .brand-statement__mark--en { display:none }
 html[lang=ar] .brand-statement__mark--ar { display:block }
-html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0; direction:rtl; text-align:right }
+html[lang=ar] .brand-statement h2 { max-width:none; line-height:1.4; letter-spacing:0; direction:rtl; text-align:right }
 @media(max-width:656px) {
-  .brand-statement { grid-template-columns:minmax(0,1fr); gap:28px }
-  .brand-statement__mark { width:136px; grid-column:1; grid-row:1; justify-self:end }
-  .brand-statement h2 { grid-column:1; grid-row:2 }
+  .brand-statement__inner { grid-template-columns:minmax(0,1fr); gap:28px }
+  .brand-statement h2 { grid-column:1; grid-row:1; max-width:none }
+  .brand-statement__mark { width:144px; grid-column:1; grid-row:2; justify-self:end }
 }
-@media(prefers-reduced-motion:reduce) { .brand-statement__mark { animation:none } }
 
 /* Shared English and Arabic selector for the header and navigation. */
 .language-switcher { position:relative; flex:none }
@@ -1248,7 +1247,7 @@ html[lang=ar] .brand-statement h2 { line-height:1.35; letter-spacing:0; directio
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/hero-portrait.jpg"><img src="../assets/videos/campaign/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="sr-only" data-i18n="like">Like no one else</h1><div class="curtain" id="curtain"></div></section>
-<section class="brand-statement" aria-labelledby="brandStatement"><h2 id="brandStatement" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2><img class="brand-statement__mark brand-statement__mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000" loading="lazy"><img class="brand-statement__mark brand-statement__mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986" loading="lazy"></section>
+<section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="say">The fastest growing Saudi beverage brand in the world</h2><img class="brand-statement__mark brand-statement__mark--en" src="../assets/brand/marks/saudi-made.svg" alt="Saudi Made" width="3000" height="1000" loading="lazy"><img class="brand-statement__mark brand-statement__mark--ar" src="../assets/brand/marks/saudi-made-ar.svg" alt="صنع في السعودية" width="3000" height="986" loading="lazy"></div></section>
 <div class="strip" aria-hidden="true"><div class="strip__in label" id="strip1"></div></div>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 <div class="strip strip--rev" aria-hidden="true"><div class="strip__in label" id="strip2" data-copy="f_made"></div></div>
