@@ -462,6 +462,10 @@ html.menu-open {
   width:100%;
   object-fit:cover
 }
+.photos img[src$="products-2026-09-08/still-2.webp"] {
+  transform:scale(1.035);
+  transform-origin:left center
+}
 .section-bar {
   display:flex;
   justify-content:space-between;
@@ -581,26 +585,24 @@ html.menu-open {
   width:auto;
   overflow:clip;
   isolation:isolate;
-  background:var(--grey);
+  background:#fff;
   margin-inline-end:var(--gap);
   transition:background .25s var(--ease);
   text-align:start
 }
 .tile>img {
   position:absolute;
-  width:70%;
-  height:64%;
+  width:94%;
+  height:94%;
   object-fit:contain;
   inset:0;
   margin:auto;
   z-index:2;
   pointer-events:none
 }
-/* The slim cans stand slightly taller, with their bases aligned to the short cans. */
-.tile:is([data-id=soda],[data-id=cocktail])>img {
-  transform:scale(1.15);
-  transform-origin:50% 96%
-}
+/* Match the can bases despite different whitespace in the supplied slim-can renders. */
+.tile[data-id=soda]>img { transform:translateY(.9%) scaleY(1.06);transform-origin:50% 88.1% }
+.tile[data-id=cocktail]>img { transform:translateY(-3.5%) }
 .tile__pat {
   position:absolute;
   inset:0;
@@ -1272,7 +1274,8 @@ html[lang=ar] #valuePrev,html[lang=ar] #valueNext { transform:scaleX(-1) }
 
 /* V7: a continuous product story, followed by people, commitments and origin. */
 .hero-discover{position:absolute;z-index:4;bottom:36px;left:50%;transform:translateX(-50%);background:white;color:var(--navy);padding:16px 24px;font-size:16px;font-weight:700;white-space:nowrap}
-.brand-intro{max-width:49ch;margin:28px auto 0;font-size:clamp(18px,2vw,24px);line-height:1.5;text-align:center}
+.brand-intro{max-width:49ch;margin:28px auto 0;font-size:clamp(18px,2vw,24px);line-height:1.5;text-align:center;text-wrap:balance}
+.chapter-head p,.values__intro,.partner-note{ text-wrap:pretty }
 .brand-statement{padding-block:clamp(64px,8vw,120px)}
 .chapter-head{padding:clamp(48px,6vw,88px) clamp(24px,5vw,80px);background:var(--navy);color:white}
 .chapter-head h2,.journey-close h2{font-size:clamp(42px,6.5vw,96px);line-height:1.04;letter-spacing:-.04em;font-weight:900;margin:0;max-width:17ch;text-transform:uppercase;text-wrap:balance}
@@ -1363,7 +1366,8 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
 .tile[data-id=pomegranate]{--pattern-ground:#960957}
 .tile[data-id=soda]{--pattern-ground:#fdfdfd}
 .tile[data-id=cocktail]{--pattern-ground:#e0b616}
-.tile:is([data-id=orange],[data-id=lemonzero]) .pattern-message{color:var(--navy)}
+.tile[data-id=lemonzero] .pattern-message{color:var(--navy)}
+.tile:is([data-id=orange],[data-id=citrus],[data-id=cocktail]) .pattern-message{color:#fff}
 @media(max-width:656px){.pattern-message{padding:16px 24px 10px;font-size:28px}html[lang=ar] .pattern-message{font-size:23px}}
 
 .tile[data-id=diet]{--pattern-ground:#b6b7bb}
@@ -1376,7 +1380,7 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="language-switcher"><button id="headerLang" class="language-globe" aria-label="Choose language" aria-haspopup="menu" aria-controls="languageMenu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></button><div id="languageMenu" class="language-panel" role="menu" aria-label="Choose language" hidden></div></div><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
-<section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/hero-portrait.jpg"><img src="../assets/videos/campaign/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
+<section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/v7-2026-09-13/hero-portrait.jpg"><img src="../assets/videos/v7-2026-09-13/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
 <section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="brand_claim">The fastest-growing soft beverage brand in the world.</h2><p class="brand-intro" data-i18n="brand_refresh">We provide authentic refreshment to inspire brilliant stories and experiences.</p></div></section>
 <div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://www.kinzabev.com" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
 
@@ -1464,8 +1468,66 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
   // Nine supplied portrait artworks. Soda water has no supplied artwork.
   const PATTERN = new Set(['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'soda', 'cocktail']);
   const WALL9 = ['cola', 'diet', 'lemon', 'lemonzero', 'orange', 'citrus', 'blackcurrant', 'pomegranate', 'cocktail'];
-  // Fifty selected photographs from the September 9 client collection.
-  const LIFE = Array.from({ length: 50 }, (_, i) => `photos/lifestyle-2026-09-09/people-${String(i + 1).padStart(2, '0')}.webp`);
+  // User-selected photos from V5 and V7, interleaved for variety.
+  const LIFE = [
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00172.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-21.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00231.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-31.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00709.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-08.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00856.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-22.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00262.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-13.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00345.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-48.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00885.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-43.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00266.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-12.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00123.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-34.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00656.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-17.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00136.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-14.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00459.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-10.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00208.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-15.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00147.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-05.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00325.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-04.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00210.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-16.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00389.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-23.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00157.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-09.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00341.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-06.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00175.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-18.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00256.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-26.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00596.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-37.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00229.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-20.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00313.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-01.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00280.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-38.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00839.webp",
+    "photos/lifestyle-selected-2026-09-13/V5-people-24.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00286.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00318.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00343.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00475.webp",
+    "photos/lifestyle-selected-2026-09-13/V7-MSR00124.webp"
+];
   const CARDS = [
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
     ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
@@ -1500,12 +1562,12 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
     const sync = () => {
       if (failed) return;
       if (!visible || document.hidden) { video.pause(); return; }
-      const next = `../assets/videos/campaign/${name}-${portrait.matches ? 'portrait' : 'landscape'}`;
+      const next = `../assets/videos/${name === 'hero' ? 'v7-2026-09-13' : 'campaign'}/${name}-${portrait.matches ? 'portrait' : 'landscape'}`;
       if (next !== source) {
         source = next;
         video.classList.remove('is-playing');
         video.poster = `${source}.jpg`;
-        video.src = `${source}${name === 'hero' ? '-web' : ''}.mp4`;
+        video.src = `${source}.mp4`;
       }
       video.play().catch(() => {});
     };
@@ -1820,7 +1882,7 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
   // Sliding never changes the selected face. Patterns are toggled only by the visitor.
   const canMotion = galleryMotion(cans, tiles, FL.length, { freeControl: true });
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id) + (on.has(id) ? '. ' + tr('pattern_' + id) : ''))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span></div><img src="../assets/cans/turntable/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id) + (on.has(id) ? '. ' + tr('pattern_' + id) : ''))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span></div><img src="../assets/cans/v7-2026-09-13/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
