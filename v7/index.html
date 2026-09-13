@@ -1632,7 +1632,8 @@ html[lang=ar] .values-boxes li{line-height:1.6}
         position = end; draw(); direction *= -1; schedule(1000); return;
       }
       options.onAuto?.(direction);
-      const duration = Math.max(1600, count * 2400 * Math.abs(end-position) / limit());
+      // Client review: reduce automatic horizontal speed by 20%, keeping manual navigation responsive.
+      const duration = Math.max(1600, count * 2400 * Math.abs(end-position) / limit()) / 0.8;
       animation = track.animate([
         { transform: `translate3d(${-position}px,0,0)` },
         { transform: `translate3d(${-end}px,0,0)` }
@@ -1867,7 +1868,8 @@ html[lang=ar] .values-boxes li{line-height:1.6}
       const target = forward ? 1 : 0;
       if (Math.abs(target-progress)*distance < 5) { forward = !forward; timer = setTimeout(run, 1000); return; }
       const fullDuration = Math.max(2800, Math.max(...cols.map(c => c.children.length))*2700/7);
-      const duration = Math.max(1000, fullDuration*Math.abs(target-progress));
+      // Client review: reduce lifestyle gallery speed by 30%.
+      const duration = Math.max(1000, fullDuration*Math.abs(target-progress)) / 0.7;
       animations = cols.map((col, i) => {
         const travel = Math.max(0, col.offsetHeight-wall.clientHeight);
         return col.animate([
