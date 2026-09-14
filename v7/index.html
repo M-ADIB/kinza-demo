@@ -1374,15 +1374,34 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
 .tile[data-id=lemonzero]{--pattern-ground:#dadbde}
 .pattern-silver-art{display:flex;justify-content:center;flex:1 1 0;min-height:0;overflow:hidden}
 .tile__pat .pattern-silver-art img{display:block;width:auto;max-width:100%;height:100%;object-fit:contain;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 85%,transparent);mask-composite:intersect;-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 85%,transparent);-webkit-mask-composite:source-in}
+/* Shop button: brand pink, larger, with a shine so the Salla store stays obvious. */
+.header__shop,.shop-float{position:relative;overflow:hidden;gap:8px;min-height:48px;padding:0 22px;background:#e8235a;color:#fff;font-size:15px;font-weight:800;letter-spacing:.02em;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;animation:shopPulse 2.6s ease-out infinite}
+.header__shop svg,.shop-float svg{width:18px;height:18px;flex:none}
+.header__shop::after,.shop-float::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#ffffff70 50%,transparent 70%);transform:translateX(-120%);animation:shopShine 2.6s ease-in-out infinite}
+.header__shop:hover,.shop-float:hover{background:var(--navy)}
+html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-family:Cairo,sans-serif}
+@keyframes shopPulse{0%{box-shadow:0 0 0 0 #e8235a80}70%,100%{box-shadow:0 0 0 12px #e8235a00}}
+@keyframes shopShine{0%,45%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+.shop-float{position:fixed;z-index:65;bottom:20px;inset-inline-end:20px;min-height:52px;padding:0 24px;border:2px solid #fff;box-shadow:0 10px 28px #00148940;opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .24s ease,transform .24s ease,visibility .24s}
+.shop-float.is-visible{opacity:1;visibility:visible;transform:none}
+/* AR/EN language toggle */
+.lang-toggle{display:flex;flex:none;border:2px solid var(--navy)}
+.lang-toggle button{min-width:44px;min-height:40px;padding:0 10px;font-family:Outfit,sans-serif;font-size:14px;font-weight:800;letter-spacing:.04em;color:var(--navy)}
+.lang-toggle button[aria-pressed=true]{background:var(--navy);color:#fff}
+.lang-toggle button:hover:not([aria-pressed=true]){background:#0014891a}
+@media(max-width:656px){.header__actions{gap:8px}.header__shop{min-height:44px;padding:0 12px;font-size:13px;gap:6px}.header__shop svg{width:16px;height:16px}.lang-toggle button{min-width:36px;padding:0 6px;font-size:13px}.shop-float{bottom:16px;inset-inline-end:16px}}
+@media(max-width:380px){.header__shop svg{display:none}.header .wm{width:72px}}
+@media(prefers-reduced-motion:reduce){.header__shop,.shop-float,.header__shop::after,.shop-float::after{animation:none}.shop-float{transition:none}}
 </style>
 </head>
 <body>
-<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="language-switcher"><button id="headerLang" class="language-globe" aria-label="Choose language" aria-haspopup="menu" aria-controls="languageMenu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></button><div id="languageMenu" class="language-panel" role="menu" aria-label="Choose language" hidden></div></div><a class="header__shop" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shopNow">Shop now</a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
-<nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="f_lang">العربية</button><a class="chip chip--fill" href="https://www.kinzabev.com" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
+<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="lang-toggle" id="langToggle" role="group" aria-label="Language"><button type="button" data-l="en" lang="en" aria-pressed="true">EN</button><button type="button" data-l="ar" lang="en" aria-pressed="false">AR</button></div><a class="header__shop" href="https://kinzabev.shop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<a class="shop-float" id="shopFloat" href="https://kinzabev.shop" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a>
+<nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://kinzabev.shop" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/v7-2026-09-13/hero-portrait.jpg"><img src="../assets/videos/v7-2026-09-13/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
 <section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="brand_claim">The fastest-growing soft beverage brand in the world.</h2><p class="brand-intro" data-i18n="brand_refresh">We provide authentic refreshment to inspire brilliant stories and experiences.</p></div></section>
-<div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://www.kinzabev.com" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
+<div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://kinzabev.shop" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
 
 <section hidden class="pop" id="pop" data-i18n-label="flavorLabel" aria-label="Flavors"><div class="pop__media film-media" id="popMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/campaign/typography-portrait.jpg"><img src="../assets/videos/campaign/typography-landscape.jpg" alt="" loading="lazy" width="1920" height="1080"></picture></div></section>
 <section id="flavors"><h2 class="sr-only" data-i18n="flavors">Ten flavors. Full attitude.</h2><div class="cans"><div class="cans__in" id="tiles"></div></div></section>
@@ -1532,7 +1551,7 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
     ['https://kinza.discoveraseer.com/?source=qr', 'l1'],
     ['https://kinza.jotform.com/team/kinza-partner/kinza', 'l2'],
     ['https://kinza.jotform.com/form/join-kinza-team', 'l3'],
-    ['https://www.kinzabev.com', 'l4']
+    ['https://kinzabev.shop', 'l4']
   ];
   const SOCIAL = [
     ['https://www.instagram.com/kinzabev', 'l5', '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/>'],
@@ -1626,10 +1645,10 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
       const hidden = scrollY > 0 && !menu.classList.contains('is-open');
       h.classList.toggle('is-past-hero', hidden);
       h.inert = hidden;
-      if (hidden) {
-        document.getElementById('languageMenu').hidden = true;
-        document.getElementById('headerLang').setAttribute('aria-expanded', 'false');
-      }
+      const shop = document.getElementById('shopFloat');
+      shop.classList.toggle('is-visible', hidden);
+      shop.tabIndex = hidden ? 0 : -1;
+      shop.setAttribute('aria-hidden', String(!hidden));
     };
     addEventListener('scroll', f, { passive:true });
     addEventListener('resize', f);
@@ -2020,11 +2039,8 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
     document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', tr(el.dataset.i18nLabel)));
     buildStrips(); buildTiles();
     document.querySelectorAll('#menuSocial a,#footSocial a,#lifeSocial a').forEach((a,i)=>a.setAttribute('aria-label',tr(SOCIAL[i%SOCIAL.length][1])));
-    document.getElementById('headerLang').setAttribute('aria-label', `${tr('chooseLanguage')}: ${LANGUAGES.find(l => l.code === lang).name}`);
-    document.getElementById('languageMenu').setAttribute('aria-label', tr('chooseLanguage'));
-    document.querySelectorAll('#languageMenu [data-l]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.l === lang)));
-    try { localStorage.setItem('kinza-lang', lang); } catch (_) {}
-    try { const url = new URL(location.href); url.searchParams.set('lang', lang); history.replaceState(null, '', url); } catch (_) {}
+    document.getElementById('langToggle').setAttribute('aria-label', tr('chooseLanguage'));
+    document.querySelectorAll('#langToggle [data-l]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
   }
   let pendingLanguage = null, languageTransition = false;
   async function switchLanguage(next) {
@@ -2064,35 +2080,26 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
       curtain.remove(); pendingLanguage = null; languageTransition = false;
     }
   }
+  // Saudi visitors get Arabic. Everyone else gets their browser language when supported, otherwise English.
+  function detectLanguage() {
+    let zone = ''; try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (_) {}
+    if (zone === 'Asia/Riyadh') return 'ar';
+    const preferred = String((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase().split('-')[0];
+    return supportedLanguage(preferred) ? preferred : 'en';
+  }
+  // Only a visitor's own click is remembered, so detection still works on later visits.
+  function chooseLanguage(next) {
+    if (!supportedLanguage(next)) return;
+    try { localStorage.setItem('kinza-lang-choice', next); } catch (_) {}
+    try { const url = new URL(location.href); url.searchParams.set('lang', next); history.replaceState(null, '', url); } catch (_) {}
+    switchLanguage(next);
+  }
   (function () {
     const q = new URLSearchParams(location.search).get('lang');
-    let saved = null; try { saved = localStorage.getItem('kinza-lang'); } catch (_) {}
-    const picker = document.getElementById('languageMenu'), globe = document.getElementById('headerLang');
-    picker.innerHTML = LANGUAGES.map(l => `<button type="button" class="language-option" role="menuitemradio" aria-checked="false" tabindex="-1" data-l="${l.code}" lang="${l.code}" dir="${l.dir}">${l.name}</button>`).join('');
-    function closePicker(focus = false) {
-      picker.hidden = true; globe.setAttribute('aria-expanded', 'false');
-      if (focus) globe.focus({ preventScroll:true });
-    }
-    function openPicker() {
-      if (document.getElementById('menuBtn').getAttribute('aria-expanded') === 'true') document.getElementById('menuBtn').click();
-      picker.hidden = false; globe.setAttribute('aria-expanded', 'true');
-      picker.querySelector(`[data-l="${lang}"]`).focus({ preventScroll:true });
-    }
-    applyLang(supportedLanguage(q) ? q : (supportedLanguage(saved) ? saved : 'en'));
-    globe.addEventListener('click', () => picker.hidden ? openPicker() : closePicker(true));
-    picker.addEventListener('click', e => { const option = e.target.closest('[data-l]'); if (!option) return; closePicker(true); switchLanguage(option.dataset.l); });
-    picker.addEventListener('keydown', e => {
-      const options = [...picker.querySelectorAll('[data-l]')], index = options.indexOf(document.activeElement);
-      if (e.key === 'Tab') { e.preventDefault(); closePicker(true); if (!e.shiftKey) document.querySelector('.header__shop').focus(); return; }
-      if (!['ArrowDown','ArrowUp','ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
-      e.preventDefault();
-      const next = e.key === 'Home' ? 0 : e.key === 'End' ? options.length-1 : (index + (['ArrowDown','ArrowRight'].includes(e.key) ? 1 : -1) + options.length) % options.length;
-      options[next].focus();
-    });
-    document.addEventListener('pointerdown', e => { if (!e.target.closest('.language-switcher')) closePicker(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !picker.hidden) { e.preventDefault(); closePicker(true); } });
-    document.getElementById('menuBtn').addEventListener('click', () => closePicker());
-    document.getElementById('langBtn').addEventListener('click', openPicker);
+    let saved = null; try { saved = localStorage.getItem('kinza-lang-choice'); } catch (_) {}
+    applyLang(supportedLanguage(q) ? q : (supportedLanguage(saved) ? saved : detectLanguage()));
+    document.getElementById('langToggle').addEventListener('click', e => { const b = e.target.closest('[data-l]'); if (b) chooseLanguage(b.dataset.l); });
+    document.getElementById('langBtn').addEventListener('click', () => chooseLanguage(lang === 'ar' ? 'en' : 'ar'));
     watch();
   })();
 
