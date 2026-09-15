@@ -1374,40 +1374,29 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
 .tile[data-id=lemonzero]{--pattern-ground:#dadbde}
 .pattern-silver-art{display:flex;justify-content:center;flex:1 1 0;min-height:0;overflow:hidden}
 .tile__pat .pattern-silver-art img{display:block;width:auto;max-width:100%;height:100%;object-fit:contain;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 85%,transparent);mask-composite:intersect;-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 85%,transparent);-webkit-mask-composite:source-in}
-/* Shop button: white face with navy outline, a faint pink and navy starburst, and a small can that turns. */
-.header__shop,.shop-float{position:relative;display:inline-flex;align-items:stretch;min-height:48px;padding:0;background:none;color:var(--navy);font-size:15px;font-weight:800;letter-spacing:.02em;white-space:nowrap}
-.header__shop:hover,.shop-float:hover{background:none}
-.shop-face{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:10px;padding-block:0;padding-inline:14px 22px;background:#fff;box-shadow:inset 0 0 0 2px var(--navy);transition:transform .18s ease}
-:is(.header__shop,.shop-float):active .shop-face{transform:scale(.96)}
-html[lang=ar] :is(.header__shop,.shop-float){letter-spacing:0;font-family:Cairo,sans-serif}
-.spark{position:absolute;z-index:-1;top:50%;inset-inline-start:22px;width:200px;height:200px;translate:-50% -50%;pointer-events:none;transition:opacity .35s ease,scale .6s cubic-bezier(.2,1.4,.4,1);animation:sparkTurn 48s linear infinite}
-html[dir=rtl] .spark{translate:50% -50%}
-.spark .a{fill:var(--navy);opacity:.14;transition:opacity .35s ease}
-.spark .b{fill:#e8235a;opacity:.45;transition:opacity .35s ease}
-:is(.header__shop,.shop-float):is(:hover,:focus-visible) .spark{scale:1.15}
-:is(.header__shop,.shop-float):is(:hover,:focus-visible) .spark .a{opacity:.25}
-:is(.header__shop,.shop-float):is(:hover,:focus-visible) .spark .b{opacity:.75}
-.shop-can{position:relative;flex:none;width:17px;height:auto;filter:drop-shadow(0 1px 1.5px #00148955);animation:canIdle 7s cubic-bezier(.45,0,.2,1) infinite}
-:is(.header__shop,.shop-float):is(:hover,:focus-visible) .shop-can{animation:canTurn .8s cubic-bezier(.45,0,.2,1)}
-@keyframes sparkTurn{to{rotate:360deg}}
-@keyframes canIdle{0%,82%{transform:perspective(90px) rotateY(0)}100%{transform:perspective(90px) rotateY(360deg)}}
-@keyframes canTurn{from{transform:perspective(90px) rotateY(0)}to{transform:perspective(90px) rotateY(360deg)}}
-.shop-float{position:fixed;z-index:65;bottom:24px;inset-inline-end:28px;min-height:52px;opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .24s ease,transform .24s ease,visibility .24s}
-.shop-float .shop-face{padding-inline:16px 26px;box-shadow:inset 0 0 0 2px var(--navy),0 10px 28px #00148940}
+/* Shop button: brand pink, larger, with a shine so the Salla store stays obvious. */
+.header__shop,.shop-float{position:relative;overflow:hidden;gap:8px;min-height:48px;padding:0 22px;background:#e8235a;color:#fff;font-size:15px;font-weight:800;letter-spacing:.02em;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;animation:shopPulse 2.6s ease-out infinite}
+.header__shop svg,.shop-float svg{width:18px;height:18px;flex:none}
+.header__shop::after,.shop-float::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#ffffff70 50%,transparent 70%);transform:translateX(-120%);animation:shopShine 2.6s ease-in-out infinite}
+.header__shop:hover,.shop-float:hover{background:var(--navy)}
+html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-family:Cairo,sans-serif}
+@keyframes shopPulse{0%{box-shadow:0 0 0 0 #e8235a80}70%,100%{box-shadow:0 0 0 12px #e8235a00}}
+@keyframes shopShine{0%,45%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+.shop-float{position:fixed;z-index:65;bottom:20px;inset-inline-end:20px;min-height:52px;padding:0 24px;border:2px solid #fff;box-shadow:0 10px 28px #00148940;opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .24s ease,transform .24s ease,visibility .24s}
 .shop-float.is-visible{opacity:1;visibility:visible;transform:none}
 /* AR/EN language toggle */
 .lang-toggle{display:flex;flex:none;border:2px solid var(--navy)}
 .lang-toggle button{min-width:44px;min-height:40px;padding:0 10px;font-family:Outfit,sans-serif;font-size:14px;font-weight:800;letter-spacing:.04em;color:var(--navy)}
 .lang-toggle button[aria-pressed=true]{background:var(--navy);color:#fff}
 .lang-toggle button:hover:not([aria-pressed=true]){background:#0014891a}
-@media(max-width:656px){.header__actions{gap:8px}.header__shop{min-height:44px;font-size:13px}.header__shop .shop-face{padding-inline:10px 12px;gap:7px}.header__shop .shop-can{width:14px}.header__shop .spark{inset-inline-start:17px}.lang-toggle button{min-width:36px;padding:0 6px;font-size:13px}.shop-float{bottom:20px;inset-inline-end:20px}}
-@media(max-width:380px){.header .wm{width:72px}.header__shop .shop-can{display:none}.header__shop .shop-face{padding-inline:12px}}
-@media(prefers-reduced-motion:reduce){.spark,.shop-can,:is(.header__shop,.shop-float):is(:hover,:focus-visible) .shop-can{animation:none}.spark,.shop-face,.shop-float{transition:none}}
+@media(max-width:656px){.header__actions{gap:8px}.header__shop{min-height:44px;padding:0 12px;font-size:13px;gap:6px}.header__shop svg{width:16px;height:16px}.lang-toggle button{min-width:36px;padding:0 6px;font-size:13px}.shop-float{bottom:16px;inset-inline-end:16px}}
+@media(max-width:380px){.header__shop svg{display:none}.header .wm{width:72px}}
+@media(prefers-reduced-motion:reduce){.header__shop,.shop-float,.header__shop::after,.shop-float::after{animation:none}.shop-float{transition:none}}
 </style>
 </head>
 <body>
-<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="lang-toggle" id="langToggle" role="group" aria-label="Language"><button type="button" data-l="en" lang="en" aria-pressed="true">EN</button><button type="button" data-l="ar" lang="en" aria-pressed="false">AR</button></div><a class="header__shop" href="https://kinzabev.shop" target="_blank" rel="noopener"><span class="shop-face"><svg class="spark" viewBox="-100 -100 200 200" aria-hidden="true"></svg><img class="shop-can" src="../assets/cans/turntable/cola-en.webp" alt="" width="480" height="800"><span data-i18n="shopNow">Shop now</span></span></a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
-<a class="shop-float" id="shopFloat" href="https://kinzabev.shop" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><span class="shop-face"><svg class="spark" viewBox="-100 -100 200 200" aria-hidden="true"></svg><img class="shop-can" src="../assets/cans/turntable/cola-en.webp" alt="" width="480" height="800"><span data-i18n="shopNow">Shop now</span></span></a>
+<header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="lang-toggle" id="langToggle" role="group" aria-label="Language"><button type="button" data-l="en" lang="en" aria-pressed="true">EN</button><button type="button" data-l="ar" lang="en" aria-pressed="false">AR</button></div><a class="header__shop" href="https://kinzabev.shop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<a class="shop-float" id="shopFloat" href="https://kinzabev.shop" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://kinzabev.shop" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
 <main>
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/v7-2026-09-13/hero-portrait.jpg"><img src="../assets/videos/v7-2026-09-13/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
@@ -2035,23 +2024,6 @@ html[dir=rtl] .spark{translate:50% -50%}
       else stop();
     });
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : run());
-  })();
-
-
-  /* ---------- shop button starburst ---------- */
-  (function () {
-    // Tapered rays that start away from the centre, drawn after the burst on the cola can.
-    const rays = Array.from({ length: 24 }, (_, i) => {
-      const long = i % 2 === 0, inner = long ? 16 : 26, outer = long ? 96 : 64, width = long ? 3.4 : 2.4, mid = inner + (outer - inner) * 0.42;
-      return `<path class="${long ? 'a' : 'b'}" transform="rotate(${i * 15})" d="M${inner} 0L${mid} ${-width}L${outer} 0L${mid} ${width}Z"/>`;
-    }).join('');
-    const links = document.querySelectorAll('.header__shop,.shop-float');
-    links.forEach(link => { link.querySelector('.spark').innerHTML = `<g>${rays}</g>`; });
-    // The small can follows the page language.
-    new MutationObserver(() => {
-      const src = `../assets/cans/turntable/cola-${document.documentElement.lang === 'ar' ? 'ar' : 'en'}.webp`;
-      links.forEach(link => { const can = link.querySelector('.shop-can'); if (!can.src.endsWith(src.slice(2))) can.src = src; });
-    }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
   })();
 
   /* ---------- footer, language ---------- */
