@@ -1335,6 +1335,12 @@ html[lang=ar] .values-boxes li{line-height:1.6}
 /* Clear interaction feedback without fading text or shifting the layout. */
 .footer li a,.menu__links a,.journey-link{transition:color .18s ease,text-decoration-color .18s ease; text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.15em}
 .footer li a:hover,.journey-link:hover{opacity:1}
+/* The footer links go to other sites, so they always carry an underline and an arrow. */
+.footer li a{text-decoration-color:#ffffff73;display:flex;align-items:center;gap:.26em}
+.footer li a::after{content:'\2197';font-family:Outfit,sans-serif;font-size:.44em;line-height:1;transition:transform .18s ease}
+html[dir=rtl] .footer li a::after{content:'\2196'}
+@media(hover:hover){.footer li a:hover::after{transform:translate(.14em,-.14em)}html[dir=rtl] .footer li a:hover::after{transform:translate(-.14em,-.14em)}}
+@media(prefers-reduced-motion:reduce){.footer li a::after{transition:none}}
 .footer__social a,.footer__back,#lifeSocial a,.gallery-arrow,.hero-discover{transition:background-color .18s ease,color .18s ease,border-color .18s ease}
 .footer__back{width:44px;height:44px;display:grid;place-items:center;font-size:24px;border:1px solid #ffffff70}
 .footer :is(a,button):focus-visible,.chapter-head :is(a,button):focus-visible,.reach a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
