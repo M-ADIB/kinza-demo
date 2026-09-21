@@ -1290,6 +1290,12 @@ html[lang=ar] #valuePrev,html[lang=ar] #valueNext { transform:scaleX(-1) }
 #lifeSocial{display:flex;gap:8px;flex-wrap:wrap}
 #lifeSocial a{display:grid;place-items:center;width:44px;height:44px;border:1px solid #ffffff80}
 #lifeSocial svg{width:21px;height:21px}
+.tile-info{position:absolute;top:18px;inset-inline-start:18px;z-index:5;display:grid;gap:3px;max-width:calc(100% - 36px);padding:10px 14px;background:#fff;color:var(--navy);text-align:start;pointer-events:none}
+.tile-info b{font-size:18px;font-weight:800;line-height:1.15}
+.tile-sizes{display:flex;flex-wrap:wrap;column-gap:12px;font-size:13px;font-weight:600;line-height:1.35;opacity:.78}
+.tile-sizes bdi{white-space:nowrap}
+html[lang=ar] .tile-info{font-family:Cairo,sans-serif}
+@media(max-width:656px){.tile-info{top:14px;inset-inline-start:14px;max-width:calc(100% - 28px);padding:8px 12px}.tile-info b{font-size:16px}.tile-sizes{font-size:12px}}
 .tile-name{position:absolute;bottom:18px;inset-inline:18px;z-index:5;width:fit-content;max-width:calc(100% - 36px);padding:10px 16px;background:white;color:var(--navy);font-size:18px;font-weight:700;pointer-events:none}
 .values{padding-block:clamp(48px,6vw,88px)}
 .values__head{align-items:start}
@@ -1905,8 +1911,21 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
   const on = new Set();
   // Sliding never changes the selected face. Patterns are toggled only by the visitor.
   const canMotion = galleryMotion(cans, tiles, FL.length, { freeControl: true });
+  // Pack sizes supplied by the Kinza team on 2026-09-21. Lift Up (250 and 500 ml) is waiting for its can render.
+  const STANDARD_SIZES = [185, 250, 300, 320, 360, '1', '2'];
+  const SIZES = { cola:STANDARD_SIZES, diet:STANDARD_SIZES, lemon:STANDARD_SIZES, lemonzero:STANDARD_SIZES, citrus:STANDARD_SIZES, orange:STANDARD_SIZES, pomegranate:STANDARD_SIZES, blackcurrant:STANDARD_SIZES, cocktail:[185, 250, 320, 360], soda:[250] };
+  // Millilitre and litre sizes are separate groups so a wrapped Arabic line never scrambles the order.
+  function sizeGroups(id) {
+    const list = SIZES[id] || [], ml = list.filter(n => typeof n === 'number'), litres = list.filter(n => typeof n === 'string');
+    return [
+      ml.length ? `${ml.join(' · ')} ${lang === 'ar' ? 'مل' : 'ml'}` : '',
+      litres.length ? `${litres.join(' · ')} ${lang === 'ar' ? 'لتر' : 'L'}` : ''
+    ].filter(Boolean);
+  }
+  const sizeText = id => sizeGroups(id).join(' · ');
+  const tileLabel = id => `${tr('f_' + id)}. ${sizeText(id)}` + (on.has(id) ? '. ' + tr('pattern_' + id) : '');
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tr('f_' + id) + (on.has(id) ? '. ' + tr('pattern_' + id) : ''))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span></div><img src="../assets/cans/v7-2026-09-13/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tileLabel(id))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span></div><span class="tile-info" aria-hidden="true"><b>${esc(tr('f_' + id))}</b><span class="tile-sizes">${sizeGroups(id).map(g => `<bdi>${esc(g)}</bdi>`).join('')}</span></span><img src="../assets/cans/v7-2026-09-13/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
@@ -1914,7 +1933,7 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
     canMotion.hold();
     const id = b.dataset.id; on.has(id) ? on.delete(id) : on.add(id);
     b.setAttribute('aria-pressed', String(on.has(id)));
-    b.setAttribute('aria-label', tr('f_' + id) + (on.has(id) ? '. ' + tr('pattern_' + id) : ''));
+    b.setAttribute('aria-label', tileLabel(id));
   });
 
   (function peopleMotion() {
