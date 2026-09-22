@@ -1290,12 +1290,13 @@ html[lang=ar] #valuePrev,html[lang=ar] #valueNext { transform:scaleX(-1) }
 #lifeSocial{display:flex;gap:8px;flex-wrap:wrap}
 #lifeSocial a{display:grid;place-items:center;width:44px;height:44px;border:1px solid #ffffff80}
 #lifeSocial svg{width:21px;height:21px}
-.tile-info{position:absolute;top:18px;inset-inline-start:18px;z-index:5;display:grid;gap:3px;max-width:calc(100% - 36px);padding:10px 14px;background:#fff;color:var(--navy);text-align:start;pointer-events:none}
+.tile-info{position:absolute;top:18px;inset-inline-start:18px;z-index:5;display:grid;max-width:calc(100% - 36px);padding:10px 14px;background:#fff;color:var(--navy);text-align:start;pointer-events:none}
 .tile-info b{font-size:18px;font-weight:800;line-height:1.15}
-.tile-sizes{display:flex;flex-wrap:wrap;column-gap:12px;font-size:13px;font-weight:600;line-height:1.35;opacity:.78}
+.tile-sizes{display:flex;flex-wrap:wrap;justify-content:center;column-gap:12px;padding:0 28px;color:var(--tc);font-size:14px;font-weight:700;line-height:1.35;text-align:center;opacity:.82;pointer-events:none}
 .tile-sizes bdi{white-space:nowrap}
 html[lang=ar] .tile-info{font-family:Cairo,sans-serif}
-@media(max-width:656px){.tile-info{top:14px;inset-inline-start:14px;max-width:calc(100% - 28px);padding:8px 12px}.tile-info b{font-size:16px}.tile-sizes{font-size:12px}}
+html[lang=ar] .tile-sizes{font-family:Cairo,sans-serif}
+@media(max-width:656px){.tile-info{top:14px;inset-inline-start:14px;max-width:calc(100% - 28px);padding:8px 12px}.tile-info b{font-size:16px}.tile-sizes{padding-inline:24px;font-size:13px}}
 .tile-name{position:absolute;bottom:18px;inset-inline:18px;z-index:5;width:fit-content;max-width:calc(100% - 36px);padding:10px 16px;background:white;color:var(--navy);font-size:18px;font-weight:700;pointer-events:none}
 .values{padding-block:clamp(48px,6vw,88px)}
 .values__head{align-items:start}
@@ -1378,8 +1379,8 @@ html[lang=ar] .pattern-message{font-family:Cairo,sans-serif;line-height:1.5;font
 .tile[data-id=pomegranate]{--pattern-ground:#960957}
 .tile[data-id=soda]{--pattern-ground:#fdfdfd}
 .tile[data-id=cocktail]{--pattern-ground:#e0b616}
-.tile[data-id=lemonzero] .pattern-message{color:var(--navy)}
-.tile:is([data-id=orange],[data-id=citrus],[data-id=cocktail]) .pattern-message{color:#fff}
+.tile[data-id=lemonzero] :is(.pattern-message,.tile-sizes){color:var(--navy)}
+.tile:is([data-id=orange],[data-id=citrus],[data-id=cocktail]) :is(.pattern-message,.tile-sizes){color:#fff}
 @media(max-width:656px){.pattern-message{padding:16px 24px 10px;font-size:28px}html[lang=ar] .pattern-message{font-size:23px}}
 
 .tile[data-id=diet]{--pattern-ground:#b6b7bb}
@@ -1925,7 +1926,7 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
   const sizeText = id => sizeGroups(id).join(' · ');
   const tileLabel = id => `${tr('f_' + id)}. ${sizeText(id)}` + (on.has(id) ? '. ' + tr('pattern_' + id) : '');
   function buildTiles() {
-    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tileLabel(id))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span></div><span class="tile-info" aria-hidden="true"><b>${esc(tr('f_' + id))}</b><span class="tile-sizes">${sizeGroups(id).map(g => `<bdi>${esc(g)}</bdi>`).join('')}</span></span><img src="../assets/cans/v7-2026-09-13/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
+    tiles.innerHTML = FL.map(([id, bg, ink]) => `<button type="button" class="tile" data-id="${id}" aria-pressed="${on.has(id)}" style="--tb:${bg};--tc:${ink}" aria-label="${esc(tileLabel(id))}"><div class="tile__pat" aria-hidden="true">${['diet','lemonzero'].includes(id) ? `<span class="pattern-silver-art">${bigPattern(id)}</span>` : bigPattern(id)}<span class="pattern-message" dir="${languageDirection(lang)}">${esc(tr('pattern_' + id))}</span><span class="tile-sizes" dir="${languageDirection(lang)}">${sizeGroups(id).map(g => `<bdi>${esc(g)}</bdi>`).join('')}</span></div><span class="tile-info" aria-hidden="true"><b>${esc(tr('f_' + id))}</b></span><img src="../assets/cans/v7-2026-09-13/${id}-${lang === 'ar' ? 'ar' : 'en'}.webp" alt="" loading="lazy" draggable="false" /></button>`).join('');
     canMotion.reset();
   }
   tiles.addEventListener('click', e => {
