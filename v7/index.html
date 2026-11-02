@@ -1405,13 +1405,50 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
 @media(max-width:656px){.header__actions{gap:8px}.header__shop{min-height:44px;padding:0 12px;font-size:13px;gap:6px}.header__shop svg{width:16px;height:16px}.lang-toggle button{min-width:36px;padding:0 6px;font-size:13px}.shop-float{bottom:16px;inset-inline-end:16px}}
 @media(max-width:380px){.header__shop svg{display:none}.header .wm{width:72px}}
 @media(prefers-reduced-motion:reduce){.header__shop,.shop-float,.header__shop::after,.shop-float::after{animation:none}.shop-float{transition:none}}
+/* Compact accessibility controls and disclosure. */
+.skip-link{position:fixed;top:8px;left:8px;z-index:100;background:#fff;color:#001489;padding:12px;transform:translateY(-160%)}
+.skip-link:focus{transform:translateY(0)}
+.access-motion{min-width:44px;min-height:44px;display:grid;place-items:center;border:1px solid #001489;color:#001489;background:#fff;cursor:pointer;font-size:21px}
+.access-motion[aria-pressed=true]{background:#001489;color:#fff}
+.access-motion:focus-visible,.footer__commitment summary:focus-visible{outline:3px solid #e8235a;outline-offset:4px}
+.footer__commitment{border-top:1px solid #ffffff55;padding-block:20px;font-family:Cairo,sans-serif}
+.footer__commitment summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:16px;font-weight:700;line-height:1.7}
+.footer__commitment summary::-webkit-details-marker{display:none}
+.footer__commitment summary::after{content:'+';font-family:Outfit,sans-serif;font-size:26px;line-height:1}
+.footer__commitment[open] summary::after{content:'−'}
+.footer__commitment-content{max-width:850px;padding-top:14px;text-align:right;font-size:16px;line-height:1.9}
+.footer__commitment-content p+p{margin-top:12px}
+html.motion-paused *,html.motion-paused *:before,html.motion-paused *:after{animation:none!important;transition:none!important}
+html.motion-paused{scroll-behavior:auto}
+html.motion-paused .photos,html.motion-paused .cans,html.motion-paused .patterns,html.motion-paused .strip{overflow-x:auto;touch-action:auto}
+html.motion-paused .wall{height:auto;min-height:0}
+html.motion-paused .wall__col{transform:none!important}
+html.motion-paused .hero__can{transform:translate(-50%,-36%)}
+html.motion-paused .curtain{display:none}
+
+.access-widget{position:fixed;bottom:20px;inset-inline-start:20px;z-index:66;color:#001489}
+.access-launch{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#001489;color:white;border:2px solid white;box-shadow:0 5px 18px #00148955;cursor:pointer}
+.access-launch svg{width:30px;height:30px}
+.access-launch:focus-visible,.access-panel :focus-visible{outline:3px solid #e8235a;outline-offset:3px}
+.access-panel{position:absolute;bottom:66px;inset-inline-start:0;width:min(390px,calc(100vw - 40px));max-height:min(70vh,560px);overflow:auto;background:white;color:#001489;padding:20px;box-shadow:0 10px 34px #00148955;border:1px solid #001489}
+.access-panel[hidden]{display:none}
+.access-panel h2{font-size:19px;line-height:1.35;margin:0 0 12px}
+.access-panel p{font-size:15px;line-height:1.7;margin:0 0 12px}
+.access-panel .access-motion{display:flex;width:100%;justify-content:space-between;gap:12px;padding:10px 12px;text-align:start;font-size:15px;font-weight:700;line-height:1.5}
+.access-panel .access-motion::after{content:'○';font-size:21px}
+.access-panel .access-motion[aria-pressed=true]::after{content:'✓'}
+.access-panel .access-close{position:absolute;top:12px;inset-inline-end:12px;width:40px;height:40px;background:none;color:inherit;border:0;cursor:pointer;font-size:26px}
+.access-panel h2{padding-inline-end:40px}
+@media(max-width:656px){.access-widget{bottom:16px;inset-inline-start:16px}.access-panel{width:min(390px,calc(100vw - 32px))}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#mainContent" data-i18n="skipContent">Skip to content</a>
 <header class="header" id="header"><a href="#top" aria-label="Kinza"><span class="wm"></span></a><div class="header__actions"><div class="lang-toggle" id="langToggle" role="group" aria-label="Language"><button type="button" data-l="en" lang="en" aria-pressed="true">EN</button><button type="button" data-l="ar" lang="en" aria-pressed="false">AR</button></div><a class="header__shop" href="https://kinzabev.shop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a><button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button></div></header>
+<div class="access-widget" id="accessWidget"><button class="access-launch" id="accessLaunch" type="button" aria-expanded="false" aria-controls="accessPanel" data-i18n-label="accessibility" aria-label="Accessibility"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="3.5" r="1.8"/><path d="M4 8l8 1 8-1M12 9v5m0 0-4 7m4-7 4 7"/></svg></button><section class="access-panel" id="accessPanel" hidden aria-labelledby="accessTitle"><button class="access-close" id="accessClose" type="button" data-i18n-label="close" aria-label="Close">×</button><h2 id="accessTitle" data-i18n="commitTitle">Our commitment to people with disabilities</h2><p data-i18n="commitFirst">Guided by equal opportunity and a welcoming approach to people with disabilities, Al Jameel International Companies is committed to inclusion and to attracting and employing people with disabilities to ensure an inclusive and diverse workplace.</p><p data-i18n="commitSecond">We are proud of our contributions over the years through community initiatives and accommodations, including moral and material support for employing people with disabilities across departments.</p><button class="access-motion" id="motionToggle" type="button" aria-pressed="false"><span data-i18n="motionLabel">Reduce motion</span></button></section></div>
 <a class="shop-float" id="shopFloat" href="https://kinzabev.shop" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="shopNow">Shop now</span></a>
 <nav class="menu" id="menu" data-i18n-label="menu" aria-label="Menu"><div class="menu__links" id="menuLinks"></div><div class="menu__foot"><div class="menu__group"><button class="chip" id="langBtn" data-i18n="lang">العربية</button><a class="chip chip--fill" href="https://kinzabev.shop" target="_blank" rel="noopener" data-i18n="shop">Shop online</a></div><div class="menu__social" id="menuSocial"></div></div></nav>
-<main>
+<main id="mainContent" tabindex="-1">
 <section class="hero" id="top" aria-label="Kinza"><div class="hero__media film-media" id="heroMedia" aria-hidden="true"><picture><source media="(max-aspect-ratio:1/1)" srcset="../assets/videos/v7-2026-09-13/hero-portrait.jpg"><img src="../assets/videos/v7-2026-09-13/hero-landscape.jpg" alt="" fetchpriority="high" width="1920" height="1080"></picture></div><h1 class="hero__headline" data-i18n="heroHeadline">THE SPARK OF BRILLIANCE</h1><a class="hero-discover" href="#productStory" data-i18n="discover">Explore the flavors</a><div class="curtain" id="curtain"></div></section>
 <section class="brand-statement" aria-labelledby="brandStatement"><div class="brand-statement__inner"><h2 id="brandStatement" data-i18n="brand_claim">The fastest-growing soft beverage brand in the world.</h2><p class="brand-intro" data-i18n="brand_refresh">We provide authentic refreshment to inspire brilliant stories and experiences.</p></div></section>
 <div class="chapter-head" id="productStory"><p class="eyebrow" data-i18n="world">A world of flavor</p><h2 data-i18n="v7_flavors">TEN FLAVORS. FIND YOURS.</h2><div class="chapter-bottom"><p data-i18n="v7_explore">Explore the flavors. Discover their patterns.</p><a class="journey-link" href="https://kinzabev.shop" target="_blank" rel="noopener"><span data-i18n="shopNow">Shop now</span><span aria-hidden="true">↗</span></a></div></div>
@@ -1441,7 +1478,7 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
 </section>
 <section class="photos" id="products" data-i18n-label="productLabel" aria-label="Product photography"><div class="photos__in" id="productsIn"></div></section>
 </main>
-<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
+<footer class="footer" id="links"><div class="footer__grid"><div><h3 data-i18n="f_explore">Explore</h3><ul id="footLinks"></ul></div><div class="footer__aside"><a class="footer__back" href="#top" data-i18n-label="back" aria-label="Back to top">↑</a><div class="footer__social" id="footSocial"></div></div></div><details class="footer__commitment" lang="ar" dir="rtl"><summary>التزامنا تجاه الأشخاص ذوي الإعاقة</summary><div class="footer__commitment-content"><p>انطلاقًا من مبدأ تكافؤ الفرص والترحيب بالأشخاص ذوي الاعاقة، تتبنى شركات الجميل العالمية مبدأ دمج الأشخاص ذوي الاعاقة والعمل على استقطابهم وتوظيفهم لضمان بيئة عمل شاملة ومتنوعة.</p><p>كما نعتز بإسهاماتنا وما قدمناه على مدار السنوات الماضية من مبادرات مجتمعية وترتيبات تيسيرية من دعم معنوي ومادي لتوظيف الأشخاص ذوي الإعاقة في مختلف الإدارات والأقسام.</p></div></details><div class="footer__bottom"><span class="footer__copyright"><span>© 2026</span><span class="wm" aria-label="Kinza"></span></span><span data-i18n="f_made">Designed, born and made in Saudi Arabia</span></div></footer>
 
 <script>
   const T = {
@@ -1474,6 +1511,13 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
   const LANGUAGES = [
     { code:'en', name:'English', dir:'ltr' }, { code:'ar', name:'العربية', dir:'rtl' }
   ];
+  T.accessibility = {en:'Accessibility',ar:'إمكانية الوصول'};
+  T.close = {en:'Close',ar:'إغلاق'};
+  T.commitTitle = {en:'Our commitment to people with disabilities',ar:'التزامنا تجاه الأشخاص ذوي الإعاقة'};
+  T.commitFirst = {en:'Guided by equal opportunity and a welcoming approach to people with disabilities, Al Jameel International Companies is committed to inclusion and to attracting and employing people with disabilities to ensure an inclusive and diverse workplace.',ar:'انطلاقًا من مبدأ تكافؤ الفرص والترحيب بالأشخاص ذوي الاعاقة، تتبنى شركات الجميل العالمية مبدأ دمج الأشخاص ذوي الاعاقة والعمل على استقطابهم وتوظيفهم لضمان بيئة عمل شاملة ومتنوعة.'};
+  T.commitSecond = {en:'We are proud of our contributions over the years through community initiatives and accommodations, including moral and material support for employing people with disabilities across departments.',ar:'كما نعتز بإسهاماتنا وما قدمناه على مدار السنوات الماضية من مبادرات مجتمعية وترتيبات تيسيرية من دعم معنوي ومادي لتوظيف الأشخاص ذوي الإعاقة في مختلف الإدارات والأقسام.'};
+  T.skipContent = {en:'Skip to content',ar:'انتقل إلى المحتوى'};
+  T.motionLabel = {en:'Reduce motion',ar:'تقليل الحركة'};
   T.heroHeadline = { en:'THE SPARK OF BRILLIANCE', ar:'شرارة الإبداع' };
   T.scrollLeft = { en:'Scroll left', ar:'مرر لليسار' };
   T.scrollRight = { en:'Scroll right', ar:'مرر لليمين' };
@@ -1576,7 +1620,22 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
 
   let lang = 'en';
   const tr = key => T[key]?.[lang] ?? T[key]?.en ?? '';
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const systemReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let savedReduced = false;
+  try { savedReduced = localStorage.getItem('kinza-reduce-motion') === 'true'; } catch (_) {}
+  const reduced = systemReduced || savedReduced;
+  document.documentElement.classList.toggle('motion-paused', reduced);
+  const motionToggle = document.getElementById('motionToggle');
+  const accessLaunch = document.getElementById('accessLaunch'), accessPanel = document.getElementById('accessPanel');
+  function setAccess(open) { accessPanel.hidden = !open; accessLaunch.setAttribute('aria-expanded', String(open)); if (!open) accessLaunch.focus(); }
+  accessLaunch.addEventListener('click', () => setAccess(accessPanel.hidden));
+  document.getElementById('accessClose').addEventListener('click', () => setAccess(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !accessPanel.hidden) setAccess(false); });
+  motionToggle.setAttribute('aria-pressed', String(reduced));
+  if (systemReduced) motionToggle.disabled = true;
+  motionToggle.addEventListener('click', () => {
+    try { localStorage.setItem('kinza-reduce-motion', String(!reduced)); location.reload(); } catch (_) {}
+  });
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 
@@ -2061,6 +2120,7 @@ html[lang=ar] .header__shop,html[lang=ar] .shop-float{letter-spacing:0;font-fami
     document.documentElement.lang = lang; document.documentElement.dir = languageDirection(lang);
     document.querySelectorAll('[data-i18n]').forEach(el => { if (T[el.dataset.i18n]) el.textContent = tr(el.dataset.i18n); });
     document.getElementById('menuBtn').setAttribute('aria-label', tr('menu'));
+
     document.querySelectorAll('[data-i18n-label]').forEach(el => el.setAttribute('aria-label', tr(el.dataset.i18nLabel)));
     buildStrips(); buildTiles();
     document.querySelectorAll('#menuSocial a,#footSocial a,#lifeSocial a').forEach((a,i)=>a.setAttribute('aria-label',tr(SOCIAL[i%SOCIAL.length][1])));
